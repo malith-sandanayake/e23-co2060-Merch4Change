@@ -13,7 +13,7 @@ function App() {
       return 'landing';
     }
   });
-
+  
   const navigate = (to) => {
     setPage(to);
     try {
