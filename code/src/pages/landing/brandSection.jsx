@@ -1,17 +1,17 @@
 import "./brandSection.css";
-import assistent from "../../assets/landing-brands/assistent.svg";
-import calender from "../../assets/landing-brands/calender.svg";
-import chrome from "../../assets/landing-brands/chrome.svg";
-import docs from "../../assets/landing-brands/docs.svg";
-import drive from "../../assets/landing-brands/drive.svg";
-import fitness from "../../assets/landing-brands/fitness.svg";
-import home from "../../assets/landing-brands/home.svg";
-import maps from "../../assets/landing-brands/maps.svg";
-import meet from "../../assets/landing-brands/meet.svg";
-import photos from "../../assets/landing-brands/photos.svg";
-import search from "../../assets/landing-brands/search.svg";
-import shopping from "../../assets/landing-brands/shopping.svg";
-import project_logo from "../../assets/logo.jpeg";
+import assistent from "../assets/landing-brands/assistent.svg";
+import calender from "../assets/landing-brands/calender.svg";
+import chrome from "../assets/landing-brands/chrome.svg";
+import docs from "../assets/landing-brands/docs.svg";
+import drive from "../assets/landing-brands/drive.svg";
+import fitness from "../assets/landing-brands/fitness.svg";
+import home from "../assets/landing-brands/home.svg";
+import maps from "../assets/landing-brands/maps.svg";
+import meet from "../assets/landing-brands/meet.svg";
+import photos from "../assets/landing-brands/photos.svg";
+import search from "../assets/landing-brands/search.svg";
+import shopping from "../assets/landing-brands/shopping.svg";
+import project_logo from "../assets/logo.jpeg";
 
 const logos = [
   assistent,

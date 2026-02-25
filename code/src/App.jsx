@@ -1,8 +1,8 @@
 import { useState } from "react";
-import LandingPage from "./pages/landing/landing";
-import SelectSignUpMethod from "./pages/selectsignup/selectsignup";
-import LoginPage from "./pages/login/login"; 
-import OrganizationSignupPage from "./pages/signup/organizationsignuppage";
+import LandingPage from "./pages/landing";
+import SelectSignUpMethod from "./pages/selectsignup";
+import LoginPage from "./pages/login"; 
+import OrganizationSignupPage from "./pages/organizationsignuppage";
 
 
 function App() {
