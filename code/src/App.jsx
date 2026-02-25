@@ -1,8 +1,8 @@
 import { useState } from "react";
-import LandingPage from "./pages/landing/landing";
-import SelectSignUpMethod from "./pages/selectsignup/selectsignup";
-import LoginPage from "./pages/login/login"; 
-import OrganizationSignupPage from "./pages/signup/organizationsignuppage";
+import LandingPage from "./pages/landing/LandingPage";
+import SelectSignUp from "./pages/selectsignup/SelectSignUp";
+import LoginPage from "./pages/login/LoginPage"; 
+import OrgSignupPage from "./pages/signup/OrgSignupPage";
 
 
 function App() {
@@ -27,8 +27,8 @@ function App() {
     <>
       {page === 'landing' && <LandingPage onNavigate={navigate} />}
       {page === 'login' && <LoginPage onNavigate={navigate} />}
-      {page === 'selectsignup' && <SelectSignUpMethod onNavigate={navigate} />}
-      {page === 'organizationsignup' && <OrganizationSignupPage onNavigate={navigate} />}
+      {page === 'selectsignup' && <SelectSignUp onNavigate={navigate} />}
+      {page === 'organizationsignup' && <OrgSignupPage onNavigate={navigate} />}
       
     </>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./organizationsignuppage.css";
+import "./OrgSignupPage.css";
 
-function OrganizationSignupPage({ onNavigate }) {
+function OrgSignupPage({ onNavigate }) {
     const [formData, setFormData] = useState({
         orgName: '',
         email: '',
@@ -151,4 +151,4 @@ function OrganizationSignupPage({ onNavigate }) {
     );
 }
 
-export default OrganizationSignupPage;
+export default OrgSignupPage;

@@ -1,9 +1,8 @@
-import "./selectsignup.css"
-
+import "./SelectSignUp.css"
 
 const isMobile = window.innerWidth < 768;
 
-function SelectSignUpMethod({ onNavigate }) {
+function SelectSignUp({ onNavigate }) {
     const goToPage = (page) => {
         if (typeof onNavigate === 'function') {
             onNavigate(page);
@@ -46,4 +45,4 @@ function SelectSignUpMethod({ onNavigate }) {
      );
 }
 
-export default SelectSignUpMethod;
+export default SelectSignUp;

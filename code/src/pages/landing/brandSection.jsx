@@ -1,4 +1,4 @@
-import "./brandSection.css";
+import "./BrandSection.css";
 import assistent from "../../assets/landing-brands/assistent.svg";
 import calender from "../../assets/landing-brands/calender.svg";
 import chrome from "../../assets/landing-brands/chrome.svg";

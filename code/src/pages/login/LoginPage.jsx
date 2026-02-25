@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./login.css";
+import "./LoginPage.css";
 
 function LoginPage({ onNavigate }) {
     const [formData, setFormData] = useState({
