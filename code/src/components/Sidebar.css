@@ -1,15 +1,16 @@
 .sidebar{
     max-width: 180px;
+    margin-left: 10px;
 }
 
 .sidebar_icons{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 }
 
 .profile-image{
-    max-width: 40px;
-    max-height: 40px;
+    max-width: 30px;
+    max-height: 30px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -18,7 +19,7 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
 }
 
 .nav-item{
@@ -28,7 +29,7 @@
 }
 
 .sidebar-bottom{
-    margin-top: 160px;
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -36,15 +37,15 @@
 
 .nav-item p {
   margin: 0;
-  width: 0;        
+  width: 0;             
   overflow: hidden;
   white-space: nowrap;
   opacity: 0;
-  transition: all 0.3s ease;   
+  transition: all 0.3s ease;  
 }
 
 .nav-item.extended p {
   width: auto;       
   opacity: 1;
-  margin-left: 5px;     
+  margin-left: 5px;   
 }

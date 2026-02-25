@@ -9,6 +9,8 @@ import profilePic from "../../assets/test.jpg"
 import settings from "../../assets/sidebar_icons/settings.svg"
 import more from "../../assets/sidebar_icons/more.svg"
 import create from "../../assets/sidebar_icons/create.svg"
+import search from "../../assets/sidebar_icons/search.svg"
+import antigravity from "../../assets/sidebar_icons/antigravity.jpg"
 
 function Sidebar() {
 
@@ -37,6 +39,11 @@ function Sidebar() {
         <div className={`nav-item ${extended ? "extended" : ""}`}>
           <img src={explore} className="sidebar_icons" />
           <p>Explore</p>
+        </div>
+
+        <div className={`nav-item ${extended ? "extended" : ""}`}>
+          <img src={search} className="sidebar_icons" />
+          <p>Search</p>
         </div>
 
         <div className={`nav-item ${extended ? "extended" : ""}`}>
@@ -70,6 +77,11 @@ function Sidebar() {
         <div className={`nav-item ${extended ? "extended" : ""}`}>
           <img src={more} className="sidebar_icons" />
           <p>More</p>
+        </div>
+
+        <div className={`nav-item ${extended ? "extended" : ""}`}>
+          <img src={antigravity} className="sidebar_icons" />
+          <p>Team Antigravity</p>
         </div>
       </div>
     </div>
