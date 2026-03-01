@@ -1,0 +1,7 @@
+.home{
+    display: flex;
+    gap: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

@@ -1,6 +1,20 @@
 .sidebar{
+    margin-top: 10px;
     max-width: 180px;
     margin-left: 10px;
+    padding-left: 5px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.sidebar:hover .nav-item p {
+  width: auto;
+  opacity: 1;
+  margin-left: 5px;
 }
 
 .sidebar_icons{
@@ -20,6 +34,7 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
+    cursor: pointer;
 }
 
 .nav-item{
@@ -28,11 +43,21 @@
     gap: 8px;
 }
 
+.nav-item.active .sidebar_icons,
+.nav-item.active .profile-image {
+  filter: drop-shadow(0 0 6px rgba(24, 119, 242, 0.9));
+}
+
+.nav-item.active p {
+  font-weight: 700;
+}
+
 .sidebar-bottom{
     margin-top: 70px;
     display: flex;
     flex-direction: column;
     gap: 18px;
+    cursor: pointer;
 }
 
 .nav-item p {
