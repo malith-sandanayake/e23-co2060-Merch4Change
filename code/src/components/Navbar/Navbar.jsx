@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import icon from "../assets/icon.png"
+import icon from "../../assets/icon.png"
 
 function Navbar() {
   return (
