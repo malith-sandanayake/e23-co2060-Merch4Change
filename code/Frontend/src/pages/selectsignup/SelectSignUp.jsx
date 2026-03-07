@@ -10,7 +10,6 @@ function SelectSignUp() {
     return (
         <>
             <Navbar />
-
             <div className="heading">
                 <div className="main-heading">
                     {isMobile ? <h1 style={{ fontFamily: "droidsans", fontSize: "50px" }}>Which role do you act in Platform?</h1>

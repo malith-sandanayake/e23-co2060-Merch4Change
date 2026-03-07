@@ -6,6 +6,7 @@ import MessagingInterface from "./components/Message/MessagingInterface";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/profile/Profile";
 import OrgSignupPage from "./pages/signup/OrgSignupPage";
+import Settings from "./pages/Settings/Settings";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 {/* Private/App Routes */}
                 <Route path="/home" element={<Home />} />
                 <Route path="/messaging" element={<MessagingInterface />} />
+                <Route path="/settings" element={<Settings />} />
 
                 {/* Dynamic Route: Perfect for Social Media Profiles */}
                 <Route path="/profile/:username" element={<Profile />} />
@@ -30,5 +32,4 @@ function App() {
         </Router>
     )
 }
-
 export default App;

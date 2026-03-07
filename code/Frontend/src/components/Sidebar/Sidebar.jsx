@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./Sidebar.css";
 import icon from "../../assets/icon.png"
 import home from "../../assets/sidebar_icons/home.svg"
@@ -13,6 +14,7 @@ import search from "../../assets/sidebar_icons/search.svg"
 import antigravity from "../../assets/sidebar_icons/antigravity.jpg"
 
 function Sidebar() {
+  const navigate = useNavigate();
 
   const [extended, setExtended] = useState(false);
   const [activeItem, setActiveItem] = useState("home");
@@ -36,7 +38,7 @@ function Sidebar() {
       </div>
 
       <nav className="nav-links">
-        <div className={getNavItemClass("home")} onClick={() => setActiveItem("home")}>
+        <div className={getNavItemClass("home")} onClick={() => {setActiveItem("home"), navigate('/home')}}>
           <img src={home} className="sidebar_icons" />
           <p>Home</p>
         </div>
@@ -74,7 +76,7 @@ function Sidebar() {
 
 
       <div className="sidebar-bottom">
-        <div className={getNavItemClass("settings")} onClick={() => setActiveItem("settings")}>
+        <div className={getNavItemClass("settings")} onClick={() => {setActiveItem("settings"), navigate('/settigns')}}>
           <img src={settings} className="sidebar_icons" />
           <p>Settings</p>
         </div>
