@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./LoginPage.css";
+import Navbar from "../../components/Navbar/Navbar";
 
 function LoginPage({ onNavigate }) {
     const [formData, setFormData] = useState({
@@ -22,28 +23,9 @@ function LoginPage({ onNavigate }) {
         alert('Login submitted!');
     };
 
-    const goHome = () => {
-        if (typeof onNavigate === 'function') {
-            onNavigate('landing');
-        } else {
-            window.location.href = '/';
-        }
-    };
-
-    const goToPage = (page) => {
-        if (typeof onNavigate === 'function') {
-            onNavigate(page);
-        } else {
-            window.location.href = `/${page}`;
-        }
-    };
-
     return (
         <>
-            <div className="login-nav-bar">
-                <button onClick={goHome} className="logo-btn">LOGO</button>
-            </div>
-
+            <Navbar />
             <div className="login-container">
                 <div className="login-form-wrapper">
                     <h1 className="login-title">Welcome Back</h1>

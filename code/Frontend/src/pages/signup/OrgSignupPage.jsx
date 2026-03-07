@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./OrgSignupPage.css";
+import Navbar from "../../components/Navbar/Navbar";
 
 function OrgSignupPage({ onNavigate }) {
     const [formData, setFormData] = useState({
@@ -51,10 +52,7 @@ function OrgSignupPage({ onNavigate }) {
 
     return (
         <>
-            <div className="org-nav-bar">
-                <button onClick={goHome}>LOGO</button>
-            </div>
-
+            <Navbar />
             <div className="org-signup-form-container">
                 <h1>Create Organization Account</h1>
 

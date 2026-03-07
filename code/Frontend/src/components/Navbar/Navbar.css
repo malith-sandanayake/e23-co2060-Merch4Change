@@ -1,32 +1,38 @@
 .navbar{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1px 10px 0px 10px;
 }
 
 .actions{
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
 }
 
 .create-btn{
     background: black;
     color: white;
     font-family: Satoshi;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 600;
-    width: 204px;
-    height: 45px;
+    width: 130px;
+    height: 35px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .lgn-btn{
     background: white;
     color: black;
     font-family: Satoshi;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 600;
-    width: 140px;
-    height: 45px;
+    width: 80px;
+    height: 35px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .landing-btn-secondary {

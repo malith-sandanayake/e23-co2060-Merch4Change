@@ -24,7 +24,7 @@ function LandingPage() {
 
             <div className="landing-buttons-container">
                 <button onClick={() => navigate('/login')} className="landing-btn landing-btn-primary">Login</button>
-                <button onClick={() => navigate('/selectsignup')} className="landing-btn landing-btn-secondary">Sign Up</button>
+                <button onClick={() => navigate('/signup')} className="landing-btn landing-btn-secondary">Sign Up</button>
             </div>
         </div>
         <BrandSection/>
