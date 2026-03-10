@@ -3,7 +3,7 @@
   border-radius: 14px;
   padding: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
 }
 
@@ -48,7 +48,7 @@
   margin-left: 10px;
   border-radius: 5px;
   background: linear-gradient(135deg, #f8f9fb, #eef1f7);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   transition: all 0.3s ease;
   border: 1px solid black;
@@ -56,7 +56,7 @@
 }
 
 .product-details.active {
-  box-shadow: 0 4px 15px rgba(24,119,242,0.15);
+  box-shadow: 0 4px 15px rgba(24, 119, 242, 0.15);
   border: 1px solid black;
   max-width: 200px;
   cursor: pointer;
@@ -75,7 +75,7 @@
   font-size: 14px;
   font-weight: 600;
   color: white;
-  animation: popUp 0.35s cubic-bezier(.22,.61,.36,1);
+  animation: popUp 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
   background: red;
   margin: 0;
   padding: 3px 12px;
@@ -107,7 +107,9 @@
   font-size: 14px;
   cursor: pointer;
   color: #444;
-  transition: transform 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
 }
 
 .post-actions button:hover {
@@ -115,15 +117,15 @@
   transform: scale(1.05);
 }
 
-.post-svgs{
+.post-svgs {
   max-width: 20px;
   max-height: 20px;
 }
 
-.post-icons{
+.post-icons {
   display: flex;
 }
 
-.post-icons p{
+.post-icons p {
   margin: 0;
 }

@@ -13,6 +13,8 @@ function App() {
         <Router>
             <Routes>
                 {/* Public Routes */}
+                {/*path gives the address on the address bar, element is the component that will be rendered when the path is accessed */}
+                {/* The landing page is the default route */}
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SelectSignUp />} />

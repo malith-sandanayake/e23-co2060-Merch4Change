@@ -7,11 +7,13 @@ import heart from "../../assets/post_icons/heart.svg"
 import redheart from "../../assets/post_icons/red-heart.svg"
 import comments from "../../assets/post_icons/comments.svg"
 import share from "../../assets/post_icons/share.svg"
+import ShopPopUp from "../ShopPopUp/ShopPopUp"
 
 function Post() {
-  const postRef = useRef(null)
-  const [showDetails, setShowDetails] = useState(false)
-  const [like, setLike] = useState(false)
+  const postRef = useRef(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [like, setLike] = useState(false);
+  const [shopPopUp, setShopPopUp] = useState(false);
 
   useEffect(() => {
     let timer
@@ -66,23 +68,25 @@ function Post() {
 
       <div className="post-actions">
         <div className="post-icons">
-          <button><img src={shop} alt="shop" className="post-svgs" /></button>
+          <button onClick={() => setShopPopUp(!shopPopUp)}><img src={shop} alt="shop" className="post-svgs" /></button>
         </div>
+
+        {shopPopUp ? <ShopPopUp onClose={() => setShopPopUp(false)} /> : <></>}
 
         <div className="post-icons">
           <button onClick={() => setLike(!like)}>
             {like ? (
-              <img src={redheart} alt="red-hearto-icon" className="post-svgs" />
+              <img src={redheart} alt="red-heart-icon" className="post-svgs" />
             ) : (
               <img src={heart} alt="heart-icon" className="post-svgs" />
             )}
           </button>
-          <p className="count">100</p>
+          <p className="count">0</p>
         </div>
 
         <div className="post-icons">
           <button><img src={comments} alt="comment-icon" className="post-svgs" /></button>
-          <p className="count">100</p>
+          <p className="count">0</p>
         </div>
 
         <div className="post-icons">
@@ -91,6 +95,7 @@ function Post() {
       </div>
 
     </div>
+
   )
 }
 
