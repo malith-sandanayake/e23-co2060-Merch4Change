@@ -1,8 +1,24 @@
+import { useEffect, useState } from "react";
 import "./Profile.css";
 import test from "../../assets/test.jpg";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 function Profile() {
+    const [profileData, setProfileData] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        fetch('http://localhost:5000/api/v1/profiles/organization', {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) setProfileData(data.data);
+            })
+            .catch(() => {});
+    }, []);
+
     return (
         <>
             <Sidebar />
@@ -20,7 +36,7 @@ function Profile() {
                                     fontWeight: 600,
                                 }}
                             >
-                                Temp Name
+                                {profileData?.user?.fullName || "Temp Name"}
                             </h1>
                         </div>
                         <div className="username">
@@ -31,7 +47,7 @@ function Profile() {
                                     fontWeight: 500,
                                 }}
                             >
-                                @temp_name
+                                {profileData?.user?.email || "@temp_name"}
                             </h2>
                         </div>
                         <div className="follow-details">

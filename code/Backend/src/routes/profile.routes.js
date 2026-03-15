@@ -1,6 +1,7 @@
 import { Router } from "express";
 
-import { createOrganizationProfile } from "../controllers/profile.controller.js";
+import { createOrganizationProfile, getOrganizationProfile } from "../controllers/profile.controller.js";
+import protect from "../middlewares/auth.js";
 import validateRequest from "../middlewares/validateRequest.js";
 import { validateOrganizationProfileCreateBody } from "../validators/profile.validator.js";
 
@@ -11,5 +12,7 @@ router.post(
   validateRequest({ body: validateOrganizationProfileCreateBody }),
   createOrganizationProfile,
 );
+
+router.get("/organization", protect, getOrganizationProfile);
 
 export default router;

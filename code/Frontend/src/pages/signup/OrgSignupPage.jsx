@@ -21,25 +21,38 @@ function OrgSignupPage({ onNavigate }) {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert('Passwords do not match');
             return;
         }
-        console.log('Organization signup data:', formData);
-        // TODO: Submit to backend
-        alert('Organization signup submitted!');
-        // Reset form
-        setFormData({
-            orgName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            phone: '',
-            address: '',
-            website: ''
-        });
+        try {
+            const response = await fetch('http://localhost:5000/api/v1/profiles/organization', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                alert(data.message || 'Signup failed');
+                return;
+            }
+            localStorage.setItem('token', data.data.token);
+            alert('Organization account created successfully!');
+            // Reset form
+            setFormData({
+                orgName: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                phone: '',
+                address: '',
+                website: ''
+            });
+        } catch (err) {
+            alert('Network error. Please try again.');
+        }
     };
 
     const goHome = () => {
