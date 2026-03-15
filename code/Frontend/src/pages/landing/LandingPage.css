@@ -1,4 +1,11 @@
 .landing-page {
+    position: sticky;
+    top: 92px;
+    z-index: 1;
+    min-height: calc(100vh - 92px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background: linear-gradient(
         135deg,
         #f9f5ff 0%,
@@ -9,7 +16,7 @@
         #fff5e8 100%
     );
     background-attachment: fixed;
-    padding: 20px 0px 60px 0; 
+    padding: 20px 0px 60px 0;
 }
 
 .title1{
@@ -93,6 +100,15 @@
     .landing-page {
         gap: 12px;
         padding: 20px;
+        top: 88px;
+        min-height: calc(100vh - 88px);
+    }
+
+    .title1,
+    .sub-topic,
+    .landing-buttons-container {
+        margin-left: 0;
+        max-width: 100%;
     }
 
     .landing-title {

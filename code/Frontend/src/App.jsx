@@ -6,10 +6,12 @@ import MessagingInterface from "./components/Message/MessagingInterface";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
+import UserSignupPage from "./pages/SignUp/UserSignupPage";
 import Settings from "./pages/Settings/Settings";
 import OrgProfile from "./pages/OrgProfile/OrgProfile";
 import OrgCommunities from "./pages/OrgCommunities/OrgCommunities";
 import OrgProjects from "./pages/OrgProjects/OrgProjects";
+import PublicLayout from "./components/PublicLayout/PublicLayout";
 
 function App() {
     return (
@@ -18,10 +20,13 @@ function App() {
                 {/* Public Routes */}
                 {/*path gives the address on the address bar, element is the component that will be rendered when the path is accessed */}
                 {/* The landing page is the default route */}
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SelectSignUp />} />
-                <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
+                <Route element={<PublicLayout />}>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SelectSignUp />} />
+                    <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
+                    <Route path="/signup/usersignup" element={<UserSignupPage />} />
+                </Route>
         
                 {/* Private/App Routes */}
                 <Route path="/home" element={<Home />} />

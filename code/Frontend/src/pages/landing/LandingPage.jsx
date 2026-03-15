@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
-import Navbar from "../../components/Navbar/Navbar";
 import BrandSection from "./BrandSection";
 
 function LandingPage() {
@@ -9,7 +8,6 @@ function LandingPage() {
 
     return (
     <>
-        <Navbar/>
         <div className="landing-page">
             <div className="title1">
                 <h1 style={{fontSize: "40px", textAlign: "left",fontWeight: 600, fontFamily: "Poppins",background: "linear-gradient(90deg, #0f2027, #345864, #547e90)",

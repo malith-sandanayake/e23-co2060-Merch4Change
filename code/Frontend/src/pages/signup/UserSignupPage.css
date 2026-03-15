@@ -1,12 +1,12 @@
 /* =============================================
-   Org Signup Page – Instagram / Snap Inspired
-   Consistent with Landing & Login page palette
+   User Signup Page – Instagram / Snap Inspired
+   Consistent with Landing, Login & Org palette
    ============================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* ---- Page layout: full-height, split ---- */
-.org-signup-outer {
+/* ---- Outer wrapper ---- */
+.user-signup-outer {
     min-height: 100vh;
     display: flex;
     align-items: stretch;
@@ -14,8 +14,8 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* ---- Left decorative panel ---- */
-.org-signup-hero {
+/* ---- Left hero panel ---- */
+.user-signup-hero {
     flex: 1;
     position: relative;
     display: flex;
@@ -27,49 +27,49 @@
     overflow: hidden;
 }
 
-/* Blobs */
-.org-blob {
+/* Animated blobs */
+.user-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(72px);
+    filter: blur(70px);
     opacity: 0.38;
     pointer-events: none;
-    animation: orgBlobFloat 9s ease-in-out infinite;
+    animation: userBlobFloat 9s ease-in-out infinite;
 }
-.org-blob-1 {
-    width: 300px; height: 300px;
+.user-blob-1 {
+    width: 280px; height: 280px;
     background: radial-gradient(circle, #818cf8, #6366f1);
-    top: -90px; left: -60px;
+    top: -80px; left: -60px;
     animation-delay: 0s;
 }
-.org-blob-2 {
-    width: 220px; height: 220px;
-    background: radial-gradient(circle, #06b6d4, #22d3ee);
-    bottom: -60px; right: -50px;
+.user-blob-2 {
+    width: 210px; height: 210px;
+    background: radial-gradient(circle, #34d399, #06b6d4);
+    bottom: -55px; right: -45px;
     animation-delay: -4.5s;
 }
-.org-blob-3 {
+.user-blob-3 {
     width: 160px; height: 160px;
-    background: radial-gradient(circle, #f59e0b, #fb7185);
+    background: radial-gradient(circle, #fbbf24, #fb7185);
     top: 55%; left: 45%;
     transform: translate(-50%, -50%);
     animation-delay: -2s;
 }
 
-@keyframes orgBlobFloat {
+@keyframes userBlobFloat {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    33%        { transform: translate(14px, -18px) scale(1.07); }
-    66%        { transform: translate(-10px, 12px) scale(0.95); }
+    33%       { transform: translate(14px, -18px) scale(1.07); }
+    66%       { transform: translate(-10px, 12px) scale(0.95); }
 }
 
-.org-hero-content {
+.user-hero-content {
     position: relative;
     z-index: 2;
     text-align: center;
-    color: #ffffff;
+    color: #fff;
 }
 
-.org-hero-logo {
+.user-hero-logo {
     width: 68px;
     height: 68px;
     background: rgba(255,255,255,0.14);
@@ -83,18 +83,18 @@
     backdrop-filter: blur(10px);
 }
 
-.org-hero-title {
+.user-hero-title {
     font-size: clamp(26px, 2.8vw, 40px);
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 14px;
-    background: linear-gradient(90deg, #ffffff, #c4b5fd, #67e8f9);
+    background: linear-gradient(90deg, #ffffff, #bbf7d0, #67e8f9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-.org-hero-subtitle {
+.user-hero-subtitle {
     font-size: 15px;
     font-weight: 300;
     color: rgba(255,255,255,0.72);
@@ -103,8 +103,7 @@
     margin: 0 auto;
 }
 
-/* Feature list */
-.org-hero-features {
+.user-hero-features {
     list-style: none;
     padding: 0;
     margin: 32px auto 0;
@@ -115,7 +114,7 @@
     max-width: 260px;
 }
 
-.org-hero-features li {
+.user-hero-features li {
     font-size: 13.5px;
     color: rgba(255,255,255,0.80);
     display: flex;
@@ -123,12 +122,12 @@
     gap: 10px;
 }
 
-.org-hero-features li span {
+.user-hero-features li span {
     font-size: 16px;
 }
 
 /* ---- Right form panel ---- */
-.org-signup-form-panel {
+.user-signup-form-panel {
     flex: 0 0 min(520px, 48vw);
     display: flex;
     align-items: center;
@@ -138,20 +137,19 @@
     overflow-y: auto;
 }
 
-/* Old class kept for compatibility */
-.org-signup-form-container {
+.user-signup-form-container {
     width: 100%;
-    max-width: 420px;
-    animation: orgFadeUp 0.5s ease both;
+    max-width: 400px;
+    animation: userFadeUp 0.5s ease both;
 }
 
-@keyframes orgFadeUp {
+@keyframes userFadeUp {
     from { opacity: 0; transform: translateY(22px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Brand mark */
-.org-brand-mark {
+.user-brand-mark {
     width: 44px;
     height: 44px;
     background: linear-gradient(135deg, #0f2027, #547e90);
@@ -164,8 +162,7 @@
     margin-bottom: 26px;
 }
 
-/* Heading */
-.org-signup-form-container h1 {
+.user-signup-form-container h1 {
     font-family: 'Poppins', sans-serif;
     font-size: 26px;
     font-weight: 700;
@@ -174,32 +171,31 @@
     text-align: left;
 }
 
-.org-form-subtitle {
+.user-form-subtitle {
     font-size: 13.5px;
     color: #6b7280;
     margin: 0 0 28px 0;
     font-weight: 400;
 }
 
-/* ---- Two-column grid for desktop ---- */
-.org-form {
+/* ---- 2-column form grid ---- */
+.user-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
 
-/* Full-width fields */
-.org-form-group.full-width {
+.user-form-group.full-width {
     grid-column: 1 / -1;
 }
 
-.org-form-group {
+.user-form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.org-form-group label {
+.user-form-group label {
     font-size: 12.5px;
     font-weight: 600;
     color: #374151;
@@ -207,7 +203,7 @@
     text-transform: uppercase;
 }
 
-.org-form-group input {
+.user-form-group input {
     padding: 12px 14px;
     border-radius: 11px;
     border: 1.5px solid #e5e7eb;
@@ -222,19 +218,19 @@
     outline: none;
 }
 
-.org-form-group input:focus {
+.user-form-group input:focus {
     border-color: #547e90;
     background: #ffffff;
     box-shadow: 0 0 0 4px rgba(84, 126, 144, 0.12);
 }
 
-.org-form-group input::placeholder {
+.user-form-group input::placeholder {
     color: #9ca3af;
     font-weight: 300;
 }
 
 /* Submit button */
-.org-submit-btn {
+.user-submit-btn {
     grid-column: 1 / -1;
     padding: 14px 20px;
     font-size: 15px;
@@ -255,26 +251,26 @@
     overflow: hidden;
 }
 
-.org-submit-btn::after {
+.user-submit-btn::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
 }
 
-.org-submit-btn:hover {
+.user-submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 28px rgba(15, 32, 39, 0.30);
     opacity: 0.94;
 }
 
-.org-submit-btn:active {
+.user-submit-btn:active {
     transform: translateY(0);
     box-shadow: none;
 }
 
 /* Login redirect */
-.org-login-prompt {
+.user-login-prompt {
     grid-column: 1 / -1;
     text-align: center;
     margin-top: 20px;
@@ -282,7 +278,7 @@
     color: #6b7280;
 }
 
-.org-login-link {
+.user-login-link {
     color: #345864;
     font-weight: 600;
     cursor: pointer;
@@ -290,21 +286,19 @@
     transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.org-login-link:hover {
+.user-login-link:hover {
     color: #0f2027;
     border-bottom-color: #0f2027;
 }
-
-
 
 /* ============================================
    Responsive
    ============================================ */
 @media (max-width: 960px) {
-    .org-signup-hero {
+    .user-signup-hero {
         display: none;
     }
-    .org-signup-form-panel {
+    .user-signup-form-panel {
         flex: 1;
         padding: 40px 28px;
         min-height: 100vh;
@@ -314,19 +308,17 @@
 }
 
 @media (max-width: 540px) {
-    .org-signup-form-panel {
+    .user-signup-form-panel {
         padding: 60px 18px 40px;
     }
-    .org-form {
+    .user-form {
         grid-template-columns: 1fr;
     }
-    .org-submit-btn {
+    .user-submit-btn,
+    .user-login-prompt {
         grid-column: 1;
     }
-    .org-login-prompt {
-        grid-column: 1;
-    }
-    .org-signup-form-container h1 {
+    .user-signup-form-container h1 {
         font-size: 22px;
     }
 }
