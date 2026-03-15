@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./pages/Landing/LandingPage";
 import SelectSignUp from "./pages/SelectSignUp/SelectSignUp";
-import LoginPage from "./pages/Login/LoginPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 import MessagingInterface from "./components/Message/MessagingInterface";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
