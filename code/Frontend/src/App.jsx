@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import LandingPage from "./pages/Landing/LandingPage";
 import SelectSignUp from "./pages/SelectSignUp/SelectSignUp";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -55,6 +56,7 @@ function App() {
                 {/* Fallback: Redirect any unknown URL to landing */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            <Analytics />
         </Router>
     )
 }
