@@ -18,6 +18,7 @@ import Contact from "./pages/HelpAndSupport/Contact";
 import OurStory from "./pages/About/OurStory";
 import Mission from "./pages/About/Mission";
 import Team from "./pages/About/Team";
+import { Analytics } from "@vercel/analytics/react" //vercel analytics
 
 function App() {
     return (
