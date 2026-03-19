@@ -56,6 +56,7 @@ function App() {
                 {/* Fallback: Redirect any unknown URL to landing */}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            <Analytics />
         </Router>
     )
 }
