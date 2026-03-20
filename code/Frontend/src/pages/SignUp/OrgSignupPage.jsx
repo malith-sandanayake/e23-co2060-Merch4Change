@@ -59,7 +59,7 @@ function OrgSignupPage({ onNavigate }) {
                 address: '',
                 website: ''
             });
-        } catch (err) {
+        } catch {
             alert('Network error. Please try again.');
         }
     };
