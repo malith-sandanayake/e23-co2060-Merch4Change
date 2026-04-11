@@ -19,14 +19,18 @@ test("register creates user and returns auth payload", async () => {
   User.findOne = async () => null;
   User.create = async () => ({
     _id: "u1",
-    fullName: "Jane",
+    firstName: "Jane",
+    lastName: "Doe",
+    userName: "jane",
     email: "jane@example.com",
     accountType: "individual",
   });
 
   const req = {
     body: {
-      fullName: "Jane",
+      firstName: "Jane",
+      lastName: "Doe",
+      userName: "jane",
       email: "JANE@EXAMPLE.COM",
       password: "Pass1234",
       accountType: "user",
@@ -51,7 +55,7 @@ test("register creates user and returns auth payload", async () => {
   assert.equal(res.statusCode, 201);
   assert.equal(res.payload.success, true);
   assert.equal(res.payload.data.token, "signed-token");
-  assert.equal(res.payload.data.loginType, "user");
+  assert.equal(res.payload.data.user.userName, "jane");
 });
 
 test("register rejects duplicate email", async () => {
@@ -60,7 +64,9 @@ test("register rejects duplicate email", async () => {
 
   const req = {
     body: {
-      fullName: "Jane",
+      firstName: "Jane",
+      lastName: "Doe",
+      userName: "jane",
       email: "jane@example.com",
       password: "Pass1234",
       accountType: "user",

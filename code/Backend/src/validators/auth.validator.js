@@ -38,10 +38,9 @@ export const validateRegisterBody = (payload = {}) => {
   if (!payload.accountType) {
     return {
       value: normalizePayload(payload),
-      errors: ["accountType is required. in validator"],
+      errors: ["accountType is required."],
     };
   }
-  console.log("validation done");
 
   const normalizedAccountType = normalizeAccountType(payload.accountType);
 

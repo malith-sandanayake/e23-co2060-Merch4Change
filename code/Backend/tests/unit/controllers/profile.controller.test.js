@@ -14,6 +14,8 @@ import {
 
 test("createOrganizationProfile rejects duplicate email", async () => {
   const originalFindOne = User.findOne;
+  const originalOrgFindOne = OrganizationProfile.findOne;
+  OrganizationProfile.findOne = async () => null;
   User.findOne = async () => ({ _id: "existing" });
 
   const req = {
@@ -33,6 +35,7 @@ test("createOrganizationProfile rejects duplicate email", async () => {
     await nextTick();
   } finally {
     User.findOne = originalFindOne;
+    OrganizationProfile.findOne = originalOrgFindOne;
   }
 
   assert.equal(nextArg.name, "AppError");
@@ -41,15 +44,19 @@ test("createOrganizationProfile rejects duplicate email", async () => {
 
 test("createOrganizationProfile returns created user and profile", async () => {
   const originalFindOne = User.findOne;
+  const originalOrgFindOne = OrganizationProfile.findOne;
   const originalCreateUser = User.create;
   const originalCreateProfile = OrganizationProfile.create;
   const originalHash = bcrypt.hash;
   const originalSign = jwt.sign;
 
   User.findOne = async () => null;
+  OrganizationProfile.findOne = async () => null;
   User.create = async () => ({
     _id: "u-org",
-    fullName: "Eco Org",
+    firstName: "Eco Org",
+    lastName: "Eco Org",
+    userName: "ecoorg",
     email: "eco@example.org",
     accountType: "organization",
   });
@@ -84,6 +91,7 @@ test("createOrganizationProfile returns created user and profile", async () => {
     await nextTick();
   } finally {
     User.findOne = originalFindOne;
+    OrganizationProfile.findOne = originalOrgFindOne;
     User.create = originalCreateUser;
     OrganizationProfile.create = originalCreateProfile;
     bcrypt.hash = originalHash;
@@ -94,6 +102,7 @@ test("createOrganizationProfile returns created user and profile", async () => {
   assert.equal(res.statusCode, 201);
   assert.equal(res.payload.data.token, "org-token");
   assert.equal(res.payload.data.user.accountType, "organization");
+  assert.equal(res.payload.data.user.userName, "ecoorg");
   assert.equal(res.payload.data.profile.orgName, "Eco Org");
 });
 
