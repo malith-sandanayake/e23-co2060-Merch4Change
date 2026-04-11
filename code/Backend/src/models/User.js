@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     firstName: {
+<<<<<<< HEAD
       type: String,
       trim: true,
       minlength: 1,
@@ -15,12 +16,30 @@ const userSchema = new mongoose.Schema(
       maxlength: 60,
     },
     fullName: {
+=======
+>>>>>>> backend
       type: String,
       required: true,
       trim: true,
       minlength: 2,
       maxlength: 120,
     },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 120,
+    },  
+
+    userName: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 120,
+    },
+    
     email: {
       type: String,
       required: true,

@@ -13,7 +13,8 @@ function OrgSignupPage({ onNavigate }) {
         confirmPassword: '',
         phone: '',
         address: '',
-        website: ''
+        website: '',
+        accountType: 'organization'
     });
 
     const handleChange = (e) => {
@@ -31,10 +32,14 @@ function OrgSignupPage({ onNavigate }) {
             return;
         }
         try {
+<<<<<<< HEAD
         setIsSubmitting(true);
         const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
             const response = await fetch(`${apiUrl}/api/v1/profiles/organization`, {
+=======
+            const response = await fetch('http://localhost:5000/api/v1/auth/register', {
+>>>>>>> backend
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -62,7 +67,8 @@ function OrgSignupPage({ onNavigate }) {
                 confirmPassword: '',
                 phone: '',
                 address: '',
-                website: ''
+                website: '',
+                accountType: 'organization'
             });
             navigate('/home');
         } catch {

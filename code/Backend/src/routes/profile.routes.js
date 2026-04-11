@@ -1,18 +1,27 @@
 import { Router } from "express";
 
-import { createOrganizationProfile, getOrganizationProfile } from "../controllers/profile.controller.js";
+import { createUserProfile, createOrganizationProfile, getOrganizationProfile } from "../constructors/profile.creator.js";
 import protect from "../middlewares/auth.js";
 import validateRequest from "../middlewares/validateRequest.js";
-import { validateOrganizationProfileCreateBody } from "../validators/profile.validator.js";
+import { validateOrganizationProfileCreateBody, validateUserProfileCreateBody } from "../validators/profile.validator.js";
 
 const router = Router();
 
 router.post(
-  "/organization",
+  "/signup/user",
+  //mapUserSignupBody,
+  validateRequest({ body: validateUserProfileCreateBody }),
+  createUserProfile,
+);
+
+router.post(
+  "/signup/organization",
   validateRequest({ body: validateOrganizationProfileCreateBody }),
   createOrganizationProfile,
 );
 
-router.get("/organization", protect, getOrganizationProfile);
+router.post("/login", protect, getOrganizationProfile);
+
+//router.get("/login", protect, getOrganizationProfile);
 
 export default router;
