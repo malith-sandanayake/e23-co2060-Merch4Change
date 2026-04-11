@@ -6,7 +6,7 @@ import User from "../models/User.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { createUserProfile, createOrganizationProfile } from "./profile.controller.js";
+import { createUserProfile, createOrganizationProfile } from "../constructors/profile.creator.js";
 
 const SUPPORTED_ACCOUNT_TYPES = ["individual", "organization"];
 
@@ -52,7 +52,7 @@ export const register = asyncHandler(async (req, res) => {
   const requestBody = req.body;
 
   if (!requestBody.accountType) {
-    throw new AppError("accountType is reqinauthuired.", 400, "VALIDATION_ERROR");
+    throw new AppError("accountType is required.", 400, "VALIDATION_ERROR");
   }
 
   const normalizedAccountType = normalizeAccountType(requestBody.accountType);
@@ -82,8 +82,6 @@ export const login = asyncHandler(async (req, res) => {
   const normalizedEmail = String(email).toLowerCase().trim();
 
   const user = await User.findOne({ email: normalizedEmail }).select("+password");
-
-  
 
   if (!user) {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");

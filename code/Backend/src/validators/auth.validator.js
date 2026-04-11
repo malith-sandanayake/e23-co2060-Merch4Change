@@ -60,6 +60,7 @@ export const validateRegisterBody = (payload = {}) => {
 };
 
 export const validateLoginBody = (payload = {}) => {
+  console.log("Login attempt with body:", payload);
   const normalized = normalizePayload(payload);
   const errors = [];
 
@@ -72,6 +73,7 @@ export const validateLoginBody = (payload = {}) => {
   if (!normalized.password || typeof normalized.password !== "string") {
     errors.push("password is required and must be a string.");
   }
+  console.log("Validate Login Body:");
 
   return {
     value: normalized,

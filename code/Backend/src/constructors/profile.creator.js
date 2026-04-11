@@ -110,28 +110,3 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
     },
   });
 });
-
-export const getOrganizationProfile = asyncHandler(async (req, res) => {
-  const profile = await OrganizationProfile.findOne({ userId: req.user._id });
-
-  if (!profile) {
-    throw new AppError("Organization profile not found.", 404, "PROFILE_NOT_FOUND");
-  }
-
-  return successResponse(res, 200, "Organization profile fetched successfully.", {
-    user: {
-      id: req.user._id,
-      fullName: req.user.fullName,
-      email: req.user.email,
-      accountType: req.user.accountType,
-    },
-    profile: {
-      id: profile._id,
-      orgName: profile.orgName,
-      phone: profile.phone,
-      address: profile.address,
-      website: profile.website,
-      createdAt: profile.createdAt,
-    },
-  });
-});
