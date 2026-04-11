@@ -34,6 +34,7 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navbarRef = useRef(null);
 
   const isLoginPage = location.pathname === "/login";
@@ -44,13 +45,17 @@ function Navbar() {
 
   const handleNavigation = (target) => {
     setOpenMenu(null);
+    setIsMobileMenuOpen(false);
     navigate(target);
   };
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   useEffect(() => {
     const handlePointerDown = (event) => {
       if (navbarRef.current && !navbarRef.current.contains(event.target)) {
         setOpenMenu(null);
+        setIsMobileMenuOpen(false);
       }
     };
 
@@ -63,24 +68,41 @@ function Navbar() {
 
   useEffect(() => {
     setOpenMenu(null);
+    setIsMobileMenuOpen(false);
   }, [location.pathname, location.hash]);
 
   return (
     <nav className="navbar" ref={navbarRef}>
       <div className="navbar-shell">
-        <button
-          type="button"
-          className="navbar-brand"
-          onClick={() => handleNavigation("/")}
-        >
-          <img src={icon} alt="Merch4Change app icon" className="navbar-logo" />
-          <span className="navbar-brand-copy">
-            <strong>Merch4Change</strong>
-            <span>Impact-led commerce</span>
-          </span>
-        </button>
+        <div className="navbar-brand-container">
+          <button
+            type="button"
+            className="navbar-brand"
+            onClick={() => handleNavigation("/")}
+          >
+            <img src={icon} alt="Merch4Change app icon" className="navbar-logo" />
+            <span className="navbar-brand-copy">
+              <strong>Merch4Change</strong>
+              <span>Impact-led commerce</span>
+            </span>
+          </button>
 
-        <div className="navbar-center">
+          <button
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            )}
+          </button>
+        </div>
+
+        <div className={`navbar-menu-wrapper ${isMobileMenuOpen ? "is-open" : ""}`}>
+          <div className="navbar-center">
           {navDropdowns.map((dropdown) => (
             <div key={dropdown.label} className="nav-dropdown">
               <button
@@ -127,6 +149,7 @@ function Navbar() {
               Sign Up
             </button>
           )}
+        </div>
         </div>
       </div>
     </nav>

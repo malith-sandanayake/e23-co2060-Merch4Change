@@ -4,6 +4,7 @@ import "./OrgSignupPage.css";
 
 function OrgSignupPage({ onNavigate }) {
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState({
         orgName: '',
@@ -30,20 +31,24 @@ function OrgSignupPage({ onNavigate }) {
             return;
         }
         try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-
-        if (!apiUrl) {
-          alert('Server configuration is missing. Please contact support.');
-          return;
-        }
+        setIsSubmitting(true);
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
             const response = await fetch(`${apiUrl}/api/v1/profiles/organization`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                  orgName: formData.orgName,
+                  email: formData.email,
+                  password: formData.password,
+                  confirmPassword: formData.confirmPassword,
+                  phone: formData.phone,
+                  address: formData.address,
+                  website: formData.website,
+                }),
             });
             const data = await response.json();
-            if (!response.ok) {
+            if (!response.ok || !data.success) {
                 alert(data.message || 'Signup failed');
                 return;
             }
@@ -59,8 +64,11 @@ function OrgSignupPage({ onNavigate }) {
                 address: '',
                 website: ''
             });
-        } catch (err) {
+            navigate('/home');
+        } catch {
             alert('Network error. Please try again.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -197,8 +205,8 @@ function OrgSignupPage({ onNavigate }) {
                         />
                       </div>
 
-                      <button type="submit" className="org-submit-btn">
-                        Create Organization Account
+                      <button type="submit" className="org-submit-btn" disabled={isSubmitting}>
+                        {isSubmitting ? 'Creating...' : 'Create Organization Account'}
                       </button>
 
                       <p className="org-login-prompt">

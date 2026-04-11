@@ -4,6 +4,7 @@ import "./UserSignupPage.css";
 
 function UserSignupPage() {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -19,23 +20,61 @@ function UserSignupPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    console.log("User signup data:", formData);
-    // TODO: Submit to backend
-    alert("User account created!");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+
+    const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch(`${apiBaseUrl}/api/v1/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          fullName,
+          username: formData.username.trim(),
+          email: formData.email.trim(),
+          password: formData.password,
+          accountType: "individual",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        alert(data.message || "Signup failed. Please try again.");
+        return;
+      }
+
+      if (data?.data?.token) {
+        localStorage.setItem("token", data.data.token);
+      }
+
+      alert("User account created successfully!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/home");
+    } catch (error) {
+      alert("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -159,8 +198,8 @@ function UserSignupPage() {
               />
             </div>
 
-            <button type="submit" className="user-submit-btn">
-              Create Account
+            <button type="submit" className="user-submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? "Creating..." : "Create Account"}
             </button>
 
             <p className="user-login-prompt">

@@ -14,20 +14,33 @@ const createToken = (userId) => {
 };
 
 export const register = asyncHandler(async (req, res) => {
-  const { fullName, email, password, accountType } = req.body;
+  const { firstName, lastName, fullName, email, password, accountType, username } = req.body;
 
   const normalizedEmail = String(email).toLowerCase().trim();
+  const normalizedUsername =
+    typeof username === "string" && username.trim() ? username.toLowerCase().trim() : undefined;
+
   const existingUser = await User.findOne({ email: normalizedEmail });
 
   if (existingUser) {
     throw new AppError("Email is already in use.", 409, "EMAIL_ALREADY_IN_USE");
   }
 
+  if (normalizedUsername) {
+    const existingUsername = await User.findOne({ username: normalizedUsername });
+    if (existingUsername) {
+      throw new AppError("Username is already in use.", 409, "USERNAME_ALREADY_IN_USE");
+    }
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await User.create({
+    firstName: firstName || undefined,
+    lastName: lastName || undefined,
     fullName,
     email: normalizedEmail,
+    username: normalizedUsername,
     password: hashedPassword,
     accountType,
   });
@@ -38,8 +51,11 @@ export const register = asyncHandler(async (req, res) => {
     token,
     user: {
       id: user._id,
+      firstName: user.firstName || null,
+      lastName: user.lastName || null,
       fullName: user.fullName,
       email: user.email,
+      username: user.username || null,
       accountType: user.accountType,
     },
   });
