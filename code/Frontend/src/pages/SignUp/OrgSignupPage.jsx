@@ -12,7 +12,8 @@ function OrgSignupPage({ onNavigate }) {
         confirmPassword: '',
         phone: '',
         address: '',
-        website: ''
+        website: '',
+        accountType: 'organization'
     });
 
     const handleChange = (e) => {
@@ -30,7 +31,7 @@ function OrgSignupPage({ onNavigate }) {
             return;
         }
         try {
-            const response = await fetch('http://localhost:5000/api/v1/profiles//signup/organization', {
+            const response = await fetch('http://localhost:5000/api/v1/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
@@ -50,7 +51,8 @@ function OrgSignupPage({ onNavigate }) {
                 confirmPassword: '',
                 phone: '',
                 address: '',
-                website: ''
+                website: '',
+                accountType: 'organization'
             });
         } catch (err) {
             alert('Network error. Please try again.');

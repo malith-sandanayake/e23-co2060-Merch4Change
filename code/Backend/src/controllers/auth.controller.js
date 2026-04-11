@@ -6,6 +6,7 @@ import User from "../models/User.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { createUserProfile, createOrganizationProfile } from "./profile.controller.js";
 
 const SUPPORTED_ACCOUNT_TYPES = ["individual", "organization"];
 
@@ -46,47 +47,33 @@ const createToken = (userId) => {
 };
 
 export const register = asyncHandler(async (req, res) => {
-  const { fullName, email, password, accountType } = req.body;
+  console.log("Raw Body:", req.body);
+  console.log("Keys found:", Object.keys(req.body));
+  const requestBody = req.body;
 
-  const normalizedEmail = String(email).toLowerCase().trim();
-  const normalizedAccountType = normalizeAccountType(accountType);
+  if (!requestBody.accountType) {
+    throw new AppError("accountType is reqinauthuired.", 400, "VALIDATION_ERROR");
+  }
+
+  const normalizedAccountType = normalizeAccountType(requestBody.accountType);
 
   if (!SUPPORTED_ACCOUNT_TYPES.includes(normalizedAccountType)) {
     throw new AppError(
-      "Invalid account type. Allowed values are 'user' and 'organization'.",
+      `Unsupported accountType. Supported types are: ${SUPPORTED_ACCOUNT_TYPES.join(", ")}.`,
       400,
-      "INVALID_ACCOUNT_TYPE",
+      "VALIDATION_ERROR",
     );
   }
-
-  const existingUser = await User.findOne({ email: normalizedEmail });
-
-  if (existingUser) {
-    throw new AppError("Email is already in use.", 409, "EMAIL_ALREADY_IN_USE");
+  
+  if (normalizedAccountType === "individual") {
+    console.log("validation done");
+    return await createUserProfile(req, res);
   }
+  if (normalizedAccountType === "organization") {
+    return await createOrganizationProfile(req, res);
+  }
+  
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = await User.create({
-    fullName,
-    email: normalizedEmail,
-    password: hashedPassword,
-    accountType: normalizedAccountType,
-  });
-
-  const token = createToken(user._id);
-  const loginType = toLoginType(user.accountType);
-
-  return successResponse(res, 201, "User registered successfully.", {
-    token,
-    loginType,
-    user: {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      accountType: user.accountType,
-    },
-  });
 });
 
 export const login = asyncHandler(async (req, res) => {

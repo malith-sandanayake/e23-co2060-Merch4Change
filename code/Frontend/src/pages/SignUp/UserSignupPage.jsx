@@ -8,10 +8,11 @@ function UserSignupPage() {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        username: '',
+        userName: '',
         email: '',
         password: '',
         confirmPassword: '',
+        accountType: 'individual'
     });
 
     const handleChange = (e) => {
@@ -28,7 +29,7 @@ function UserSignupPage() {
         console.log('User signup data:', formData);
         // TODO: Submit to backend
         try {
-            const response = await fetch('http://localhost:5000/api/v1/profiles//signup/user', {
+            const response = await fetch('http://localhost:5000/api/v1/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
@@ -44,10 +45,11 @@ function UserSignupPage() {
             setFormData({
                 firstName: '',
                 lastName: '',
-                username: '',
+                userName: '',
                 email: '',
                 password: '',
                 confirmPassword: '',
+                accountType: 'individual'
             });
         } catch (err) {
             alert('Network error. Please try again.');
@@ -124,8 +126,8 @@ function UserSignupPage() {
                             <label>Username</label>
                             <input
                                 type="text"
-                                name="username"
-                                value={formData.username}
+                                name="userName"
+                                value={formData.userName}
                                 onChange={handleChange}
                                 required
                                 placeholder="e.g. johndoe42"

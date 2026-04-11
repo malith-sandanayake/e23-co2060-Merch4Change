@@ -1,3 +1,5 @@
+import { validateUserProfileCreateBody, validateOrganizationProfileCreateBody } from "./profile.validator.js";
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordStrongPattern = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
@@ -32,48 +34,30 @@ const normalizePayload = (payload) => ({
 });
 
 export const validateRegisterBody = (payload = {}) => {
-  const normalized = normalizePayload(payload);
-  const errors = [];
+  
+  if (!payload.accountType) {
+    return {
+      value: normalizePayload(payload),
+      errors: ["accountType is required. in validator"],
+    };
+  }
+  console.log("validation done");
 
-  if (!normalized.fullName || typeof normalized.fullName !== "string") {
-    errors.push("fullName is required and must be a string.");
-  } else if (normalized.fullName.length < 2 || normalized.fullName.length > 120) {
-    errors.push("fullName must be between 2 and 120 characters.");
+  const normalizedAccountType = normalizeAccountType(payload.accountType);
+
+  if (!["individual", "organization"].includes(normalizedAccountType)) {
+    return {
+      value: normalizePayload(payload),
+      errors: [`Unsupported accountType. Supported types are: individual, organization.`],
+    };
+  }
+  if (normalizedAccountType === "individual") {
+    return validateUserProfileCreateBody(payload);
+  }
+  if (normalizedAccountType === "organization") {
+    return validateOrganizationProfileCreateBody(payload);
   }
 
-  if (!normalized.email || typeof normalized.email !== "string") {
-    errors.push("email is required and must be a string.");
-  } else if (!emailPattern.test(normalized.email)) {
-    errors.push("email must be a valid email address.");
-  }
-
-  if (!normalized.password || typeof normalized.password !== "string") {
-    errors.push("password is required and must be a string.");
-  } else if (normalized.password.length < 8) {
-    errors.push("password must be at least 8 characters.");
-  } else if (normalized.password.length > 128) {
-    errors.push("password must not exceed 128 characters.");
-  } else if (!passwordStrongPattern.test(normalized.password)) {
-    errors.push("password must contain at least one letter and one number.");
-  }
-
-  if (
-    normalized.confirmPassword !== undefined &&
-    normalized.confirmPassword !== normalized.password
-  ) {
-    errors.push("confirmPassword must match password.");
-  }
-
-  if (!normalized.accountType || typeof normalized.accountType !== "string") {
-    errors.push("accountType is required and must be a string.");
-  } else if (!["individual", "organization"].includes(normalized.accountType)) {
-    errors.push("accountType must be either 'user' or 'organization'.");
-  }
-
-  return {
-    value: normalized,
-    errors,
-  };
 };
 
 export const validateLoginBody = (payload = {}) => {
