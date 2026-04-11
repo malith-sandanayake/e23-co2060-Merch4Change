@@ -19,7 +19,7 @@ function UserSignupPage() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert('Passwords do not match');
@@ -27,15 +27,34 @@ function UserSignupPage() {
         }
         console.log('User signup data:', formData);
         // TODO: Submit to backend
-        alert('User account created!');
-        setFormData({
-            firstName: '',
-            lastName: '',
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        });
+        try {
+            const response = await fetch('http://localhost:5000/api/v1/profiles//signup/user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                alert(data.message || 'Signup failed');
+                return;
+            }
+            localStorage.setItem('token', data.data.token);
+            alert('User account created!');
+            // Reset form
+            setFormData({
+                firstName: '',
+                lastName: '',
+                username: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+            });
+        } catch (err) {
+            alert('Network error. Please try again.');
+        }
+
+        
+        
     };
 
     return (

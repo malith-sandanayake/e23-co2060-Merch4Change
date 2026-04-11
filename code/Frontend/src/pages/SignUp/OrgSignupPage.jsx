@@ -30,7 +30,7 @@ function OrgSignupPage({ onNavigate }) {
             return;
         }
         try {
-            const response = await fetch('http://localhost:5000/api/v1/profiles/organization', {
+            const response = await fetch('http://localhost:5000/api/v1/profiles//signup/organization', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

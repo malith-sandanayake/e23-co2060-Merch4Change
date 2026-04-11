@@ -110,7 +110,7 @@ export const login = asyncHandler(async (req, res) => {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");
   }
 
-  const loginType = toLoginType(user.accountType);
+  const loginType = toLoginType(accountType);
 
   if (!loginType) {
     throw new AppError("Invalid account type for user.", 403, "INVALID_ACCOUNT_TYPE");

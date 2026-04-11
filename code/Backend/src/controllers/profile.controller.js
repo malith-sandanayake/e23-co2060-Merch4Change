@@ -25,13 +25,12 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-
   const createdUser = await User.create({
-    fullName: orgName,
-    email: normalizedEmail,
-    password: hashedPassword,
-    accountType: "organization",
-  });
+      fullName: orgName,
+      email: normalizedEmail,
+      password: hashedPassword,
+      accountType: "organization",
+    });
 
   const createdProfile = await OrganizationProfile.create({
     userId: createdUser._id,
