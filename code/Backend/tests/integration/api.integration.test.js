@@ -6,6 +6,9 @@ import jwt from "jsonwebtoken";
 
 import app from "../../src/app.js";
 import env from "../../src/config/env.js";
+import Order from "../../src/models/Order.js";
+import OrderItem from "../../src/models/OrderItem.js";
+import Product from "../../src/models/Product.js";
 import OrganizationProfile from "../../src/models/OrganizationProfile.js";
 import User from "../../src/models/User.js";
 
@@ -17,6 +20,14 @@ const originalFindById = User.findById;
 const originalCreate = User.create;
 const originalOrgFindOne = OrganizationProfile.findOne;
 const originalOrgCreate = OrganizationProfile.create;
+const originalProductFind = Product.find;
+const originalProductFindById = Product.findById;
+const originalProductCreate = Product.create;
+const originalOrderFind = Order.find;
+const originalOrderFindById = Order.findById;
+const originalOrderCreate = Order.create;
+const originalOrderItemFind = OrderItem.find;
+const originalOrderItemCreate = OrderItem.create;
 const originalHash = bcrypt.hash;
 const originalCompare = bcrypt.compare;
 const originalSign = jwt.sign;
@@ -27,6 +38,14 @@ const restoreMocks = () => {
   User.create = originalCreate;
   OrganizationProfile.findOne = originalOrgFindOne;
   OrganizationProfile.create = originalOrgCreate;
+  Product.find = originalProductFind;
+  Product.findById = originalProductFindById;
+  Product.create = originalProductCreate;
+  Order.find = originalOrderFind;
+  Order.findById = originalOrderFindById;
+  Order.create = originalOrderCreate;
+  OrderItem.find = originalOrderItemFind;
+  OrderItem.create = originalOrderItemCreate;
   bcrypt.hash = originalHash;
   bcrypt.compare = originalCompare;
   jwt.sign = originalSign;
@@ -206,4 +225,120 @@ test("GET /api/v1/profile/me returns current user for a valid token", async () =
   assert.equal(payload.success, true);
   assert.equal(payload.data.user.userName, "current-user");
   assert.equal(payload.data.user.email, "current@example.com");
+});
+
+test("GET /api/v1/marketplace/products returns products", async () => {
+  restoreMocks();
+
+  Product.find = async () => [
+    {
+      _id: "product-1",
+      name: "Solar Bottle",
+      price: 25,
+      stock: 8,
+    },
+  ];
+
+  const response = await fetch(`${baseUrl}/api/v1/marketplace/products`);
+  const payload = await response.json();
+
+  assert.equal(response.status, 200);
+  assert.equal(payload.success, true);
+  assert.equal(payload.data.products.length, 1);
+  assert.equal(payload.data.products[0].name, "Solar Bottle");
+});
+
+test("POST /api/v1/marketplace/products creates a product for organization accounts", async () => {
+  restoreMocks();
+
+  const token = jwt.sign({ userId: "org-user-2" }, env.jwtSecret, { expiresIn: "1h" });
+
+  User.findById = () => ({
+    select: async () => ({
+      _id: "org-user-2",
+      userName: "greenearth",
+      accountType: "organization",
+      email: "org@example.com",
+    }),
+  });
+
+  Product.create = async (data) => ({
+    _id: "product-2",
+    ...data,
+  });
+
+  const response = await fetch(`${baseUrl}/api/v1/marketplace/products`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name: "Reusable Bag",
+      description: "A durable reusable shopping bag.",
+      price: 12.5,
+      stock: 30,
+      isLimitedEdition: false,
+    }),
+  });
+  const payload = await response.json();
+
+  assert.equal(response.status, 201);
+  assert.equal(payload.success, true);
+  assert.equal(payload.data.product.brandId, "org-user-2");
+  assert.equal(payload.data.product.name, "Reusable Bag");
+});
+
+test("POST /api/v1/marketplace/checkout creates a paid order and order items", async () => {
+  restoreMocks();
+
+  const token = jwt.sign({ userId: "user-checkout-1" }, env.jwtSecret, { expiresIn: "1h" });
+
+  User.findById = () => ({
+    select: async () => ({
+      _id: "user-checkout-1",
+      userName: "buyer",
+      accountType: "individual",
+      email: "buyer@example.com",
+    }),
+  });
+
+  const productState = {
+    _id: "product-checkout-1",
+    name: "Eco Mug",
+    price: 20,
+    stock: 5,
+    save: async function () {
+      return this;
+    },
+  };
+
+  Product.findById = async () => productState;
+  Order.create = async (data) => ({
+    _id: "order-1",
+    ...data,
+  });
+  OrderItem.create = async (data) => ({
+    _id: `order-item-${data.productId}`,
+    ...data,
+  });
+
+  const response = await fetch(`${baseUrl}/api/v1/marketplace/checkout`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      items: [{ productId: "product-checkout-1", quantity: 2 }],
+    }),
+  });
+  const payload = await response.json();
+
+  assert.equal(response.status, 201);
+  assert.equal(payload.success, true);
+  assert.equal(payload.data.order.status, "paid");
+  assert.equal(payload.data.order.totalAmount, 40);
+  assert.equal(payload.data.items.length, 1);
+  assert.equal(productState.stock, 3);
 });
