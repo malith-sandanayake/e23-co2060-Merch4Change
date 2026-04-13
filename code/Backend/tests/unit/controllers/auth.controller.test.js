@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 import { createMockResponse, nextTick } from "../helpers/http.js";
 import User from "../../../src/models/User.js";
-import { login, me, register } from "../../../src/controllers/auth.controller.js";
+import { login, register } from "../../../src/controllers/auth.controller.js";
 
 test("register creates user and returns auth payload", async () => {
   const originalHash = bcrypt.hash;
@@ -196,7 +196,7 @@ test("login returns token payload when credentials are valid", async () => {
   User.findOne = () => ({
     select: async () => ({
       _id: "u1",
-      fullName: "Jane",
+      userName: "Jane",
       email: "jane@example.com",
       password: "hash",
       accountType: "organization",
@@ -231,18 +231,3 @@ test("login returns token payload when credentials are valid", async () => {
   assert.equal(res.payload.data.loginType, "organization");
 });
 
-test("me returns current user from request", async () => {
-  const req = {
-    user: {
-      _id: "u1",
-      fullName: "Jane",
-    },
-  };
-  const res = createMockResponse();
-
-  me(req, res, () => {});
-  await nextTick();
-
-  assert.equal(res.statusCode, 200);
-  assert.deepEqual(res.payload.data.user, req.user);
-});

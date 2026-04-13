@@ -8,6 +8,7 @@ import errorHandler from "./middlewares/errorHandler.js";
 import notFound from "./middlewares/notFound.js";
 import authRoutes from "./routes/auth.routes.js";
 import healthRoutes from "./routes/health.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 
 app.use("/api/v1", healthRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/profile", profileRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
