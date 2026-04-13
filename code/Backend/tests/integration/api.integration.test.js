@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 
 import app from "../../src/app.js";
 import env from "../../src/config/env.js";
+import OrganizationProfile from "../../src/models/OrganizationProfile.js";
 import User from "../../src/models/User.js";
 
 let server;
@@ -14,6 +15,8 @@ let baseUrl;
 const originalFindOne = User.findOne;
 const originalFindById = User.findById;
 const originalCreate = User.create;
+const originalOrgFindOne = OrganizationProfile.findOne;
+const originalOrgCreate = OrganizationProfile.create;
 const originalHash = bcrypt.hash;
 const originalCompare = bcrypt.compare;
 const originalSign = jwt.sign;
@@ -22,6 +25,8 @@ const restoreMocks = () => {
   User.findOne = originalFindOne;
   User.findById = originalFindById;
   User.create = originalCreate;
+  OrganizationProfile.findOne = originalOrgFindOne;
+  OrganizationProfile.create = originalOrgCreate;
   bcrypt.hash = originalHash;
   bcrypt.compare = originalCompare;
   jwt.sign = originalSign;
@@ -92,6 +97,46 @@ test("POST /api/v1/auth/register creates an individual profile", async () => {
   assert.equal(payload.data.token, "register-token");
   assert.equal(payload.data.user.userName, "jane");
   assert.equal(payload.data.user.email, "jane@example.com");
+});
+
+test("POST /api/v1/auth/register creates an organization profile", async () => {
+  restoreMocks();
+
+  bcrypt.hash = async () => "hashed-pass";
+  jwt.sign = () => "org-register-token";
+  User.findOne = async () => null;
+  OrganizationProfile.findOne = async () => null;
+  User.create = async (data) => ({
+    _id: "org-user-1",
+    ...data,
+  });
+  OrganizationProfile.create = async (data) => ({
+    _id: "org-profile-1",
+    createdAt: "2026-04-13T00:00:00.000Z",
+    ...data,
+  });
+
+  const response = await fetch(`${baseUrl}/api/v1/auth/register`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      orgName: "Green Earth Foundation",
+      email: "ORG@EXAMPLE.COM",
+      password: "Pass1234",
+      phone: "+1 555 123 4567",
+      address: "12 Charity Avenue",
+      website: "https://greenearth.org",
+      accountType: "organization",
+    }),
+  });
+  const payload = await response.json();
+
+  assert.equal(response.status, 201);
+  assert.equal(payload.success, true);
+  assert.equal(payload.data.token, "org-register-token");
+  assert.equal(payload.data.user.accountType, "organization");
+  assert.equal(payload.data.user.email, "org@example.com");
+  assert.equal(payload.data.profile.orgName, "Green Earth Foundation");
 });
 
 test("POST /api/v1/auth/login returns auth payload for valid credentials", async () => {
