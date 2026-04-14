@@ -24,13 +24,6 @@ const normalizeAccountType = (accountType) => {
 
 const normalizePayload = (payload) => ({
   ...payload,
-<<<<<<< HEAD
-  fullName: normalizeString(payload.fullName),
-  firstName: typeof payload.firstName === "string" ? payload.firstName.trim() : payload.firstName,
-  lastName: typeof payload.lastName === "string" ? payload.lastName.trim() : payload.lastName,
-  userName: typeof payload.userName === "string" ? payload.userName.trim() : payload.userName,
-=======
->>>>>>> backend
   email: typeof payload.email === "string" ? payload.email.toLowerCase().trim() : payload.email,
   password: typeof payload.password === "string" ? payload.password.trim() : payload.password,
   confirmPassword:
