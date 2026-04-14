@@ -5,12 +5,6 @@ import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { successResponse } from "../utils/apiResponse.js";
 
-const ensureOrganizationSeller = (user) => {
-  if (user?.accountType !== "organization") {
-    throw new AppError("Only organization accounts can manage products.", 403, "FORBIDDEN");
-  }
-};
-
 const ensureProductOwnership = (product, user) => {
   if (!product || String(product.brandId) !== String(user._id)) {
     throw new AppError("You do not have permission to manage this product.", 403, "FORBIDDEN");
@@ -38,8 +32,6 @@ export const getProduct = asyncHandler(async (req, res) => {
 });
 
 export const createProduct = asyncHandler(async (req, res) => {
-  ensureOrganizationSeller(req.user);
-
   const product = await Product.create({
     ...req.body,
     brandId: req.user._id,
@@ -51,8 +43,6 @@ export const createProduct = asyncHandler(async (req, res) => {
 });
 
 export const updateProduct = asyncHandler(async (req, res) => {
-  ensureOrganizationSeller(req.user);
-
   const product = await Product.findById(req.params.productId);
 
   if (!product) {
@@ -70,8 +60,6 @@ export const updateProduct = asyncHandler(async (req, res) => {
 });
 
 export const deleteProduct = asyncHandler(async (req, res) => {
-  ensureOrganizationSeller(req.user);
-
   const product = await Product.findById(req.params.productId);
 
   if (!product) {

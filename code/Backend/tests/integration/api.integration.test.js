@@ -248,17 +248,17 @@ test("GET /api/v1/marketplace/products returns products", async () => {
   assert.equal(payload.data.products[0].name, "Solar Bottle");
 });
 
-test("POST /api/v1/marketplace/products creates a product for organization accounts", async () => {
+test("POST /api/v1/marketplace/products creates a product for individual accounts", async () => {
   restoreMocks();
 
-  const token = jwt.sign({ userId: "org-user-2" }, env.jwtSecret, { expiresIn: "1h" });
+  const token = jwt.sign({ userId: "user-product-2" }, env.jwtSecret, { expiresIn: "1h" });
 
   User.findById = () => ({
     select: async () => ({
-      _id: "org-user-2",
-      userName: "greenearth",
-      accountType: "organization",
-      email: "org@example.com",
+      _id: "user-product-2",
+      userName: "seller",
+      accountType: "individual",
+      email: "seller@example.com",
     }),
   });
 
@@ -285,7 +285,7 @@ test("POST /api/v1/marketplace/products creates a product for organization accou
 
   assert.equal(response.status, 201);
   assert.equal(payload.success, true);
-  assert.equal(payload.data.product.brandId, "org-user-2");
+  assert.equal(payload.data.product.brandId, "user-product-2");
   assert.equal(payload.data.product.name, "Reusable Bag");
 });
 
