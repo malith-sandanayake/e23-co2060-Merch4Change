@@ -8,6 +8,7 @@ function LoginPage() {
     email: "",
     password: "",
   });
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,39 +18,32 @@ function LoginPage() {
     }));
   };
 
-<<<<<<< HEAD
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login data:", formData);
-    // TODO: Submit to backend
-    alert("Login submitted!");
+    setErrorMsg("");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result?.success) {
+        localStorage.setItem("token", result.data.token);
+        const username =
+          result?.data?.user?.fullName || result?.data?.user?.email || "me";
+        navigate(`/profile/${encodeURIComponent(username)}`);
+        return;
+      }
+
+      setErrorMsg(result?.message || "Login failed");
+    } catch {
+      setErrorMsg("Unable to connect to server");
+    }
   };
-=======
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await fetch('http://localhost:5000/api/v1/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-
-            const result = await response.json();
-
-            if (response.ok && result?.success) {
-                localStorage.setItem('token', result.data.token);
-                const username = result?.data?.user?.fullName || result?.data?.user?.email || 'me';
-                navigate(`/profile/${encodeURIComponent(username)}`);
-                return;
-            }
-
-            alert(result?.message || 'Login failed');
-        } catch {
-            alert('Unable to connect to server');
-        }
-    };
->>>>>>> backend
 
   return (
     <div className="login-container">
@@ -86,6 +80,12 @@ function LoginPage() {
 
           <h1 className="login-title">Welcome Back</h1>
           <p className="login-subtitle">Sign in to continue your journey</p>
+
+          {errorMsg && (
+            <div className="form-alert error-alert">
+              <span>⚠️</span> {errorMsg}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="login-form">
             <div className="login-form-group">
