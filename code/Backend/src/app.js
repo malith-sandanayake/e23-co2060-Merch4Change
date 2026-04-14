@@ -6,6 +6,7 @@ import morgan from "morgan";
 import env from "./config/env.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import notFound from "./middlewares/notFound.js";
+import { apiRateLimiter, authRateLimiter } from "./middlewares/rateLimit.js";
 import authRoutes from "./routes/auth.routes.js";
 import healthRoutes from "./routes/health.routes.js";
 import marketplaceRoutes from "./routes/marketplace.routes.js";
@@ -43,8 +44,10 @@ app.use(
   }),
 );
 
+app.use("/api/v1", apiRateLimiter);
+
 app.use("/api/v1", healthRoutes);
-app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/auth", authRateLimiter, authRoutes);
 app.use("/api/v1/marketplace", marketplaceRoutes);
 app.use("/api/v1/profile", profileRoutes);
 
