@@ -10,46 +10,9 @@ import authRoutes from "./routes/auth.routes.js";
 import healthRoutes from "./routes/health.routes.js";
 import marketplaceRoutes from "./routes/marketplace.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
-import { logInfo } from "./utils/logger.js";
+import { logInfo, sanitizeUrlForLog } from "./utils/logger.js";
 
 const app = express();
-
-const SENSITIVE_QUERY_KEYS = new Set([
-  "password",
-  "confirmpassword",
-  "token",
-  "accesstoken",
-  "refreshtoken",
-  "authorization",
-  "secret",
-  "apikey",
-]);
-
-const isSensitiveQueryKey = (key) => {
-  const normalizedKey = String(key).toLowerCase().replace(/[\s\-]/g, "");
-
-  if (SENSITIVE_QUERY_KEYS.has(normalizedKey)) {
-    return true;
-  }
-
-  return normalizedKey.includes("password") || normalizedKey.includes("token") || normalizedKey.includes("secret");
-};
-
-const sanitizeUrlForLog = (rawUrl = "") => {
-  try {
-    const parsed = new URL(rawUrl, "http://localhost");
-
-    for (const key of parsed.searchParams.keys()) {
-      if (isSensitiveQueryKey(key)) {
-        parsed.searchParams.set(key, "[REDACTED]");
-      }
-    }
-
-    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
-  } catch {
-    return rawUrl;
-  }
-};
 
 const httpLogFormat = (tokens, req, res) => {
   const method = tokens.method(req, res);
