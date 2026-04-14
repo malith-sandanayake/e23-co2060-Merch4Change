@@ -402,3 +402,23 @@
     padding: 12px 14px;
   }
 }
+
+/* ---- Form Alerts ---- */
+.form-alert {
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: fadeSlideUp 0.3s ease;
+  line-height: 1.4;
+}
+
+.error-alert {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
