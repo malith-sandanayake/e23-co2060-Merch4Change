@@ -4,7 +4,9 @@ import "./UserSignupPage.css";
 
 function UserSignupPage() {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+<<<<<<< HEAD
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -13,29 +15,119 @@ function UserSignupPage() {
     password: "",
     confirmPassword: "",
   });
+=======
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        userName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        accountType: 'individual'
+    });
+>>>>>>> backend
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+<<<<<<< HEAD
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    console.log("User signup data:", formData);
-    // TODO: Submit to backend
-    alert("User account created!");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+=======
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+        console.log('User signup data:', formData);
+        // TODO: Submit to backend
+        try {
+            const response = await fetch('http://localhost:5000/api/v1/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                alert(data.message || 'Signup failed');
+                return;
+            }
+            localStorage.setItem('token', data.data.token);
+            alert('User account created!');
+            // Reset form
+            setFormData({
+                firstName: '',
+                lastName: '',
+                userName: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                accountType: 'individual'
+            });
+        } catch (err) {
+            alert('Network error. Please try again.');
+        }
+
+        
+        
+    };
+>>>>>>> backend
+
+    const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+
+    try {
+      setIsSubmitting(true);
+
+      const response = await fetch(`${apiBaseUrl}/api/v1/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          fullName,
+          username: formData.username.trim(),
+          email: formData.email.trim(),
+          password: formData.password,
+          accountType: "individual",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        alert(data.message || "Signup failed. Please try again.");
+        return;
+      }
+
+      if (data?.data?.token) {
+        localStorage.setItem("token", data.data.token);
+      }
+
+      alert("User account created successfully!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/home");
+    } catch (error) {
+      alert("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -46,6 +138,7 @@ function UserSignupPage() {
         <div className="user-blob user-blob-2" />
         <div className="user-blob user-blob-3" />
 
+<<<<<<< HEAD
         <div className="user-hero-content">
           <div className="user-hero-logo">👤</div>
           <h2 className="user-hero-title">
@@ -70,6 +163,89 @@ function UserSignupPage() {
               <span>🌱</span> Follow your favourite orgs
             </li>
           </ul>
+=======
+                        <div className="user-form-group">
+                            <label>Last Name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                                placeholder="Doe"
+                            />
+                        </div>
+
+                        {/* Username – full width */}
+                        <div className="user-form-group full-width">
+                            <label>Username</label>
+                            <input
+                                type="text"
+                                name="userName"
+                                value={formData.userName}
+                                onChange={handleChange}
+                                required
+                                placeholder="e.g. johndoe42"
+                            />
+                        </div>
+
+                        {/* Email – full width */}
+                        <div className="user-form-group full-width">
+                            <label>Email Address</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                placeholder="you@example.com"
+                            />
+                        </div>
+
+                        {/* Password */}
+                        <div className="user-form-group">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                placeholder="Min. 8 characters"
+                            />
+                        </div>
+
+                        {/* Confirm Password */}
+                        <div className="user-form-group">
+                            <label>Confirm Password</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                                placeholder="Re-enter password"
+                            />
+                        </div>
+
+                        <button type="submit" className="user-submit-btn">
+                            Create Account
+                        </button>
+
+                        <p className="user-login-prompt">
+                            Already have an account?{" "}
+                            <span
+                                className="user-login-link"
+                                onClick={() => navigate('/login')}
+                            >
+                                Sign in here
+                            </span>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+>>>>>>> backend
         </div>
       </div>
 
@@ -159,8 +335,8 @@ function UserSignupPage() {
               />
             </div>
 
-            <button type="submit" className="user-submit-btn">
-              Create Account
+            <button type="submit" className="user-submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? "Creating..." : "Create Account"}
             </button>
 
             <p className="user-login-prompt">

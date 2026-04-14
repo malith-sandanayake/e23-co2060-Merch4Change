@@ -17,12 +17,39 @@ function LoginPage() {
     }));
   };
 
+<<<<<<< HEAD
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Login data:", formData);
     // TODO: Submit to backend
     alert("Login submitted!");
   };
+=======
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:5000/api/v1/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result?.success) {
+                localStorage.setItem('token', result.data.token);
+                const username = result?.data?.user?.fullName || result?.data?.user?.email || 'me';
+                navigate(`/profile/${encodeURIComponent(username)}`);
+                return;
+            }
+
+            alert(result?.message || 'Login failed');
+        } catch {
+            alert('Unable to connect to server');
+        }
+    };
+>>>>>>> backend
 
   return (
     <div className="login-container">
