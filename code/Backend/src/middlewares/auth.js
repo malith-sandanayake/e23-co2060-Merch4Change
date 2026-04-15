@@ -25,14 +25,20 @@ const protect = asyncHandler(async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, env.jwtSecret);
     const user = await User.findById(decoded.userId).select("-password");
+    // look up user in database using ID from token, remove password field
 
+    // token is valid, but user was deleted
     if (!user) {
       throw new AppError("User not found for token.", 401, "USER_NOT_FOUND");
     }
 
+    // attach user to the request
     req.user = user;
+    // move to the next middleware or route
     next();
   } catch (verifyError) {
+    // catch errors happen in try
+    // invalid token, expired token, user not found
     throw new AppError("Not authorized. Invalid token.", 401, "INVALID_TOKEN");
   }
 });
