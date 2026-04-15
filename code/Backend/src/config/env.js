@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-// read the .env file from the root directory and load the values to the "process.env"
+// read the .env file from the root directory and load the values to the global "process.env" object in memory 
 dotenv.config();
 
 
