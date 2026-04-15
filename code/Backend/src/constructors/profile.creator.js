@@ -26,19 +26,22 @@ export const createUserProfile = asyncHandler(async (req, res) => {
   }
 
   if (existingUserName) {
-    throw new AppError("Username is already in use.", 409, "USERNAME_ALREADY_IN_USE");
+    throw new AppError(
+      "Username is already in use.",
+      409,
+      "USERNAME_ALREADY_IN_USE",
+    );
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const createdUser = await User.create({
-      firstName,
-      lastName,
-      userName,
-      email: normalizedEmail,
-      password: hashedPassword,
-      accountType: "individual",
-    });
-
+    firstName,
+    lastName,
+    userName,
+    email: normalizedEmail,
+    password: hashedPassword,
+    accountType: "individual",
+  });
 
   const token = createToken(createdUser._id);
 
@@ -51,7 +54,7 @@ export const createUserProfile = asyncHandler(async (req, res) => {
       userName: createdUser.userName,
       email: createdUser.email,
       accountType: createdUser.accountType,
-    }
+    },
   });
 });
 
@@ -60,10 +63,16 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
   const normalizedEmail = String(email).toLowerCase().trim();
 
   const existingUser = await User.findOne({ email: normalizedEmail });
-  const existingOrgName = await OrganizationProfile.findOne({ orgName: orgName.trim() });
+  const existingOrgName = await OrganizationProfile.findOne({
+    orgName: orgName.trim(),
+  });
 
   if (existingOrgName) {
-    throw new AppError("Organization name is already in use.", 409, "ORGNAME_ALREADY_IN_USE");
+    throw new AppError(
+      "Organization name is already in use.",
+      409,
+      "ORGNAME_ALREADY_IN_USE",
+    );
   }
 
   if (existingUser) {
@@ -72,13 +81,13 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const createdUser = await User.create({
-      firstName: orgName,
-      lastName: orgName,
-      userName: orgName.trim().toLowerCase().replace(/\s+/g, ""),
-      email: normalizedEmail,
-      password: hashedPassword,
-      accountType: "organization",
-    });
+    firstName: orgName,
+    lastName: orgName,
+    userName: orgName.trim().toLowerCase().replace(/\s+/g, ""),
+    email: normalizedEmail,
+    password: hashedPassword,
+    accountType: "organization",
+  });
 
   const createdProfile = await OrganizationProfile.create({
     userId: createdUser._id,
@@ -90,23 +99,28 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
 
   const token = createToken(createdUser._id);
 
-  return successResponse(res, 201, "Organization profile created successfully.", {
-    token,
-    user: {
-      id: createdUser._id,
-      firstName: createdUser.firstName,
-      lastName: createdUser.lastName,
-      userName: createdUser.userName,
-      email: createdUser.email,
-      accountType: createdUser.accountType,
+  return successResponse(
+    res,
+    201,
+    "Organization profile created successfully.",
+    {
+      token,
+      user: {
+        id: createdUser._id,
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+        userName: createdUser.userName,
+        email: createdUser.email,
+        accountType: createdUser.accountType,
+      },
+      profile: {
+        id: createdProfile._id,
+        orgName: createdProfile.orgName,
+        phone: createdProfile.phone,
+        address: createdProfile.address,
+        website: createdProfile.website,
+        createdAt: createdProfile.createdAt,
+      },
     },
-    profile: {
-      id: createdProfile._id,
-      orgName: createdProfile.orgName,
-      phone: createdProfile.phone,
-      address: createdProfile.address,
-      website: createdProfile.website,
-      createdAt: createdProfile.createdAt,
-    },
-  });
+  );
 });

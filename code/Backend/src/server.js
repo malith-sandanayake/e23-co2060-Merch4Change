@@ -21,7 +21,7 @@ process.on("unhandledRejection", (reason) => {
   logError("Unhandled promise rejection.", reason);
 });
 
-// catches the java script errors 
+// catches the java script errors
 process.on("uncaughtException", (error) => {
   logError("Uncaught exception.", error);
   process.exit(1);

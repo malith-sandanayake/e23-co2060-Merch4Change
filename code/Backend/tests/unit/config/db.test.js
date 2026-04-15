@@ -28,7 +28,10 @@ test("connectDatabase skips connection when MONGODB_URI is missing", async () =>
   }
 
   assert.equal(called, false);
-  assert.equal(logs.some((line) => line.includes("MONGODB_URI is not set")), true);
+  assert.equal(
+    logs.some((line) => line.includes("MONGODB_URI is not set")),
+    true,
+  );
 });
 
 test("connectDatabase connects and logs success", async () => {
@@ -49,7 +52,10 @@ test("connectDatabase connects and logs success", async () => {
     console.log = originalLog;
   }
 
-  assert.equal(logs.some((line) => line.includes("Database connected successfully.")), true);
+  assert.equal(
+    logs.some((line) => line.includes("Database connected successfully.")),
+    true,
+  );
 });
 
 test("connectDatabase logs and rethrows connection errors", async () => {
@@ -74,6 +80,9 @@ test("connectDatabase logs and rethrows connection errors", async () => {
   }
 
   assert.equal(logs.length > 0, true);
-  assert.equal(String(logs[0][0]).includes("Database connection failed."), true);
+  assert.equal(
+    String(logs[0][0]).includes("Database connection failed."),
+    true,
+  );
   assert.equal(logs[0][1], expected);
 });

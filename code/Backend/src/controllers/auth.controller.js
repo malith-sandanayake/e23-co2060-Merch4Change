@@ -6,7 +6,10 @@ import User from "../models/User.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { createUserProfile, createOrganizationProfile } from "../constructors/profile.creator.js";
+import {
+  createUserProfile,
+  createOrganizationProfile,
+} from "../constructors/profile.creator.js";
 
 const SUPPORTED_ACCOUNT_TYPES = ["individual", "organization"];
 
@@ -62,7 +65,7 @@ export const register = asyncHandler(async (req, res) => {
       "VALIDATION_ERROR",
     );
   }
-  
+
   if (normalizedAccountType === "individual") {
     console.log("validation done");
     return await createUserProfile(req, res);
@@ -77,7 +80,9 @@ export const login = asyncHandler(async (req, res) => {
 
   const normalizedEmail = String(email).toLowerCase().trim();
 
-  const user = await User.findOne({ email: normalizedEmail }).select("+password");
+  const user = await User.findOne({ email: normalizedEmail }).select(
+    "+password",
+  );
 
   if (!user) {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");
@@ -94,7 +99,11 @@ export const login = asyncHandler(async (req, res) => {
   const loginType = toLoginType(accountType);
 
   if (!loginType) {
-    throw new AppError("Invalid account type for user.", 403, "INVALID_ACCOUNT_TYPE");
+    throw new AppError(
+      "Invalid account type for user.",
+      403,
+      "INVALID_ACCOUNT_TYPE",
+    );
   }
 
   const token = createToken(user._id);

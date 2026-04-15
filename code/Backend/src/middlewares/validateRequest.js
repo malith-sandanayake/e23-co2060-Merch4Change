@@ -1,36 +1,43 @@
 import AppError from "../utils/appError.js";
 
-const validateRequest = (schema = {}) => (req, res, next) => {
-  const sections = ["body", "params", "query"];
-  const validationErrors = [];
+const validateRequest =
+  (schema = {}) =>
+  (req, res, next) => {
+    const sections = ["body", "params", "query"];
+    const validationErrors = [];
 
-  for (const section of sections) {
-    if (!schema[section]) {
-      continue;
+    for (const section of sections) {
+      if (!schema[section]) {
+        continue;
+      }
+
+      const { value, errors } = schema[section](req[section]);
+
+      if (errors?.length) {
+        validationErrors.push(
+          ...errors.map((message) => ({
+            section,
+            message,
+          })),
+        );
+        continue;
+      }
+
+      req[section] = value;
     }
 
-    const { value, errors } = schema[section](req[section]);
-
-    if (errors?.length) {
-      validationErrors.push(
-        ...errors.map((message) => ({
-          section,
-          message,
-        })),
+    if (validationErrors.length) {
+      return next(
+        new AppError(
+          "Validation failed.",
+          400,
+          "VALIDATION_ERROR",
+          validationErrors,
+        ),
       );
-      continue;
     }
 
-    req[section] = value;
-  }
-
-  if (validationErrors.length) {
-    return next(
-      new AppError("Validation failed.", 400, "VALIDATION_ERROR", validationErrors),
-    );
-  }
-
-  next();
-};
+    next();
+  };
 
 export default validateRequest;

@@ -18,7 +18,14 @@ const orderSchema = new mongoose.Schema(
       required: true,
       trim: true,
       default: "pending",
-      enum: ["pending", "paid", "shipped", "completed", "cancelled", "refunded"],
+      enum: [
+        "pending",
+        "paid",
+        "shipped",
+        "completed",
+        "cancelled",
+        "refunded",
+      ],
     },
     coinsEarned: {
       type: Number,
@@ -36,4 +43,3 @@ const orderSchema = new mongoose.Schema(
 const Order = mongoose.model("Order", orderSchema);
 
 export default Order;
-

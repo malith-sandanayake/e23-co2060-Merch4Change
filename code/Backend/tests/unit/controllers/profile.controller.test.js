@@ -12,7 +12,6 @@ import {
   createOrganizationProfile,
 } from "../../../src/constructors/profile.creator.js";
 
-
 test("createUserProfile rejects duplicate email", async () => {
   const originalFindOne = User.findOne;
   User.findOne = async () => ({ _id: "existing" });
@@ -185,4 +184,3 @@ test("createOrganizationProfile returns created user and profile", async () => {
   assert.equal(res.payload.data.user.userName, "ecoorg");
   assert.equal(res.payload.data.profile.orgName, "Eco Org");
 });
-

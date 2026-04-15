@@ -6,7 +6,14 @@ export const successResponse = (res, statusCode, message, data = null) => {
   });
 };
 
-export const errorResponse = (res, statusCode, message, code, details = null, stack) => {
+export const errorResponse = (
+  res,
+  statusCode,
+  message,
+  code,
+  details = null,
+  stack,
+) => {
   const response = {
     success: false,
     message,

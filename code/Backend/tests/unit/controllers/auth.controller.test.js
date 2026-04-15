@@ -6,7 +6,11 @@ import jwt from "jsonwebtoken";
 
 import { createMockResponse, nextTick } from "../helpers/http.js";
 import User from "../../../src/models/User.js";
-import { login, me, register } from "../../../src/controllers/auth.controller.js";
+import {
+  login,
+  me,
+  register,
+} from "../../../src/controllers/auth.controller.js";
 
 test("register creates user and returns auth payload", async () => {
   const originalHash = bcrypt.hash;

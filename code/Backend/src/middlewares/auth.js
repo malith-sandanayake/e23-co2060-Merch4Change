@@ -6,11 +6,20 @@ import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 const protect = asyncHandler(async (req, res, next) => {
+  // get the authorization header from the request, if not exist empty strings
   const authHeader = req.headers.authorization || "";
-  const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+
+  // extract the token
+  const token = authHeader.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
 
   if (!token) {
-    throw new AppError("Not authorized. Token is missing.", 401, "TOKEN_MISSING");
+    throw new AppError(
+      "Not authorized. Token is missing.",
+      401,
+      "TOKEN_MISSING",
+    );
   }
 
   try {

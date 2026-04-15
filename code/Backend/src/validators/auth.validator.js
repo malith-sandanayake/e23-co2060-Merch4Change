@@ -1,8 +1,12 @@
-import { validateUserProfileCreateBody, validateOrganizationProfileCreateBody } from "./profile.validator.js";
+import {
+  validateUserProfileCreateBody,
+  validateOrganizationProfileCreateBody,
+} from "./profile.validator.js";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const normalizeString = (value) => (typeof value === "string" ? value.trim() : value);
+const normalizeString = (value) =>
+  typeof value === "string" ? value.trim() : value;
 
 const normalizeAccountType = (accountType) => {
   if (typeof accountType !== "string") {
@@ -25,13 +29,30 @@ const normalizeAccountType = (accountType) => {
 const normalizePayload = (payload) => ({
   ...payload,
   fullName: normalizeString(payload.fullName),
-  firstName: typeof payload.firstName === "string" ? payload.firstName.trim() : payload.firstName,
-  lastName: typeof payload.lastName === "string" ? payload.lastName.trim() : payload.lastName,
-  userName: typeof payload.userName === "string" ? payload.userName.trim() : payload.userName,
-  email: typeof payload.email === "string" ? payload.email.toLowerCase().trim() : payload.email,
-  password: typeof payload.password === "string" ? payload.password.trim() : payload.password,
+  firstName:
+    typeof payload.firstName === "string"
+      ? payload.firstName.trim()
+      : payload.firstName,
+  lastName:
+    typeof payload.lastName === "string"
+      ? payload.lastName.trim()
+      : payload.lastName,
+  userName:
+    typeof payload.userName === "string"
+      ? payload.userName.trim()
+      : payload.userName,
+  email:
+    typeof payload.email === "string"
+      ? payload.email.toLowerCase().trim()
+      : payload.email,
+  password:
+    typeof payload.password === "string"
+      ? payload.password.trim()
+      : payload.password,
   confirmPassword:
-    typeof payload.confirmPassword === "string" ? payload.confirmPassword.trim() : payload.confirmPassword,
+    typeof payload.confirmPassword === "string"
+      ? payload.confirmPassword.trim()
+      : payload.confirmPassword,
   accountType: normalizeAccountType(payload.accountType),
 });
 
@@ -48,7 +69,9 @@ export const validateRegisterBody = (payload = {}) => {
   if (!["individual", "organization"].includes(normalized.accountType)) {
     return {
       value: normalized,
-      errors: ["Unsupported accountType. Supported types are: individual, organization."],
+      errors: [
+        "Unsupported accountType. Supported types are: individual, organization.",
+      ],
     };
   }
 

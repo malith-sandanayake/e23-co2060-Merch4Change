@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
 
-// read the .env file from the root directory and load the values to the global "process.env" object in memory 
+// read the .env file from the root directory and load the values to the global "process.env" object in memory
 dotenv.config();
 
-
-// checking for the environemnt variable status, thriw errors 
+// checking for the environemnt variable status, thriw errors
 const requiredInProduction = ["MONGODB_URI", "JWT_SECRET"];
 
 for (const key of requiredInProduction) {
