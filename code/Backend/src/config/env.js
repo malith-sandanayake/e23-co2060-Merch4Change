@@ -1,7 +1,10 @@
 import dotenv from "dotenv";
 
+// read the .env file from the root directory and load the values to the "process.env"
 dotenv.config();
 
+
+// checking for the environemnt variable status, thriw errors 
 const requiredInProduction = ["MONGODB_URI", "JWT_SECRET"];
 
 for (const key of requiredInProduction) {
@@ -10,6 +13,7 @@ for (const key of requiredInProduction) {
   }
 }
 
+// declearing the environment variables, || values be used if they are not defined in .end, use default values
 const env = {
   nodeEnv: process.env.NODE_ENV || "development",
   port: Number(process.env.PORT) || 5000,
