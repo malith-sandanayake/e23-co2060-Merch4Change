@@ -4,13 +4,13 @@ import AppError from "../utils/appError.js";
 const validateRequest =
   (schema = {}) =>
   (req, res, next) => {
-    const sections = ["body", "params", "query"];   // body: json data, params: URL variables, query: search string
+    const sections = ["body", "params", "query"]; // body: json data, params: URL variables, query: search string
     const validationErrors = [];
 
     for (const section of sections) {
       if (!schema[section]) {
         continue;
-        // no defined validation for the section, ignore 
+        // no defined validation for the section, ignore
       }
 
       const { value, errors } = schema[section](req[section]);
@@ -28,7 +28,7 @@ const validateRequest =
         continue;
       }
 
-      // if no errors replace request data 
+      // if no errors replace request data
       req[section] = value;
     }
 
@@ -44,7 +44,7 @@ const validateRequest =
       );
     }
 
-    // if everything is valid request continues to controller 
+    // if everything is valid request continues to controller
     next();
   };
 

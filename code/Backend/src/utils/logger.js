@@ -8,7 +8,7 @@ export const logInfo = (message) => {
 };
 
 export const logError = (message, error) => {
-  // with error object 
+  // with error object
   // example: print clean, consistent logs for debugging and monitoring your backend.
   if (error) {
     console.error(`[ERROR] ${timestamp()} ${message}`, error);
