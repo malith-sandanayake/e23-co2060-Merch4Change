@@ -9,7 +9,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import {
   createUserProfile,
   createOrganizationProfile,
-} from "../constructors/profile.creator.js";
+} from "./profile.controller.js";
 
 const SUPPORTED_ACCOUNT_TYPES = ["individual", "organization"];
 
