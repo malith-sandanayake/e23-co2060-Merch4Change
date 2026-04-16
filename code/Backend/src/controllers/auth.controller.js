@@ -67,7 +67,6 @@ export const register = asyncHandler(async (req, res) => {
   }
 
   if (normalizedAccountType === "individual") {
-    console.log("validation done");
     return await createUserProfile(req, res);
   }
   if (normalizedAccountType === "organization") {
@@ -113,15 +112,11 @@ export const login = asyncHandler(async (req, res) => {
     loginType,
     user: {
       id: user._id,
-      fullName: user.fullName,
+      userName: user.userName,
       email: user.email,
       accountType: user.accountType,
     },
   });
 });
 
-export const me = asyncHandler(async (req, res) => {
-  return successResponse(res, 200, "Current user fetched successfully.", {
-    user: req.user,
-  });
-});
+

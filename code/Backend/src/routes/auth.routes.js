@@ -1,5 +1,4 @@
 // connect routes, middleware, controllers to handle authentication requests
-
 import { Router } from "express";
 
 import { login, me, register } from "../controllers/auth.controller.js";
@@ -13,20 +12,24 @@ import {
 // create the router
 const router = Router();
 
-// register route
+// Register route
+// POST /api/v1/auth/register -> validate request -> register controller
 router.post(
   "/register",
   validateRequest({ body: validateRegisterBody }),
   register,
 );
-// POST /register > valid request(checks body) > register control > response
 
-// login route
-router.post("/login", validateRequest({ body: validateLoginBody }), login);
-// POST /login > validate request > login controller > return JWT token
+// Login route
+// POST /api/v1/auth/login -> validate request -> login controller -> return JWT token
+router.post(
+  "/login", 
+  validateRequest({ body: validateLoginBody }), 
+  login
+);
 
-// protected route
+// Protected route (Get Current User)
+// GET /api/v1/auth/me -> protect middleware (JWT check) -> me controller -> return user info
 router.get("/me", protect, me);
-// GET /me > protect middleware (JWT check) > me controller > return logged-in user
 
 export default router;

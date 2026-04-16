@@ -21,6 +21,7 @@ const router = Router();
  */
 
 // User Signup
+// Validates incoming donor data before creating a profile
 router.post(
   "/signup/user",
   validateRequest({ body: validateUserProfileCreateBody }),
@@ -28,20 +29,23 @@ router.post(
 );
 
 // Organization Signup
+// Validates charity/NGO data before creating a profile
 router.post(
   "/signup/organization",
   validateRequest({ body: validateOrganizationProfileCreateBody }),
   createOrganizationProfile
 );
 
-// The Login - NO 'protect' here. This is where they GET the token.
+// The Login
+// Public endpoint where users exchange credentials for a JWT
 router.post("/login", login);
 
 /**
  * @section PROTECTED ROUTES
  */
 
-// Fetch own profile - 'protect' ensures only the logged-in user can see this.
+// Fetch Own Profile
+// Uses 'protect' middleware to verify the JWT and 'getMe' to return user data
 router.get("/me", protect, getMe);
 
 export default router;

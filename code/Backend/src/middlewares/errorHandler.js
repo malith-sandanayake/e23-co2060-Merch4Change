@@ -1,24 +1,37 @@
 // catch code errors/ crashers
 import { errorResponse } from "../utils/apiResponse.js";
+import { logError } from "../utils/logger.js";
 
 const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const errorCode = err.code || "INTERNAL_SERVER_ERROR";
 
-  // if app already started sending a response and then an error happen, cant send 2nd respond,
-  // handover to default express error handler
+  // Log the error with full request context for traceability
+  logError("Request failed in error middleware.", err, {
+    request: {
+      method: req.method,
+      url: req.originalUrl,
+      ip: req.ip,
+      statusCode,
+      errorCode,
+    },
+  });
+
+  // Safety Check: If headers are already sent, delegate to default Express handler
+  // This prevents the "Headers already sent" crash
   if (res.headersSent) {
     return next(err);
   }
 
-  // error message convert into same json structure
+  // Send standardized JSON response
   return errorResponse(
     res,
     statusCode,
     err.message || "Internal server error",
     errorCode,
     err.details || null,
-    process.env.NODE_ENV === "development" ? err.stack : undefined, // hide "Stack Trace" in deployment, (the exact line numbers of the error)
+    // Security: Only show the "Stack Trace" (exact line numbers) in development mode
+    process.env.NODE_ENV === "development" ? err.stack : undefined, 
   );
 };
 
