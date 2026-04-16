@@ -1,8 +1,12 @@
-import { validateUserProfileCreateBody, validateOrganizationProfileCreateBody } from "./profile.validator.js";
+import {
+  validateUserProfileCreateBody,
+  validateOrganizationProfileCreateBody,
+} from "./profile.validator.js";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const normalizeString = (value) => (typeof value === "string" ? value.trim() : value);
+const normalizeString = (value) =>
+  typeof value === "string" ? value.trim() : value;
 
 const normalizeAccountType = (accountType) => {
   if (typeof accountType !== "string") {
@@ -27,7 +31,9 @@ const normalizePayload = (payload) => ({
   email: typeof payload.email === "string" ? payload.email.toLowerCase().trim() : payload.email,
   password: typeof payload.password === "string" ? payload.password.trim() : payload.password,
   confirmPassword:
-    typeof payload.confirmPassword === "string" ? payload.confirmPassword.trim() : payload.confirmPassword,
+    typeof payload.confirmPassword === "string"
+      ? payload.confirmPassword.trim()
+      : payload.confirmPassword,
   accountType: normalizeAccountType(payload.accountType),
 });
 
@@ -44,7 +50,9 @@ export const validateRegisterBody = (payload = {}) => {
   if (!["individual", "organization"].includes(normalized.accountType)) {
     return {
       value: normalized,
-      errors: ["Unsupported accountType. Supported types are: individual, organization."],
+      errors: [
+        "Unsupported accountType. Supported types are: individual, organization.",
+      ],
     };
   }
 

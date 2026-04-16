@@ -40,6 +40,9 @@ const organizationProfileSchema = new mongoose.Schema(
   },
 );
 
-const OrganizationProfile = mongoose.model("OrganizationProfile", organizationProfileSchema);
+const OrganizationProfile = mongoose.model(
+  "OrganizationProfile",
+  organizationProfileSchema,
+);
 
 export default OrganizationProfile;
