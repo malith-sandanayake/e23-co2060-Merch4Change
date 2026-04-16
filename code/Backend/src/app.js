@@ -27,7 +27,7 @@ app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 app.use("/api/v1", healthRoutes);
 app.use("/api/v1/auth", authRoutes);
 
-app.use(notFound);
-app.use(errorHandler); // any above route has bug or crashed Express jumps into here
+app.use(notFound);     // trigger the 404 error 
+app.use(errorHandler); // any above route has bug or crashed Express jumps into here - send jsons
 
 export default app;

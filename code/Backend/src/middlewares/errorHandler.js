@@ -1,3 +1,4 @@
+// catch code errors/ crashers
 import { errorResponse } from "../utils/apiResponse.js";
 
 const errorHandler = (err, req, res, next) => {
