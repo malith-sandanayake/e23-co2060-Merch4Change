@@ -10,6 +10,7 @@
     "check": "node --check src/server.js",
     "test": "node --test tests/unit/**/*.test.js",
     "test:watch": "node --test --watch tests/unit/**/*.test.js",
+    "format": "prettier --write ."
     "test:integration": "node --test tests/integration/**/*.test.js",
     "test:all": "node --test tests/unit/**/*.test.js tests/integration/**/*.test.js"
   },
@@ -25,6 +26,8 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.0",
+    "morgan": "^1.10.0",
+    "prettier": "^3.8.3"
     "morgan": "^1.10.0"
   },
   "devDependencies": {
