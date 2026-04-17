@@ -1,11 +1,12 @@
-// catchers invalid URLs
-const notFound = (req, res, next) => {
-  const error = new Error(`Route not found: ${req.method} ${req.originalUrl}`);
-  error.statusCode = 404;
-  error.code = "ROUTE_NOT_FOUND";
+import { errorResponse } from "../utils/apiResponse.js";
 
-  // Hand the error to the next middleware (which is errorHandler)
-  next(error);
+const notFound = (req, res) => {
+  return errorResponse(
+    res,
+    404,
+    `Route not found: ${req.method} ${req.originalUrl}`,
+    "ROUTE_NOT_FOUND",
+  );
 };
 
 export default notFound;

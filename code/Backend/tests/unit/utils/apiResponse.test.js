@@ -2,10 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { createMockResponse } from "../helpers/http.js";
-import {
-  errorResponse,
-  successResponse,
-} from "../../../src/utils/apiResponse.js";
+import { errorResponse, successResponse } from "../../../src/utils/apiResponse.js";
 
 test("successResponse sends consistent success payload", () => {
   const res = createMockResponse();

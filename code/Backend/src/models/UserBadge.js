@@ -31,3 +31,4 @@ userBadgeSchema.index({ userId: 1, badgeId: 1 }, { unique: true });
 const UserBadge = mongoose.model("UserBadge", userBadgeSchema);
 
 export default UserBadge;
+

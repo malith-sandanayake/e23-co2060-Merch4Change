@@ -32,44 +32,13 @@ test("validateOrganizationProfileCreateBody catches invalid fields", () => {
   });
 
   assert.equal(result.errors.length > 0, true);
-  assert.equal(
-    result.errors.some((message) =>
-      message.includes("orgName must be between 2 and 120"),
-    ),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) => message.includes("email must be a valid")),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) =>
-      message.includes("password must be at least 8"),
-    ),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) =>
-      message.includes("confirmPassword must match"),
-    ),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) => message.includes("phone must be 7-20")),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) =>
-      message.includes("address must not exceed 250"),
-    ),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) =>
-      message.includes("website must be a valid http or https URL"),
-    ),
-    true,
-  );
+  assert.equal(result.errors.some((message) => message.includes("orgName must be between 2 and 120")), true);
+  assert.equal(result.errors.some((message) => message.includes("email must be a valid")), true);
+  assert.equal(result.errors.some((message) => message.includes("password must be at least 8")), true);
+  assert.equal(result.errors.some((message) => message.includes("confirmPassword must match")), true);
+  assert.equal(result.errors.some((message) => message.includes("phone must be 7-20")), true);
+  assert.equal(result.errors.some((message) => message.includes("address must not exceed 250")), true);
+  assert.equal(result.errors.some((message) => message.includes("website must be a valid http or https URL")), true);
 });
 
 test("validateOrganizationProfileCreateBody flags malformed URL", () => {

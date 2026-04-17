@@ -38,3 +38,4 @@ const badgeSchema = new mongoose.Schema(
 const Badge = mongoose.model("Badge", badgeSchema);
 
 export default Badge;
+

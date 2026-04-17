@@ -1,10 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import {
-  validateLoginBody,
-  validateRegisterBody,
-} from "../../../src/validators/auth.validator.js";
+import { validateLoginBody, validateRegisterBody } from "../../../src/validators/auth.validator.js";
 
 test("validateRegisterBody normalizes and accepts valid payload", () => {
   const result = validateRegisterBody({
@@ -37,12 +34,7 @@ test("validateRegisterBody returns validation errors", () => {
   });
 
   assert.equal(result.errors.length > 0, true);
-  assert.equal(
-    result.errors.some((message) =>
-      message.includes("Unsupported accountType"),
-    ),
-    true,
-  );
+  assert.equal(result.errors.some((message) => message.includes("Unsupported accountType")), true);
 });
 
 test("validateLoginBody normalizes valid login payload", () => {
@@ -60,12 +52,6 @@ test("validateLoginBody catches missing credentials", () => {
     email: "not-an-email",
   });
 
-  assert.equal(
-    result.errors.some((message) => message.includes("email must be a valid")),
-    true,
-  );
-  assert.equal(
-    result.errors.some((message) => message.includes("password is required")),
-    true,
-  );
+  assert.equal(result.errors.some((message) => message.includes("email must be a valid")), true);
+  assert.equal(result.errors.some((message) => message.includes("password is required")), true);
 });

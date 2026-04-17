@@ -1,6 +1,3 @@
-// standardize backend sending data using json responses
-
-// success response
 export const successResponse = (res, statusCode, message, data = null) => {
   return res.status(statusCode).json({
     success: true,
@@ -9,15 +6,7 @@ export const successResponse = (res, statusCode, message, data = null) => {
   });
 };
 
-// error response
-export const errorResponse = (
-  res,
-  statusCode,
-  message,
-  code,
-  details = null,
-  stack,
-) => {
+export const errorResponse = (res, statusCode, message, code, details = null, stack) => {
   const response = {
     success: false,
     message,
@@ -27,7 +16,6 @@ export const errorResponse = (
     },
   };
 
-  // add debugging info only when needed, hidden in production, useful in development
   if (stack) {
     response.stack = stack;
   }
