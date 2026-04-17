@@ -16,12 +16,10 @@ const startServer = async () => {
   }
 };
 
-// catch the errors which dont have a .catch()
 process.on("unhandledRejection", (reason) => {
   logError("Unhandled promise rejection.", reason);
 });
 
-// catches the java script errors
 process.on("uncaughtException", (error) => {
   logError("Uncaught exception.", error);
   process.exit(1);
