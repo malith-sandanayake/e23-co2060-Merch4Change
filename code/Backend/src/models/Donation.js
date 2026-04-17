@@ -2,27 +2,28 @@ import mongoose from "mongoose";
 
 const donationSchema = new mongoose.Schema(
   {
-    userId: {
+    donorUserId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
       index: true,
     },
-    projectId: {
+    charityId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
+      ref: "Charity",
       required: true,
       index: true,
     },
-    amount: {
+    charityProjectId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      default: null,
+      index: true,
+    },
+    coinAmount: {
       type: Number,
       required: true,
-      min: 0,
-    },
-    type: {
-      type: String,
-      required: true,
-      trim: true,
+      min: 1,
     },
   },
   {

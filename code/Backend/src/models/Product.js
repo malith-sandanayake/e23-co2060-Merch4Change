@@ -28,8 +28,24 @@ const productSchema = new mongoose.Schema(
     },
     brandId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Brand",
       required: true,
+      index: true,
+    },
+    currency: {
+      type: String,
+      trim: true,
+      uppercase: true,
+      maxlength: 3,
+      default: "USD",
+    },
+    images: {
+      type: [String],
+      default: [],
+    },
+    isPublished: {
+      type: Boolean,
+      default: true,
       index: true,
     },
     isLimitedEdition: {
