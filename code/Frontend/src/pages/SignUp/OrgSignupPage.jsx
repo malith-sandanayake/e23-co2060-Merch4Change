@@ -33,9 +33,8 @@ function OrgSignupPage({ onNavigate }) {
     if (!/[A-Z]/.test(password)) errors.push("one uppercase letter");
     if (!/[a-z]/.test(password)) errors.push("one lowercase letter");
     if (!/[0-9]/.test(password)) errors.push("one number");
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password))
-      errors.push("one special character");
-
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push("one special character");
+    
     if (errors.length > 0) {
       return "Password must contain " + errors.join(", ") + ".";
     }
