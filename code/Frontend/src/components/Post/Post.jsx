@@ -1,100 +1,60 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useIntersectionTimer } from "../../hooks/useIntersectionTimer";
+import ActionButton from "./ActionButton";
+import ShopPopUp from "../ShopPopUp/ShopPopUp";
 import "./Post.css";
+
+// Assets (Keep your existing imports)
 import test from "../../assets/test.jpg";
 import postImage from "../../assets/icon.png";
-import shop from "../../assets/post_icons/shop.svg";
-import heart from "../../assets/post_icons/heart.svg";
-import redheart from "../../assets/post_icons/red-heart.svg";
-import comments from "../../assets/post_icons/comments.svg";
-import share from "../../assets/post_icons/share.svg";
-import ShopPopUp from "../ShopPopUp/ShopPopUp";
+import { shop, heart, redheart, comments, share } from "../../assets/post_icons";
 
-function Post() {
-  const postRef = useRef(null);
-  const [showDetails, setShowDetails] = useState(false);
-  const [like, setLike] = useState(false);
-  const [shopPopUp, setShopPopUp] = useState(false);
-
-  useEffect(() => {
-    let timer;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          timer = setTimeout(() => {
-            setShowDetails(true);
-          }, 3000); // 3 second stop → show details
-        } else {
-          clearTimeout(timer);
-          setShowDetails(false);
-        }
-      },
-      { threshold: 0.6 }, // 60% visible
-    );
-
-    if (postRef.current) observer.observe(postRef.current);
-
-    return () => {
-      clearTimeout(timer);
-      if (postRef.current) observer.unobserve(postRef.current);
-    };
-  }, []);
+function Post({ data }) {
+  // 1. Logic handled by custom hook
+  const [postRef, showDetails] = useIntersectionTimer(3000);
+  
+  // 2. Simple UI states
+  const [isLiked, setIsLiked] = useState(false);
+  const [isShopOpen, setIsShopOpen] = useState(false);
 
   return (
     <div className="post" ref={postRef}>
       <div className="post-header">
         <img src={test} alt="user" />
         <div>
-          <h4>Renzo</h4>
-          <span>2h ago</span>
+          <h4>{data?.username || "Renzo"}</h4>
+          <span>{data?.time || "2h ago"}</span>
         </div>
       </div>
 
       <div className="post-content">
-        <img src={postImage} alt="social-media-post" className="post-image" />
-        Building my React social media app 🚀🔥
+        <img src={postImage} alt="post" className="post-image" />
+        {data?.caption || "Building my React social media app 🚀🔥"}
       </div>
 
       <div className={`product-details ${showDetails ? "active" : ""}`}>
-        <div className="product-detail-header">
-          <p>This item will be great</p>
-        </div>
-
+        <p>This item will be great</p>
         {showDetails && <h4 className="see-details">See details</h4>}
       </div>
 
       <div className="post-actions">
-        <div className="post-icons">
-          <button onClick={() => setShopPopUp(!shopPopUp)}>
-            <img src={shop} alt="shop" className="post-svgs" />
-          </button>
-        </div>
+        <ActionButton 
+          icon={shop} 
+          onClick={() => setIsShopOpen(true)} 
+        />
+        
+        <ActionButton 
+          icon={heart} 
+          activeIcon={redheart}
+          active={isLiked}
+          count={0} 
+          onClick={() => setIsLiked(!isLiked)} 
+        />
 
-        {shopPopUp ? <ShopPopUp onClose={() => setShopPopUp(false)} /> : <></>}
+        <ActionButton icon={comments} count={0} />
+        <ActionButton icon={share} />
 
-        <div className="post-icons">
-          <button onClick={() => setLike(!like)}>
-            {like ? (
-              <img src={redheart} alt="red-heart-icon" className="post-svgs" />
-            ) : (
-              <img src={heart} alt="heart-icon" className="post-svgs" />
-            )}
-          </button>
-          <p className="count">0</p>
-        </div>
-
-        <div className="post-icons">
-          <button>
-            <img src={comments} alt="comment-icon" className="post-svgs" />
-          </button>
-          <p className="count">0</p>
-        </div>
-
-        <div className="post-icons">
-          <button>
-            <img src={share} alt="share-icon" className="post-svgs" />
-          </button>
-        </div>
+        {isShopOpen && <ShopPopUp onClose={() => setIsShopOpen(false)} />}
       </div>
     </div>
   );
