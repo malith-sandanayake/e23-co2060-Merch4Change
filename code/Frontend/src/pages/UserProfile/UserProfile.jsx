@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import test from "../../assets/test.jpg";
-import verifiedIcon from "../../assets/verified_icon.png";
-import { 
-  Search, Bell, Home, MessageSquare, Layers, BarChart2, Settings, Plus, Menu, X
+import {
+  Search, Bell, Home, MessageSquare, Layers, BarChart2, Settings, Plus, CheckCircle, Menu, X
 } from "lucide-react";
 
 function UserProfile() {
@@ -14,14 +13,14 @@ function UserProfile() {
     const token = localStorage.getItem("token");
     if (!token) return;
     const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-    fetch(`${apiUrl}/api/v1/profile/me`, {  
+    fetch(`${apiUrl}/api/v1/profile/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setProfileData(data.data);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (
@@ -55,8 +54,8 @@ function UserProfile() {
           <div className="lum-logo">
             <div className="lum-logo-icon">L</div>
             <h2>Luminous</h2>
-            <button 
-              className="lum-close-btn" 
+            <button
+              className="lum-close-btn"
               onClick={() => setIsSidebarCollapsed(true)}
             >
               <X size={20} />
@@ -104,12 +103,12 @@ function UserProfile() {
         <main className="lum-main-content">
           <div className="lum-profile-header">
             <div className="lum-cover-image"></div>
-            
+
             <div className="lum-profile-info-row">
               <div className="lum-avatar-container">
                 <img src={test} alt="Alex Rivers" className="lum-main-avatar" />
               </div>
-              
+
               <div className="lum-profile-actions">
                 <button className="lum-edit-btn">Edit Profile</button>
                 <button className="lum-dash-btn">View Dashboard</button>
@@ -117,7 +116,7 @@ function UserProfile() {
             </div>
 
             <div className="lum-profile-details">
-              <h1>Alex Rivers <img src={verifiedIcon} alt="Verified" className="verified-badge-img" /></h1>
+              <h1>Alex Rivers <CheckCircle size={24} color="white" fill="#1da1f2" /></h1>
               <p>@alexrivers • Digital Visionary & Curator</p>
             </div>
 

@@ -16,7 +16,8 @@
   padding: 15px 40px;
   background: transparent;
   z-index: 100;
-  margin-left: 220px; /* Offset for left sidebar */
+  margin-left: 220px;
+  /* Offset for left sidebar */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -36,7 +37,8 @@
   border: none;
   cursor: pointer;
   color: #555;
-  display: none; /* hidden on desktop when sidebar is open */
+  display: none;
+  /* hidden on desktop when sidebar is open */
 }
 
 .sidebar-collapsed .lum-menu-btn {
@@ -115,13 +117,14 @@
   top: 0;
   height: 100vh;
   background: white;
-  padding: 30px 20px;
+  padding: 20px 15px;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 20px rgba(0,0,0,0.02);
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.02);
   z-index: 1000;
   box-sizing: border-box;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
 }
 
 .sidebar-collapsed .lum-sidebar-left {
@@ -139,21 +142,21 @@
 .lum-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
 .lum-logo-icon {
   background: #4a24e1;
   color: white;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .lum-logo h2 {
@@ -165,22 +168,22 @@
 .lum-user-summary {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: #f4f5f8;
-  padding: 12px;
-  border-radius: 16px;
-  margin-bottom: 40px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  margin-bottom: 25px;
 }
 
 .lum-user-summary img {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
 }
 
 .lum-user-summary h4 {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -193,19 +196,19 @@
 .lum-sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   margin-bottom: auto;
 }
 
 .lum-nav-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 12px 15px;
-  border-radius: 12px;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
   color: #555;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -222,19 +225,19 @@
   background: #4a24e1;
   color: white;
   border: none;
-  padding: 15px;
+  padding: 12px;
   border-radius: 30px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   box-shadow: 0 5px 15px rgba(74, 36, 225, 0.3);
 }
 
 .lum-pro-banner {
   background: linear-gradient(135deg, #4a24e1, #1c3d9a);
-  border-radius: 20px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 15px;
   color: white;
   text-align: left;
 }
@@ -271,7 +274,8 @@
   margin-left: 220px;
   padding: 0 30px;
   max-width: 850px;
-  min-width: 0; /* Prevents flex overflow */
+  min-width: 0;
+  /* Prevents flex overflow */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -314,12 +318,6 @@
   object-fit: cover;
 }
 
-.verified-badge-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
 
 
 .lum-profile-actions {
@@ -329,7 +327,8 @@
   margin-bottom: 20px;
 }
 
-.lum-edit-btn, .lum-dash-btn {
+.lum-edit-btn,
+.lum-dash-btn {
   background: white;
   border: 1px solid #eaeaea;
   padding: 10px 24px;
@@ -337,13 +336,23 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
   transition: all 0.2s;
 }
 
-.lum-edit-btn:hover { background: #f9f9f9; }
-.lum-dash-btn { background: #4a24e1; color: white; border: none; }
-.lum-dash-btn:hover { background: #391ab3; }
+.lum-edit-btn:hover {
+  background: #f9f9f9;
+}
+
+.lum-dash-btn {
+  background: #4a24e1;
+  color: white;
+  border: none;
+}can you 
+
+.lum-dash-btn:hover {
+  background: #391ab3;
+}
 
 .lum-profile-details {
   margin-top: 10px;
@@ -383,7 +392,7 @@
   border-radius: 20px;
   text-align: center;
   flex: 1;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
 .lum-stat h3 {
@@ -408,7 +417,9 @@
   scrollbar-width: none;
 }
 
-.lum-highlights::-webkit-scrollbar { display: none; }
+.lum-highlights::-webkit-scrollbar {
+  display: none;
+}
 
 .lum-highlight {
   display: flex;
@@ -441,10 +452,21 @@
   background: #333;
 }
 
-.bg-1 { background: linear-gradient(45deg, #1f2833, #0b0c10); }
-.bg-2 { background: linear-gradient(45deg, #45a29e, #66fcf1); }
-.bg-3 { background: linear-gradient(45deg, #c5c6c7, #99aab5); }
-.bg-4 { background: linear-gradient(45deg, #2a0845, #6441A5); }
+.bg-1 {
+  background: linear-gradient(45deg, #1f2833, #0b0c10);
+}
+
+.bg-2 {
+  background: linear-gradient(45deg, #45a29e, #66fcf1);
+}
+
+.bg-3 {
+  background: linear-gradient(45deg, #c5c6c7, #99aab5);
+}
+
+.bg-4 {
+  background: linear-gradient(45deg, #2a0845, #6441A5);
+}
 
 .lum-highlight p {
   margin: 0;
@@ -467,9 +489,20 @@
   letter-spacing: 0.5px;
 }
 
-.purple-badge { background: #f4ecfd; color: #7b2cbf; }
-.blue-badge { background: #e6f0ff; color: #1877f2; }
-.green-badge { background: #e8faef; color: #00a152; }
+.purple-badge {
+  background: #f4ecfd;
+  color: #7b2cbf;
+}
+
+.blue-badge {
+  background: #e6f0ff;
+  color: #1877f2;
+}
+
+.green-badge {
+  background: #e8faef;
+  color: #00a152;
+}
 
 .lum-tabs {
   display: flex;
@@ -514,7 +547,7 @@
   background: white;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
 }
@@ -524,16 +557,27 @@
   position: relative;
 }
 
-.card-bg-1 { background: linear-gradient(135deg, #ff00cc, #333399); }
-.card-bg-2 { background: linear-gradient(135deg, #134e5e, #71b280); }
-.card-bg-3 { background: linear-gradient(135deg, #2bc0e4, #eaecc6); }
-.card-bg-4 { background: linear-gradient(135deg, #eacda3, #d6ae7b); }
+.card-bg-1 {
+  background: linear-gradient(135deg, #ff00cc, #333399);
+}
+
+.card-bg-2 {
+  background: linear-gradient(135deg, #134e5e, #71b280);
+}
+
+.card-bg-3 {
+  background: linear-gradient(135deg, #2bc0e4, #eaecc6);
+}
+
+.card-bg-4 {
+  background: linear-gradient(135deg, #eacda3, #d6ae7b);
+}
 
 .limited-tag {
   position: absolute;
   top: 15px;
   right: 15px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 6px 12px;
   border-radius: 20px;
@@ -688,7 +732,7 @@
   background: white;
   padding: 15px;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
 .drop-img {
@@ -697,8 +741,13 @@
   border-radius: 12px;
 }
 
-.drop-bg-1 { background: linear-gradient(135deg, #111, #333); }
-.drop-bg-2 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+.drop-bg-1 {
+  background: linear-gradient(135deg, #111, #333);
+}
+
+.drop-bg-2 {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
 
 .drop-info h4 {
   margin: 0;
@@ -766,20 +815,21 @@
   .lum-sidebar-left {
     transform: translateX(-100%);
   }
-  
+
   .lum-menu-btn {
     display: block;
   }
 
   .sidebar-collapsed .lum-sidebar-left {
-    transform: translateX(0); /* show when menu btn is clicked on mobile */
+    transform: translateX(0);
+    /* show when menu btn is clicked on mobile */
   }
 
   .lum-main-content {
     margin-left: 0;
     padding: 0 20px;
   }
-  
+
   .lum-topbar {
     margin-left: 0;
     padding: 15px 20px;
@@ -790,32 +840,32 @@
   .lum-post-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .lum-stats-row {
     flex-wrap: wrap;
     gap: 15px;
     padding: 20px;
   }
-  
+
   .lum-stat {
     flex: 1 1 calc(50% - 15px);
   }
-  
+
   .lum-profile-info-row {
     flex-direction: column;
     align-items: center;
     gap: 20px;
     margin-top: -70px;
   }
-  
+
   .lum-profile-details {
     text-align: center;
   }
-  
+
   .lum-profile-details h1 {
     justify-content: center;
   }
-  
+
   .lum-profile-actions {
     flex-direction: row;
     width: 100%;
