@@ -3,7 +3,8 @@ import "./UserProfile.css";
 import test from "../../assets/test.jpg";
 import verifiedIcon from "../../assets/verified_icon.png";
 import {
-  Search, Bell, Home, MessageSquare, Layers, BarChart2, Settings, Plus, CheckCircle, Menu, X
+  Search, Bell, Home, MessageSquare, Layers, BarChart2, Settings, Plus, CheckCircle, Menu, X,
+  Grid, Users, UserCheck, Tag
 } from "lucide-react";
 
 function UserProfile() {
@@ -112,7 +113,7 @@ function UserProfile() {
 
               <div className="lum-profile-actions">
                 <button className="lum-edit-btn">Edit Profile</button>
-                <button className="lum-dash-btn">View Dashboard</button>
+                <button className="lum-dash-btn"><BarChart2 size={16} /> View Dashboard</button>
               </div>
             </div>
 
@@ -123,20 +124,32 @@ function UserProfile() {
 
             <div className="lum-stats-row">
               <div className="lum-stat">
-                <h3>1.2k</h3>
-                <p>POSTS</p>
+                <div className="stat-icon-wrapper"><Grid size={16} /></div>
+                <div className="stat-text">
+                  <h3>1.2k</h3>
+                  <p>POSTS</p>
+                </div>
               </div>
               <div className="lum-stat">
-                <h3>45.8k</h3>
-                <p>FOLLOWERS</p>
+                <div className="stat-icon-wrapper"><Users size={16} /></div>
+                <div className="stat-text">
+                  <h3>45.8k</h3>
+                  <p>FOLLOWERS</p>
+                </div>
               </div>
               <div className="lum-stat">
-                <h3>850</h3>
-                <p>FOLLOWING</p>
+                <div className="stat-icon-wrapper"><UserCheck size={16} /></div>
+                <div className="stat-text">
+                  <h3>850</h3>
+                  <p>FOLLOWING</p>
+                </div>
               </div>
               <div className="lum-stat">
-                <h3>312</h3>
-                <p>SALES</p>
+                <div className="stat-icon-wrapper"><Tag size={16} /></div>
+                <div className="stat-text">
+                  <h3>312</h3>
+                  <p>SALES</p>
+                </div>
               </div>
             </div>
 

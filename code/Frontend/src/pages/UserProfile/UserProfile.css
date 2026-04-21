@@ -352,7 +352,11 @@
   background: #4a24e1;
   color: white;
   border: none;
-}can you 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
 
 .lum-dash-btn:hover {
   background: #391ab3;
@@ -392,25 +396,43 @@
 
 .lum-stat {
   background: white;
-  padding: 15px 25px;
-  border-radius: 20px;
-  text-align: center;
+  padding: 12px 15px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   flex: 1;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
-.lum-stat h3 {
-  margin: 0 0 5px;
-  font-size: 22px;
+.stat-icon-wrapper {
+  color: #4a24e1;
+  background: #f4ecfd;
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-text h3 {
+  margin: 0 0 2px;
+  font-size: 16px;
   font-weight: 800;
 }
 
-.lum-stat p {
+.stat-text p {
   margin: 0;
-  font-size: 11px;
+  font-size: 10px;
   color: #888;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .lum-highlights {
