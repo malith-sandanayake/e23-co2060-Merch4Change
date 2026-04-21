@@ -318,7 +318,11 @@
   object-fit: cover;
 }
 
-
+.verified-badge-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
 
 .lum-profile-actions {
   display: flex;
