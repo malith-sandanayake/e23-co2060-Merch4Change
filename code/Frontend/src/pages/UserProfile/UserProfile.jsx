@@ -9,7 +9,8 @@ function UserProfile() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    fetch("http://localhost:5000/api/v1/profiles/organization", {
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    fetch(`${apiUrl}/api/v1/profile/me`, {  
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
