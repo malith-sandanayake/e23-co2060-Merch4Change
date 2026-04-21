@@ -1,131 +1,164 @@
-.post {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
+.post-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
 .post-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.post-header img {
-  width: 42px;
-  height: 42px;
+.post-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.post-avatar {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.post-header h4 {
+.post-meta h4 {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
 }
 
-.post-header span {
-  font-size: 12px;
-  color: gray;
-}
-
-.post-content {
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.post-image {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  object-fit: cover;
-}
-
-.product-details {
-  margin-top: 10px;
-  margin-left: 10px;
-  border-radius: 5px;
-  background: linear-gradient(135deg, #f8f9fb, #eef1f7);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid black;
-  max-width: 200px;
-}
-
-.product-details.active {
-  box-shadow: 0 4px 15px rgba(24, 119, 242, 0.15);
-  border: 1px solid black;
-  max-width: 200px;
-  cursor: pointer;
-}
-
-.product-detail-header p {
-  margin: 0;
-  padding: 3px 12px;
-  font-size: 13px;
+.post-meta span {
+  font-size: 11px;
+  color: #888;
   font-weight: 500;
-  color: #444;
 }
 
-.see-details {
-  padding-top: 3px 5px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  animation: popUp 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-  background: red;
+.post-more-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.post-description {
+  margin-bottom: 15px;
+}
+
+.post-description p {
   margin: 0;
-  padding: 3px 12px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.5;
 }
 
-@keyframes popUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* Image Grid */
+.post-image-grid {
+  display: flex;
+  gap: 5px;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 400px;
+  margin-bottom: 15px;
+}
+
+.main-image {
+  flex: 1;
+  background: linear-gradient(45deg, #1f2833, #0b0c10);
+}
+
+.side-images {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.side-image {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+}
+
+.top-side {
+  background: linear-gradient(45deg, #45a29e, #66fcf1);
+}
+
+.bottom-side {
+  background: linear-gradient(45deg, #c5c6c7, #99aab5);
+  position: relative;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Footer Actions */
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .post-actions {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid #eee;
   display: flex;
-  justify-content: left;
-  gap: 30px;
+  gap: 20px;
 }
 
-.post-actions button {
-  border: none;
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: none;
-  font-size: 14px;
+  border: none;
   cursor: pointer;
-  color: #444;
-  transition:
-    transform 0.15s ease,
-    color 0.15s ease;
+  color: #555;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px;
+  transition: opacity 0.2s;
 }
 
-.post-actions button:hover {
-  color: #1877f2;
-  transform: scale(1.05);
+.action-btn:hover {
+  opacity: 0.7;
 }
 
-.post-svgs {
-  max-width: 20px;
-  max-height: 20px;
+.action-icon {
+  width: 20px;
+  height: 20px;
 }
 
-.post-icons {
-  display: flex;
+.shop-look-btn {
+  background: #4a24e1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.post-icons p {
-  margin: 0;
+.shop-look-btn:hover {
+  background: #391ab3;
 }
