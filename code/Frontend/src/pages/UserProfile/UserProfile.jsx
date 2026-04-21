@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import test from "../../assets/test.jpg";
+import verifiedIcon from "../../assets/verified_icon.png";
 import { 
-  Search, Bell, Home, MessageSquare, Layers, BarChart2, Settings, Plus, CheckCircle, Menu, X
+  Search, Bell, Home, MessageSquare, Layers, BarChart2, Settings, Plus, Menu, X
 } from "lucide-react";
 
 function UserProfile() {
@@ -107,7 +108,6 @@ function UserProfile() {
             <div className="lum-profile-info-row">
               <div className="lum-avatar-container">
                 <img src={test} alt="Alex Rivers" className="lum-main-avatar" />
-                <span className="lum-status-dot"></span>
               </div>
               
               <div className="lum-profile-actions">
@@ -117,7 +117,7 @@ function UserProfile() {
             </div>
 
             <div className="lum-profile-details">
-              <h1>Alex Rivers <CheckCircle size={24} color="#4a24e1" fill="#f4ecfd" /></h1>
+              <h1>Alex Rivers <img src={verifiedIcon} alt="Verified" className="verified-badge-img" /></h1>
               <p>@alexrivers • Digital Visionary & Curator</p>
             </div>
 

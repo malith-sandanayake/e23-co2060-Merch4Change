@@ -314,16 +314,13 @@
   object-fit: cover;
 }
 
-.lum-status-dot {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 16px;
-  height: 16px;
-  background: #00d26a;
-  border: 3px solid #f6f7fa;
-  border-radius: 50%;
+.verified-badge-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
+
+
 
 .lum-profile-actions {
   display: flex;
