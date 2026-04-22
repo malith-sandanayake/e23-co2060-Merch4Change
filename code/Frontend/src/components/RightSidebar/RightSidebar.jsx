@@ -2,7 +2,92 @@ import React from 'react';
 import './RightSidebar.css';
 import test from '../../assets/test.jpg';
 
-function RightSidebar() {
+function RightSidebar({ page = "home" }) {
+  if (page === "profile") {
+    return (
+      <aside className="lum-sidebar-right">
+        <div className="lum-widget">
+          <div className="widget-header">
+            <h3>SUGGESTED FOR YOU</h3>
+            <span>View All</span>
+          </div>
+          <div className="widget-list">
+            <div className="widget-user">
+              <img src={test} alt="user" />
+              <div className="w-user-info">
+                <h4>Julian Vose</h4>
+                <p>Curator &bull; NY</p>
+              </div>
+              <button className="w-follow-btn">Follow</button>
+            </div>
+            <div className="widget-user">
+              <img src={test} alt="user" />
+              <div className="w-user-info">
+                <h4>Sasha Gray</h4>
+                <p>3D Artist</p>
+              </div>
+              <button className="w-follow-btn">Follow</button>
+            </div>
+            <div className="widget-user">
+              <img src={test} alt="user" />
+              <div className="w-user-info">
+                <h4>Liam Chen</h4>
+                <p>Architect</p>
+              </div>
+              <button className="w-follow-btn">Follow</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="lum-widget">
+          <div className="widget-header">
+            <h3>USER'S TOP DROPS</h3>
+          </div>
+          <div className="widget-drops">
+            <div className="drop-card">
+              <div className="drop-img drop-bg-1"></div>
+              <div className="drop-info">
+                <h4>Chrome Essence</h4>
+                <p>Ed. 1 of 50 &bull; $45.00</p>
+              </div>
+            </div>
+            <div className="drop-card">
+              <div className="drop-img drop-bg-2"></div>
+              <div className="drop-info">
+                <h4>Velocity Red V2</h4>
+                <p>Exclusive &bull; $210.00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="lum-widget">
+          <div className="widget-header">
+            <h3>RECENT REVIEWS</h3>
+          </div>
+          <div className="widget-reviews">
+            <div className="review-item">
+              <div className="stars">⭐⭐⭐⭐⭐</div>
+              <p>"The quality of the digital assets is unmatched. Alex is a visionary."</p>
+              <div className="reviewer">
+                <img src={test} alt="user" />
+                <span>@sasha_g &bull; 2d ago</span>
+              </div>
+            </div>
+            <div className="review-item">
+              <div className="stars">⭐⭐⭐⭐⭐</div>
+              <p>"Beautiful aesthetic, fast delivery on physical drops. 10/10 recommend."</p>
+              <div className="reviewer">
+                <img src={test} alt="user" />
+                <span>@j_vose &bull; 4d ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <div className="right-sidebar">
       <div className="rs-card">
