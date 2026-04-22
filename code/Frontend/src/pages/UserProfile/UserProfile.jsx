@@ -5,6 +5,7 @@ import UserMenu from "../../components/UserMenu/UserMenu";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
 import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
 import ProfileStats from "../../components/ProfileStats/ProfileStats";
+import ProfileTabs from "../../components/ProfileTabs/ProfileTabs";
 import PostGrid from "../../components/PostGrid/PostGrid";
 
 function UserProfile() {
@@ -78,12 +79,7 @@ function UserProfile() {
             <span className="lum-badge green-badge">🛡 VERIFIED CURATOR</span>
           </div>
 
-          <div className="lum-tabs">
-            <span className="lum-tab active">POSTS</span>
-            <span className="lum-tab">SHOP</span>
-            <span className="lum-tab">TAGGED</span>
-            <span className="lum-tab">SAVED</span>
-          </div>
+          <ProfileTabs activeTab="POSTS" />
 
           <PostGrid />
         </main>
