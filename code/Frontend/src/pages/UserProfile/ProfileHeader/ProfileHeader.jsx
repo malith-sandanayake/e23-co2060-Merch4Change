@@ -1,7 +1,7 @@
 import React from 'react';
 import './ProfileHeader.css';
-import test from '../../assets/test.jpg';
-import verifiedIcon from '../../assets/verified_icon.png';
+import test from '../../../assets/test.jpg';
+import verifiedIcon from '../../../assets/verified_icon.png';
 import { BarChart2 } from 'lucide-react';
 
 function ProfileHeader() {

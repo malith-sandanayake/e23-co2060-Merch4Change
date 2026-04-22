@@ -3,11 +3,11 @@ import "./UserProfile.css";
 import UserProfileSidebar from "../../components/test/UserProfileSidebar";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
-import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
-import ProfileStats from "../../components/ProfileStats/ProfileStats";
-import ProfileHighlights from "../../components/ProfileHighlights/ProfileHighlights";
-import ProfileTabs from "../../components/ProfileTabs/ProfileTabs";
-import PostGrid from "../../components/PostGrid/PostGrid";
+import ProfileHeader from "./ProfileHeader/ProfileHeader";
+import ProfileStats from "./ProfileStats/ProfileStats";
+import ProfileHighlights from "./ProfileHighlights/ProfileHighlights";
+import ProfileTabs from "./ProfileTabs/ProfileTabs";
+import PostGrid from "./PostGrid/PostGrid";
 
 function UserProfile() {
   const [profileData, setProfileData] = useState(null);
