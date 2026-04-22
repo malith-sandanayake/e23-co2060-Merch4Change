@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import test from "../../assets/test.jpg";
 import verifiedIcon from "../../assets/verified_icon.png";
 import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import UserMenu from "../../components/UserMenu/UserMenu";
 import {
-  Search, Bell, BarChart2, Menu,
-  Grid, Users, UserCheck, Tag
+  BarChart2,
+  Grid,
+  Users,
+  UserCheck,
+  Tag,
 } from "lucide-react";
 
 function UserProfile() {
@@ -33,27 +37,10 @@ function UserProfile() {
   return (
     <div className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
       {/* Top Navbar */}
-      <nav className="lum-topbar">
-        <div className="lum-topbar-left">
-          <button className="lum-menu-btn" onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}>
-            <Menu size={24} />
-          </button>
-          <div className="lum-search">
-            <Search size={18} color="#888" />
-            <input type="text" placeholder="Search creators, drops, or trends..." />
-          </div>
-        </div>
-        <div className="lum-nav-links">
-          <span>Discover</span>
-          <span>Marketplace</span>
-          <span>Trends</span>
-          <div className="lum-icon-btn"><Bell size={20} /></div>
-          <div className="lum-profile-btn">
-            <img src={test} alt="profile" />
-            <span>Profile</span>
-          </div>
-        </div>
-      </nav>
+      <UserMenu
+        isSidebarCollapsed={isSidebarCollapsed}
+        setIsSidebarCollapsed={setIsSidebarCollapsed}
+      />
 
       <div className="lum-layout">
         {/* Left Sidebar */}
@@ -80,7 +67,7 @@ function UserProfile() {
 
             <div className="lum-profile-details">
               <h1>Alex Rivers <img src={verifiedIcon} alt="Verified" className="verified-badge-img" /></h1>
-              <p>@alexrivers • Digital Visionary & Curator</p>
+              <p>@alexrivers &bull; Digital Visionary & Curator</p>
             </div>
 
             <div className="lum-stats-row">
@@ -205,7 +192,7 @@ function UserProfile() {
                 <img src={test} alt="user" />
                 <div className="w-user-info">
                   <h4>Julian Vose</h4>
-                  <p>Curator • NY</p>
+                  <p>Curator &bull; NY</p>
                 </div>
                 <button className="w-follow-btn">Follow</button>
               </div>
@@ -237,14 +224,14 @@ function UserProfile() {
                 <div className="drop-img drop-bg-1"></div>
                 <div className="drop-info">
                   <h4>Chrome Essence</h4>
-                  <p>Ed. 1 of 50 • $45.00</p>
+                  <p>Ed. 1 of 50 &bull; $45.00</p>
                 </div>
               </div>
               <div className="drop-card">
                 <div className="drop-img drop-bg-2"></div>
                 <div className="drop-info">
                   <h4>Velocity Red V2</h4>
-                  <p>Exclusive • $210.00</p>
+                  <p>Exclusive &bull; $210.00</p>
                 </div>
               </div>
             </div>
@@ -256,19 +243,19 @@ function UserProfile() {
             </div>
             <div className="widget-reviews">
               <div className="review-item">
-                <div className="stars">⭐⭐⭐⭐⭐</div>
+                <div className="stars">â­â­â­â­â­</div>
                 <p>"The quality of the digital assets is unmatched. Alex is a visionary."</p>
                 <div className="reviewer">
                   <img src={test} alt="user" />
-                  <span>@sasha_g • 2d ago</span>
+                  <span>@sasha_g &bull; 2d ago</span>
                 </div>
               </div>
               <div className="review-item">
-                <div className="stars">⭐⭐⭐⭐⭐</div>
+                <div className="stars">â­â­â­â­â­</div>
                 <p>"Beautiful aesthetic, fast delivery on physical drops. 10/10 recommend."</p>
                 <div className="reviewer">
                   <img src={test} alt="user" />
-                  <span>@j_vose • 4d ago</span>
+                  <span>@j_vose &bull; 4d ago</span>
                 </div>
               </div>
             </div>
@@ -280,3 +267,7 @@ function UserProfile() {
 }
 
 export default UserProfile;
+
+
+
+

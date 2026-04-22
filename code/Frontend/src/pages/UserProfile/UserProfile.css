@@ -1,4 +1,4 @@
-/* Luminous App Global Resets */
+﻿/* Luminous App Global Resets */
 .luminous-app {
   background-color: #f6f7fa;
   min-height: 100vh;
@@ -8,96 +8,7 @@
   flex-direction: column;
 }
 
-/* Top Navbar */
-.lum-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  background: transparent;
-  z-index: 100;
-  margin-left: 220px;
-  /* Offset for left sidebar */
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.sidebar-collapsed .lum-topbar {
-  margin-left: 0;
-}
-
-.lum-topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex: 1;
-}
-
-.lum-menu-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #555;
-  display: none;
-  /* hidden on desktop when sidebar is open */
-}
-
-.sidebar-collapsed .lum-menu-btn {
-  display: block;
-}
-
-.lum-search {
-  background: #e9ecef;
-  border-radius: 30px;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.lum-search input {
-  border: none;
-  background: transparent;
-  width: 100%;
-  outline: none;
-  font-size: 14px;
-}
-
-.lum-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.lum-icon-btn {
-  background: #e9ecef;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.lum-profile-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #e9ecef;
-  padding: 5px 15px 5px 5px;
-  border-radius: 30px;
-  cursor: pointer;
-}
-
-.lum-profile-btn img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
 
 /* Main Layout */
 .lum-layout {
@@ -679,18 +590,9 @@
 }
 
 @media (max-width: 992px) {
-  .lum-menu-btn {
-    display: block;
-  }
-
   .lum-main-content {
     margin-left: 0;
     padding: 0 20px;
-  }
-
-  .lum-topbar {
-    margin-left: 0;
-    padding: 15px 20px;
   }
 }
 
