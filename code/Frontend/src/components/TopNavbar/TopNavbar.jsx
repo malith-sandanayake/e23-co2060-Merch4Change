@@ -1,8 +1,8 @@
-﻿import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import test from "../../assets/test.jpg";
-import "./UserMenu.css";
+import "./TopNavbar.css";
 
-function UserMenu({ isSidebarCollapsed, setIsSidebarCollapsed }) {
+function TopNavbar({ isSidebarCollapsed, setIsSidebarCollapsed }) {
   return (
     <nav className="lum-topbar">
       <div className="lum-topbar-left">
@@ -31,4 +31,4 @@ function UserMenu({ isSidebarCollapsed, setIsSidebarCollapsed }) {
   );
 }
 
-export default UserMenu;
+export default TopNavbar;
