@@ -93,7 +93,7 @@
   font-weight: 600;
   border: 1px solid #eaeaea;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
 .rs-tag:hover {

@@ -21,7 +21,7 @@
 
 .lum-avatar-container {
   position: relative;
-  border: 6px solid #f6f7fa;
+  border: 3px solid #000000;
   border-radius: 50%;
   background: #f6f7fa;
 }

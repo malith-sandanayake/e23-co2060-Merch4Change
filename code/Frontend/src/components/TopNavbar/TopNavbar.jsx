@@ -2,7 +2,7 @@ import { Bell, Menu, Search } from "lucide-react";
 import test from "../../assets/test.jpg";
 import "./TopNavbar.css";
 
-function TopNavbar({ isSidebarCollapsed, setIsSidebarCollapsed }) {
+function TopNavbar({ isSidebarCollapsed, setIsSidebarCollapsed, profileData }) {
   return (
     <nav className="lum-topbar">
       <div className="lum-topbar-left">
@@ -24,7 +24,10 @@ function TopNavbar({ isSidebarCollapsed, setIsSidebarCollapsed }) {
         <div className="lum-icon-btn"><Bell size={20} /></div>
         <div className="lum-profile-btn">
           <img src={test} alt="profile" />
-          <span>Profile</span>
+          <span>
+            {profileData?.firstName?.charAt(0).toUpperCase() + profileData?.firstName?.slice(1)} {" "}
+            {profileData?.lastName?.charAt(0).toUpperCase() + profileData?.lastName?.slice(1)}
+          </span>
         </div>
       </div>
     </nav>

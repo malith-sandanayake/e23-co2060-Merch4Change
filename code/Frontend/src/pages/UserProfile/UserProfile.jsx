@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import UserProfileSidebar from "../../components/test/UserProfileSidebar";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
@@ -37,6 +37,7 @@ function UserProfile() {
       <TopNavbar
         isSidebarCollapsed={isSidebarCollapsed}
         setIsSidebarCollapsed={setIsSidebarCollapsed}
+        profileData={profileData}
       />
 
       <div className="lum-layout">
@@ -48,7 +49,9 @@ function UserProfile() {
 
         {/* Main Content */}
         <main className="lum-main-content">
-          <ProfileHeader />
+          <ProfileHeader 
+          profileData={profileData}
+          />
           <ProfileStats />
           
           <ProfileHighlights />

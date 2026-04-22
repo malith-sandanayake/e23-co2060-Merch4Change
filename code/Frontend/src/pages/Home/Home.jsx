@@ -21,14 +21,14 @@ function Home() {
             <span>Trending</span>
           </div>
         </div>
-        
+
         <div className="nav-center">
           <div className="search-bar">
             <img src={search} alt="search" />
             <input type="text" placeholder="Search curated collections..." />
           </div>
         </div>
-        
+
         <div className="nav-right">
           <span className="nav-icon cart-icon">🛒</span>
           <img src={notification} alt="notifications" className="nav-icon" />
