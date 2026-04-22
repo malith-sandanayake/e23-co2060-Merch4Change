@@ -33,6 +33,133 @@
   margin-left: 0;
 }
 
+.lum-highlights {
+  display: flex;
+  gap: 20px;
+  padding: 10px 20px 30px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lum-highlights::-webkit-scrollbar {
+  display: none;
+}
+
+.lum-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.highlight-ring {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 2px solid #4a24e1;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-ring {
+  border: 2px dashed #ccc;
+  color: #888;
+  font-size: 24px;
+}
+
+.highlight-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #333;
+}
+
+.bg-1 {
+  background: linear-gradient(45deg, #1f2833, #0b0c10);
+}
+
+.bg-2 {
+  background: linear-gradient(45deg, #45a29e, #66fcf1);
+}
+
+.bg-3 {
+  background: linear-gradient(45deg, #c5c6c7, #99aab5);
+}
+
+.bg-4 {
+  background: linear-gradient(45deg, #2a0845, #6441A5);
+}
+
+.lum-highlight p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lum-badges {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px 30px;
+  flex-wrap: wrap;
+}
+
+.lum-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.purple-badge {
+  background: #f4ecfd;
+  color: #7b2cbf;
+}
+
+.blue-badge {
+  background: #e6f0ff;
+  color: #1877f2;
+}
+
+.green-badge {
+  background: #e8faef;
+  color: #00a152;
+}
+
+.lum-tabs {
+  display: flex;
+  gap: 30px;
+  padding: 0 20px;
+  border-bottom: 2px solid #eaeaea;
+  margin-bottom: 30px;
+}
+
+.lum-tab {
+  padding-bottom: 15px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+}
+
+.lum-tab.active {
+  color: #4a24e1;
+}
+
+.lum-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #4a24e1;
+}
+
 @media (max-width: 992px) {
   .lum-main-content {
     margin-left: 0;

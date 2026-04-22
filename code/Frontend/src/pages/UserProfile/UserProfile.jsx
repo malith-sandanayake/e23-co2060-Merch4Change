@@ -4,6 +4,8 @@ import UserProfileSidebar from "../../components/test/UserProfileSidebar";
 import UserMenu from "../../components/UserMenu/UserMenu";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
 import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
+import ProfileStats from "../../components/ProfileStats/ProfileStats";
+import PostGrid from "../../components/PostGrid/PostGrid";
 
 function UserProfile() {
   const [profileData, setProfileData] = useState(null);
@@ -45,6 +47,45 @@ function UserProfile() {
         {/* Main Content */}
         <main className="lum-main-content">
           <ProfileHeader />
+          <ProfileStats />
+          
+          <div className="lum-highlights">
+            <div className="lum-highlight">
+              <div className="highlight-ring"><div className="highlight-img bg-1"></div></div>
+              <p>Reviews</p>
+            </div>
+            <div className="lum-highlight">
+              <div className="highlight-ring"><div className="highlight-img bg-2"></div></div>
+              <p>Drops</p>
+            </div>
+            <div className="lum-highlight">
+              <div className="highlight-ring"><div className="highlight-img bg-3"></div></div>
+              <p>Closet</p>
+            </div>
+            <div className="lum-highlight">
+              <div className="highlight-ring"><div className="highlight-img bg-4"></div></div>
+              <p>BTS</p>
+            </div>
+            <div className="lum-highlight">
+              <div className="highlight-ring empty-ring"><span>+</span></div>
+              <p>New</p>
+            </div>
+          </div>
+
+          <div className="lum-badges">
+            <span className="lum-badge purple-badge">🌟 TOP SELLER</span>
+            <span className="lum-badge blue-badge">🚀 EARLY ADOPTER</span>
+            <span className="lum-badge green-badge">🛡 VERIFIED CURATOR</span>
+          </div>
+
+          <div className="lum-tabs">
+            <span className="lum-tab active">POSTS</span>
+            <span className="lum-tab">SHOP</span>
+            <span className="lum-tab">TAGGED</span>
+            <span className="lum-tab">SAVED</span>
+          </div>
+
+          <PostGrid />
         </main>
 
         {/* Right Sidebar */}
