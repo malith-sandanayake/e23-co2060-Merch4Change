@@ -9,6 +9,7 @@ import {
   Settings,
   Plus,
   X,
+  Heart,
 } from "lucide-react";
 
 function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
@@ -45,6 +46,9 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
         </div>
         <div className="lum-nav-item">
           <BarChart2 size={20} /> <span>Analytics</span>
+        </div>
+        <div className="lum-nav-item">
+          <Heart size={20} /> <span>Donation</span>
         </div>
         <div className="lum-nav-item">
           <Settings size={20} /> <span>Settings</span>
