@@ -1,7 +1,139 @@
-.home {
+.home-container {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
   height: 100vh;
+  overflow: hidden;
+  background-color: #f8f9fb;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+  z-index: 200;
+  position: sticky;
+  top: 0;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.brand-logo {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #4a24e1;
+  letter-spacing: -1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #666;
+}
+
+.nav-links span {
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-links span.active {
+  color: #4a24e1;
+}
+
+.nav-links span.active::after {
+  content: '';
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #4a24e1;
+  border-radius: 3px 3px 0 0;
+}
+
+.nav-center {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 40px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f0f2f5;
+  border-radius: 25px;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.search-bar img {
+  width: 16px;
+  opacity: 0.5;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+  font-size: 14px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.cart-icon {
+  font-size: 20px;
+}
+
+.nav-profile-pic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.home-content {
+  display: grid;
+  grid-template-columns: 240px minmax(500px, 1fr) 340px;
+  gap: 30px;
+  padding: 20px 40px;
+  height: calc(100vh - 70px);
   overflow-y: auto;
-  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 10px;
 }
