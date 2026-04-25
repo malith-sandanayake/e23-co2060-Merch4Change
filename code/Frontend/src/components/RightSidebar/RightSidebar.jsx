@@ -2,45 +2,43 @@ import React from 'react';
 import './RightSidebar.css';
 import test from '../../assets/test.jpg';
 
+const SUGGESTED_USERS = [
+  { name: 'David.K.Styles', subtitle: 'Followed by Elena.V' },
+  { name: 'Luna_Aesthetics', subtitle: 'New on Curated' },
+  { name: 'StreetVibe_NYC', subtitle: 'Trending Creator' },
+];
+
+function SuggestedSection({ showViewAll = false }) {
+  return (
+    <div className="rs-card">
+      <div className="rs-header">
+        <h3>Suggested for You</h3>
+        {showViewAll ? <span className="rs-more">View All</span> : <span className="rs-more"></span>}
+      </div>
+      <div className="rs-users">
+        {SUGGESTED_USERS.map((userData) => (
+          <div className="rs-user" key={userData.name}>
+            <img src={test} alt="user" />
+            <div className="rs-user-info">
+              <h4>{userData.name}</h4>
+              <p>{userData.subtitle}</p>
+            </div>
+            <button className="rs-follow-btn">Follow</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function RightSidebar({ page = "home" }) {
   if (page === "profile") {
     return (
-      <aside className="lum-sidebar-right">
-        <div className="lum-widget">
-          <div className="widget-header">
-            <h3>SUGGESTED FOR YOU</h3>
-            <span>View All</span>
-          </div>
-          <div className="widget-list">
-            <div className="widget-user">
-              <img src={test} alt="user" />
-              <div className="w-user-info">
-                <h4>Julian Vose</h4>
-                <p>Curator &bull; NY</p>
-              </div>
-              <button className="w-follow-btn">Follow</button>
-            </div>
-            <div className="widget-user">
-              <img src={test} alt="user" />
-              <div className="w-user-info">
-                <h4>Sasha Gray</h4>
-                <p>3D Artist</p>
-              </div>
-              <button className="w-follow-btn">Follow</button>
-            </div>
-            <div className="widget-user">
-              <img src={test} alt="user" />
-              <div className="w-user-info">
-                <h4>Liam Chen</h4>
-                <p>Architect</p>
-              </div>
-              <button className="w-follow-btn">Follow</button>
-            </div>
-          </div>
-        </div>
+      <aside className="right-sidebar right-sidebar-profile">
+        <SuggestedSection showViewAll />
 
-        <div className="lum-widget">
-          <div className="widget-header">
+        <div className="rs-card">
+          <div className="rs-header">
             <h3>USER'S TOP DROPS</h3>
           </div>
           <div className="widget-drops">
@@ -61,8 +59,8 @@ function RightSidebar({ page = "home" }) {
           </div>
         </div>
 
-        <div className="lum-widget">
-          <div className="widget-header">
+        <div className="rs-card">
+          <div className="rs-header">
             <h3>RECENT REVIEWS</h3>
           </div>
           <div className="widget-reviews">
@@ -90,38 +88,7 @@ function RightSidebar({ page = "home" }) {
 
   return (
     <div className="right-sidebar">
-      <div className="rs-card">
-        <div className="rs-header">
-          <h3>Suggested for You</h3>
-          <span className="rs-more"></span>
-        </div>
-        <div className="rs-users">
-          <div className="rs-user">
-            <img src={test} alt="user" />
-            <div className="rs-user-info">
-              <h4>David.K.Styles</h4>
-              <p>Followed by Elena.V</p>
-            </div>
-            <button className="rs-follow-btn">Follow</button>
-          </div>
-          <div className="rs-user">
-            <img src={test} alt="user" />
-            <div className="rs-user-info">
-              <h4>Luna_Aesthetics</h4>
-              <p>New on Curated</p>
-            </div>
-            <button className="rs-follow-btn">Follow</button>
-          </div>
-          <div className="rs-user">
-            <img src={test} alt="user" />
-            <div className="rs-user-info">
-              <h4>StreetVibe_NYC</h4>
-              <p>Trending Creator</p>
-            </div>
-            <button className="rs-follow-btn">Follow</button>
-          </div>
-        </div>
-      </div>
+      <SuggestedSection />
 
       <div className="rs-card">
         <div className="rs-header">
