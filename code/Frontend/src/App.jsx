@@ -50,7 +50,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/messaging" element={<MessagingInterface />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/profile/me" element={<UserProfile />} />
+          <Route path="/profile/me" element={<UserProfile />} />
 
         {/* Dynamic Route: Perfect for Social Media Profiles */}
         <Route path="/profile/:username" element={<UserProfile />} />

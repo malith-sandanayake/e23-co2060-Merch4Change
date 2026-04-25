@@ -58,6 +58,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  background: #f4f5f8;
   padding: 8px 10px;
   border-radius: 12px;
   margin-bottom: 25px;
@@ -65,7 +66,7 @@
   border: 1px solid #f4f5f8;
 }
 
-.lum-user-summary2{
+.lum-user-summary2 {
   background: #f4f5f8;
 }
 
@@ -73,12 +74,6 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-}
-
-.lum-user-summary h4 {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 700;
 }
 
 .lum-user-summary p {
