@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Bell, Menu, Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import test from "../../assets/test.jpg";
@@ -78,4 +79,4 @@ function TopNavbar({
   );
 }
 
-export default TopNavbar;
+export default memo(TopNavbar);

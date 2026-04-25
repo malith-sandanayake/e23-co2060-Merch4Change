@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./Home.css";
 import Feed from "../../components/Feed/Feed";
@@ -13,14 +13,14 @@ function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [profileData, setProfileData] = useState({
     firstName: "Guest",
-    lastName: "User",
+    lastName: "User", 
     userName: "guest",
   });
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const currentTab = searchParams.get("tab");
   const activeTab = VALID_TABS.has(currentTab) ? currentTab : "feed";
   const isFeedTab = activeTab === "feed";
-  const effectiveSidebarCollapsed = !isFeedTab || isSidebarCollapsed;
+  const effectiveSidebarCollapsed = isSidebarCollapsed;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,12 +36,13 @@ function Home() {
           setProfileData(data.data.user);
         }
       })
-      .catch(() => { });
+      .catch(() => {});
   }, []);
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = useCallback((tab) => {
     setSearchParams(tab === "feed" ? {} : { tab });
-  };
+    setIsSidebarCollapsed(tab !== "feed");
+  }, [setSearchParams]);
 
   return (
     <div className={`luminous-app ${effectiveSidebarCollapsed ? "sidebar-collapsed" : ""}`}>

@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 import user from "../../assets/user.svg";
 import "./UserProfileSidebar.css";
 import {
@@ -14,13 +14,8 @@ import {
 } from "lucide-react";
 
 function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
-
-  const [option, setOption] = useState(0);
   const navigate = useNavigate();
-  function handleSelectOption(value) {
-    setOption(value)
-  }
- 
+
   return (
     <aside className="lum-sidebar-left">
       <div className="lum-logo">
@@ -34,12 +29,12 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
         </button>
       </div>
 
-      <div className={`lum-user-summary ${option === 0 ? "lum-user-summary2" : ""}`} 
+      <div
+        className={`lum-user-summary ${location.pathname === "/profile/me" ? "lum-user-summary2" : ""}`}
         onClick={() => {
-            handleSelectOption(0); 
-            navigate("/profile/me");
-          }}
-          >
+          navigate("/profile/me");
+        }}
+      >
         <img src={user} alt="Alex Rivers" />
         <div>
           <h4>@{profileData?.userName || "unkonown"}</h4>
@@ -48,30 +43,42 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
       </div>
 
       <div className="lum-sidebar-nav">
-        <div
-          className={option == 1 ? "lum-nav-item active" : "lum-nav-item"}
-          onClick={() => {
-            handleSelectOption(1);
-            navigate("/home");
-          }}
+        <NavLink
+          to="/home"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
         >
           <Home size={20} /> <span>Home</span>
-        </div>
-        <div className={option == 2? "lum-nav-item active": "lum-nav-item"} onClick={() => handleSelectOption(2)}>
+        </NavLink>
+        <NavLink
+          to="/messages"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        >
           <MessageSquare size={20} /> <span>Messages</span>
-        </div>
-        <div className={option == 3? "lum-nav-item active": "lum-nav-item"} onClick={() => handleSelectOption(3)}>
+        </NavLink>
+        <NavLink
+          to="/collections"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        >
           <Layers size={20} /> <span>Collections</span>
-        </div>
-        <div className={option == 4? "lum-nav-item active": "lum-nav-item"} onClick={() => handleSelectOption(4)}>
+        </NavLink>
+        <NavLink
+          to="/analytics"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        >
           <BarChart2 size={20} /> <span>Analytics</span>
-        </div>
-        <div className={option == 5? "lum-nav-item active": "lum-nav-item"} onClick={() => handleSelectOption(5)}>
+        </NavLink>
+        <NavLink
+          to="/donation"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        >
           <Heart size={20} /> <span>Donation</span>
-        </div>
-        <div className={option == 6? "lum-nav-item active": "lum-nav-item"} onClick={() => handleSelectOption(6)}>
+        </NavLink>
+        <NavLink
+          to="/settings"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        >
           <Settings size={20} /> <span>Settings</span>
-        </div>
+        </NavLink>
       </div>
 
       <button className="lum-create-btn">
@@ -87,4 +94,4 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
   );
 }
 
-export default UserProfileSidebar;
+export default React.memo(UserProfileSidebar);
