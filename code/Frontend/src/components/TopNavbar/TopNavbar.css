@@ -62,6 +62,17 @@
   font-size: 14px;
 }
 
+.lum-nav-link {
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.lum-nav-link:hover,
+.lum-nav-link.active {
+  color: #4a24e1;
+}
+
 .lum-icon-btn {
   background: #e9ecef;
   width: 40px;

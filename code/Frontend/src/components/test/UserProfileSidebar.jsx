@@ -34,7 +34,12 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
         </button>
       </div>
 
-      <div className={`lum-user-summary ${option === 0 ? "lum-user-summary2" : ""}`} onClick={() => handleSelectOption(0)}>
+      <div className={`lum-user-summary ${option === 0 ? "lum-user-summary2" : ""}`} 
+        onClick={() => {
+            handleSelectOption(0); 
+            navigate("/profile/me");
+          }}
+          >
         <img src={user} alt="Alex Rivers" />
         <div>
           <h4>@{profileData?.userName || "unkonown"}</h4>
@@ -50,7 +55,7 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
             navigate("/home");
           }}
         >
-          <Home size={20} /> <span>Feed</span>
+          <Home size={20} /> <span>Home</span>
         </div>
         <div className={option == 2? "lum-nav-item active": "lum-nav-item"} onClick={() => handleSelectOption(2)}>
           <MessageSquare size={20} /> <span>Messages</span>
