@@ -89,6 +89,7 @@
   align-items: center;
   gap: 10px;
   background: #e9ecef;
+  border: none;
   padding: 5px 15px 5px 5px;
   border-radius: 30px;
   cursor: pointer;
@@ -98,6 +99,55 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
+}
+
+.lum-profile-menu {
+  position: relative;
+}
+
+.lum-logout-popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border: 1px solid #e6e8ec;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  z-index: 1200;
+}
+
+.lum-logout-popup p {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #333;
+}
+
+.lum-logout-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.lum-logout-cancel,
+.lum-logout-confirm {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lum-logout-cancel {
+  background: #eef1f4;
+  color: #333;
+}
+
+.lum-logout-confirm {
+  background: #d93d3d;
+  color: #fff;
 }
 
 @media (max-width: 992px) {

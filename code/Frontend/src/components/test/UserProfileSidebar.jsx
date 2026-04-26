@@ -1,7 +1,7 @@
-import React from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import React, { memo, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import user from "../../assets/user.svg";
-import "./UserProfileSidebar.css";
+import "./UserprofileSidebar.css";
 import {
   Home,
   MessageSquare,
@@ -14,7 +14,13 @@ import {
 } from "lucide-react";
 
 function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
+  const [selectedOption, setSelectedOption] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSelectOption = (value) => {
+    setSelectedOption(value);
+  };
 
   return (
     <aside className="lum-sidebar-left">
@@ -32,6 +38,7 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
       <div
         className={`lum-user-summary ${location.pathname === "/profile/me" ? "lum-user-summary2" : ""}`}
         onClick={() => {
+          handleSelectOption(0);
           navigate("/profile/me");
         }}
       >
@@ -46,36 +53,39 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
         <NavLink
           to="/home"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(1)}
         >
           <Home size={20} /> <span>Home</span>
         </NavLink>
         <NavLink
-          to="/messages"
+          to="/messaging"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(2)}
         >
           <MessageSquare size={20} /> <span>Messages</span>
         </NavLink>
-        <NavLink
-          to="/collections"
-          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        <div
+          className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(3)}
         >
           <Layers size={20} /> <span>Collections</span>
-        </NavLink>
-        <NavLink
-          to="/analytics"
-          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        </div>
+        <div
+          className={selectedOption === 4 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(4)}
         >
           <BarChart2 size={20} /> <span>Analytics</span>
-        </NavLink>
-        <NavLink
-          to="/donation"
-          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+        </div>
+        <div
+          className={selectedOption === 5 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(5)}
         >
           <Heart size={20} /> <span>Donation</span>
-        </NavLink>
+        </div>
         <NavLink
           to="/settings"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(6)}
         >
           <Settings size={20} /> <span>Settings</span>
         </NavLink>
@@ -94,4 +104,4 @@ function UserProfileSidebar({ profileData, setIsSidebarCollapsed }) {
   );
 }
 
-export default React.memo(UserProfileSidebar);
+export default memo(UserProfileSidebar);
