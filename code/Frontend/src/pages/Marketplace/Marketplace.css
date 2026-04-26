@@ -92,8 +92,17 @@
 }
 
 @keyframes mkpulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.8); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
 }
 
 .mk-flash-text {
@@ -101,12 +110,14 @@
   opacity: 0.92;
 }
 
-.mk-flash-text strong { color: #a5f3d0; }
+.mk-flash-text strong {
+  color: #a5f3d0;
+}
 
 .mk-flash-end {
   font-size: 12px;
   font-weight: 700;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   padding: 4px 10px;
   border-radius: 20px;
   white-space: nowrap;
@@ -122,8 +133,15 @@
 }
 
 @keyframes mkfadeup {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mk-toast-success {
@@ -160,7 +178,9 @@
 }
 
 @keyframes mkspin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Empty state ─────────────────────────────── */
@@ -173,7 +193,9 @@
   text-align: center;
 }
 
-.mk-empty-icon { font-size: 48px; }
+.mk-empty-icon {
+  font-size: 48px;
+}
 
 .mk-empty h3 {
   margin: 0;
@@ -195,5 +217,14 @@
   gap: 18px;
 }
 
-@media (max-width: 900px) { .mk-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .mk-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) {
+  .mk-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .mk-grid {
+    grid-template-columns: 1fr;
+  }
+}
