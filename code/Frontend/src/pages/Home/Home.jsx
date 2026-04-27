@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./Home.css";
 import Feed from "../../components/Feed/Feed";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import UserProfileSidebar from "../../components/test/UserProfileSidebar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
-import Marketplace from "../../components/Marketplace/Marketplace";
 
-const VALID_TABS = new Set(["feed", "discover", "marketplace", "trends"]);
+const VALID_TABS = new Set(["feed", "discover", "trends"]);
 
 function Home() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [profileData, setProfileData] = useState({
     firstName: "Guest",
@@ -40,9 +40,14 @@ function Home() {
   }, []);
 
   const handleTabChange = useCallback((tab) => {
+    if (tab === "marketplace") {
+      navigate("/marketplace");
+      return;
+    }
+
     setSearchParams(tab === "feed" ? {} : { tab });
     setIsSidebarCollapsed(tab !== "feed");
-  }, [setSearchParams]);
+  }, [navigate, setSearchParams]);
 
   return (
     <div className={`luminous-app ${effectiveSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
@@ -62,7 +67,6 @@ function Home() {
 
         <main className="lum-main-content home-main-content">
           {activeTab === "feed" && <Feed />}
-          {activeTab === "marketplace" && <Marketplace />}
           {activeTab === "discover" && <p>Discover coming soon</p>}
           {activeTab === "trends" && <p>Trends coming soon</p>}
         </main>

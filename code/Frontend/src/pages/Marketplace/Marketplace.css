@@ -1,0 +1,199 @@
+/* ── Root ────────────────────────────────────── */
+.mk-root {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* ── Header ──────────────────────────────────── */
+.mk-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mk-title {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+}
+
+.mk-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+}
+
+/* ── Filter pills ────────────────────────────── */
+.mk-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mk-filter-pill {
+  padding: 7px 16px;
+  border-radius: 25px;
+  border: 1.5px solid #e8e8f0;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.mk-filter-pill:hover {
+  border-color: #4a24e1;
+  color: #4a24e1;
+}
+
+.mk-filter-active {
+  background: #4a24e1;
+  border-color: #4a24e1;
+  color: white;
+}
+
+.mk-filter-active:hover {
+  background: #3a1ab1;
+  color: white;
+}
+
+/* ── Flash banner ────────────────────────────── */
+.mk-flash-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1a2a6c, #4a24e1);
+  color: white;
+  border-radius: 14px;
+  padding: 12px 20px;
+  font-size: 13px;
+}
+
+.mk-flash-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  animation: mkpulse 1.8s ease infinite;
+}
+
+@keyframes mkpulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+.mk-flash-text {
+  flex: 1;
+  opacity: 0.92;
+}
+
+.mk-flash-text strong { color: #a5f3d0; }
+
+.mk-flash-end {
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ── Toast ───────────────────────────────────── */
+.mk-toast {
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: mkfadeup 0.3s ease both;
+}
+
+@keyframes mkfadeup {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mk-toast-success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1.5px solid #86efac;
+}
+
+.mk-toast-error {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1.5px solid #fda4af;
+}
+
+/* ── Loading ─────────────────────────────────── */
+.mk-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 0;
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mk-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f0f0f0;
+  border-top-color: #4a24e1;
+  border-radius: 50%;
+  animation: mkspin 0.7s linear infinite;
+}
+
+@keyframes mkspin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Empty state ─────────────────────────────── */
+.mk-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.mk-empty-icon { font-size: 48px; }
+
+.mk-empty h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.mk-empty p {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+/* ── Product grid ────────────────────────────── */
+.mk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 900px) { .mk-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .mk-grid { grid-template-columns: 1fr; } }

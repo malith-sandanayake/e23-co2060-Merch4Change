@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MessagingInterface from "./components/Message/MessagingInterface";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import MarketplacePage from "./pages/Marketplace/Marketplace";
 import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
 import UserSignupPage from "./pages/SignUp/UserSignupPage";
 import Settings from "./pages/Settings/Settings";
@@ -48,9 +49,10 @@ function App() {
 
         {/* Private/App Routes */}
         <Route path="/home" element={<Home />} />
+        <Route path="/marketplace" element={<MarketplacePage />} />
         <Route path="/messaging" element={<MessagingInterface />} />
         <Route path="/settings" element={<Settings />} />
-          <Route path="/profile/me" element={<UserProfile />} />
+        <Route path="/profile/me" element={<UserProfile />} />
 
         {/* Dynamic Route: Perfect for Social Media Profiles */}
         <Route path="/profile/:username" element={<UserProfile />} />
