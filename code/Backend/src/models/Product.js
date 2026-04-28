@@ -43,6 +43,11 @@ const productSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    
+    image: {
+      data: Buffer,
+      contentType: String,
+    },
     isPublished: {
       type: Boolean,
       default: true,
@@ -62,4 +67,3 @@ const productSchema = new mongoose.Schema(
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;
-
