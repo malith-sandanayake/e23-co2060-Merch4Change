@@ -1,5 +1,4 @@
 import "./models/index.js";
-
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
@@ -12,8 +11,18 @@ import { apiRateLimiter, authRateLimiter } from "./middlewares/rateLimit.js";
 import authRoutes from "./routes/auth.routes.js";
 import healthRoutes from "./routes/health.routes.js";
 import marketplaceRoutes from "./routes/marketplace.routes.js";
+import productRoutes from "./routes/product.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import { logInfo, sanitizeUrlForLog } from "./utils/logger.js";
+import imageRoutes from "./routes/image.routes.js";
+import brandRoutes from "./routes/brand.routes.js";
+
+
+
+
+
+
+
 
 const app = express();
 
@@ -46,14 +55,23 @@ app.use(
   }),
 );
 
-app.use("/api/v1", apiRateLimiter);
 
+app.use("/api/v1/brands", brandRoutes);
+app.use("/api/v1", apiRateLimiter);
 app.use("/api/v1", healthRoutes);
 app.use("/api/v1/auth", authRateLimiter, authRoutes);
 app.use("/api/v1/marketplace", marketplaceRoutes);
 app.use("/api/v1/profile", profileRoutes);
+app.use("/api/v1/images", imageRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/auth", authRoutes);
+
+
+
 
 app.use(notFound);
 app.use(errorHandler);
+
+
 
 export default app;

@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: 2,
       maxlength: 120,
-    },  
-
+    },
     userName: {
       type: String,
       required: true,
@@ -25,7 +24,6 @@ const userSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 120,
     },
-
     email: {
       type: String,
       required: true,
@@ -58,6 +56,11 @@ const userSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+  
+    profileImage: {
+      data: Buffer,
+      contentType: String,
     },
   },
   {
