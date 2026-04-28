@@ -1,31 +1,31 @@
 import Product from "../models/Product.js";
+import { uploadBufferToCloudinary } from "../utils/uploadToCloudinary.js";
 
-export const createProduct = async (req, res, next) => {
-  try {
-    const product = await Product.create(req.body);
-    res.status(201).json({ success: true, data: product });
-  } catch (error) {
-    next(error);
-  }
-};
 
-export const getAllProducts = async (req, res, next) => {
+export const createProduct = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.status(200).json({ success: true, count: products.length, data: products });
-  } catch (error) {
-    next(error);
-  }
-};
+    const { name, price, description } = req.body;
 
-export const getProductById = async (req, res, next) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ success: false, message: "Product not found" });
+    // req.files comes from multer (array of files)
+    let images = [];
+    if (req.files && req.files.length > 0) {
+      const uploads = await Promise.all(
+        req.files.map((file) =>
+          uploadBufferToCloudinary(file.buffer, "merch4change/products")
+        )
+      );
+      images = uploads; // [{url, public_id}, ...]
     }
-    res.status(200).json({ success: true, data: product });
-  } catch (error) {
-    next(error);
+
+    const product = await Product.create({
+      name,
+      price,
+      description,
+      images,
+    });
+
+    res.status(201).json({ success: true, product });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };
