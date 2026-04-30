@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Home/Home.css";
 import "./Marketplace.css";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
-import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import MarketplaceContent from "../../components/Marketplace/Marketplace";
 
 function MarketplacePage() {
@@ -56,7 +56,7 @@ function MarketplacePage() {
       />
 
       <div className="lum-layout">
-        <UserProfileSidebar
+        <Sidebar
           profileData={profileData}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
         />

@@ -576,7 +576,7 @@ function LandingPage() {
           </div>
 
           <div className="lp-footer-bottom">
-            <p>© 2025 Merch4Change. All rights reserved.</p>
+            <p>© 2026 Merch4Change. All rights reserved.</p>
             <p>Made with purpose in Sri Lanka 🇱🇰</p>
           </div>
         </div>
