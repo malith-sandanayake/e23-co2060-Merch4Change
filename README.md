@@ -188,26 +188,26 @@ Make sure you have the following installed:
 e23-co2060-Merch4Change/
 │
 ├── code/
-│   ├── frontend/
+│   ├── Frontend/
+│   │   ├── public/               # Public assets
 │   │   └── src/
-│   │       ├── components/       # Reusable UI components
-│   │       │   ├── Navbar.jsx
-│   │       │   ├── Sidebar.jsx
-│   │       │   └── ProductCard.jsx
-│   │       ├── pages/            # Main application pages
-│   │       │   ├── Home.jsx
-│   │       │   ├── Shop.jsx
-│   │       │   └── Profile.jsx
 │   │       ├── assets/           # Images, icons, static files
-│   │       ├── services/         # API communication layer
-│   │       │   ├── authService.js
-│   │       │   └── productService.js
-│   │       ├── hooks/            # Custom React hooks
-│   │       │   ├── useAuth.js
-│   │       │   └── useFetch.js
-│   │       └── App.jsx
+│   │       ├── components/       # Reusable UI components
+│   │       │   ├── Message/      # Messaging interface
+│   │       │   ├── Sidebar/      # Navigation sidebars
+│   │       │   └── PublicLayout/ # Layouts for public pages
+│   │       ├── pages/            # Main application pages
+│   │       │   ├── Home/         # User dashboard and feed
+│   │       │   ├── Marketplace/  # Product browsing and buying
+│   │       │   ├── Settings/     # User profile settings
+│   │       │   ├── SignUp/       # Multi-step authentication flow
+│   │       │   ├── UserProfile/  # Public and private user profiles
+│   │       │   └── Landing/      # Public landing page
+│   │       ├── App.jsx           # Main application routing
+│   │       ├── index.css         # Global styles
+│   │       └── main.jsx          # React entry point
 │   │
-│   └── backend/
+│   └── Backend/                  # API server
 │       ├── controllers/          # Route handler logic
 │       ├── models/               # MongoDB Mongoose schemas
 │       ├── routes/               # Express route definitions
@@ -215,9 +215,6 @@ e23-co2060-Merch4Change/
 │       └── server.js
 │
 ├── Documentation/                # Project docs and proposal
-├── docs/                         # GitHub Pages site
-├── DEVELOPER_GUIDE.md
-├── FOLDER_STRUCTURE.md
 └── README.md
 ```
 
@@ -282,9 +279,9 @@ NODE_ENV=development
 - [x] Folder structure and developer guide
 - [x] Frontend scaffolding with React
 - [x] Vercel deployment pipeline
-- [ ] User authentication (JWT login/register)
-- [ ] Product listing and browsing
-- [ ] Basic user profiles
+- [x] User authentication (JWT login/register)
+- [x] Product listing and browsing
+- [x] Basic user profiles
 
 ### Semester 4 (Planned)
 - [ ] Coin earning and donation system (core feature)
@@ -318,7 +315,7 @@ NODE_ENV=development
 ---
 
 ## 🙏 Acknowledgements
-ea
+
 - [University of Peradeniya, Dept. of Computer Engineering](https://www.ce.pdn.ac.lk/)
 - [React Documentation](https://react.dev/)
 - [MongoDB Atlas](https://www.mongodb.com/atlas)
