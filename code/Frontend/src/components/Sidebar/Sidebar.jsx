@@ -8,10 +8,9 @@ import {
   Layers,
   BarChart2,
   Settings,
-  Plus,
+  Plus, 
   X,
   Heart,
-} from "lucide-react";
 } from "lucide-react";
 
 function Sidebar({ profileData, setIsSidebarCollapsed }) {
@@ -45,7 +44,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
       >
         <img src={user} alt="Alex Rivers" />
         <div>
-          <h4>@{profileData?.userName || "unkonown"}</h4>
+          <h4>@{profileData?.userName || "unknown"}</h4>
           <p>Premium User</p>
         </div>
       </div>
@@ -103,7 +102,6 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
       </div>
     </aside>
   );
-}
 }
 
 export default memo(Sidebar);
