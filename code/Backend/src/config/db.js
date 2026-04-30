@@ -24,7 +24,8 @@ const bindConnectionListeners = () => {
 
 export const connectDatabase = async () => {
   if (!env.mongodbUri) {
-    throw new Error("MongoDB URI is missing. Set MONGODB_URI (or MONGO_URI) in backend .env.");
+    logInfo("MONGODB_URI is not set. Skipping MongoDB connection.");
+    return;
   }
 
   // 1 = connected, 2 = connecting
