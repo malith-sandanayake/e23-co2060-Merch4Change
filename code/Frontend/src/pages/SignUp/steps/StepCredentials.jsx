@@ -1,4 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+const USERNAME_FORMAT = /^[a-zA-Z0-9._-]{2,30}$/;
+
+const buildLocalSuggestions = (userName) => {
+  const normalized = String(userName ?? '').trim().toLowerCase();
+  const compact = normalized.replace(/[^a-z0-9._-]/g, '').replace(/^[._-]+|[._-]+$/g, '');
+  const base = compact || 'user';
+
+  return [...new Set([
+    `${base}1`,
+    `${base}_1`,
+    `${base}.1`,
+    `${base}01`,
+    `${base}2026`,
+  ])]
+    .filter((candidate) => USERNAME_FORMAT.test(candidate))
+    .slice(0, 3);
+};
 
 function getStrength(password) {
   if (!password) return 0;
@@ -20,12 +38,104 @@ const STRENGTH_CLASS = { 1:'weak', 2:'fair', 3:'strong' };
 export default function StepCredentials({ formData, onChange, onNext, onBack }) {
   const [showPw,  setShowPw]  = useState(false);
   const [showCpw, setShowCpw] = useState(false);
+  const [usernameState, setUsernameState] = useState({
+    status: 'idle',
+    message: '',
+    suggestions: [],
+  });
 
   const strength = getStrength(formData.password);
+
+  useEffect(() => {
+    const trimmedUserName = formData.username.trim();
+
+    if (!trimmedUserName) {
+      setUsernameState({
+        status: 'idle',
+        message: '',
+        suggestions: [],
+      });
+      return undefined;
+    }
+
+    if (!USERNAME_FORMAT.test(trimmedUserName)) {
+      setUsernameState({
+        status: 'invalid',
+        message: 'Use 2-30 letters, numbers, dots, underscores, or hyphens.',
+        suggestions: [],
+      });
+      return undefined;
+    }
+
+    let isActive = true;
+    const controller = new AbortController();
+
+    setUsernameState((prev) => ({
+      ...prev,
+      status: 'checking',
+      message: 'Checking username...',
+      suggestions: [],
+    }));
+
+    const timer = window.setTimeout(async () => {
+      try {
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const response = await fetch(
+          `${apiBaseUrl}/api/v1/auth/username-availability?userName=${encodeURIComponent(trimmedUserName)}`,
+          { signal: controller.signal },
+        );
+        const data = await response.json();
+
+        if (!isActive) {
+          return;
+        }
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Unable to validate username.');
+        }
+
+        if (data?.data?.available) {
+          setUsernameState({
+            status: 'available',
+            message: 'Username is available.',
+            suggestions: [],
+          });
+          return;
+        }
+
+        setUsernameState({
+          status: 'taken',
+          message: 'Username is taken.',
+          suggestions: data?.data?.suggestions?.length ? data.data.suggestions : buildLocalSuggestions(trimmedUserName),
+        });
+      } catch {
+        if (!isActive || controller.signal.aborted) {
+          return;
+        }
+
+        setUsernameState({
+          status: 'error',
+          message: 'Unable to check username right now.',
+          suggestions: buildLocalSuggestions(trimmedUserName),
+        });
+      }
+    }, 350);
+
+    return () => {
+      isActive = false;
+      controller.abort();
+      window.clearTimeout(timer);
+    };
+  }, [formData.username]);
+
+  const handleSuggestionSelect = (suggestion) => {
+    onChange('username', suggestion);
+  };
 
   const isValid =
     formData.email.trim() !== '' &&
     formData.username.trim() !== '' &&
+    usernameState.status === 'available' &&
     formData.password.length >= 8 &&
     /[A-Z]/.test(formData.password) &&
     /[a-z]/.test(formData.password) &&
@@ -63,9 +173,40 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
         <label className="signup-label">Username</label>
         <div className="signup-input-adornment">
           <span className="adornment-prefix">@</span>
-          <input className="signup-input" type="text" placeholder="yourhandle"
+          <input className="signup-input has-status" type="text" placeholder="yourhandle"
             value={formData.username} onChange={e => onChange('username', e.target.value)} />
+          <div className="username-status" aria-live="polite">
+            {usernameState.status === 'checking' ? (
+              <span className="username-spinner" aria-label="Checking username" />
+            ) : usernameState.status === 'available' ? (
+              <span className="username-status-icon username-status-icon--available" aria-label="Username available">✓</span>
+            ) : usernameState.status === 'taken' || usernameState.status === 'invalid' || usernameState.status === 'error' ? (
+              <span className="username-status-icon username-status-icon--unavailable" aria-label="Username unavailable">✕</span>
+            ) : null}
+          </div>
+          {formData.username.trim() && (usernameState.status === 'taken' || usernameState.status === 'error') && usernameState.suggestions.length > 0 && (
+            <div className="username-suggestions">
+              <span className="username-suggestions-label">Try:</span>
+              <div className="username-suggestions-list">
+                {usernameState.suggestions.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    className="username-suggestion"
+                    onClick={() => handleSuggestionSelect(suggestion)}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
+        {usernameState.message && formData.username.trim() && (
+          <div className={`username-help username-help--${usernameState.status}`}>
+            {usernameState.message}
+          </div>
+        )}
       </div>
 
       <div className="signup-field">
