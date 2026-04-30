@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import ProfileSection from "./sections/ProfileSection";
 import {
@@ -56,7 +56,7 @@ function Settings() {
 
   return (
     <div className="settings-page">
-      <UserProfileSidebar profileData={profileData} />
+      <Sidebar profileData={profileData} />
       <div className="settings-body">
         <SettingsSidebar activeSection={activeSection} onSelect={handleSelect} />
         <main className="settings-content">

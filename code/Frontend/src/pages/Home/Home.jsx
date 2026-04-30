@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import "./Home.css";
 import Feed from "../../components/Feed/Feed";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
-import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
 
 const VALID_TABS = new Set(["feed", "discover", "trends"]);
@@ -60,7 +60,7 @@ function Home() {
       />
 
       <div className="lum-layout">
-        <UserProfileSidebar
+        <Sidebar
           profileData={profileData}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
         />
