@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 const USERNAME_FORMAT = /^[a-zA-Z0-9._-]{2,30}$/;
-const EMAIL_FORMAT = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const buildLocalSuggestions = (userName) => {
-  const normalized = String(userName ?? '').trim().toLowerCase();
-  const compact = normalized.replace(/[^a-z0-9._-]/g, '').replace(/^[._-]+|[._-]+$/g, '');
-  const base = compact || 'user';
+  const normalized = String(userName ?? "").trim().toLowerCase();
+  const compact = normalized.replace(/[^a-z0-9._-]/g, "").replace(/^[._-]+|[._-]+$/g, "");
+  const base = compact || "user";
 
   return [...new Set([
     `${base}1`,
@@ -19,45 +18,29 @@ const buildLocalSuggestions = (userName) => {
     .slice(0, 3);
 };
 
-function getStrength(password) {
-  if (!password) return 0;
-  const hasUpper   = /[A-Z]/.test(password);
-  const hasLower   = /[a-z]/.test(password);
-  const hasNumber  = /[0-9]/.test(password);
-  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-  const longEnough = password.length >= 8;
-  const veryLong   = password.length >= 12;
-  if (!longEnough) return 1;
-  if (longEnough && hasUpper && hasLower && hasNumber && hasSpecial && veryLong) return 3;
-  if (longEnough && (hasUpper || hasLower) && (hasNumber || hasSpecial)) return 2;
-  return 1;
-}
-
-const STRENGTH_LABEL = { 1:'Weak', 2:'Fair', 3:'Strong' };
-const STRENGTH_CLASS = { 1:'weak', 2:'fair', 3:'strong' };
-
-export default function StepCredentials({ formData, onChange, onNext, onBack }) {
-  const [showPw,  setShowPw]  = useState(false);
-  const [showCpw, setShowCpw] = useState(false);
+function StepCredentials({ formData, onChange, onNext, onBack }) {
+  const [showPassword, setShowPassword] = useState(false);
   const [usernameState, setUsernameState] = useState({
-    status: 'idle',
-    message: '',
+    status: "idle",
+    message: "",
     suggestions: [],
   });
-  const [emailState, setEmailState] = useState({
-    status: 'idle',
-    message: '',
-  });
 
-  const strength = getStrength(formData.password);
+  const handleChange = (e) => {
+    onChange(e.target.name, e.target.value);
+  };
+
+  const handleSuggestionSelect = (suggestion) => {
+    onChange("userName", suggestion);
+  };
 
   useEffect(() => {
-    const trimmedUserName = formData.username.trim();
+    const trimmedUserName = (formData.userName || "").trim();
 
     if (!trimmedUserName) {
       setUsernameState({
-        status: 'idle',
-        message: '',
+        status: "idle",
+        message: "",
         suggestions: [],
       });
       return undefined;
@@ -65,8 +48,8 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
 
     if (!USERNAME_FORMAT.test(trimmedUserName)) {
       setUsernameState({
-        status: 'invalid',
-        message: 'Use 2-30 letters, numbers, dots, underscores, or hyphens.',
+        status: "invalid",
+        message: "Use 2-30 letters, numbers, dots, underscores, or hyphens.",
         suggestions: [],
       });
       return undefined;
@@ -77,50 +60,49 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
 
     setUsernameState((prev) => ({
       ...prev,
-      status: 'checking',
-      message: 'Checking username...',
+      status: "checking",
+      message: "Checking username...",
       suggestions: [],
     }));
 
     const timer = window.setTimeout(async () => {
       try {
-        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
         const response = await fetch(
           `${apiBaseUrl}/api/v1/auth/username-availability?userName=${encodeURIComponent(trimmedUserName)}`,
-          { signal: controller.signal },
+          { signal: controller.signal }
         );
         const data = await response.json();
 
-        if (!isActive) {
-          return;
-        }
+        if (!isActive) return;
 
         if (!response.ok || !data.success) {
-          throw new Error(data.message || 'Unable to validate username.');
+          throw new Error(data.message || "Unable to validate username.");
         }
 
         if (data?.data?.available) {
           setUsernameState({
-            status: 'available',
-            message: 'Username is available.',
+            status: "available",
+            message: "Username is available.",
             suggestions: [],
           });
           return;
         }
 
-        setUsernameState({
-          status: 'taken',
-          message: 'Username is taken.',
-          suggestions: data?.data?.suggestions?.length ? data.data.suggestions : buildLocalSuggestions(trimmedUserName),
-        });
-      } catch {
-        if (!isActive || controller.signal.aborted) {
-          return;
-        }
+        const suggestions = data?.data?.suggestions?.length
+          ? data.data.suggestions
+          : buildLocalSuggestions(trimmedUserName);
 
         setUsernameState({
-          status: 'error',
-          message: 'Unable to check username right now.',
+          status: "taken",
+          message: "Username is taken.",
+          suggestions,
+        });
+      } catch {
+        if (!isActive || controller.signal.aborted) return;
+        setUsernameState({
+          status: "error",
+          message: "Unable to check username right now.",
           suggestions: buildLocalSuggestions(trimmedUserName),
         });
       }
@@ -131,175 +113,126 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
       controller.abort();
       window.clearTimeout(timer);
     };
-  }, [formData.username]);
+  }, [formData.userName]);
 
-  useEffect(() => {
-    const trimmedEmail = formData.email.trim();
-
-    if (!trimmedEmail) {
-      setEmailState({
-        status: 'idle',
-        message: '',
-      });
-      return;
-    }
-
-    if (!EMAIL_FORMAT.test(trimmedEmail)) {
-      setEmailState({
-        status: 'invalid',
-        message: 'Enter a valid email address.',
-      });
-      return;
-    }
-
-    setEmailState({
-      status: 'valid',
-      message: 'Email looks good.',
-    });
-  }, [formData.email]);
-
-  const handleSuggestionSelect = (suggestion) => {
-    onChange('username', suggestion);
+  const getPasswordStrength = (password) => {
+    if (!password) return "empty";
+    if (password.length < 8) return "weak";
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    if (hasUpper && hasNumber && hasSpecial) return "strong";
+    return "fair";
   };
 
-  const isValid =
-    emailState.status === 'valid' &&
-    formData.username.trim() !== '' &&
-    usernameState.status === 'available' &&
-    formData.password.length >= 8 &&
-    /[A-Z]/.test(formData.password) &&
-    /[a-z]/.test(formData.password) &&
-    /[0-9]/.test(formData.password) &&
-    /[!@#$%^&*(),.?":{}|<>]/.test(formData.password) &&
-    formData.password === formData.confirmPassword;
+  const strength = getPasswordStrength(formData.password);
 
-  const EyeIcon = ({ show }) => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-         strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-      {show
-        ? <><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-              <line x1="1" y1="1" x2="23" y2="23"/></>
-        : <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/></>
-      }
-    </svg>
-  );
+  const isNextDisabled = 
+    !formData.email || 
+    !formData.userName || 
+    !formData.password || 
+    !formData.confirmPassword ||
+    formData.password !== formData.confirmPassword ||
+    strength === "weak" ||
+    ["checking", "invalid", "taken"].includes(usernameState.status);
 
   return (
-    <div>
-      <button className="signup-back" onClick={onBack}>← Back</button>
-      <p className="signup-eyebrow">Step 2 of 3</p>
-      <h1 className="signup-title">Set your credentials</h1>
-      <p className="signup-subtitle">You'll use these to log in each time.</p>
+    <>
+      <div className="eyebrow">Step 2 of 4</div>
+      <h1 className="form-title">Set your credentials</h1>
+      <p className="form-subtitle">Keep your account secure.</p>
 
-      <div className="signup-field">
-        <label className="signup-label">Email address</label>
-        <div className="signup-input-adornment">
-          <input className="signup-input has-status" type="email" placeholder="you@example.com"
-            value={formData.email} 
-            onChange={e => onChange('email', e.target.value)}
-            style={emailState.status === 'invalid' ? { borderColor: '#e24b4a' } : {}} />
-          <div className="username-status" aria-live="polite">
-            {emailState.status === 'valid' ? (
-              <span className="username-status-icon username-status-icon--available" aria-label="Email valid">✓</span>
-            ) : emailState.status === 'invalid' ? (
-              <span className="username-status-icon username-status-icon--unavailable" aria-label="Email invalid">✕</span>
-            ) : null}
-          </div>
-        </div>
-        {emailState.message && formData.email.trim() && (
-          <div className={`username-help username-help--${emailState.status}`}>
-            {emailState.message}
-          </div>
-        )}
+      <div className="field">
+        <label>Email address</label>
+        <input type="email" name="email" value={formData.email || ""} onChange={handleChange} />
       </div>
 
-      <div className="signup-field">
-        <label className="signup-label">Username</label>
-        <div className="signup-input-adornment">
-          <span className="adornment-prefix">@</span>
-          <input className="signup-input has-status" type="text" placeholder="yourhandle"
-            value={formData.username} onChange={e => onChange('username', e.target.value)} />
-          <div className="username-status" aria-live="polite">
-            {usernameState.status === 'checking' ? (
-              <span className="username-spinner" aria-label="Checking username" />
-            ) : usernameState.status === 'available' ? (
-              <span className="username-status-icon username-status-icon--available" aria-label="Username available">✓</span>
-            ) : usernameState.status === 'taken' || usernameState.status === 'invalid' || usernameState.status === 'error' ? (
-              <span className="username-status-icon username-status-icon--unavailable" aria-label="Username unavailable">✕</span>
-            ) : null}
-          </div>
-          {formData.username.trim() && (usernameState.status === 'taken' || usernameState.status === 'error') && usernameState.suggestions.length > 0 && (
-            <div className="username-suggestions">
-              <span className="username-suggestions-label">Try:</span>
-              <div className="username-suggestions-list">
-                {usernameState.suggestions.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    className="username-suggestion"
-                    onClick={() => handleSuggestionSelect(suggestion)}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+      <div className="field">
+        <label>Username</label>
+        <div className="username-shell">
+          <span className="username-prefix">@</span>
+          <input
+            type="text"
+            name="userName"
+            value={formData.userName || ""}
+            onChange={handleChange}
+            className="username-input"
+          />
+          {usernameState.status === "checking" && <span className="username-spinner"></span>}
+          {usernameState.status === "available" && <span className="username-status-icon available">✓</span>}
+          {["taken", "invalid", "error"].includes(usernameState.status) && <span className="username-status-icon taken">✕</span>}
         </div>
-        {usernameState.message && formData.username.trim() && (
-          <div className={`username-help username-help--${usernameState.status}`}>
+        
+        {usernameState.message && (
+          <div className={`username-help ${usernameState.status}`}>
             {usernameState.message}
           </div>
         )}
+
+        {(usernameState.status === "taken" || usernameState.status === "error") && usernameState.suggestions.length > 0 && (
+          <div className="username-suggestions">
+            {usernameState.suggestions.map((suggestion) => (
+              <span
+                key={suggestion}
+                className="username-suggestion-pill"
+                onClick={() => handleSuggestionSelect(suggestion)}
+              >
+                {suggestion}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div className="signup-field">
-        <label className="signup-label">Password</label>
-        <div className="signup-input-adornment">
-          <input className="signup-input has-suffix" type={showPw ? 'text' : 'password'}
-            placeholder="Min. 8 chars, upper, lower, number, special"
-            value={formData.password} onChange={e => onChange('password', e.target.value)} />
-          <button type="button" className="adornment-suffix" onClick={() => setShowPw(v => !v)} tabIndex={-1}>
-            <EyeIcon show={showPw} />
+      <div className="field">
+        <label>Password</label>
+        <div className="password-shell">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={formData.password || ""}
+            onChange={handleChange}
+          />
+          <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            )}
           </button>
         </div>
         {formData.password && (
           <>
             <div className="strength-bar">
-              <div className={`strength-segment${strength >= 1 ? ` ${STRENGTH_CLASS[strength]}` : ''}`} />
-              <div className={`strength-segment${strength >= 2 ? ` ${STRENGTH_CLASS[strength]}` : ''}`} />
-              <div className={`strength-segment${strength >= 3 ? ` ${STRENGTH_CLASS[strength]}` : ''}`} />
+              <div className={`strength-segment ${strength === "weak" || strength === "fair" || strength === "strong" ? strength : ""}`}></div>
+              <div className={`strength-segment ${strength === "fair" || strength === "strong" ? strength : ""}`}></div>
+              <div className={`strength-segment ${strength === "strong" ? strength : ""}`}></div>
             </div>
-            <div className={`strength-label ${STRENGTH_CLASS[strength]}`}>
-              {STRENGTH_LABEL[strength]}
+            <div className={`strength-label ${strength}`}>
+              {strength.charAt(0).toUpperCase() + strength.slice(1)}
             </div>
           </>
         )}
       </div>
 
-      <div className="signup-field">
-        <label className="signup-label">Confirm password</label>
-        <div className="signup-input-adornment">
-          <input className="signup-input has-suffix" type={showCpw ? 'text' : 'password'}
-            placeholder="Re-enter your password"
-            value={formData.confirmPassword}
-            onChange={e => onChange('confirmPassword', e.target.value)}
-            style={formData.confirmPassword && formData.confirmPassword !== formData.password
-              ? { borderColor: '#e24b4a' } : {}} />
-          <button type="button" className="adornment-suffix" onClick={() => setShowCpw(v => !v)} tabIndex={-1}>
-            <EyeIcon show={showCpw} />
-          </button>
-        </div>
-        {formData.confirmPassword && formData.confirmPassword !== formData.password && (
-          <div style={{ color:'#e24b4a', fontSize:12, marginTop:5 }}>Passwords don't match</div>
-        )}
+      <div className="field">
+        <label>Confirm password</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword || ""}
+          onChange={handleChange}
+        />
       </div>
 
-      <button className="signup-btn" onClick={onNext} disabled={!isValid} style={{ marginTop:8 }}>
+      <button className="btn-primary" onClick={onNext} disabled={isNextDisabled}>
         Continue
       </button>
-    </div>
+      <button className="btn-back" onClick={onBack}>
+        Back
+      </button>
+    </>
   );
 }
+
+export default StepCredentials;

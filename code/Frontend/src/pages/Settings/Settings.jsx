@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserProfileSidebar from "../../components/test/UserProfileSidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import ProfileSection from "./sections/ProfileSection";
@@ -22,8 +22,30 @@ const SECTIONS = {
   help: HelpSection,
 };
 
-function Settings({ profileData }) {
+function Settings() {
   const [activeSection, setActiveSection] = useState("profile");
+  const [profileData, setProfileData] = useState({
+    firstName: "Guest",
+    lastName: "User",
+    userName: "guest",
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    fetch(`${apiUrl}/api/v1/profile/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data?.user) {
+          setProfileData(data.data.user);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSelect = (id) => {
     if (id === "logout") return;

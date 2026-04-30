@@ -1,84 +1,101 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
-const MAX_BIO = 150;
+function StepProfile({ formData, onChange, onNext, onBack, errorMsg }) {
+  const fileInputRef = useRef(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
-export default function StepProfile({ formData, onChange, onNext, onBack, onSkip, isSubmitting, errorMsg }) {
-  const fileRef = useRef();
-  const [preview, setPreview] = useState(null);
+  const handleChange = (e) => {
+    onChange(e.target.name, e.target.value);
+  };
+
+  const handlePhotoClick = () => {
+    fileInputRef.current.click();
+  };
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    onChange('photo', file);
-    const reader = new FileReader();
-    reader.onload = (ev) => setPreview(ev.target.result);
-    reader.readAsDataURL(file);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      onChange("profilePhoto", file);
+    }
   };
 
-  const bioLength = (formData.bio || '').length;
-
   return (
-    <div>
-      <button className="signup-back" onClick={onBack}>← Back</button>
-      <p className="signup-eyebrow">Step 3 of 3</p>
-      <h1 className="signup-title">Set up your profile</h1>
-      <p className="signup-subtitle">This is how others will see you on Merch4Change.</p>
+    <>
+      <div className="eyebrow">Step 3 of 4</div>
+      <h1 className="form-title">Set up your profile</h1>
+      <p className="form-subtitle">Make it yours.</p>
 
-      <div className="photo-upload-area">
-        <div className="photo-upload-circle" onClick={() => fileRef.current.click()} title="Upload profile photo">
-          {preview
-            ? <img src={preview} alt="Profile preview" />
-            : <div className="photo-upload-placeholder">
-                <svg viewBox="0 0 24 24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                <span>Upload photo</span>
-              </div>
-          }
-        </div>
-        <input ref={fileRef} type="file" accept="image/*" style={{ display:'none' }} onChange={handlePhotoChange} />
+      {errorMsg && <div className="error-message">{errorMsg}</div>}
+
+      <div className="photo-upload" onClick={handlePhotoClick}>
+        {previewUrl ? (
+          <img src={previewUrl} alt="Profile preview" />
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        )}
       </div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        accept="image/*"
+        onChange={handlePhotoChange}
+      />
 
-      <div className="signup-field">
-        <label className="signup-label">Bio / About</label>
-        <textarea className="signup-textarea" placeholder="Write a short intro about yourself…"
-          maxLength={MAX_BIO} value={formData.bio}
-          onChange={e => onChange('bio', e.target.value)} />
-        <div className="char-count">{bioLength} / {MAX_BIO}</div>
-      </div>
-
-      <div className="signup-field">
-        <label className="signup-label">
-          Website URL <span style={{ color:'#bbb', fontSize:12 }}>(optional)</span>
-        </label>
-        <input className="signup-input" type="url" placeholder="https://yourwebsite.com"
-          value={formData.website} onChange={e => onChange('website', e.target.value)} />
-      </div>
-
-      <div className="signup-field">
-        <label className="signup-label">
-          Social handle <span style={{ color:'#bbb', fontSize:12 }}>(optional)</span>
-        </label>
-        <div className="signup-input-adornment">
-          <span className="adornment-prefix">@</span>
-          <input className="signup-input" type="text" placeholder="yourhandle"
-            value={formData.social} onChange={e => onChange('social', e.target.value)} />
+      <div className="field">
+        <label>Bio / About</label>
+        <textarea
+          name="bio"
+          value={formData.bio || ""}
+          onChange={handleChange}
+          maxLength={150}
+          rows={3}
+          placeholder="Tell us a bit about yourself..."
+        />
+        <div className="bio-counter">
+          {(formData.bio || "").length} / 150
         </div>
       </div>
 
-      {errorMsg && (
-        <div style={{ color:'#e24b4a', fontSize:13, marginBottom:10, lineHeight:1.5 }}>
-          {errorMsg}
-        </div>
-      )}
+      <div className="field">
+        <label>Website URL (optional)</label>
+        <input
+          type="url"
+          name="website"
+          value={formData.website || ""}
+          onChange={handleChange}
+          placeholder="https://"
+        />
+      </div>
 
-      <button className="signup-btn" onClick={onNext} disabled={isSubmitting} style={{ marginTop:8 }}>
-        {isSubmitting ? 'Creating your account…' : 'Continue'}
+      <div className="field">
+        <label>Social handle (optional)</label>
+        <div className="username-shell">
+          <span className="username-prefix">@</span>
+          <input
+            type="text"
+            name="socialHandle"
+            value={formData.socialHandle || ""}
+            onChange={handleChange}
+            className="username-input"
+            placeholder="handle"
+          />
+        </div>
+      </div>
+
+      <button className="btn-primary" onClick={onNext}>
+        Continue
       </button>
-
-      <div className="signup-skip" onClick={onSkip}>Skip for now</div>
-    </div>
+      <button className="btn-skip" onClick={onNext}>
+        Skip for now
+      </button>
+      <button className="btn-back" onClick={onBack}>
+        Back
+      </button>
+    </>
   );
 }
+
+export default StepProfile;
