@@ -1,10 +1,22 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 
 function PublicLayout() {
   const location = useLocation();
+  const hideNavbar = location.pathname === "/login";
+  const [scrolled, setScrolled] = useState(false);
 
+  // Track scroll position for navbar styling
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 60);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Smooth scroll to anchors
   useEffect(() => {
     if (!location.hash) {
       if (location.pathname === "/") {
@@ -26,10 +38,11 @@ function PublicLayout() {
 
   return (
     <>
-      <Navbar />
+      {!hideNavbar && <Navbar scrolled={scrolled} />}
       <Outlet />
     </>
   );
 }
 
 export default PublicLayout;
+
