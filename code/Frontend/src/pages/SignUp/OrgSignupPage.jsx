@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./OrgSignupPage.css";
 
 function OrgSignupPage({ onNavigate }) {
   const navigate = useNavigate();
@@ -15,8 +16,52 @@ function OrgSignupPage({ onNavigate }) {
     website: "",
     accountType: "organization",
   });
+
+  const [emailStatus, setEmailStatus] = useState({
+    status: "idle", // idle, checking, valid, invalid
+    message: "",
+  });
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+
+  // Email validation regex - allows standard email formats
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateEmail = (email) => {
+    return emailRegex.test(email.trim());
+  };
+
+  // Real-time email validation
+  useEffect(() => {
+    const trimmedEmail = formData.email.trim();
+    console.log("Email value:", trimmedEmail);
+
+    if (!trimmedEmail) {
+      setEmailStatus({
+        status: "idle",
+        message: "",
+      });
+      return;
+    }
+
+    // Check format
+    const isValid = validateEmail(trimmedEmail);
+    console.log("Email validation result:", isValid, "Regex test:", emailRegex.test(trimmedEmail));
+
+    if (!isValid) {
+      setEmailStatus({
+        status: "invalid",
+        message: "Use a valid email format (e.g., user@example.com)",
+      });
+      console.log("Email status set to INVALID");
+    } else {
+      setEmailStatus({
+        status: "valid",
+        message: "✓ Email format is valid",
+      });
+      console.log("Email status set to VALID");
+    }
+  }, [formData.email]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,10 +96,17 @@ function OrgSignupPage({ onNavigate }) {
     }
 
     const passwordError = validatePassword(formData.password);
+
     if (passwordError) {
       setErrorMsg(passwordError);
       return;
     }
+
+    if (!validateEmail(formData.email)) {
+      setErrorMsg("Please enter a valid email address (e.g., name@organization.org)");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -191,14 +243,74 @@ function OrgSignupPage({ onNavigate }) {
 
             <div className="org-form-group">
               <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="name@organization.org"
-              />
+              <div style={{ position: "relative", width: "100%" }}>
+                <input
+                  type="text"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="name@organization.org"
+                  style={{
+                    width: "100%",
+                    padding: "12px 40px 12px 14px",
+                    border: emailStatus.status === "valid" ? "2px solid #27ae60" : emailStatus.status === "invalid" ? "2px solid #e74c3c" : "2px solid #e0e0e0",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    backgroundColor: "#fafafa",
+                    boxSizing: "border-box",
+                    transition: "border-color 0.3s ease",
+                  }}
+                />
+                {formData.email && (
+                  <span style={{
+                    position: "absolute",
+                    right: "12px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: emailStatus.status === "valid" ? "#27ae60" : emailStatus.status === "invalid" ? "#e74c3c" : "#999",
+                    pointerEvents: "none",
+                  }}>
+                    {emailStatus.status === "valid" ? "✓" : emailStatus.status === "invalid" ? "✕" : ""}
+                  </span>
+                )}
+              </div>
+              {formData.email && emailStatus.status === "invalid" && (
+                <div style={{
+                  marginTop: "8px",
+                  padding: "10px 14px",
+                  fontSize: "13px",
+                  lineHeight: "1.5",
+                  fontWeight: "600",
+                  borderRadius: "6px",
+                  backgroundColor: "#f8d7da",
+                  color: "#721c24",
+                  border: "2px solid #f5c6cb",
+                  boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                  animation: "slideIn 0.3s ease-in-out",
+                }}>
+                  ✕ {emailStatus.message}
+                </div>
+              )}
+              {formData.email && emailStatus.status === "valid" && (
+                <div style={{
+                  marginTop: "8px",
+                  padding: "10px 14px",
+                  fontSize: "13px",
+                  lineHeight: "1.5",
+                  fontWeight: "600",
+                  borderRadius: "6px",
+                  backgroundColor: "#d4edda",
+                  color: "#155724",
+                  border: "2px solid #28a745",
+                  boxShadow: "0 2px 8px rgba(40, 167, 69, 0.2)",
+                  animation: "slideIn 0.3s ease-in-out",
+                }}>
+                  ✓ {emailStatus.message}
+                </div>
+              )}
             </div>
 
             <div className="org-form-group">
@@ -232,7 +344,6 @@ function OrgSignupPage({ onNavigate }) {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                required
                 placeholder="Phone number"
               />
             </div>
@@ -244,7 +355,6 @@ function OrgSignupPage({ onNavigate }) {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                required
                 placeholder="Organization address"
               />
             </div>

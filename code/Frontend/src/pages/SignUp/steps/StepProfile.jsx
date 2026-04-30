@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 
 const MAX_BIO = 150;
 
-export default function StepProfile({ formData, onChange, onNext, onBack, isSubmitting, errorMsg }) {
+export default function StepProfile({ formData, onChange, onNext, onBack, onSkip, isSubmitting, errorMsg }) {
   const fileRef = useRef();
   const [preview, setPreview] = useState(null);
 
@@ -78,7 +78,7 @@ export default function StepProfile({ formData, onChange, onNext, onBack, isSubm
         {isSubmitting ? 'Creating your account…' : 'Continue'}
       </button>
 
-      <div className="signup-skip" onClick={onBack}>Skip for now</div>
+      <div className="signup-skip" onClick={onSkip}>Skip for now</div>
     </div>
   );
 }

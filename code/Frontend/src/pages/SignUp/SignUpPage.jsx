@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignUpPage.css';
 import StepAccountType from './steps/StepAccountType';
 import StepBasicInfo    from './steps/StepBasicInfo';
@@ -17,6 +18,7 @@ const LEFT_HEADLINES = {
 };
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -31,7 +33,7 @@ export default function SignUpPage() {
   const onChange = (field, value) =>
     setFormData(prev => ({ ...prev, [field]: value }));
 
-  const handleSubmit = async () => {
+  const handleSubmit = async ({ redirectToHome = false } = {}) => {
     setErrorMsg('');
     setIsSubmitting(true);
     try {
@@ -75,6 +77,11 @@ export default function SignUpPage() {
         localStorage.setItem('token', data.data.token);
       }
 
+      if (redirectToHome) {
+        navigate('/home');
+        return;
+      }
+
       setCurrentStep(5);
     } catch {
       setErrorMsg('Network error. Please try again.');
@@ -90,6 +97,8 @@ export default function SignUpPage() {
       setCurrentStep(s => Math.min(s + 1, 5));
     }
   };
+
+  const onSkipProfile = () => handleSubmit({ redirectToHome: true });
 
   const onBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
@@ -158,7 +167,12 @@ export default function SignUpPage() {
         {currentStep === 2 && <StepBasicInfo   {...stepProps} />}
         {currentStep === 3 && <StepCredentials {...stepProps} />}
         {currentStep === 4 && (
-          <StepProfile {...stepProps} isSubmitting={isSubmitting} errorMsg={errorMsg} />
+          <StepProfile
+            {...stepProps}
+            onSkip={onSkipProfile}
+            isSubmitting={isSubmitting}
+            errorMsg={errorMsg}
+          />
         )}
         {currentStep === 5 && <StepDone />}
       </div>

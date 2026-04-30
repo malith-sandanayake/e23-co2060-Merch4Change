@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const USERNAME_FORMAT = /^[a-zA-Z0-9._-]{2,30}$/;
+const EMAIL_FORMAT = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const buildLocalSuggestions = (userName) => {
   const normalized = String(userName ?? '').trim().toLowerCase();
@@ -42,6 +43,10 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
     status: 'idle',
     message: '',
     suggestions: [],
+  });
+  const [emailState, setEmailState] = useState({
+    status: 'idle',
+    message: '',
   });
 
   const strength = getStrength(formData.password);
@@ -128,12 +133,37 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
     };
   }, [formData.username]);
 
+  useEffect(() => {
+    const trimmedEmail = formData.email.trim();
+
+    if (!trimmedEmail) {
+      setEmailState({
+        status: 'idle',
+        message: '',
+      });
+      return;
+    }
+
+    if (!EMAIL_FORMAT.test(trimmedEmail)) {
+      setEmailState({
+        status: 'invalid',
+        message: 'Enter a valid email address.',
+      });
+      return;
+    }
+
+    setEmailState({
+      status: 'valid',
+      message: 'Email looks good.',
+    });
+  }, [formData.email]);
+
   const handleSuggestionSelect = (suggestion) => {
     onChange('username', suggestion);
   };
 
   const isValid =
-    formData.email.trim() !== '' &&
+    emailState.status === 'valid' &&
     formData.username.trim() !== '' &&
     usernameState.status === 'available' &&
     formData.password.length >= 8 &&
@@ -165,8 +195,24 @@ export default function StepCredentials({ formData, onChange, onNext, onBack }) 
 
       <div className="signup-field">
         <label className="signup-label">Email address</label>
-        <input className="signup-input" type="email" placeholder="you@example.com"
-          value={formData.email} onChange={e => onChange('email', e.target.value)} />
+        <div className="signup-input-adornment">
+          <input className="signup-input has-status" type="email" placeholder="you@example.com"
+            value={formData.email} 
+            onChange={e => onChange('email', e.target.value)}
+            style={emailState.status === 'invalid' ? { borderColor: '#e24b4a' } : {}} />
+          <div className="username-status" aria-live="polite">
+            {emailState.status === 'valid' ? (
+              <span className="username-status-icon username-status-icon--available" aria-label="Email valid">✓</span>
+            ) : emailState.status === 'invalid' ? (
+              <span className="username-status-icon username-status-icon--unavailable" aria-label="Email invalid">✕</span>
+            ) : null}
+          </div>
+        </div>
+        {emailState.message && formData.email.trim() && (
+          <div className={`username-help username-help--${emailState.status}`}>
+            {emailState.message}
+          </div>
+        )}
       </div>
 
       <div className="signup-field">
