@@ -24,17 +24,10 @@ function OrgSignupPage({ onNavigate }) {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Email validation regex - allows standard email formats
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const validateEmail = (email) => {
-    return emailRegex.test(email.trim());
-  };
-
-  // Real-time email validation
   useEffect(() => {
     const trimmedEmail = formData.email.trim();
-    console.log("Email value:", trimmedEmail);
 
     if (!trimmedEmail) {
       setEmailStatus({
@@ -44,22 +37,16 @@ function OrgSignupPage({ onNavigate }) {
       return;
     }
 
-    // Check format
-    const isValid = validateEmail(trimmedEmail);
-    console.log("Email validation result:", isValid, "Regex test:", emailRegex.test(trimmedEmail));
-
-    if (!isValid) {
+    if (!emailRegex.test(trimmedEmail)) {
       setEmailStatus({
         status: "invalid",
         message: "Use a valid email format (e.g., user@example.com)",
       });
-      console.log("Email status set to INVALID");
     } else {
       setEmailStatus({
         status: "valid",
         message: "✓ Email format is valid",
       });
-      console.log("Email status set to VALID");
     }
   }, [formData.email]);
 
@@ -102,7 +89,7 @@ function OrgSignupPage({ onNavigate }) {
       return;
     }
 
-    if (!validateEmail(formData.email)) {
+    if (!emailRegex.test(formData.email)) {
       setErrorMsg("Please enter a valid email address (e.g., name@organization.org)");
       return;
     }
