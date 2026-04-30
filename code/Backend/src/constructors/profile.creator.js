@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import env from "../config/env.js";
+import Brand from "../models/Brand.js";
 import OrganizationProfile from "../models/OrganizationProfile.js";
 import User from "../models/User.js";
 import { successResponse } from "../utils/apiResponse.js";
@@ -86,6 +87,11 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
     phone,
     address,
     website,
+  });
+
+  await Brand.create({
+    ownerUserId: createdUser._id,
+    brandName: orgName.trim(),
   });
 
   const token = createToken(createdUser._id);

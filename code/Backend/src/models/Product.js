@@ -28,8 +28,29 @@ const productSchema = new mongoose.Schema(
     },
     brandId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Brand",
       required: true,
+      index: true,
+    },
+    currency: {
+      type: String,
+      trim: true,
+      uppercase: true,
+      maxlength: 3,
+      default: "USD",
+    },
+    images: {
+      type: [String],
+      default: [],
+    },
+    
+    image: {
+      data: Buffer,
+      contentType: String,
+    },
+    isPublished: {
+      type: Boolean,
+      default: true,
       index: true,
     },
     isLimitedEdition: {
@@ -50,4 +71,5 @@ const productSchema = new mongoose.Schema(
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;
+
 
