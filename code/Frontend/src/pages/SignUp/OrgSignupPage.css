@@ -1,351 +1,315 @@
-/* =============================================
-   Org Signup Page – Instagram / Snap Inspired
-   Consistent with Landing & Login page palette
-   ============================================= */
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-/* ---- Page layout: full-height, split ---- */
+/* Organization Signup Page */
 .org-signup-outer {
-  min-height: 100vh;
   display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* ---- Left decorative panel ---- */
+/* Hero Section */
 .org-signup-hero {
   flex: 1;
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(155deg, #0f2027 0%, #345864 55%, #547e90 100%);
-  padding: 60px 48px;
+  position: relative;
   overflow: hidden;
+  padding: 40px 20px;
+  color: white;
+  min-height: 100vh;
 }
 
-/* Blobs */
 .org-blob {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(72px);
-  opacity: 0.38;
-  pointer-events: none;
-  animation: orgBlobFloat 9s ease-in-out infinite;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  opacity: 0.3;
+  animation: blobAnimation 8s ease-in-out infinite;
 }
+
 .org-blob-1 {
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, #818cf8, #6366f1);
-  top: -90px;
-  left: -60px;
+  background: rgba(255, 255, 255, 0.2);
+  top: -50px;
+  left: -50px;
   animation-delay: 0s;
 }
+
 .org-blob-2 {
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, #06b6d4, #22d3ee);
-  bottom: -60px;
-  right: -50px;
-  animation-delay: -4.5s;
-}
-.org-blob-3 {
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle, #f59e0b, #fb7185);
-  top: 55%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  animation-delay: -2s;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.1);
+  bottom: 100px;
+  right: 50px;
+  animation-delay: 2s;
 }
 
-@keyframes orgBlobFloat {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
+.org-blob-3 {
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.15);
+  bottom: -50px;
+  left: 200px;
+  animation-delay: 4s;
+}
+
+@keyframes blobAnimation {
+  0%, 100% {
+    transform: translate(0, 0);
   }
-  33% {
-    transform: translate(14px, -18px) scale(1.07);
-  }
-  66% {
-    transform: translate(-10px, 12px) scale(0.95);
+  50% {
+    transform: translate(30px, -30px);
   }
 }
 
 .org-hero-content {
   position: relative;
   z-index: 2;
-  text-align: center;
-  color: #ffffff;
+  max-width: 500px;
 }
 
 .org-hero-logo {
-  width: 68px;
-  height: 68px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 2px solid rgba(255, 255, 255, 0.28);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 28px;
-  font-size: 28px;
-  backdrop-filter: blur(10px);
+  font-size: 60px;
+  margin-bottom: 20px;
 }
 
 .org-hero-title {
-  font-size: clamp(26px, 2.8vw, 40px);
+  font-size: 42px;
   font-weight: 700;
+  margin-bottom: 15px;
   line-height: 1.2;
-  margin-bottom: 14px;
-  background: linear-gradient(90deg, #ffffff, #c4b5fd, #67e8f9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .org-hero-subtitle {
-  font-size: 15px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 300px;
-  line-height: 1.65;
-  margin: 0 auto;
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.9;
+  line-height: 1.6;
 }
 
-/* Feature list */
 .org-hero-features {
   list-style: none;
   padding: 0;
-  margin: 32px auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  text-align: left;
-  max-width: 260px;
+  margin: 0;
 }
 
 .org-hero-features li {
-  font-size: 13.5px;
-  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+  opacity: 0.95;
+}
+
+.org-hero-features span {
+  margin-right: 12px;
+  font-size: 20px;
+}
+
+/* Form Section */
+.org-signup-form-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: white;
+  min-height: 100vh;
+}
+
+.org-signup-form-container {
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+}
+
+.org-brand-mark {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.org-brand-mark:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.org-signup-form-container h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.org-form-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* Alert Messages */
+.form-alert {
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.org-hero-features li span {
-  font-size: 16px;
+.error-alert {
+  background-color: #fee;
+  color: #c33;
+  border: 1px solid #fcc;
 }
 
-/* ---- Right form panel ---- */
-.org-signup-form-panel {
-  flex: 0 0 min(520px, 48vw);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  padding: 60px 48px;
-  overflow-y: auto;
+.success-alert {
+  background-color: #efe;
+  color: #363;
+  border: 1px solid #cfc;
 }
 
-/* Old class kept for compatibility */
-.org-signup-form-container {
-  width: 100%;
-  max-width: 420px;
-  animation: orgFadeUp 0.5s ease both;
-}
-
-@keyframes orgFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Brand mark */
-.org-brand-mark {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, #0f2027, #547e90);
-  border-radius: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #fff;
-  margin-bottom: 26px;
-}
-
-/* Heading */
-.org-signup-form-container h1 {
-  font-family: "Poppins", sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  color: #0f2027;
-  margin: 0 0 6px 0;
-  text-align: left;
-}
-
-.org-form-subtitle {
-  font-size: 13.5px;
-  color: #6b7280;
-  margin: 0 0 28px 0;
-  font-weight: 400;
-}
-
-/* ---- Two-column grid for desktop ---- */
+/* Form Styles */
 .org-form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 16px;
-}
-
-/* Full-width fields */
-.org-form-group.full-width {
-  grid-column: 1 / -1;
 }
 
 .org-form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
 .org-form-group label {
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 600;
-  color: #374151;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 6px;
 }
 
 .org-form-group input {
   padding: 12px 14px;
-  border-radius: 11px;
-  border: 1.5px solid #e5e7eb;
-  font-size: 13.5px;
-  font-family: "Poppins", sans-serif;
-  color: #111827;
-  background: #f9fafb;
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.25s ease;
-  outline: none;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fafafa;
 }
 
 .org-form-group input:focus {
-  border-color: #547e90;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(84, 126, 144, 0.12);
+  outline: none;
+  border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .org-form-group input::placeholder {
-  color: #9ca3af;
-  font-weight: 300;
+  color: #999;
 }
 
-/* Submit button */
+
+
+/* Full width fields */
+.org-form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Submit Button */
 .org-submit-btn {
-  grid-column: 1 / -1;
-  padding: 14px 20px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
-  background: linear-gradient(135deg, #0f2027 0%, #345864 50%, #547e90 100%);
-  color: #ffffff;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 6px;
-  letter-spacing: 0.03em;
-  font-family: "Poppins", sans-serif;
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease,
-    opacity 0.22s ease;
-  position: relative;
-  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  margin-top: 10px;
 }
 
-.org-submit-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
-}
-
-.org-submit-btn:hover {
+.org-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(15, 32, 39, 0.3);
-  opacity: 0.94;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
 }
 
-.org-submit-btn:active {
+.org-submit-btn:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: none;
 }
 
-/* Login redirect */
+.org-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Login prompt */
 .org-login-prompt {
-  grid-column: 1 / -1;
   text-align: center;
+  font-size: 14px;
+  color: #666;
   margin-top: 20px;
-  font-size: 13.5px;
-  color: #6b7280;
 }
 
 .org-login-link {
-  color: #345864;
-  font-weight: 600;
+  color: #667eea;
   cursor: pointer;
-  border-bottom: 1.5px solid transparent;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .org-login-link:hover {
-  color: #0f2027;
-  border-bottom-color: #0f2027;
+  color: #764ba2;
+  text-decoration: underline;
 }
 
-/* ============================================
-   Responsive
-   ============================================ */
-@media (max-width: 960px) {
-  .org-signup-hero {
-    display: none;
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .org-signup-outer {
+    flex-direction: column;
   }
+
+  .org-signup-hero,
   .org-signup-form-panel {
-    flex: 1;
-    padding: 40px 28px;
-    min-height: 100vh;
-    align-items: flex-start;
-    padding-top: 72px;
+    min-height: auto;
+    padding: 40px 20px;
+  }
+
+  .org-hero-title {
+    font-size: 32px;
+  }
+
+  .org-hero-subtitle {
+    font-size: 16px;
   }
 }
 
-@media (max-width: 540px) {
-  .org-signup-form-panel {
-    padding: 60px 18px 40px;
+@media (max-width: 600px) {
+  .org-signup-form-container {
+    max-width: 100%;
   }
-  .org-form {
-    grid-template-columns: 1fr;
+
+  .org-hero-title {
+    font-size: 28px;
   }
-  .org-submit-btn {
-    grid-column: 1;
+
+  .org-form-group input {
+    font-size: 16px; /* Prevents zoom on iOS */
   }
-  .org-login-prompt {
-    grid-column: 1;
-  }
+
   .org-signup-form-container h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
 }

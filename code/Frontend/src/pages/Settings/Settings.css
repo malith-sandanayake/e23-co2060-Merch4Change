@@ -1,0 +1,36 @@
+.settings-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #fafafa;
+  padding-left: 220px;
+  transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.settings-page:has(.lum-sidebar-collapsed) {
+  padding-left: 64px;
+}
+
+.settings-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.settings-content {
+  flex: 1;
+  overflow-y: auto;
+  background: white;
+}
+
+@media (max-width: 768px) {
+  .settings-page {
+    padding-left: 0;
+    flex-direction: column;
+  }
+
+  .settings-body {
+    flex-direction: column;
+  }
+}
