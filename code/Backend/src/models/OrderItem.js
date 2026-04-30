@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+/**
+ * Legacy line-item collection. New checkouts store items on {@link Order} instead.
+ */
 const orderItemSchema = new mongoose.Schema(
   {
     orderId: {

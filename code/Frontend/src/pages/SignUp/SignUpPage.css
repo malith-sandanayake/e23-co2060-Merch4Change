@@ -1,0 +1,511 @@
+.signup-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.signup-left {
+  width: 50%;
+  background: #f7f6f2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  position: relative;
+}
+
+.signup-right {
+  width: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 52px;
+  overflow-y: auto;
+}
+
+.signup-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 10;
+}
+
+.signup-brand-icon {
+  width: 32px;
+  height: 32px;
+  background: #4a24e1;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-brand-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+}
+
+.signup-tagline {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  line-height: 1.15;
+  color: #111;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 10;
+}
+
+.signup-tagline em {
+  font-style: italic;
+  color: #4a24e1;
+}
+
+.signup-testimonial {
+  background: white;
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 0.5px solid #e8e8e8;
+  position: relative;
+  z-index: 10;
+}
+
+.signup-dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(#111 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.05;
+  z-index: 1;
+}
+
+.progress-wrap {
+  margin-bottom: 28px;
+}
+
+.progress-label {
+  font-size: 11.5px;
+  color: #bbb;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 6px;
+}
+
+.progress-segment {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: #e4e4e4;
+}
+
+.progress-segment.active {
+  background: #4a24e1;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 7px;
+  display: block;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  background: #fafafa;
+  color: #111;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #4a24e1;
+  background: white;
+}
+
+.account-cards {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.account-card {
+  flex: 1;
+  border: 1px solid #e4e4e4;
+  border-radius: 14px;
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: white;
+  text-align: center;
+}
+
+.account-card:hover {
+  border-color: #c4b5fd;
+}
+
+.account-card.selected {
+  border: 2px solid #4a24e1;
+  background: #f5f3ff;
+}
+
+.account-card-icon {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.account-card-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.account-card-desc {
+  font-size: 12.5px;
+  color: #999;
+  line-height: 1.5;
+}
+
+.username-shell {
+  position: relative;
+}
+
+.username-prefix {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #bbb;
+}
+
+.username-input {
+  padding-left: 26px !important;
+}
+
+.username-status-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.username-status-icon.available {
+  color: #639922;
+}
+
+.username-status-icon.taken {
+  color: #e24b4a;
+}
+
+.username-spinner {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid #e4e4e4;
+  border-top-color: #4a24e1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+.username-suggestions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.username-suggestion-pill {
+  font-size: 12px;
+  padding: 4px 10px;
+  border: 1px solid #e4e4e4;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  color: #4a24e1;
+}
+
+.username-suggestion-pill:hover {
+  background: #f5f3ff;
+}
+
+.username-help {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.username-help.available {
+  color: #639922;
+}
+
+.username-help.taken {
+  color: #e24b4a;
+}
+
+.username-help.invalid {
+  color: #e24b4a;
+}
+
+.username-help.error {
+  color: #ef9f27;
+}
+
+.username-help.checking {
+  color: #bbb;
+}
+
+.strength-bar {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.strength-segment {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: #e4e4e4;
+}
+
+.strength-segment.weak {
+  background: #e24b4a;
+}
+
+.strength-segment.fair {
+  background: #ef9f27;
+}
+
+.strength-segment.strong {
+  background: #639922;
+}
+
+.strength-label {
+  font-size: 11.5px;
+  margin-top: 4px;
+}
+
+.strength-label.weak {
+  color: #e24b4a;
+}
+
+.strength-label.fair {
+  color: #ef9f27;
+}
+
+.strength-label.strong {
+  color: #639922;
+}
+
+.photo-upload {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px dashed #e4e4e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.photo-upload:hover {
+  border-color: #4a24e1;
+}
+
+.photo-upload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background: #4a24e1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  margin-top: 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.btn-skip {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  display: block;
+  margin: 10px auto 0;
+  text-align: center;
+}
+
+.done-check {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #4a24e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.done-check-inner {
+  width: 20px;
+  height: 10px;
+  border-left: 2.5px solid #4a24e1;
+  border-bottom: 2.5px solid #4a24e1;
+  transform: rotate(-45deg) translateY(-3px);
+}
+
+.done-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: #111;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.done-subtitle {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4a24e1;
+  margin-bottom: 10px;
+}
+
+.form-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: #111;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.form-subtitle {
+  font-size: 13.5px;
+  color: #999;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+
+.signin-row {
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  margin-top: 20px;
+}
+
+.signin-row a,
+.signin-row span {
+  color: #4a24e1;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #e24b4a;
+  font-size: 12px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.password-shell {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bio-counter {
+  font-size: 11.5px;
+  color: #bbb;
+  text-align: right;
+  margin-top: 4px;
+}

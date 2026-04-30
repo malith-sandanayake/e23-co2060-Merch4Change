@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { createMockResponse, nextTick } from "../helpers/http.js";
+import Brand from "../../../src/models/Brand.js";
 import OrganizationProfile from "../../../src/models/OrganizationProfile.js";
 import User from "../../../src/models/User.js";
 import { createOrganizationProfile, createUserProfile } from "../../../src/constructors/profile.creator.js";
@@ -105,6 +106,7 @@ test("createOrganizationProfile creates a user and organization profile", async 
   const originalUserCreate = User.create;
   const originalOrgFindOne = OrganizationProfile.findOne;
   const originalOrgCreate = OrganizationProfile.create;
+  const originalBrandCreate = Brand.create;
 
   const userQueries = [];
   const orgQueries = [];
@@ -125,6 +127,10 @@ test("createOrganizationProfile creates a user and organization profile", async 
   OrganizationProfile.create = async (payload) => ({
     _id: "p1",
     createdAt: "2026-04-13T00:00:00.000Z",
+    ...payload,
+  });
+  Brand.create = async (payload) => ({
+    _id: "brand-1",
     ...payload,
   });
 
@@ -153,6 +159,7 @@ test("createOrganizationProfile creates a user and organization profile", async 
     User.create = originalUserCreate;
     OrganizationProfile.findOne = originalOrgFindOne;
     OrganizationProfile.create = originalOrgCreate;
+    Brand.create = originalBrandCreate;
   }
 
   assert.equal(nextArg, undefined);

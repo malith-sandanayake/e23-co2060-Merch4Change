@@ -19,7 +19,7 @@ test("validateRegisterBody normalizes and accepts valid payload", () => {
   assert.equal(result.value.lastName, "Doe");
   assert.equal(result.value.userName, "janedoe");
   assert.equal(result.value.email, "jane@example.com");
-  assert.equal(result.value.accountType, "user");
+  assert.equal(result.value.accountType, "individual");
 });
 
 test("validateRegisterBody returns validation errors", () => {

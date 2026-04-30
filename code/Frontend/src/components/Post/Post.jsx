@@ -1,60 +1,70 @@
 import { useState } from "react";
-import { useIntersectionTimer } from "../../hooks/useIntersectionTimer";
-import ActionButton from "./ActionButton";
-import ShopPopUp from "../ShopPopUp/ShopPopUp";
 import "./Post.css";
 
-// Assets (Keep your existing imports)
 import test from "../../assets/test.jpg";
-import postImage from "../../assets/icon.png";
-import { shop, heart, redheart, comments, share } from "../../assets/post_icons";
+import heart from "../../assets/post_icons/heart.svg";
+import redheart from "../../assets/post_icons/red-heart.svg";
+import comments from "../../assets/post_icons/comments.svg";
+import share from "../../assets/post_icons/share.svg";
 
-function Post({ data }) {
-  // 1. Logic handled by custom hook
-  const [postRef, showDetails] = useIntersectionTimer(3000);
-  
-  // 2. Simple UI states
-  const [isLiked, setIsLiked] = useState(false);
-  const [isShopOpen, setIsShopOpen] = useState(false);
+function Post() {
+  const [like, setLike] = useState(false);
 
   return (
-    <div className="post" ref={postRef}>
+    <div className="post-card">
       <div className="post-header">
-        <img src={test} alt="user" />
-        <div>
-          <h4>{data?.username || "Renzo"}</h4>
-          <span>{data?.time || "2h ago"}</span>
+        <div className="post-user-info">
+          <img src={test} alt="user" className="post-avatar" />
+          <div className="post-meta">
+            <h4>Zoe.Studio</h4>
+            <span>2 hours ago • Milan, Italy</span>
+          </div>
+        </div>
+        <button type="button" className="post-more-btn" aria-label="More options">
+          <span>•••</span>
+        </button>
+      </div>
+
+      <div className="post-description">
+        <p>
+          The morning light in Milan just hits different. Obsessed with these new linen textures from the Summer Archive. 🇮🇹✨ #LuminousStyle #MilanFashion
+        </p>
+      </div>
+
+      <div className="post-image-grid">
+        <div className="main-image" />
+        <div className="side-images">
+          <div className="side-image top-side" />
+          <div className="side-image bottom-side">
+            <div className="image-overlay">+4 items</div>
+          </div>
         </div>
       </div>
 
-      <div className="post-content">
-        <img src={postImage} alt="post" className="post-image" />
-        {data?.caption || "Building my React social media app 🚀🔥"}
-      </div>
+      <div className="post-footer">
+        <div className="post-actions">
+          <button type="button" onClick={() => setLike((current) => !current)} className="action-btn">
+            {like ? (
+              <img src={redheart} alt="liked" className="action-icon" />
+            ) : (
+              <img src={heart} alt="like" className="action-icon" />
+            )}
+            <span>1.2k</span>
+          </button>
 
-      <div className={`product-details ${showDetails ? "active" : ""}`}>
-        <p>This item will be great</p>
-        {showDetails && <h4 className="see-details">See details</h4>}
-      </div>
+          <button type="button" className="action-btn">
+            <img src={comments} alt="comment" className="action-icon" />
+            <span>84</span>
+          </button>
 
-      <div className="post-actions">
-        <ActionButton 
-          icon={shop} 
-          onClick={() => setIsShopOpen(true)} 
-        />
-        
-        <ActionButton 
-          icon={heart} 
-          activeIcon={redheart}
-          active={isLiked}
-          count={0} 
-          onClick={() => setIsLiked(!isLiked)} 
-        />
+          <button type="button" className="action-btn">
+            <img src={share} alt="share" className="action-icon" />
+          </button>
+        </div>
 
-        <ActionButton icon={comments} count={0} />
-        <ActionButton icon={share} />
-
-        {isShopOpen && <ShopPopUp onClose={() => setIsShopOpen(false)} />}
+        <button type="button" className="shop-look-btn">
+          Shop Look
+        </button>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ const projectSchema = new mongoose.Schema(
   {
     charityId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Charity",
       required: true,
       index: true,
     },
