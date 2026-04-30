@@ -1,0 +1,302 @@
+.right-sidebar {
+  width: 340px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.rs-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.rs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.rs-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.rs-users {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rs-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rs-user img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rs-user-info {
+  flex: 1;
+}
+
+.rs-user-info h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.rs-user-info p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #8e8e8e;
+}
+
+.rs-follow-btn {
+  background: #f4ecfd;
+  color: #7b2cbf;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.rs-follow-btn:hover {
+  background: #e4ccfd;
+}
+
+.rs-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rs-tag {
+  background: white;
+  color: #444;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #eaeaea;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.rs-tag:hover {
+  background: #f9f9f9;
+}
+
+.rs-live-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.live-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #7b2cbf;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(123, 44, 191, 0.2);
+}
+
+.rs-live-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.rs-live-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rs-live-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.rs-live-item img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.rs-live-item p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.rs-live-item strong {
+  color: #1a1a1a;
+}
+
+.highlight {
+  color: #4a24e1;
+  font-weight: 600;
+}
+
+.rs-happening {
+  margin-top: 24px;
+  background: #f4f5f8;
+  padding: 20px;
+  border-radius: 30px;
+  text-align: center;
+}
+
+.happening-label {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #888;
+  letter-spacing: 1px;
+}
+
+.rs-happening h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.rs-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 10px;
+}
+
+.rs-footer a {
+  font-size: 12px;
+  color: #8e8e8e;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.rs-footer a:hover {
+  text-decoration: underline;
+}
+
+.rs-footer p {
+  width: 100%;
+  font-size: 12px;
+  color: #aaa;
+  margin: 10px 0 0;
+}
+
+/* Profile page uses same sidebar container/card sizing as Home.
+   Keep only profile-specific content styling below. */
+
+.widget-drops {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.drop-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.drop-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.drop-bg-1 {
+  background: linear-gradient(135deg, #111, #333);
+}
+
+.drop-bg-2 {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+.drop-info h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.drop-info p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #888;
+}
+
+.widget-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-item {
+  background: transparent;
+  padding: 10px 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.stars {
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+.review-item p {
+  margin: 0 0 15px;
+  font-size: 13px;
+  color: #555;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.reviewer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reviewer img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.reviewer span {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 1200px) {
+  .right-sidebar {
+    display: none;
+  }
+}

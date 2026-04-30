@@ -1,49 +1,45 @@
-.profile-head {
-  border: 1px solid black;
-  max-width: 450px;
-  display: flex;
-  gap: 45px;
-  margin: 0 auto;
-}
-
-.avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid black;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-.name-section {
-  display: flex;
-  gap: 30px;
-}
-
-.profile-details {
+/* Luminous App Global Resets */
+.luminous-app {
+  background-color: #f6f7fa;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: #1a1a1a;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
-.profile-details h1,
-h2 {
-  margin: 0;
-}
-
-.follow-details {
+/* Main Layout */
+.lum-layout {
   display: flex;
-  gap: 10px;
-  font-size: 15px;
-  border: 1px solid black;
-  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 50px;
 }
 
-.follow-details h3 {
-  margin: 0;
+/* Main Content */
+.lum-main-content {
+  flex: 1;
+  margin-left: 220px;
+  padding: 0 30px;
+  max-width: 850px;
+  min-width: 0;
+  /* Prevents flex overflow */
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sub-following {
-  display: flex;
-  gap: 5px;
+.sidebar-collapsed .lum-main-content {
+  margin-left: 0;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+  .lum-main-content {
+    margin-left: 0;
+    padding: 0 20px;
+  }
 }
