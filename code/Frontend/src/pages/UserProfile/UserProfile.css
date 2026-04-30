@@ -1,0 +1,45 @@
+/* Luminous App Global Resets */
+.luminous-app {
+  background-color: #f6f7fa;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main Layout */
+.lum-layout {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+/* Main Content */
+.lum-main-content {
+  flex: 1;
+  margin-left: 220px;
+  padding: 0 30px;
+  max-width: 850px;
+  min-width: 0;
+  /* Prevents flex overflow */
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-collapsed .lum-main-content {
+  margin-left: 0;
+}
+
+
+
+
+
+@media (max-width: 992px) {
+  .lum-main-content {
+    margin-left: 0;
+    padding: 0 20px;
+  }
+}

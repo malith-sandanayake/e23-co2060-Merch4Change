@@ -1,0 +1,41 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "code/frontend/**"
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "code/frontend/**"
+
+jobs:
+  build:
+    name: Lint & Build (React)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: code/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: code/frontend
+
+      - name: Run ESLint
+        run: npm run lint
+        working-directory: code/frontend
+
+      - name: Build production bundle
+        run: npm run build
+        working-directory: code/frontend
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}

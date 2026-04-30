@@ -1,0 +1,195 @@
+.about-page {
+  font-family: "Poppins", sans-serif;
+  min-height: 80vh;
+  background-color: #f8fafc;
+  opacity: 0; /* For animation */
+  transition: opacity 0.6s ease-in-out;
+}
+
+.about-page.animate-in {
+  opacity: 1;
+}
+
+.about-hero {
+  padding: 100px 5%;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+.story-hero {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.mission-hero {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.team-hero {
+  background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+}
+
+.about-hero h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.about-hero p {
+  font-size: 20px;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.about-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 5%;
+}
+
+.content-block {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
+}
+
+.content-block h2 {
+  font-size: 28px;
+  color: #0f2027;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.content-block h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 40px;
+  height: 3px;
+  background-color: #547e90;
+}
+
+.content-block p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #64748b;
+}
+
+/* Mission cards */
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.mission-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.mission-card:hover {
+  transform: translateY(-10px);
+}
+
+.mission-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.mission-card h3 {
+  font-size: 22px;
+  color: #0f2027;
+  margin-bottom: 16px;
+}
+
+.mission-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+/* Team Grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.team-card {
+  background: #fff;
+  padding: 40px 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.team-avatar {
+  font-size: 60px;
+  background: #f1f5f9;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.team-card h3 {
+  font-size: 20px;
+  color: #0f2027;
+  margin-bottom: 8px;
+}
+
+.team-card p {
+  font-size: 14px;
+  color: #547e90;
+  font-weight: 500;
+}
+
+/* Animations */
+.slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.animate-in .slide-up {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.animate-in .delay-1 {
+  transition-delay: 0.1s;
+}
+.animate-in .delay-2 {
+  transition-delay: 0.3s;
+}
+.animate-in .delay-3 {
+  transition-delay: 0.5s;
+}
+.animate-in .delay-4 {
+  transition-delay: 0.7s;
+}
+
+@media (max-width: 768px) {
+  .about-hero h1 {
+    font-size: 36px;
+  }
+  .about-hero p {
+    font-size: 18px;
+  }
+  .content-block {
+    padding: 30px 20px;
+  }
+}

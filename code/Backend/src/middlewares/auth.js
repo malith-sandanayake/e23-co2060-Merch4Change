@@ -1,0 +1,31 @@
+import jwt from "jsonwebtoken";
+
+import env from "../config/env.js";
+import User from "../models/User.js";
+import AppError from "../utils/appError.js";
+import asyncHandler from "../utils/asyncHandler.js";
+
+const protect = asyncHandler(async (req, res, next) => {
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : null;
+
+  if (!token) {
+    throw new AppError("Not authorized. Token is missing.", 401, "TOKEN_MISSING");
+  }
+
+  try {
+    const decoded = jwt.verify(token, env.jwtSecret);
+    const user = await User.findById(decoded.userId).select("-password");
+
+    if (!user) {
+      throw new AppError("User not found for token.", 401, "USER_NOT_FOUND");
+    }
+
+    req.user = user;
+    next();
+  } catch (verifyError) {
+    throw new AppError("Not authorized. Invalid token.", 401, "INVALID_TOKEN");
+  }
+});
+
+export default protect;

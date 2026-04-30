@@ -1,0 +1,124 @@
+.faq-page {
+  padding: 80px 5%;
+  min-height: 80vh;
+  background-color: #f8fafc;
+  font-family: "Poppins", sans-serif;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.faq-header h1 {
+  font-size: 42px;
+  font-weight: 700;
+  color: #0f2027;
+  margin-bottom: 16px;
+}
+
+.faq-header p {
+  font-size: 18px;
+  color: #547e90;
+}
+
+.faq-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-section {
+  margin-bottom: 40px;
+}
+
+.faq-section h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #345864;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accordion-item {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  border: 1px solid #eef2f6;
+}
+
+.accordion-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 17px;
+  font-weight: 500;
+  color: #0f2027;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+  background-color: #fdfdfd;
+}
+
+.accordion-icon {
+  font-size: 24px;
+  color: #547e90;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+  color: #0f2027;
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.accordion-item.open .accordion-body {
+  max-height: 300px; /* arbitrary large value */
+}
+
+.accordion-content {
+  padding: 0 24px 24px;
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .faq-header h1 {
+    font-size: 32px;
+  }
+
+  .accordion-header {
+    font-size: 15px;
+    padding: 16px 20px;
+  }
+
+  .accordion-content {
+    padding: 0 20px 20px;
+  }
+}

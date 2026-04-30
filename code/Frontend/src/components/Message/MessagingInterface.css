@@ -18,29 +18,29 @@
 }
 
 .active-user-name {
-	margin-top: 6px;
-	margin-bottom: 18px;
-	font-weight: 600;
+  margin-top: 6px;
+  margin-bottom: 18px;
+  font-weight: 600;
 }
 
 .contact-list {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .contact-item {
-	text-align: left;
-	border: 1px solid #d1d7e5;
-	background: #fff;
-	border-radius: 10px;
-	padding: 10px 12px;
-	cursor: pointer;
+  text-align: left;
+  border: 1px solid #d1d7e5;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
 }
 
 .contact-item.selected {
-	background: #e9f0ff;
-	border-color: #8fb0ff;
+  background: #e9f0ff;
+  border-color: #8fb0ff;
 }
 
 .messaging-main {
@@ -52,18 +52,18 @@
 }
 
 .message-header {
-	padding: 20px;
-	border-bottom: 1px solid #dfe3ee;
-	background: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #dfe3ee;
+  background: #fff;
 }
 
 .message-header h3 {
-	margin: 0;
+  margin: 0;
 }
 
 .message-header p {
-	margin: 8px 0 0;
-	color: #5b6478;
+  margin: 8px 0 0;
+  color: #5b6478;
 }
 
 .message-list {
@@ -77,41 +77,41 @@
 }
 
 .message-row {
-	max-width: 70%;
-	padding: 10px 14px;
-	border-radius: 12px;
-	line-height: 1.4;
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  line-height: 1.4;
 }
 
 .message-row.own {
-	align-self: flex-end;
-	background: #d7e6ff;
+  align-self: flex-end;
+  background: #d7e6ff;
 }
 
 .message-row.other {
-	align-self: flex-start;
-	background: #ffffff;
-	border: 1px solid #dfe3ee;
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1px solid #dfe3ee;
 }
 
 .empty-text {
-	color: #6d7486;
+  color: #6d7486;
 }
 
 .message-input-form {
-	display: flex;
-	gap: 10px;
-	padding: 16px 20px;
-	border-top: 1px solid #dfe3ee;
-	background: #fff;
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #dfe3ee;
+  background: #fff;
 }
 
 .message-input-form input {
-	flex: 1;
-	border: 1px solid #d1d7e5;
-	border-radius: 10px;
-	padding: 10px 12px;
-	font-size: 15px;
+  flex: 1;
+  border: 1px solid #d1d7e5;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
 }
 
 .messaging-button {
@@ -195,9 +195,9 @@
 }
 
 .messaging-empty {
-	margin: auto;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	gap: 14px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }

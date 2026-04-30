@@ -1,0 +1,10 @@
+.ss-nav { width: 220px; min-width: 220px; height: 100%; background: white; border-right: 1px solid #f0f0f0; display: flex; flex-direction: column; overflow-y: auto; }
+.ss-nav__header { padding: 22px 16px 14px; font-size: 15px; font-weight: 700; color: #111; border-bottom: 1px solid #f0f0f0; }
+.ss-nav__group { padding: 10px 0; }
+.ss-nav__group-label { display: block; font-size: 10.5px; font-weight: 700; color: #bbb; padding: 4px 16px 6px; text-transform: uppercase; letter-spacing: 0.07em; }
+.ss-nav__item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 16px; background: none; border: none; border-right: 2px solid transparent; font-size: 13.5px; font-weight: 500; color: #666; cursor: pointer; text-align: left; font-family: inherit; transition: background 0.1s, color 0.1s; }
+.ss-nav__item:hover { background: #f8f9fb; color: #222; }
+.ss-nav__item--active { background: #f4f5f8; color: #4a24e1; border-right-color: #4a24e1; }
+.ss-nav__item--danger { color: #ed4956; }
+.ss-nav__item--danger:hover { background: #fff0f1; color: #ed4956; }
+.ss-nav__icon { display: flex; align-items: center; width: 18px; flex-shrink: 0; }
