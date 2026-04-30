@@ -34,9 +34,7 @@ function LoginPage() {
 
       if (response.ok && result?.success) {
         localStorage.setItem("token", result.data.token);
-        const username =
-          result?.data?.user?.fullName || result?.data?.user?.email || "me";
-        navigate(`/profile/${encodeURIComponent(username)}`);
+        navigate("/home");
         return;
       }
 
