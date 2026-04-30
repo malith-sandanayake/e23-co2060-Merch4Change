@@ -29,7 +29,7 @@ function MarketplacePage() {
           setProfileData(data.data.user);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const handleTabChange = useCallback(
