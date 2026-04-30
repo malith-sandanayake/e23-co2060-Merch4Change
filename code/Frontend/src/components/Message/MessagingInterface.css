@@ -1,14 +1,20 @@
 .messaging-shell {
-  display: flex;
-  height: 100vh;
-  background: #f6f7fb;
+	display: flex;
+	height: calc(100vh - 60px);
+	max-height: calc(100vh - 60px);
+	background: #f6f7fb;
+	width: 100%;
+	overflow: hidden;
 }
 
 .messaging-sidebar {
-  width: 280px;
-  padding: 20px;
-  border-right: 1px solid #dfe3ee;
-  background: #ffffff;
+	width: 280px;
+	padding: 20px;
+	border-right: 1px solid #dfe3ee;
+	background: #ffffff;
+	overflow-y: auto;
+	min-width: 280px;
+	flex-shrink: 0;
 }
 
 .active-user-name {
@@ -38,9 +44,11 @@
 }
 
 .messaging-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 }
 
 .message-header {
@@ -59,12 +67,13 @@
 }
 
 .message-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
 .message-row {
@@ -106,12 +115,83 @@
 }
 
 .messaging-button {
-  border: 1px solid #2f6feb;
-  background: #2f6feb;
-  color: #fff;
-  border-radius: 10px;
-  padding: 10px 14px;
-  cursor: pointer;
+	flex-shrink: 0;
+	white-space: nowrap;
+}
+
+.messaging-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+	.messaging-shell {
+		flex-direction: column;
+	}
+
+	.messaging-sidebar {
+		width: 100%;
+		min-width: 100%;
+		border-right: none;
+		border-bottom: 1px solid #dfe3ee;
+		max-height: 120px;
+		padding: 12px;
+	}
+
+	.contact-list {
+		flex-direction: row;
+		overflow-x: auto;
+		flex-wrap: wrap;
+	}
+
+	.contact-item {
+		flex-shrink: 0;
+		min-width: 120px;
+	}
+
+	.messaging-main {
+		flex: 1;
+		min-width: 100%;
+	}
+
+	.message-row {
+		max-width: 85%;
+	}
+}
+
+@media (max-width: 480px) {
+	.messaging-sidebar {
+		max-height: 100px;
+		padding: 8px;
+	}
+
+	.message-row {
+		max-width: 95%;
+		padding: 8px 12px;
+	}
+
+	.message-input-form {
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 12px;
+	}
+
+	.message-input-form input {
+		min-width: 100%;
+		flex: 1 !important;
+	}
+
+	.messaging-button {
+		padding: 8px 12px;
+		font-size: 14px;
+	}
+	border: 1px solid #2f6feb;
+	background: #2f6feb;
+	color: #fff;
+	border-radius: 10px;
+	padding: 10px 14px;
+	cursor: pointer;
 }
 
 .messaging-empty {
