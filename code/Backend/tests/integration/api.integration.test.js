@@ -6,8 +6,9 @@ import jwt from "jsonwebtoken";
 
 import app from "../../src/app.js";
 import env from "../../src/config/env.js";
+import Brand from "../../src/models/Brand.js";
+import CoinTransaction from "../../src/models/CoinTransaction.js";
 import Order from "../../src/models/Order.js";
-import OrderItem from "../../src/models/OrderItem.js";
 import Product from "../../src/models/Product.js";
 import OrganizationProfile from "../../src/models/OrganizationProfile.js";
 import User from "../../src/models/User.js";
@@ -26,8 +27,10 @@ const originalProductCreate = Product.create;
 const originalOrderFind = Order.find;
 const originalOrderFindById = Order.findById;
 const originalOrderCreate = Order.create;
-const originalOrderItemFind = OrderItem.find;
-const originalOrderItemCreate = OrderItem.create;
+const originalBrandFindOne = Brand.findOne;
+const originalBrandCreate = Brand.create;
+const originalUserFindByIdAndUpdate = User.findByIdAndUpdate;
+const originalCoinTransactionCreate = CoinTransaction.create;
 const originalHash = bcrypt.hash;
 const originalCompare = bcrypt.compare;
 const originalSign = jwt.sign;
@@ -44,8 +47,10 @@ const restoreMocks = () => {
   Order.find = originalOrderFind;
   Order.findById = originalOrderFindById;
   Order.create = originalOrderCreate;
-  OrderItem.find = originalOrderItemFind;
-  OrderItem.create = originalOrderItemCreate;
+  Brand.findOne = originalBrandFindOne;
+  Brand.create = originalBrandCreate;
+  User.findByIdAndUpdate = originalUserFindByIdAndUpdate;
+  CoinTransaction.create = originalCoinTransactionCreate;
   bcrypt.hash = originalHash;
   bcrypt.compare = originalCompare;
   jwt.sign = originalSign;
@@ -132,6 +137,10 @@ test("POST /api/v1/auth/register creates an organization profile", async () => {
   OrganizationProfile.create = async (data) => ({
     _id: "org-profile-1",
     createdAt: "2026-04-13T00:00:00.000Z",
+    ...data,
+  });
+  Brand.create = async (data) => ({
+    _id: "brand-org-1",
     ...data,
   });
 
@@ -230,14 +239,16 @@ test("GET /api/v1/profile/me returns current user for a valid token", async () =
 test("GET /api/v1/marketplace/products returns products", async () => {
   restoreMocks();
 
-  Product.find = async () => [
-    {
-      _id: "product-1",
-      name: "Solar Bottle",
-      price: 25,
-      stock: 8,
-    },
-  ];
+  Product.find = () => ({
+    populate: async () => [
+      {
+        _id: "product-1",
+        name: "Solar Bottle",
+        price: 25,
+        stock: 8,
+      },
+    ],
+  });
 
   const response = await fetch(`${baseUrl}/api/v1/marketplace/products`);
   const payload = await response.json();
@@ -262,6 +273,12 @@ test("POST /api/v1/marketplace/products creates a product for individual account
     }),
   });
 
+  Brand.findOne = async () => null;
+  Brand.create = async (data) => ({
+    _id: "brand-1",
+    ownerUserId: data.ownerUserId,
+    brandName: data.brandName,
+  });
   Product.create = async (data) => ({
     _id: "product-2",
     ...data,
@@ -285,7 +302,7 @@ test("POST /api/v1/marketplace/products creates a product for individual account
 
   assert.equal(response.status, 201);
   assert.equal(payload.success, true);
-  assert.equal(payload.data.product.brandId, "user-product-2");
+  assert.equal(payload.data.product.brandId, "brand-1");
   assert.equal(payload.data.product.name, "Reusable Bag");
 });
 
@@ -314,12 +331,13 @@ test("POST /api/v1/marketplace/checkout creates a paid order and order items", a
   };
 
   Product.findById = async () => productState;
-  Order.create = async (data) => ({
-    _id: "order-1",
+  User.findByIdAndUpdate = async () => ({});
+  CoinTransaction.create = async (data) => ({
+    _id: "coin-tx-1",
     ...data,
   });
-  OrderItem.create = async (data) => ({
-    _id: `order-item-${data.productId}`,
+  Order.create = async (data) => ({
+    _id: "order-1",
     ...data,
   });
 
@@ -339,6 +357,7 @@ test("POST /api/v1/marketplace/checkout creates a paid order and order items", a
   assert.equal(payload.success, true);
   assert.equal(payload.data.order.status, "paid");
   assert.equal(payload.data.order.totalAmount, 40);
+  assert.equal(payload.data.order.items.length, 1);
   assert.equal(payload.data.items.length, 1);
   assert.equal(productState.stock, 3);
 });

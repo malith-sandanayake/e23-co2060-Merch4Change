@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: 2,
       maxlength: 120,
-    },  
-
+    },
     userName: {
       type: String,
       required: true,
@@ -25,7 +24,6 @@ const userSchema = new mongoose.Schema(
       minlength: 2,
       maxlength: 120,
     },
-
     email: {
       type: String,
       required: true,
@@ -44,12 +42,41 @@ const userSchema = new mongoose.Schema(
       enum: ["individual", "organization"],
       default: "individual",
     },
+    role: {
+      type: String,
+      enum: ["user", "brand", "charity", "admin"],
+      default: "user",
+      index: true,
+    },
+    coinBalance: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+  
+    profileImage: {
+      data: Buffer,
+      contentType: String,
+    },
   },
   {
     timestamps: true,
     versionKey: false,
   },
 );
+
+userSchema.pre("save", function assignDefaultRole(next) {
+  if (this.isNew && this.accountType === "organization") {
+    this.role = "brand";
+  } else if (this.isModified("accountType")) {
+    this.role = this.accountType === "organization" ? "brand" : "user";
+  }
+  next();
+});
 
 userSchema.virtual("fullName").get(function fullNameGetter() {
   return `${this.firstName} ${this.lastName}`.trim();

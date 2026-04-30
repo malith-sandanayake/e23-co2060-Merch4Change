@@ -10,6 +10,8 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import MessagingInterface from "./components/Message/MessagingInterface";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import MarketplacePage from "./pages/Marketplace/Marketplace";
+import SignUpPage from "./pages/SignUp/SignUpPage";
 import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
 import UserSignupPage from "./pages/SignUp/UserSignupPage";
 import Settings from "./pages/Settings/Settings";
@@ -23,6 +25,8 @@ import Contact from "./pages/HelpAndSupport/Contact";
 import OurStory from "./pages/About/OurStory";
 import Mission from "./pages/About/Mission";
 import Team from "./pages/About/Team";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Marketplace from "./pages/Marketplace/Marketplace";
 import { Analytics } from "@vercel/analytics/react"; //vercel analytics
 
 function App() {
@@ -35,7 +39,7 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SelectSignUp />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
           <Route path="/signup/usersignup" element={<UserSignupPage />} />
           <Route path="/faq" element={<FAQ />} />
@@ -47,10 +51,12 @@ function App() {
         </Route>
 
         {/* Private/App Routes */}
-        <Route path="/home" element={<Home />} />
-        <Route path="/messaging" element={<MessagingInterface />} />
-        <Route path="/settings" element={<Settings />} />
-          <Route path="/profile/me" element={<UserProfile />} />
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/messaging" element={<ProtectedRoute><MessagingInterface /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/profile/me" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+        <Route path="/profile/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+        <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
 
         {/* Dynamic Route: Perfect for Social Media Profiles */}
         <Route path="/profile/:username" element={<UserProfile />} />

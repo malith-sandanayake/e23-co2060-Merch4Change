@@ -109,16 +109,20 @@ export const validateOrganizationProfileCreateBody = (payload = {}) => {
     errors.push("confirmPassword must match password.");
   }
 
-  if (!normalized.phone || typeof normalized.phone !== "string") {
-    errors.push("phone is required and must be a string.");
-  } else if (!phonePattern.test(normalized.phone)) {
-    errors.push("phone must be 7-20 characters and contain only digits, spaces, +, -, or parentheses.");
+  if (normalized.phone) {
+    if (typeof normalized.phone !== "string") {
+      errors.push("phone must be a string.");
+    } else if (!phonePattern.test(normalized.phone)) {
+      errors.push("phone must be 7-20 characters and contain only digits, spaces, +, -, or parentheses.");
+    }
   }
 
-  if (!normalized.address || typeof normalized.address !== "string") {
-    errors.push("address is required and must be a string.");
-  } else if (normalized.address.length > 250) {
-    errors.push("address must not exceed 250 characters.");
+  if (normalized.address) {
+    if (typeof normalized.address !== "string") {
+      errors.push("address must be a string.");
+    } else if (normalized.address.length > 250) {
+      errors.push("address must not exceed 250 characters.");
+    }
   }
 
   if (normalized.website) {
