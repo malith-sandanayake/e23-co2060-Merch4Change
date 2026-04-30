@@ -1,0 +1,577 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Layout ─────────────────────────────────────────────── */
+.signup-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Left Panel ──────────────────────────────────────────── */
+.signup-left {
+  width: 50%;
+  background: #f7f6f2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signup-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+}
+
+.signup-brand-icon {
+  width: 34px;
+  height: 34px;
+  background: #4a24e1;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-brand-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
+}
+
+.signup-brand-name {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #1a1a1a;
+  letter-spacing: -0.3px;
+}
+
+.signup-left-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.signup-tagline {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  line-height: 1.15;
+  color: #1a1a1a;
+  font-weight: 400;
+  max-width: 340px;
+}
+
+.signup-tagline em {
+  font-style: italic;
+  color: #4a24e1;
+}
+
+.signup-testimonial {
+  background: white;
+  border-radius: 14px;
+  padding: 20px 22px;
+  z-index: 2;
+}
+
+.signup-testimonial-text {
+  font-size: 13.5px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.signup-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.signup-testimonial-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a24e1, #9c7bff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+  font-weight: 600;
+}
+
+.signup-testimonial-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.signup-testimonial-role {
+  font-size: 12px;
+  color: #999;
+}
+
+.signup-dot-grid {
+  position: absolute;
+  bottom: 120px;
+  right: -20px;
+  width: 160px;
+  height: 160px;
+  opacity: 0.18;
+  z-index: 1;
+}
+
+/* ── Right Panel ─────────────────────────────────────────── */
+.signup-right {
+  width: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 52px;
+  overflow-y: auto;
+}
+
+/* ── Progress Bar ────────────────────────────────────────── */
+.signup-progress-wrapper {
+  margin-bottom: 36px;
+}
+
+.signup-progress-label {
+  font-size: 12px;
+  color: #bbb;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.progress-bar {
+  display: flex;
+  gap: 6px;
+}
+
+.progress-segment {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: #e4e4e4;
+  transition: background 0.3s ease;
+}
+
+.progress-segment.active {
+  background: #4a24e1;
+}
+
+/* ── Eyebrow / Title ─────────────────────────────────────── */
+.signup-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4a24e1;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.signup-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.signup-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 28px;
+}
+
+/* ── Form Fields ─────────────────────────────────────────── */
+.signup-field {
+  margin-bottom: 16px;
+}
+
+.signup-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 7px;
+}
+
+.signup-input {
+  width: 100%;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  background: #fafafa;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.signup-input:focus {
+  border-color: #4a24e1;
+  background: #fff;
+}
+
+.signup-input::placeholder {
+  color: #c0c0c0;
+}
+
+select.signup-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.signup-input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.signup-input-row .signup-field {
+  flex: 1;
+}
+
+.signup-input-adornment {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.signup-input-adornment .adornment-prefix {
+  position: absolute;
+  left: 14px;
+  color: #aaa;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.signup-input-adornment .signup-input {
+  padding-left: 28px;
+}
+
+.signup-input-adornment .adornment-suffix {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.signup-input-adornment .adornment-suffix:hover {
+  color: #666;
+}
+
+.signup-input-adornment .signup-input.has-suffix {
+  padding-right: 40px;
+}
+
+/* ── Password Strength ───────────────────────────────────── */
+.strength-bar {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.strength-segment {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: #e4e4e4;
+  transition: background 0.3s ease;
+}
+
+.strength-segment.weak   { background: #e24b4a; }
+.strength-segment.fair   { background: #ef9f27; }
+.strength-segment.strong { background: #639922; }
+
+.strength-label {
+  font-size: 11.5px;
+  margin-top: 5px;
+}
+
+.strength-label.weak   { color: #e24b4a; }
+.strength-label.fair   { color: #ef9f27; }
+.strength-label.strong { color: #639922; }
+
+/* ── Account Type Cards ──────────────────────────────────── */
+.account-cards {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.account-card {
+  flex: 1;
+  border: 1px solid #e4e4e4;
+  border-radius: 14px;
+  padding: 22px 18px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: white;
+  text-align: left;
+}
+
+.account-card:hover {
+  border-color: #c4b5fd;
+  background: #faf9ff;
+}
+
+.account-card.selected {
+  border: 2px solid #4a24e1;
+  background: #f5f3ff;
+}
+
+.account-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f0ecff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.account-card.selected .account-card-icon {
+  background: #e0d9ff;
+}
+
+.account-card-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: #4a24e1;
+}
+
+.account-card-title {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: #1a1a1a;
+  margin-bottom: 5px;
+}
+
+.account-card-desc {
+  font-size: 12.5px;
+  color: #888;
+  line-height: 1.5;
+}
+
+/* ── Profile Photo Upload ────────────────────────────────── */
+.photo-upload-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.photo-upload-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px dashed #d0d0d0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  overflow: hidden;
+  background: #fafafa;
+  position: relative;
+}
+
+.photo-upload-circle:hover {
+  border-color: #4a24e1;
+}
+
+.photo-upload-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.photo-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #bbb;
+}
+
+.photo-upload-placeholder svg {
+  width: 24px;
+  height: 24px;
+  stroke: #bbb;
+  fill: none;
+}
+
+.photo-upload-placeholder span {
+  font-size: 11px;
+}
+
+/* ── Textarea ────────────────────────────────────────────── */
+.signup-textarea {
+  width: 100%;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  background: #fafafa;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  resize: none;
+  height: 90px;
+}
+
+.signup-textarea:focus {
+  border-color: #4a24e1;
+  background: #fff;
+}
+
+.char-count {
+  font-size: 11.5px;
+  color: #bbb;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.signup-btn {
+  width: 100%;
+  background: #4a24e1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.1px;
+}
+
+.signup-btn:hover:not(:disabled) {
+  background: #3b1bc2;
+}
+
+.signup-btn:disabled {
+  background: #c5b8f5;
+  cursor: not-allowed;
+}
+
+.signup-back {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s;
+}
+
+.signup-back:hover {
+  color: #555;
+}
+
+.signup-footer-link {
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  margin-top: 18px;
+}
+
+.signup-footer-link a {
+  color: #4a24e1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-footer-link a:hover {
+  text-decoration: underline;
+}
+
+.signup-skip {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #bbb;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.signup-skip:hover {
+  color: #888;
+}
+
+/* ── Step Done ───────────────────────────────────────────── */
+.step-done-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.done-checkmark {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #f0ecff;
+  border: 2px solid #4a24e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.done-checkmark svg {
+  width: 32px;
+  height: 32px;
+  stroke: #4a24e1;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.done-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 30px;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.done-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}

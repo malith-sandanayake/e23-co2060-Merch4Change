@@ -11,8 +11,7 @@ import MessagingInterface from "./components/Message/MessagingInterface";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import MarketplacePage from "./pages/Marketplace/Marketplace";
-import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
-import UserSignupPage from "./pages/SignUp/UserSignupPage";
+import SignUpPage from "./pages/SignUp/SignUpPage";
 import Settings from "./pages/Settings/Settings";
 import OrgProfile from "./pages/OrgProfile/OrgProfile";
 import OrgCommunities from "./pages/OrgCommunities/OrgCommunities";
@@ -38,9 +37,7 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SelectSignUp />} />
-          <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
-          <Route path="/signup/usersignup" element={<UserSignupPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/help" element={<HelpAndSupport />} />
           <Route path="/help/contact" element={<Contact />} />
