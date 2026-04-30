@@ -1,42 +1,80 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import "./Home.css";
+import Feed from "../../components/Feed/Feed";
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
+import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import RightSidebar from "../../components/RightSidebar/RightSidebar";
 
-export default function Home() {
-  const [banner, setBanner] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const VALID_TABS = new Set(["feed", "discover", "trends"]);
+
+function Home() {
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [profileData, setProfileData] = useState({
+    firstName: "Guest",
+    lastName: "User", 
+    userName: "guest",
+  });
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const currentTab = searchParams.get("tab");
+  const activeTab = VALID_TABS.has(currentTab) ? currentTab : "feed";
+  const isFeedTab = activeTab === "feed";
+  const effectiveSidebarCollapsed = isSidebarCollapsed;
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/home-banners")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    fetch(`${apiUrl}/api/v1/profile/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
       .then((data) => {
-        console.log("Banner response:", data);
-        const banners = Array.isArray(data) ? data : data.data;
-        setBanner(banners[0]);
+        if (data.success && data.data?.user) {
+          setProfileData(data.data.user);
+        }
       })
-      .catch((err) => {
-        console.error(err);
-        setError(err.message);
-      })
-      .finally(() => setLoading(false));
+      .catch(() => {});
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div style={{ color: "red" }}>Error: {error}</div>;
-  if (!banner) return <div>No banner found</div>;
+  const handleTabChange = useCallback((tab) => {
+    if (tab === "marketplace") {
+      navigate("/marketplace");
+      return;
+    }
+
+    setSearchParams(tab === "feed" ? {} : { tab });
+    setIsSidebarCollapsed(tab !== "feed");
+  }, [navigate, setSearchParams]);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundImage: `url(${banner.url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <h1 style={{ color: "white", padding: "2rem" }}>Merch For Change</h1>
+    <div className={`luminous-app ${effectiveSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
+      <TopNavbar
+        isSidebarCollapsed={effectiveSidebarCollapsed}
+        setIsSidebarCollapsed={setIsSidebarCollapsed}
+        profileData={profileData}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+      />
+
+      <div className="lum-layout">
+        <UserProfileSidebar
+          profileData={profileData}
+          setIsSidebarCollapsed={setIsSidebarCollapsed}
+        />
+
+        <main className="lum-main-content home-main-content">
+          {activeTab === "feed" && <Feed />}
+          {activeTab === "discover" && <p>Discover coming soon</p>}
+          {activeTab === "trends" && <p>Trends coming soon</p>}
+        </main>
+
+        {isFeedTab && <RightSidebar page="home" />}
+      </div>
     </div>
   );
 }
+
+export default Home;

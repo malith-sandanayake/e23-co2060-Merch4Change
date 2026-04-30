@@ -16,7 +16,26 @@ ProductCard.jsx
 git checkout -b feature/profile-page
 
 2. Commit changes
-git commit -m "Add profile page layout"
+We follow the **Conventional Commits** specification. The format should be:
+`<type>[optional scope]: <description>`
+
+**Allowed Types:**
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc.)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools (e.g., updating dependencies)
+
+**Examples:**
+- `feat(auth): add login form validation`
+- `fix(navbar): resolve mobile menu overflow issue`
+- `chore(deps): update react to v18`
+- `docs(readme): add setup instructions`
+
+git commit -m "feat(profile): add user layout"
 
 3. Push branch
 git push origin feature/profile-page

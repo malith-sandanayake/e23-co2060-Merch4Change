@@ -23,7 +23,8 @@ function LoginPage() {
     setErrorMsg("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/auth/login", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const response = await fetch(`${apiUrl}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -33,9 +34,7 @@ function LoginPage() {
 
       if (response.ok && result?.success) {
         localStorage.setItem("token", result.data.token);
-        const username =
-          result?.data?.user?.fullName || result?.data?.user?.email || "me";
-        navigate(`/profile/${encodeURIComponent(username)}`);
+        navigate("/home");
         return;
       }
 
