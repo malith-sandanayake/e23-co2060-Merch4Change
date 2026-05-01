@@ -39,9 +39,6 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
-          <Route path="/signup/usersignup" element={<UserSignupPage />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/help" element={<HelpAndSupport />} />
           <Route path="/help/contact" element={<Contact />} />
@@ -49,6 +46,11 @@ function App() {
           <Route path="/about/mission" element={<Mission />} />
           <Route path="/about/team" element={<Team />} />
         </Route>
+
+        {/* Auth Routes (No Navbar) */}
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
+        <Route path="/signup/usersignup" element={<UserSignupPage />} />
 
         {/* Private/App Routes */}
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />

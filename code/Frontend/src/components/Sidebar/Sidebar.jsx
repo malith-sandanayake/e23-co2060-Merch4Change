@@ -1,54 +1,107 @@
-import React from "react";
+import React, { memo, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import user from "../../assets/user.svg";
 import "./Sidebar.css";
-import test from "../../assets/test.jpg";
-import home from "../../assets/sidebar_icons/home.svg";
-import explore from "../../assets/sidebar_icons/explore.svg";
-import settings from "../../assets/sidebar_icons/settings.svg";
+import {
+  Home,
+  MessageSquare,
+  Layers,
+  BarChart2,
+  Settings,
+  Plus, 
+  X,
+  Heart,
+} from "lucide-react";
 
-function Sidebar() {
+function Sidebar({ profileData, setIsSidebarCollapsed }) {
+  const [selectedOption, setSelectedOption] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSelectOption = (value) => {
+    setSelectedOption(value);
+  };
+
   return (
-    <div className="left-sidebar">
-      <div className="ls-profile">
-        <img src={test} alt="profile" className="ls-profile-img" />
-        <div className="ls-profile-info">
-          <h4>Alex Rivers</h4>
-          <p>PLATINUM MEMBER</p>
+    <aside className="lum-sidebar-left">
+      <div className="lum-logo">
+        <div className="lum-logo-icon">L</div>
+        <h2>Merch4Change</h2>
+        <button
+          className="lum-close-btn"
+          onClick={() => setIsSidebarCollapsed(true)}
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      <div
+        className={`lum-user-summary ${location.pathname === "/profile/me" ? "lum-user-summary2" : ""}`}
+        onClick={() => {
+          handleSelectOption(0);
+          navigate("/profile/me");
+        }}
+      >
+        <img src={user} alt="Alex Rivers" />
+        <div>
+          <h4>@{profileData?.userName || "unknown"}</h4>
+          <p>Premium User</p>
         </div>
       </div>
 
-      <nav className="ls-nav">
-        <div className="ls-nav-item active">
-          <img src={home} alt="home" className="ls-icon" />
-          <span>Home</span>
-          <span className="ls-dot"></span>
+      <div className="lum-sidebar-nav">
+        <NavLink
+          to="/home"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(1)}
+        >
+          <Home size={20} /> <span>Home</span>
+        </NavLink>
+        <NavLink
+          to="/messaging"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(2)}
+        >
+          <MessageSquare size={20} /> <span>Messages</span>
+        </NavLink>
+        <div
+          className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(3)}
+        >
+          <Layers size={20} /> <span>Collections</span>
         </div>
-        
-        <div className="ls-nav-item">
-          <img src={explore} alt="explore" className="ls-icon" />
-          <span>Explore</span>
+        <div
+          className={selectedOption === 4 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(4)}
+        >
+          <BarChart2 size={20} /> <span>Analytics</span>
         </div>
-        
-        <div className="ls-nav-item">
-          <span className="ls-emoji-icon">👗</span>
-          <span>My Closet</span>
+        <div
+          className={selectedOption === 5 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(5)}
+        >
+          <Heart size={20} /> <span>Donation</span>
         </div>
-        
-        <div className="ls-nav-item">
-          <span className="ls-emoji-icon">❤️</span>
-          <span>Favorites</span>
-        </div>
-        
-        <div className="ls-nav-item">
-          <img src={settings} alt="settings" className="ls-icon" />
-          <span>Settings</span>
-        </div>
-      </nav>
+        <NavLink
+          to="/settings"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(6)}
+        >
+          <Settings size={20} /> <span>Settings</span>
+        </NavLink>
+      </div>
 
-      <button className="ls-post-btn">
-        <span className="ls-plus">+</span> Post New Item
+      <button className="lum-create-btn">
+        <Plus size={20} /> <span>Create Post</span>
       </button>
-    </div>
+
+      <div className="lum-pro-banner">
+        <p className="pro-title">PRO PLAN</p>
+        <p className="pro-desc">Unlock deeper analytics & exclusive minting tools.</p>
+        <button className="pro-btn">Upgrade Now</button>
+      </div>
+    </aside>
   );
 }
 
-export default Sidebar;
+export default memo(Sidebar);

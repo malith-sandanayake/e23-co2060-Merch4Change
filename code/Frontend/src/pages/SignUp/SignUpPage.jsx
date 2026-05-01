@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUpPage.css';
 import StepAccountType from './steps/StepAccountType';
@@ -17,6 +17,33 @@ const LEFT_HEADLINES = {
   5: { main: "You're all", em: 'set.'               },
 };
 
+const TESTIMONIALS = [
+  {
+    text: "The core mission of Merch4Change was never just to sell products; it was to turn every commercial 'buy' into a social 'give'.",
+    initials: "MP",
+    name: "Malith Sandanayake",
+    role: "Team Lead"
+  },
+  {
+    text: "As an NGO, this platform has opened up entirely new funding streams for us without any upfront costs.",
+    initials: "JD",
+    name: "James Davies",
+    role: "NGO Director"
+  },
+  {
+    text: "I love the exclusive drops. Knowing my purchases help real people makes the items even more special.",
+    initials: "ML",
+    name: "Mia Lin",
+    role: "Verified Buyer"
+  },
+  {
+    text: "We integrated our brand in minutes. It's the most seamless way to handle corporate social responsibility.",
+    initials: "AP",
+    name: "Alex Patel",
+    role: "Brand Partner"
+  }
+];
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -26,9 +53,24 @@ export default function SignUpPage() {
     accountType: '',
     firstName: '', lastName: '', dob: '', country: '',
     orgName: '', regNumber: '', orgType: '',
-    email: '', username: '', password: '', confirmPassword: '',
+    email: '', userName: '', password: '', confirmPassword: '',
     photo: null, bio: '', website: '', social: '',
   });
+
+  const [testimonialIdx, setTestimonialIdx] = useState(0);
+  const [fade, setFade] = useState('fade-in');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade('fade-out');
+      setTimeout(() => {
+        setTestimonialIdx((prev) => (prev + 1) % TESTIMONIALS.length);
+        setFade('fade-in');
+      }, 500);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const onChange = (field, value) =>
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -53,7 +95,7 @@ export default function SignUpPage() {
             firstName:       formData.firstName,
             lastName:        formData.lastName,
             fullName:        `${formData.firstName} ${formData.lastName}`.trim(),
-            userName:        formData.username,
+            userName:        formData.userName,
             email:           formData.email,
             password:        formData.password,
             confirmPassword: formData.confirmPassword,
@@ -113,7 +155,7 @@ export default function SignUpPage() {
   return (
     <div className="signup-page">
       <div className="signup-left">
-        <div className="signup-brand">
+        <div className="signup-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <div className="signup-brand-icon">
             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
           </div>
@@ -121,7 +163,7 @@ export default function SignUpPage() {
         </div>
 
         <div className="signup-left-content">
-          <p className="signup-tagline">
+          <p key={currentStep} className="signup-tagline">
             {leftMain}<br /><em>{leftEm}</em>
           </p>
         </div>
@@ -134,15 +176,15 @@ export default function SignUpPage() {
               ))
             )}
           </svg>
-          <div className="signup-testimonial">
+          <div className={`signup-testimonial ${fade}`}>
             <p className="signup-testimonial-text">
-              "Merch4Change made it so easy to support causes I care about — just by shopping brands I already love."
+              "{TESTIMONIALS[testimonialIdx].text}"
             </p>
             <div className="signup-testimonial-author">
-              <div className="signup-testimonial-avatar">SK</div>
+              <div className="signup-testimonial-avatar">{TESTIMONIALS[testimonialIdx].initials}</div>
               <div>
-                <div className="signup-testimonial-name">Sasha Kim</div>
-                <div className="signup-testimonial-role">Community Member</div>
+                <div className="signup-testimonial-name">{TESTIMONIALS[testimonialIdx].name}</div>
+                <div className="signup-testimonial-role">{TESTIMONIALS[testimonialIdx].role}</div>
               </div>
             </div>
           </div>

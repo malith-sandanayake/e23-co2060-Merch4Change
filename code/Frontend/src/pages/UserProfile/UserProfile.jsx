@@ -1,6 +1,6 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
-import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
@@ -42,7 +42,7 @@ function UserProfile() {
 
       <div className="lum-layout">
         {/* Left Sidebar */}
-        <UserProfileSidebar
+        <Sidebar
           profileData={profileData}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
         />
