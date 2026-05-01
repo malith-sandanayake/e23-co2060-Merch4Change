@@ -53,7 +53,7 @@ export default function SignUpPage() {
     accountType: '',
     firstName: '', lastName: '', dob: '', country: '',
     orgName: '', regNumber: '', orgType: '',
-    email: '', username: '', password: '', confirmPassword: '',
+    email: '', userName: '', password: '', confirmPassword: '',
     photo: null, bio: '', website: '', social: '',
   });
 
@@ -95,7 +95,7 @@ export default function SignUpPage() {
             firstName:       formData.firstName,
             lastName:        formData.lastName,
             fullName:        `${formData.firstName} ${formData.lastName}`.trim(),
-            userName:        formData.username,
+            userName:        formData.userName,
             email:           formData.email,
             password:        formData.password,
             confirmPassword: formData.confirmPassword,
