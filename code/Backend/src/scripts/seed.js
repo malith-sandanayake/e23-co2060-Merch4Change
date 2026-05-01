@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import OrganizationProfile from "../models/OrganizationProfile.js";
 import Brand from "../models/Brand.js";
+import Charity from "../models/Charity.js";
 import Product from "../models/Product.js";
 
 const MONGO_URI = "mongodb://127.0.0.1:27017/merch4change";
@@ -84,6 +85,7 @@ async function seed() {
     await User.deleteMany({});
     await OrganizationProfile.deleteMany({});
     await Brand.deleteMany({});
+    await Charity.deleteMany({});
     await Product.deleteMany({});
     console.log("Existing data cleared.");
 
@@ -154,13 +156,20 @@ async function seed() {
         website: `https://www.${orgUser.userName}.com`,
       });
 
-      // Create Brand Record
-      const brand = await Brand.create({
-        ownerUserId: orgUser._id,
-        brandName: org.orgName,
-      });
-
-      createdBrands.push(brand);
+      // Create Brand or Charity Record
+      if (org.isCharity) {
+        await Charity.create({
+          ownerUserId: orgUser._id,
+          publicName: org.orgName,
+          verificationStatus: "verified",
+        });
+      } else {
+        const brand = await Brand.create({
+          ownerUserId: orgUser._id,
+          brandName: org.orgName,
+        });
+        createdBrands.push(brand);
+      }
     }
     console.log(`✅ Seeded ${createdBrands.length} organizations.`);
 
