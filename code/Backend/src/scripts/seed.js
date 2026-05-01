@@ -3,7 +3,9 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import OrganizationProfile from "../models/OrganizationProfile.js";
 import Brand from "../models/Brand.js";
+import Charity from "../models/Charity.js";
 import Product from "../models/Product.js";
+import Project from "../models/Project.js";
 
 const MONGO_URI = "mongodb://127.0.0.1:27017/merch4change";
 
@@ -84,7 +86,9 @@ async function seed() {
     await User.deleteMany({});
     await OrganizationProfile.deleteMany({});
     await Brand.deleteMany({});
+    await Charity.deleteMany({});
     await Product.deleteMany({});
+    await Project.deleteMany({});
     console.log("Existing data cleared.");
 
     // 2. Hash standard password
@@ -132,6 +136,7 @@ async function seed() {
     ];
 
     const createdBrands = [];
+    const createdCharities = [];
 
     for (const org of orgDataList) {
       // Create User
@@ -154,13 +159,21 @@ async function seed() {
         website: `https://www.${orgUser.userName}.com`,
       });
 
-      // Create Brand Record
-      const brand = await Brand.create({
-        ownerUserId: orgUser._id,
-        brandName: org.orgName,
-      });
-
-      createdBrands.push(brand);
+      // Create Brand or Charity Record
+      if (org.isCharity) {
+        const charity = await Charity.create({
+          ownerUserId: orgUser._id,
+          publicName: org.orgName,
+          verificationStatus: "verified",
+        });
+        createdCharities.push(charity);
+      } else {
+        const brand = await Brand.create({
+          ownerUserId: orgUser._id,
+          brandName: org.orgName,
+        });
+        createdBrands.push(brand);
+      }
     }
     console.log(`✅ Seeded ${createdBrands.length} organizations.`);
 
@@ -175,6 +188,31 @@ async function seed() {
 
     const createdProducts = await Product.insertMany(productsToInsert);
     console.log(`✅ Seeded ${createdProducts.length} luxury products linked to ${targetBrand.brandName}.`);
+
+    // 6. Seed Projects (assigned to Charities)
+    console.log("Seeding projects...");
+    const projectsToInsert = [];
+    for (const charity of createdCharities) {
+      projectsToInsert.push({
+        charityId: charity._id,
+        title: `${charity.publicName} Reforestation Initiative`,
+        description: `Help ${charity.publicName} plant 10,000 trees in affected areas.`,
+        goalAmount: 5000,
+        collectedAmount: 1200,
+        status: "active",
+      });
+      projectsToInsert.push({
+        charityId: charity._id,
+        title: `${charity.publicName} Clean Water Campaign`,
+        description: `Providing clean drinking water to remote communities.`,
+        goalAmount: 10000,
+        collectedAmount: 8500,
+        status: "active",
+      });
+    }
+
+    const createdProjects = await Project.insertMany(projectsToInsert);
+    console.log(`✅ Seeded ${createdProjects.length} projects linked to charities.`);
 
     await mongoose.disconnect();
     console.log("🎉 Seeding complete!");

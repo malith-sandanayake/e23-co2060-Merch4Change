@@ -143,6 +143,10 @@ export const login = asyncHandler(async (req, res) => {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");
   }
 
+  if (!user.isActive) {
+    throw new AppError("This account has been deactivated or suspended.", 403, "ACCOUNT_INACTIVE");
+  }
+
   const accountType = user.accountType;
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -169,6 +173,10 @@ export const login = asyncHandler(async (req, res) => {
       accountType: user.accountType,
     },
   });
+});
+
+export const logout = asyncHandler(async (req, res) => {
+  return successResponse(res, 200, "Logout successful.");
 });
 
 
