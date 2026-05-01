@@ -14,7 +14,7 @@ function UserProfile() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     if (!token) return;
     const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
     fetch(`${apiUrl}/api/v1/profile/me`, {

@@ -38,7 +38,7 @@ export default function Marketplace() {
   }
 
   async function handleBuy(product) {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     if (!token) { showToast("error", "Please log in to purchase."); return; }
     if (product.stock === 0) return;
 

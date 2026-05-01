@@ -43,7 +43,7 @@ function TopNavbar({
   };
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
     try {
@@ -59,6 +59,7 @@ function TopNavbar({
       // Even if the request fails, clear local auth state client-side.
     } finally {
       localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       setShowLogoutPopup(false);
       navigate("/login");
     }
