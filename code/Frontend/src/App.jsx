@@ -7,7 +7,7 @@ import {
 import LandingPage from "./pages/Landing/LandingPage";
 import SelectSignUp from "./pages/SelectSignUp/SelectSignUp";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import MessagingInterface from "./components/Message/MessagingInterface";
+import MessagingPage from "./pages/Messaging/MessagingPage";
 import Home from "./pages/Home/Home";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import MarketplacePage from "./pages/Marketplace/Marketplace";
@@ -54,7 +54,7 @@ function App() {
 
         {/* Private/App Routes */}
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/messaging" element={<ProtectedRoute><MessagingInterface /></ProtectedRoute>} />
+        <Route path="/messaging" element={<ProtectedRoute><MessagingPage /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/profile/me" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/profile/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
