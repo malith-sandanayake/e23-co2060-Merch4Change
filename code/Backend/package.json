@@ -1,23 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "sqlite3": "^6.0.1",
-    "mongodb": "^6.0.0"
-=======
   "name": "merch4change-backend",
   "version": "1.0.0",
   "description": "Core backend setup for Merch4Change",
@@ -26,23 +7,30 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js"
+    "check": "node --check src/server.js",
+    "test": "node --test tests/unit/**/*.test.js",
+    "test:watch": "node --test --watch tests/unit/**/*.test.js",
+    "test:integration": "node --test tests/integration/**/*.test.js",
+    "test:all": "node --test tests/unit/**/*.test.js tests/integration/**/*.test.js"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.10.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "express-rate-limit": "^8.3.2",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.23.1",
     "morgan": "^1.10.0",
-    "mongoose": "^8.8.0"
+    "multer": "^2.1.1",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
->>>>>>> backend
   }
 }

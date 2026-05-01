@@ -6,6 +6,40 @@ import User from "../models/User.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { createUserProfile, createOrganizationProfile } from "../constructors/profile.creator.js";
+
+const SUPPORTED_ACCOUNT_TYPES = ["individual", "organization"];
+const USERNAME_FORMAT = /^[a-zA-Z0-9._-]{2,30}$/;
+
+const normalizeAccountType = (accountType) => {
+  if (typeof accountType !== "string") {
+    return accountType;
+  }
+
+  const normalized = accountType.toLowerCase().trim();
+
+  if (["user"].includes(normalized)) {
+    return "individual";
+  }
+
+  if (["organization"].includes(normalized)) {
+    return "organization";
+  }
+
+  return normalized;
+};
+
+const toLoginType = (accountType) => {
+  if (accountType === "organization") {
+    return "organization";
+  }
+
+  if (accountType === "individual") {
+    return "user";
+  }
+
+  return null;
+};
 
 const createToken = (userId) => {
   return jwt.sign({ userId }, env.jwtSecret, {
@@ -13,35 +47,88 @@ const createToken = (userId) => {
   });
 };
 
-export const register = asyncHandler(async (req, res) => {
-  const { fullName, email, password, accountType } = req.body;
+const normalizeUserName = (userName) => String(userName ?? "").trim().toLowerCase();
 
-  const normalizedEmail = String(email).toLowerCase().trim();
-  const existingUser = await User.findOne({ email: normalizedEmail });
+const buildUsernameSuggestions = (userName) => {
+  const normalized = normalizeUserName(userName).replace(/\s+/g, "");
+  const compact = normalized.replace(/[^a-z0-9._-]/g, "");
+  const base = compact || "user";
 
-  if (existingUser) {
-    throw new AppError("Email is already in use.", 409, "EMAIL_ALREADY_IN_USE");
+  const candidates = [
+    `${base}1`,
+    `${base}01`,
+    `${base}_1`,
+    `${base}.1`,
+    `${base}2026`,
+    `${base}_official`,
+    `${base}_me`,
+  ];
+
+  return [...new Set(candidates)]
+    .map((candidate) => candidate.replace(/[^a-z0-9._-]/gi, "").replace(/^[._-]+|[._-]+$/g, "").slice(0, 30))
+    .filter((candidate) => USERNAME_FORMAT.test(candidate));
+};
+
+const getAvailableUsernameSuggestions = async (userName) => {
+  const candidates = buildUsernameSuggestions(userName);
+
+  if (candidates.length === 0) {
+    return [];
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const checks = await Promise.all(
+    candidates.map(async (candidate) => {
+      const existingUser = await User.findOne({ userName: candidate });
+      return existingUser ? null : candidate;
+    }),
+  );
 
-  const user = await User.create({
-    fullName,
-    email: normalizedEmail,
-    password: hashedPassword,
-    accountType,
-  });
+  return checks.filter(Boolean).slice(0, 3);
+};
 
-  const token = createToken(user._id);
+export const register = asyncHandler(async (req, res) => {
+  const requestBody = req.body;
 
-  return successResponse(res, 201, "User registered successfully.", {
-    token,
-    user: {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      accountType: user.accountType,
-    },
+  if (!requestBody.accountType) {
+    throw new AppError("accountType is required.", 400, "VALIDATION_ERROR");
+  }
+
+  const normalizedAccountType = normalizeAccountType(requestBody.accountType);
+
+  if (!SUPPORTED_ACCOUNT_TYPES.includes(normalizedAccountType)) {
+    throw new AppError(
+      `Unsupported accountType. Supported types are: ${SUPPORTED_ACCOUNT_TYPES.join(", ")}.`,
+      400,
+      "VALIDATION_ERROR",
+    );
+  }
+  
+  if (normalizedAccountType === "individual") {
+    return await createUserProfile(req, res);
+  }
+  if (normalizedAccountType === "organization") {
+    return await createOrganizationProfile(req, res);
+  }
+});
+
+export const checkUsernameAvailability = asyncHandler(async (req, res) => {
+  const requestedUserName = req.query.userName;
+  const normalizedUserName = normalizeUserName(requestedUserName);
+
+  if (!normalizedUserName) {
+    throw new AppError("userName is required.", 400, "VALIDATION_ERROR");
+  }
+
+  const formatValid = USERNAME_FORMAT.test(normalizedUserName);
+  const existingUser = await User.findOne({ userName: normalizedUserName });
+  const available = Boolean(formatValid && !existingUser);
+  const suggestions = available ? [] : await getAvailableUsernameSuggestions(normalizedUserName);
+
+  return successResponse(res, 200, "Username availability checked.", {
+    userName: normalizedUserName,
+    available,
+    formatValid,
+    suggestions,
   });
 });
 
@@ -56,27 +143,40 @@ export const login = asyncHandler(async (req, res) => {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");
   }
 
+  if (!user.isActive) {
+    throw new AppError("This account has been deactivated or suspended.", 403, "ACCOUNT_INACTIVE");
+  }
+
+  const accountType = user.accountType;
+
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");
   }
 
+  const loginType = toLoginType(accountType);
+
+  if (!loginType) {
+    throw new AppError("Invalid account type for user.", 403, "INVALID_ACCOUNT_TYPE");
+  }
+
   const token = createToken(user._id);
 
   return successResponse(res, 200, "Login successful.", {
     token,
+    loginType,
     user: {
       id: user._id,
-      fullName: user.fullName,
+      userName: user.userName,
       email: user.email,
       accountType: user.accountType,
     },
   });
 });
 
-export const me = asyncHandler(async (req, res) => {
-  return successResponse(res, 200, "Current user fetched successfully.", {
-    user: req.user,
-  });
+export const logout = asyncHandler(async (req, res) => {
+  return successResponse(res, 200, "Logout successful.");
 });
+
+

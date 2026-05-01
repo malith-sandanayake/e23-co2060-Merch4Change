@@ -1,7 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Footer.css';
-import icon from '../../assets/icon.png';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "./Footer.css";
+import icon from "../../assets/icon.png";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -15,7 +15,8 @@ const Footer = () => {
             <span className="footer-title">Merch4Change</span>
           </div>
           <p className="footer-desc">
-            Empowering communities through impact-led commerce. Connect with your favorite brands to make a difference.
+            Empowering communities through impact-led commerce. Connect with
+            your favorite brands to make a difference.
           </p>
         </div>
 
@@ -23,18 +24,18 @@ const Footer = () => {
           <div className="footer-column">
             <h4>About Us</h4>
             <ul>
-              <li onClick={() => navigate('/about/story')}>Our Story</li>
-              <li onClick={() => navigate('/about/mission')}>Our Mission</li>
-              <li onClick={() => navigate('/about/team')}>Team Antigravity</li>
+              <li onClick={() => navigate("/about/story")}>Our Story</li>
+              <li onClick={() => navigate("/about/mission")}>Our Mission</li>
+              <li onClick={() => navigate("/about/team")}>Team Antigravity</li>
             </ul>
           </div>
 
           <div className="footer-column">
             <h4>Support</h4>
             <ul>
-              <li onClick={() => navigate('/help')}>Help Center</li>
-              <li onClick={() => navigate('/faq')}>FAQs</li>
-              <li onClick={() => navigate('/help/contact')}>Contact Us</li>
+              <li onClick={() => navigate("/help")}>Help Center</li>
+              <li onClick={() => navigate("/faq")}>FAQs</li>
+              <li onClick={() => navigate("/help/contact")}>Contact Us</li>
             </ul>
           </div>
 
@@ -50,7 +51,9 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Merch4Change. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Merch4Change. All rights reserved.
+        </p>
         <div className="footer-socials">
           <span className="social-icon">IN</span>
           <span className="social-icon">TW</span>

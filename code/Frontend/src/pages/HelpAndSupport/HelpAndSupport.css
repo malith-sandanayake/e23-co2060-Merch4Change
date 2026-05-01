@@ -68,7 +68,9 @@
   width: 300px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   border: 1px solid #eef2f6;
 }
 
@@ -124,17 +126,21 @@
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, padding-left 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    padding-left 0.3s ease;
   position: relative;
 }
 
 .guide-list li::before {
-  content: '→';
+  content: "→";
   position: absolute;
   right: 24px;
   color: #94a3b8;
   opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
   transform: translateX(-10px);
 }
 

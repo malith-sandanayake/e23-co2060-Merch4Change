@@ -1,98 +1,107 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { memo, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import user from "../../assets/user.svg";
 import "./Sidebar.css";
-import icon from "../../assets/icon.png"
-import home from "../../assets/sidebar_icons/home.svg"
-import explore from "../../assets/sidebar_icons/explore.svg"
-import message from "../../assets/sidebar_icons/message.svg"
-import notification from "../../assets/sidebar_icons/notification.svg"
-import profilePic from "../../assets/test.jpg"
-import settings from "../../assets/sidebar_icons/settings.svg"
-import more from "../../assets/sidebar_icons/more.svg"
-import create from "../../assets/sidebar_icons/create.svg"
-import search from "../../assets/sidebar_icons/search.svg"
-import antigravity from "../../assets/sidebar_icons/antigravity.jpg"
+import {
+  Home,
+  MessageSquare,
+  Layers,
+  BarChart2,
+  Settings,
+  Plus, 
+  X,
+  Heart,
+} from "lucide-react";
 
-function Sidebar() {
+function Sidebar({ profileData, setIsSidebarCollapsed }) {
+  const [selectedOption, setSelectedOption] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [extended, setExtended] = useState(false);
-  const [activeItem, setActiveItem] = useState("home");
-
-  function getNavItemClass(itemKey) {
-    return `nav-item ${activeItem === itemKey ? "active" : ""} ${extended ? "extended" : ""}`;
-  }
-
-  function handleSideBar() {
-    if (extended) {
-      setExtended(false);
-    } else {
-      setExtended(true);
-    }
-  }
+  const handleSelectOption = (value) => {
+    setSelectedOption(value);
+  };
 
   return (
-    <div className="sidebar">
-      <div className="logo">
-        <img src={icon} alt="icon" style={{ maxWidth: "40px", borderRadius: 10 }} onClick={handleSideBar} />
+    <aside className="lum-sidebar-left">
+      <div className="lum-logo">
+        <div className="lum-logo-icon">L</div>
+        <h2>Merch4Change</h2>
+        <button
+          className="lum-close-btn"
+          onClick={() => setIsSidebarCollapsed(true)}
+        >
+          <X size={20} />
+        </button>
       </div>
 
-      <nav className="nav-links">
-        <div className={getNavItemClass("home")} onClick={() => {setActiveItem("home"), navigate('/home')}}>
-          <img src={home} className="sidebar_icons" />
-          <p>Home</p>
-        </div>
-
-        <div className={getNavItemClass("explore")} onClick={() => setActiveItem("explore")}>
-          <img src={explore} className="sidebar_icons" />
-          <p>Explore</p>
-        </div>
-
-        <div className={getNavItemClass("search")} onClick={() => setActiveItem("search")}>
-          <img src={search} className="sidebar_icons" />
-          <p>Search</p>
-        </div>
-
-        <div className={getNavItemClass("messages")} onClick={() => setActiveItem("messages")}>
-          <img src={message} className="sidebar_icons" />
-          <p>Messages</p>
-        </div>
-
-        <div className={getNavItemClass("notifications")} onClick={() => setActiveItem("notifications")}>
-          <img src={notification} className="sidebar_icons" />
-          <p>Notifications</p>
-        </div>
-
-        <div className={getNavItemClass("create")} onClick={() => setActiveItem("create")}>
-          <img src={create} className="sidebar_icons" />
-          <p>Create</p>
-        </div>
-
-        <div className={getNavItemClass("profile")} onClick={() => setActiveItem("profile")}>
-          <img src={profilePic} className="profile-image" />
-          <p>Profile</p>
-        </div>
-      </nav>
-
-
-      <div className="sidebar-bottom">
-        <div className={getNavItemClass("settings")} onClick={() => {setActiveItem("settings"), navigate('/settigns')}}>
-          <img src={settings} className="sidebar_icons" />
-          <p>Settings</p>
-        </div>
-
-        <div className={getNavItemClass("more")} onClick={() => setActiveItem("more")}>
-          <img src={more} className="sidebar_icons" />
-          <p>More</p>
-        </div>
-
-        <div className={getNavItemClass("team-antigravity")} onClick={() => setActiveItem("team-antigravity")}>
-          <img src={antigravity} className="sidebar_icons" />
-          <p>Team Antigravity</p>
+      <div
+        className={`lum-user-summary ${location.pathname === "/profile/me" ? "lum-user-summary2" : ""}`}
+        onClick={() => {
+          handleSelectOption(0);
+          navigate("/profile/me");
+        }}
+      >
+        <img src={user} alt="Alex Rivers" />
+        <div>
+          <h4>@{profileData?.userName || "unknown"}</h4>
+          <p>Premium User</p>
         </div>
       </div>
-    </div>
+
+      <div className="lum-sidebar-nav">
+        <NavLink
+          to="/home"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(1)}
+        >
+          <Home size={20} /> <span>Home</span>
+        </NavLink>
+        <NavLink
+          to="/messaging"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(2)}
+        >
+          <MessageSquare size={20} /> <span>Messages</span>
+        </NavLink>
+        <div
+          className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(3)}
+        >
+          <Layers size={20} /> <span>Collections</span>
+        </div>
+        <div
+          className={selectedOption === 4 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(4)}
+        >
+          <BarChart2 size={20} /> <span>Analytics</span>
+        </div>
+        <div
+          className={selectedOption === 5 ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => handleSelectOption(5)}
+        >
+          <Heart size={20} /> <span>Donation</span>
+        </div>
+        <NavLink
+          to="/settings"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption(6)}
+        >
+          <Settings size={20} /> <span>Settings</span>
+        </NavLink>
+      </div>
+
+      <button className="lum-create-btn">
+        <Plus size={20} /> <span>Create Post</span>
+      </button>
+
+      <div className="lum-pro-banner">
+        <p className="pro-title">PRO PLAN</p>
+        <p className="pro-desc">Unlock deeper analytics & exclusive minting tools.</p>
+        <button className="pro-btn">Upgrade Now</button>
+      </div>
+    </aside>
   );
 }
 
-export default Sidebar;
+export default memo(Sidebar);

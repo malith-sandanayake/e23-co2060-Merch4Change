@@ -1,245 +1,249 @@
-
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 /* ---- Page wrapper ---- */
 .select-signup-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 100px 24px 60px;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        #f9f5ff 0%,
-        #f5e8ff 20%,
-        #e8f2ff 50%,
-        #e8faff 75%,
-        #f0ffe8 100%
-    );
-    background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px 60px;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #f9f5ff 0%,
+    #f5e8ff 20%,
+    #e8f2ff 50%,
+    #e8faff 75%,
+    #f0ffe8 100%
+  );
+  background-attachment: fixed;
 }
 
 /* Decorative background orbs */
 .select-signup-page::before,
 .select-signup-page::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    filter: blur(80px);
-    opacity: 0.45;
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.45;
 }
 
 .select-signup-page::before {
-    width: 420px; height: 420px;
-    background: radial-gradient(circle, #a855f7, #6366f1);
-    top: -120px; left: -100px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, #a855f7, #6366f1);
+  top: -120px;
+  left: -100px;
 }
 
 .select-signup-page::after {
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, #06b6d4, #54C1c9);
-    bottom: -80px; right: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #06b6d4, #54c1c9);
+  bottom: -80px;
+  right: -80px;
 }
 
 /* ---- Heading area ---- */
 .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 48px;
-    text-align: center;
-    position: relative;
-    z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 48px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .main-heading h1 {
-    font-size: clamp(28px, 4vw, 50px);
-    font-weight: 700;
-    margin: 0;
-    line-height: 1.15;
-    background: linear-gradient(90deg, #0f2027, #345864, #547e90);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.15;
+  background: linear-gradient(90deg, #0f2027, #345864, #547e90);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: "Poppins", sans-serif;
 }
 
 .title-des {
-    font-size: clamp(14px, 1.5vw, 18px) !important;
-    color: #6b7280 !important;
-    font-weight: 400;
-    margin: 0;
-    font-family: 'Poppins', sans-serif !important;
-    letter-spacing: 0.03em;
+  font-size: clamp(14px, 1.5vw, 18px) !important;
+  color: #6b7280 !important;
+  font-weight: 400;
+  margin: 0;
+  font-family: "Poppins", sans-serif !important;
+  letter-spacing: 0.03em;
 }
 
 /* ---- Cards container ---- */
 .selection {
-    display: flex;
-    flex-direction: row;
-    gap: 24px;
-    justify-content: center;
-    align-items: stretch;
-    position: relative;
-    z-index: 1;
-    flex-wrap: wrap;
-    margin: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  margin: 0;
 }
 
 /* ---- Individual role card ---- */
 .section1,
 .section2 {
-    flex: 1;
-    min-width: 260px;
-    max-width: 340px;
-    padding: 40px 32px 36px;
-    border-radius: 24px;
-    border: 1.5px solid rgba(255, 255, 255, 0.7);
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow:
-        0 4px 24px rgba(84, 126, 144, 0.10),
-        0 1px 4px rgba(0,0,0,0.04);
-    cursor: pointer;
-    transition:
-        transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.28s ease,
-        border-color 0.28s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
+  flex: 1;
+  min-width: 260px;
+  max-width: 340px;
+  padding: 40px 32px 36px;
+  border-radius: 24px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 4px 24px rgba(84, 126, 144, 0.1),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
 }
 
 .section1:hover,
 .section2:hover {
-    transform: translateY(-8px) scale(1.025);
-    box-shadow:
-        0 16px 48px rgba(52, 88, 100, 0.22),
-        0 2px 8px rgba(0,0,0,0.06);
-    border-color: rgba(84, 126, 144, 0.55);
+  transform: translateY(-8px) scale(1.025);
+  box-shadow:
+    0 16px 48px rgba(52, 88, 100, 0.22),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+  border-color: rgba(84, 126, 144, 0.55);
 }
 
 /* Icon badge per card */
 .card-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
 .section1 .card-icon {
-    background: linear-gradient(135deg, #e8f2ff, #c4b5fd);
+  background: linear-gradient(135deg, #e8f2ff, #c4b5fd);
 }
 
 .section2 .card-icon {
-    background: linear-gradient(135deg, #e8faff, #a7f3d0);
+  background: linear-gradient(135deg, #e8faff, #a7f3d0);
 }
 
 /* Card label & description */
 .section1 h3,
 .section2 h3 {
-    font-size: clamp(18px, 2vw, 22px);
-    font-weight: 700;
-    color: #0f2027;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 700;
+  color: #0f2027;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 .section1 p,
 .section2 p {
-    font-size: 14px;
-    color: #6b7280;
-    margin: 0;
-    line-height: 1.6;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
 }
 
 /* Arrow link indicator */
 .card-arrow {
-    margin-top: auto;
-    font-size: 22px;
-    color: #547e90;
-    transition: transform 0.2s ease;
-    line-height: 1;
+  margin-top: auto;
+  font-size: 22px;
+  color: #547e90;
+  transition: transform 0.2s ease;
+  line-height: 1;
 }
 
 .section1:hover .card-arrow,
 .section2:hover .card-arrow {
-    transform: translateX(6px);
+  transform: translateX(6px);
 }
 
 /* Active press */
 .section1:active,
 .section2:active {
-    transform: translateY(-3px) scale(1.01);
+  transform: translateY(-3px) scale(1.01);
 }
 
 /* ---- Already have account row ---- */
 .login-prompt {
-    margin-top: 40px;
-    font-size: 14px;
-    color: #6b7280;
-    position: relative;
-    z-index: 1;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #6b7280;
+  position: relative;
+  z-index: 1;
 }
 
 .login-prompt a,
 .login-prompt span {
-    color: #345864;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    border-bottom: 1.5px solid transparent;
-    transition: border-color 0.2s ease, color 0.2s ease;
+  color: #345864;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .login-prompt a:hover,
 .login-prompt span:hover {
-    border-bottom-color: #345864;
-    color: #0f2027;
+  border-bottom-color: #345864;
+  color: #0f2027;
 }
 
 /* ============================================
    Responsive
    ============================================ */
 @media (max-width: 700px) {
-    .select-signup-page {
-        padding: 90px 16px 48px;
-    }
+  .select-signup-page {
+    padding: 90px 16px 48px;
+  }
 
-    .selection {
-        flex-direction: column;
-        align-items: center;
-    }
+  .selection {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .section1,
-    .section2 {
-        width: 100%;
-        max-width: 420px;
-        padding: 30px 24px;
-    }
+  .section1,
+  .section2 {
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 24px;
+  }
 }
 
 @media (max-width: 400px) {
-    .main-heading h1 {
-        font-size: 26px;
-    }
-    .section1,
-    .section2 {
-        padding: 24px 18px;
-    }
+  .main-heading h1 {
+    font-size: 26px;
+  }
+  .section1,
+  .section2 {
+    padding: 24px 18px;
+  }
 }

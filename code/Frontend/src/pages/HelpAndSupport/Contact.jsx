@@ -1,20 +1,22 @@
-import React from 'react';
-import './Contact.css';
+import React from "react";
+import "./Contact.css";
 
 function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Support request submitted successfully!");
-  }
+  };
 
   return (
     <div className="contact-page">
       <div className="contact-container">
-        
         <div className="contact-info">
           <h2>Get in Touch</h2>
-          <p>We're here to help! Send us a message and our support team will get back to you within 24 hours.</p>
-          
+          <p>
+            We're here to help! Send us a message and our support team will get
+            back to you within 24 hours.
+          </p>
+
           <div className="contact-details">
             <div className="detail-item">
               <span className="detail-icon">📍</span>
@@ -23,7 +25,7 @@ function Contact() {
                 <p>Sri Lanka</p>
               </div>
             </div>
-            
+
             <div className="detail-item">
               <span className="detail-icon">📧</span>
               <div>
@@ -31,7 +33,7 @@ function Contact() {
                 <p>support@merch4change.org</p>
               </div>
             </div>
-            
+
             <div className="detail-item">
               <span className="detail-icon">📞</span>
               <div>
@@ -49,12 +51,12 @@ function Contact() {
               <label>Full Name</label>
               <input type="text" placeholder="Jagath Hemantha" required />
             </div>
-            
+
             <div className="form-group">
               <label>Email Address</label>
               <input type="email" placeholder="jagath@example.com" required />
             </div>
-            
+
             <div className="form-group">
               <label>Subject</label>
               <select required>
@@ -65,13 +67,19 @@ function Contact() {
                 <option value="other">Other</option>
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>Message</label>
-              <textarea rows="5" placeholder="How can we help you?" required></textarea>
+              <textarea
+                rows="5"
+                placeholder="How can we help you?"
+                required
+              ></textarea>
             </div>
-            
-            <button type="submit" className="submit-btn">Send Message</button>
+
+            <button type="submit" className="submit-btn">
+              Send Message
+            </button>
           </form>
         </div>
       </div>

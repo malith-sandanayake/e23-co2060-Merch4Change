@@ -57,7 +57,9 @@ function createId(prefix = "id") {
 }
 
 function normalizeEmail(email) {
-  return String(email || "").trim().toLowerCase();
+  return String(email || "")
+    .trim()
+    .toLowerCase();
 }
 
 function getConversationKey(userAId, userBId) {
@@ -155,7 +157,9 @@ function registerUser({ name, email, password, type = "user" }) {
   }
 
   const users = getAllUsers();
-  const existing = users.find((user) => normalizeEmail(user.email) === normalizedEmail);
+  const existing = users.find(
+    (user) => normalizeEmail(user.email) === normalizedEmail,
+  );
   if (existing) {
     return { success: false, error: "Email already registered" };
   }
@@ -179,7 +183,9 @@ function loginUser({ email, password }) {
   const normalizedEmail = normalizeEmail(email);
   const users = getAllUsers();
 
-  const user = users.find((item) => normalizeEmail(item.email) === normalizedEmail);
+  const user = users.find(
+    (item) => normalizeEmail(item.email) === normalizedEmail,
+  );
   if (!user) {
     return { success: false, error: "User not found" };
   }
@@ -206,7 +212,7 @@ function generateComputedReply(content, receiverName) {
   const normalized = String(content || "").toLowerCase();
 
   if (normalized.includes("hello") || normalized.includes("hi")) {
-    return `Hello! This is a computed server reply from ${receiverName}.`; 
+    return `Hello! This is a computed server reply from ${receiverName}.`;
   }
   if (normalized.includes("price") || normalized.includes("cost")) {
     return `Server response: ${receiverName} will share pricing details soon.`;
