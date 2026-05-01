@@ -7,3 +7,14 @@ export const me = asyncHandler(async (req, res) => {
     user: req.user,
   });
 });
+
+export const getMyCoins = asyncHandler(async (req, res) => {
+  const transactions = await CoinTransaction.find({ userId: req.user._id })
+    .sort({ createdAt: -1 })
+    .limit(20);
+
+  return successResponse(res, 200, "Coin data fetched successfully.", {
+    coinBalance: req.user.coinBalance ?? 0,
+    transactions,
+  });
+});
