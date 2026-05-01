@@ -68,7 +68,7 @@ function Feed() {
             <div className="trending-info">
               <h4>Air-Flow Velocity Red</h4>
               <div className="price-rating">
-                <span className="price">$189.00</span>
+                <span className="price" >$189.00</span>
                 <span className="rating">⭐ 4.9 (2.1k)</span>
               </div>
             </div>
