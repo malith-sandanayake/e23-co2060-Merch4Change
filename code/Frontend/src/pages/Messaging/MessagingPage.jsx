@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
-import UserProfileSidebar from "../../components/test/UserProfileSidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import ConversationList from './components/ConversationList';
 import ChatWindow from './components/ChatWindow';
 import './MessagingPage.css';
@@ -168,7 +168,7 @@ function MessagingPage() {
       />
 
       <div className="lum-layout">
-        <UserProfileSidebar
+        <Sidebar
           profileData={profileData}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
         />
