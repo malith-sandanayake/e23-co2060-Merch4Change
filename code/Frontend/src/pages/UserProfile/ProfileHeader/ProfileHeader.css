@@ -1,126 +1,213 @@
-.lum-profile-header {
-  display: flex;
-  flex-direction: column;
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Wrapper ─────────────────────────────────── */
+.ph-wrapper {
+  background: #fff;
+  border-bottom: 1px solid #eeecea;
 }
 
-.lum-cover-image {
-  height: 250px;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #2a0845 0%, #6441A5 100%);
-  background-size: cover;
+/* ── Cover ───────────────────────────────────── */
+.ph-cover {
+  height: 200px;
+  background: linear-gradient(135deg, #1a0a5c 0%, #4a24e1 55%, #7b52f4 100%);
   position: relative;
+  overflow: hidden;
 }
 
-.lum-profile-info-row {
+.ph-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ── Avatar + actions row ────────────────────── */
+.ph-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: -60px;
-  padding: 0 20px;
+  padding: 0 28px;
+  margin-top: -52px;
+  margin-bottom: 16px;
 }
 
-.lum-avatar-container {
+.ph-avatar-ring {
   position: relative;
-  border: 3px solid #000000;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
-  background: #f6f7fa;
+  border: 4px solid #fff;
+  box-shadow: 0 0 0 2px #e0ddf8;
+  background: #f0edfe;
+  flex-shrink: 0;
 }
 
-.lum-main-avatar {
-  width: 140px;
-  height: 140px;
+.ph-avatar {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  display: block;
 }
 
-.verified-badge-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+.ph-online-dot {
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  width: 13px;
+  height: 13px;
+  background: #22c55e;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
 }
 
-.lum-profile-actions {
+/* ── Buttons ─────────────────────────────────── */
+.ph-actions {
   display: flex;
-  flex-direction: row;
   gap: 10px;
-  margin-bottom: 20px;
+  align-items: center;
+  padding-bottom: 6px;
 }
 
-.lum-edit-btn,
-.lum-dash-btn {
-  background: white;
-  border: 1px solid #eaeaea;
-  padding: 10px 24px;
-  border-radius: 30px;
-  font-weight: 600;
-  font-size: 14px;
+.ph-btn-secondary,
+.ph-btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
-.lum-edit-btn:hover {
-  background: #f9f9f9;
+.ph-btn-secondary {
+  background: #fff;
+  color: #4a24e1;
+  border: 1.5px solid #e0ddf8;
 }
 
-.lum-dash-btn {
+.ph-btn-secondary:hover {
+  background: #f0edfe;
+  border-color: #4a24e1;
+}
+
+.ph-btn-primary {
   background: #4a24e1;
-  color: white;
+  color: #fff;
   border: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: center;
 }
 
-.lum-dash-btn:hover {
-  background: #391ab3;
+.ph-btn-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
-.lum-profile-details {
-  margin-top: 10px;
-  padding: 0 20px;
+/* ── Identity block ──────────────────────────── */
+.ph-identity {
+  padding: 0 28px 24px;
 }
 
-.lum-profile-details h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 800;
+.ph-name-row {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 3px;
 }
 
-.verified-badge {
+.ph-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #111;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ph-verified {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ph-username {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #999;
+  margin: 0 0 10px;
+  font-weight: 400;
+}
+
+.ph-bio {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px;
+  color: #444;
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 0 0 14px;
+  max-width: 560px;
+}
+
+/* ── Meta chips row ──────────────────────────── */
+.ph-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.ph-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  color: #888;
+  background: #f7f6f2;
+  border: 1px solid #eeecea;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.18s;
+}
+
+.ph-link-chip {
   color: #4a24e1;
-  font-size: 18px;
+  background: #f0edfe;
+  border-color: #e0ddf8;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
-.lum-profile-details p {
-  margin: 5px 0 0;
-  font-size: 15px;
-  color: #666;
+.ph-link-chip:hover {
+  background: #e8e3fc;
+  border-color: #4a24e1;
+  text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  .lum-profile-info-row {
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 640px) {
+  .ph-row {
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin-top: -70px;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0 16px;
+    margin-top: -48px;
   }
 
-  .lum-profile-details {
-    text-align: center;
+  .ph-identity {
+    padding: 0 16px 20px;
   }
 
-  .lum-profile-details h1 {
-    justify-content: center;
-  }
-
-  .lum-profile-actions {
-    flex-direction: row;
-    width: 100%;
-    justify-content: center;
-  }
+  .ph-name { font-size: 22px; }
+  .ph-actions { width: 100%; }
+  .ph-btn-secondary, .ph-btn-primary { flex: 1; justify-content: center; }
 }

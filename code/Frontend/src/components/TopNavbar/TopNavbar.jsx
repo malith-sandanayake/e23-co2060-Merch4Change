@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef, useState } from "react";
+import SearchBar from "./search/SearchBar";
 import { Bell, Menu, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import test from "../../assets/test.jpg";
 import "./TopNavbar.css";
 
@@ -12,6 +13,9 @@ function TopNavbar({
   onTabChange,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDonations = location.pathname.startsWith("/donations");
+  const themeClass = isDonations ? "lum-topbar--teal" : "lum-topbar--purple";
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const popupRef = useRef(null);
 
@@ -66,17 +70,18 @@ function TopNavbar({
   };
 
   return (
-    <nav className="lum-topbar">
+    <nav className={`lum-topbar ${themeClass}`}>
       <div className="lum-topbar-left">
         <button
           className="lum-menu-btn"
-          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          onClick={() => setIsSidebarCollapsed?.(!isSidebarCollapsed)}
+          aria-label="Toggle sidebar"
         >
-          <Menu size={24} />
+          <Menu size={22} />
         </button>
-        <div className="lum-search">
-          <Search size={18} color="#888" />
-          <input type="text" placeholder="Search creators, drops, or trends..." />
+        <span className="lum-brand" onClick={() => navigate("/home")}>Merch4Change</span>
+        <div style={{ position: 'relative' }}>
+          <SearchBar />
         </div>
       </div>
       <div className="lum-nav-links">
@@ -113,8 +118,12 @@ function TopNavbar({
           >
             <img src={test} alt="profile" />
             <span>
-              {profileData?.firstName?.charAt(0).toUpperCase() + profileData?.firstName?.slice(1)} {" "}
-              {profileData?.lastName?.charAt(0).toUpperCase() + profileData?.lastName?.slice(1)}
+              {profileData?.firstName
+                ? profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)
+                : ""}{" "}
+              {profileData?.lastName
+                ? profileData.lastName.charAt(0).toUpperCase() + profileData.lastName.slice(1)
+                : ""}
             </span>
           </button>
 

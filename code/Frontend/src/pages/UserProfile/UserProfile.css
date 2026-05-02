@@ -43,3 +43,83 @@
     padding: 0 20px;
   }
 }
+
+/* ── Loading / Error state ───────────────────────── */
+.up-loading {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: #999;
+  gap: 12px;
+}
+
+/* ── Landing-theme cover ─────────────────────────── */
+.lum-cover-image {
+  height: 220px !important;
+  background: linear-gradient(135deg, #1a0a5c 0%, #4a24e1 60%, #7b52f4 100%) !important;
+  border-radius: 0 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.lum-cover-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ── Landing-theme buttons override ─────────────── */
+.lum-edit-btn {
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  padding: 9px 20px !important;
+  border-radius: 10px !important;
+  border: 1.5px solid #e0ddf8 !important;
+  background: #fff !important;
+  color: #4a24e1 !important;
+  transition: all 0.2s !important;
+}
+
+.lum-edit-btn:hover {
+  background: #f0edfe !important;
+  border-color: #4a24e1 !important;
+}
+
+.lum-dash-btn {
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  padding: 9px 20px !important;
+  border-radius: 10px !important;
+  border: none !important;
+  background: #4a24e1 !important;
+  color: #fff !important;
+  transition: all 0.2s !important;
+}
+
+.lum-dash-btn:hover {
+  opacity: 0.88 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── Name heading ────────────────────────────────── */
+.lum-profile-details h1 {
+  font-family: 'DM Serif Display', serif !important;
+  font-size: 26px !important;
+  font-weight: 400 !important;
+  color: #111 !important;
+}
+
+/* ── Stats row landing-match ─────────────────────── */
+.stat-text h3 {
+  font-family: 'DM Serif Display', serif !important;
+  font-size: 20px !important;
+  color: #4a24e1 !important;
+  font-weight: 400 !important;
+}

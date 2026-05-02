@@ -134,8 +134,15 @@ export const checkout = asyncHandler(async (req, res) => {
     coinsEarned,
   });
 
+  // UPDATED: Increment salesCount and update coinBalance
+  await User.findByIdAndUpdate(req.user._id, { 
+    $inc: { 
+      salesCount: 1,
+      coinBalance: coinsEarned 
+    } 
+  });
+
   if (coinsEarned > 0) {
-    await User.findByIdAndUpdate(req.user._id, { $inc: { coinBalance: coinsEarned } });
     await CoinTransaction.create({
       userId: req.user._id,
       type: "earn",
