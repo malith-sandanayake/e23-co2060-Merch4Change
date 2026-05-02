@@ -44,6 +44,11 @@ function TopNavbar({
       return;
     }
 
+    if (tab === "discover" || tab === "trends") {
+      navigate("/under-construction");
+      return;
+    }
+
     navigate(`/home?tab=${tab}`);
   };
 
