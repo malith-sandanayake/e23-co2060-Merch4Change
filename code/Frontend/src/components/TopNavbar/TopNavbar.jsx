@@ -1,4 +1,5 @@
 import { memo, useEffect, useRef, useState } from "react";
+import SearchBar from "./search/SearchBar";
 import { Bell, Menu, Search } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import test from "../../assets/test.jpg";
@@ -79,9 +80,8 @@ function TopNavbar({
           <Menu size={22} />
         </button>
         <span className="lum-brand" onClick={() => navigate("/home")}>Merch4Change</span>
-        <div className="lum-search">
-          <Search size={16} color="#B0A9A2" />
-          <input type="text" placeholder="Search creators, drops, or trends..." />
+        <div style={{ position: 'relative' }}>
+          <SearchBar />
         </div>
       </div>
       <div className="lum-nav-links">
