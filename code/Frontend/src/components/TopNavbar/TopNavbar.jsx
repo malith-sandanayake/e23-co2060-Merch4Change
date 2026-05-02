@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import SearchBar from "./search/SearchBar";
+import CoinBalance from "./CoinBalance";
 import { Bell, Menu, Search } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import test from "../../assets/test.jpg";
@@ -110,6 +111,7 @@ function TopNavbar({
           Trends
         </span>
         <div className="lum-icon-btn"><Bell size={20} /></div>
+        <CoinBalance />
         <div className="lum-profile-menu" ref={popupRef}>
           <button
             type="button"
