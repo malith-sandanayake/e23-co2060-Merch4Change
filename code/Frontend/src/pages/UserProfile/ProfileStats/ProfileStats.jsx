@@ -2,7 +2,11 @@ import React from 'react';
 import './ProfileStats.css';
 import { Grid, Users, UserCheck, Tag } from 'lucide-react';
 
-function ProfileStats({ posts = "1.2k", followers = "45.8k", following = "850", sales = "312" }) {
+function ProfileStats({ profileData }) {
+  const posts = profileData.postsCount;
+  const followers = profileData.followersCount;
+  const following = profileData.followingCount;
+  const sales = profileData.salesCount;
   return (
     <div className="lum-stats-row">
       <div className="lum-stat">

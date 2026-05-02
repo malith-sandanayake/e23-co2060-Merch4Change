@@ -52,7 +52,10 @@ function UserProfile() {
           <ProfileHeader 
           profileData={profileData}
           />
-          <ProfileStats />
+          
+          <ProfileStats 
+          profileData={profileData}
+          />
           
           <ProfileHighlights />
 
