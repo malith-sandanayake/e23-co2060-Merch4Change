@@ -63,7 +63,7 @@ function Settings() {
       <div className="settings-body">
         <SettingsSidebar activeSection={activeSection} onSelect={handleSelect} />
         <main className="settings-content">
-          <ActiveSection profileData={profileData} />
+          <ActiveSection profileData={profileData} onUpdate={setProfileData} />
         </main>
       </div>
     </div>
