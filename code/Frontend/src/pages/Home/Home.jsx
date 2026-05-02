@@ -45,6 +45,11 @@ function Home() {
       return;
     }
 
+    if (tab === "discover" || tab === "trends") {
+      navigate("/under-construction");
+      return;
+    }
+
     setSearchParams(tab === "feed" ? {} : { tab });
     setIsSidebarCollapsed(tab !== "feed");
   }, [navigate, setSearchParams]);

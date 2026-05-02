@@ -66,13 +66,19 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         </NavLink>
         <div
           className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
-          onClick={() => handleSelectOption(3)}
+          onClick={() => {
+            handleSelectOption(3);
+            navigate("/under-construction");
+          }}
         >
           <Layers size={20} /> <span>Collections</span>
         </div>
         <div
           className={selectedOption === 4 ? "lum-nav-item active" : "lum-nav-item"}
-          onClick={() => handleSelectOption(4)}
+          onClick={() => {
+            handleSelectOption(4);
+            navigate("/under-construction");
+          }}
         >
           <BarChart2 size={20} /> <span>Analytics</span>
         </div>
@@ -92,7 +98,10 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         </NavLink>
       </div>
 
-      <button className="lum-create-btn">
+      <button 
+        className="lum-create-btn"
+        onClick={() => navigate("/under-construction")}
+      >
         <Plus size={20} /> <span>Create Post</span>
       </button>
 

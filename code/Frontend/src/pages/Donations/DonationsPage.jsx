@@ -115,7 +115,7 @@ function ProjectCard({ p, onDonate }) {
 }
 
 export default function DonationsPage() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [profileData, setProfileData] = useState({});
   const [query, setQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
