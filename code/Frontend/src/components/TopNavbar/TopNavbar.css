@@ -1,49 +1,88 @@
-/* Top Navbar */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Container ───────────────────────────────── */
 .lum-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
-  background: transparent;
+  padding: 0 32px;
+  height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #E2DAD0;
+  position: sticky;
+  top: 0;
   z-index: 100;
   margin-left: 220px;
-  /* Offset for left sidebar */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: none;
 }
 
 .sidebar-collapsed .lum-topbar {
   margin-left: 0;
 }
 
+/* ── Left: hamburger + brand + search ───────── */
 .lum-topbar-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
   flex: 1;
+  min-width: 0;
 }
 
 .lum-menu-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: #555;
+  color: #6B6560;
   display: none;
-  /* hidden on desktop when sidebar is open */
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s;
+  flex-shrink: 0;
 }
 
+.lum-menu-btn:hover { color: #0D6B5E; }
+
 .sidebar-collapsed .lum-menu-btn {
+  display: flex;
+  align-items: center;
+}
+
+/* Brand logo */
+.lum-brand {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #0D6B5E;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  display: none; /* shown only when sidebar collapsed */
+}
+
+.sidebar-collapsed .lum-brand {
   display: block;
 }
 
+/* Search */
 .lum-search {
-  background: #e9ecef;
-  border-radius: 30px;
-  padding: 12px 20px;
+  background: #F7F5F0;
+  border: 1px solid #E2DAD0;
+  border-radius: 10px;
+  padding: 9px 16px;
   display: flex;
   align-items: center;
   gap: 10px;
+  max-width: 360px;
   width: 100%;
-  max-width: 400px;
+  transition: border-color 0.2s;
+}
+
+.lum-search:focus-within {
+  border-color: #0D6B5E;
 }
 
 .lum-search input {
@@ -51,77 +90,121 @@
   background: transparent;
   width: 100%;
   outline: none;
+  font-family: 'DM Sans', sans-serif;
   font-size: 14px;
+  font-weight: 400;
+  color: #1A1A1A;
 }
 
+.lum-search input::placeholder { color: #B0A9A2; }
+
+/* ── Center: nav links ───────────────────────── */
 .lum-nav-links {
   display: flex;
   align-items: center;
-  gap: 20px;
-  font-weight: 600;
-  font-size: 14px;
+  gap: 4px;
 }
 
 .lum-nav-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #6B6560;
   cursor: pointer;
-  color: #555;
-  transition: color 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+  white-space: nowrap;
+  user-select: none;
 }
 
-.lum-nav-link:hover,
+.lum-nav-link:hover {
+  color: #0D6B5E;
+}
+
 .lum-nav-link.active {
-  color: #4a24e1;
+  color: #0D6B5E;
+  border-bottom: 2px solid #0D6B5E;
+  font-weight: 500;
 }
 
+/* ── Right: notification bell ───────────────── */
 .lum-icon-btn {
-  background: #e9ecef;
-  width: 40px;
-  height: 40px;
+  background: #F7F5F0;
+  border: 1px solid #E2DAD0;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: #6B6560;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.lum-icon-btn:hover {
+  background: #EEF9F7;
+  border-color: #0D6B5E;
+  color: #0D6B5E;
+}
+
+/* ── Profile button ──────────────────────────── */
+.lum-profile-menu {
+  position: relative;
+  flex-shrink: 0;
 }
 
 .lum-profile-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #e9ecef;
-  border: none;
-  padding: 5px 15px 5px 5px;
+  background: #F7F5F0;
+  border: 1px solid #E2DAD0;
+  padding: 5px 14px 5px 5px;
   border-radius: 30px;
   cursor: pointer;
+  transition: all 0.18s;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+.lum-profile-btn:hover {
+  background: #EEF9F7;
+  border-color: #0D6B5E;
 }
 
 .lum-profile-btn img {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
-.lum-profile-menu {
-  position: relative;
-}
-
+/* ── Logout popup ────────────────────────────── */
 .lum-logout-popup {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 8px);
   right: 0;
   width: 220px;
   background: #fff;
-  border: 1px solid #e6e8ec;
+  border: 1px solid #E2DAD0;
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  padding: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   z-index: 1200;
 }
 
 .lum-logout-popup p {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  color: #333;
+  color: #1A1A1A;
+  font-weight: 400;
 }
 
 .lum-logout-actions {
@@ -134,29 +217,42 @@
 .lum-logout-confirm {
   border: none;
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 7px 14px;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: all 0.15s;
 }
 
 .lum-logout-cancel {
-  background: #eef1f4;
-  color: #333;
+  background: #F7F5F0;
+  color: #6B6560;
+  border: 1px solid #E2DAD0;
 }
+
+.lum-logout-cancel:hover { background: #EDEAE4; }
 
 .lum-logout-confirm {
   background: #d93d3d;
   color: #fff;
 }
 
-@media (max-width: 992px) {
-  .lum-menu-btn {
-    display: block;
-  }
+.lum-logout-confirm:hover { background: #b52e2e; }
 
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 992px) {
   .lum-topbar {
     margin-left: 0;
-    padding: 15px 20px;
+    padding: 0 20px;
   }
+
+  .lum-menu-btn { display: flex; align-items: center; }
+  .lum-brand { display: block; }
+
+  .lum-nav-links {
+    display: none; /* collapse on mobile — sidebar handles nav */
+  }
+
+  .lum-search { max-width: 200px; }
 }

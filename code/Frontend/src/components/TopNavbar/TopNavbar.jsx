@@ -70,12 +70,14 @@ function TopNavbar({
       <div className="lum-topbar-left">
         <button
           className="lum-menu-btn"
-          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          onClick={() => setIsSidebarCollapsed?.(!isSidebarCollapsed)}
+          aria-label="Toggle sidebar"
         >
-          <Menu size={24} />
+          <Menu size={22} />
         </button>
+        <span className="lum-brand" onClick={() => navigate("/home")}>Merch4Change</span>
         <div className="lum-search">
-          <Search size={18} color="#888" />
+          <Search size={16} color="#B0A9A2" />
           <input type="text" placeholder="Search creators, drops, or trends..." />
         </div>
       </div>
@@ -113,8 +115,12 @@ function TopNavbar({
           >
             <img src={test} alt="profile" />
             <span>
-              {profileData?.firstName?.charAt(0).toUpperCase() + profileData?.firstName?.slice(1)} {" "}
-              {profileData?.lastName?.charAt(0).toUpperCase() + profileData?.lastName?.slice(1)}
+              {profileData?.firstName
+                ? profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)
+                : ""}{" "}
+              {profileData?.lastName
+                ? profileData.lastName.charAt(0).toUpperCase() + profileData.lastName.slice(1)
+                : ""}
             </span>
           </button>
 
