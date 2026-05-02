@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import ProfileSection from "./sections/ProfileSection";
@@ -23,7 +24,9 @@ const SECTIONS = {
 };
 
 function Settings() {
-  const [activeSection, setActiveSection] = useState("profile");
+  const [searchParams] = useSearchParams();
+  const initialSection = searchParams.get("section") || "profile";
+  const [activeSection, setActiveSection] = useState(initialSection);
   const [profileData, setProfileData] = useState({
     firstName: "Guest",
     lastName: "User",

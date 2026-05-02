@@ -3,8 +3,10 @@ import './ProfileHeader.css';
 import userImage from '../../../assets/user.svg';
 import verifiedIcon from '../../../assets/verified_icon.png';
 import { BarChart2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileHeader({ profileData }) {
+  const navigate = useNavigate();
   return (
     <div className="lum-profile-header">
       <div className="lum-cover-image"></div>
@@ -15,7 +17,7 @@ function ProfileHeader({ profileData }) {
         </div>
 
         <div className="lum-profile-actions">
-          <button className="lum-edit-btn">Edit Profile</button>
+          <button className="lum-edit-btn" onClick={() => navigate('/settings?section=profile')}>Edit Profile</button>
           <button className="lum-dash-btn"><BarChart2 size={16} /> View Dashboard</button>
         </div>
       </div>
