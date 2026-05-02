@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { Bell, Menu, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import test from "../../assets/test.jpg";
 import "./TopNavbar.css";
 
@@ -12,6 +12,9 @@ function TopNavbar({
   onTabChange,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDonations = location.pathname.startsWith("/donations");
+  const themeClass = isDonations ? "lum-topbar--teal" : "lum-topbar--purple";
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const popupRef = useRef(null);
 
@@ -66,7 +69,7 @@ function TopNavbar({
   };
 
   return (
-    <nav className="lum-topbar">
+    <nav className={`lum-topbar ${themeClass}`}>
       <div className="lum-topbar-left">
         <button
           className="lum-menu-btn"
