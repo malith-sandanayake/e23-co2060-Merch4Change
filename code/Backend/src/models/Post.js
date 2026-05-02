@@ -27,7 +27,19 @@ const postSchema = new mongoose.Schema(
   },
 );
 
+// Middleware: Increment count when post is created
+postSchema.post("save", async function () {
+  const User = mongoose.model("User");
+  await User.findByIdAndUpdate(this.userId, { $inc: { postsCount: 1 } });
+});
+
+// Middleware: Decrement count when post is deleted
+postSchema.post("findOneAndDelete", async function (doc) {
+  if (doc) {
+    const User = mongoose.model("User");
+    await User.findByIdAndUpdate(doc.userId, { $inc: { postsCount: -1 } });
+  }
+});
+
 const Post = mongoose.model("Post", postSchema);
-
 export default Post;
-

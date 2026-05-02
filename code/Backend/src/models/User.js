@@ -62,6 +62,26 @@ const userSchema = new mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
+    followersCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    followingCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    postsCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    salesCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     timestamps: true,
