@@ -3,7 +3,7 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and project title
-repository-name: eYY-co2060-antigravity
+repository-name: e23-co2060-antigravity
 title: Merch4Change
 ---
 
@@ -45,8 +45,27 @@ A HTML template integrated with the given GitHub repository templates, based on 
 6. [Links](#links)
 
 ## Introduction
+      Problem Overview
 
-Description of the real world problem and solution, impact
+          There is no centralized digital platform for community, brands, and charities, social workers to engage, help people and promote their businesses and reputations by showcasing them.
+
+          1.1   Still there is no exact place for people to stay updated with their celebrities and favourable brand for their newly launch products, merchandises and projects.
+
+          1.2 	Lack of trusted place for filter out legit charities and bring all the non-profitable social services around the world to a place where people can hang out and who are capable and interested on                           social services could do donations.
+
+          1.3   Not having a trusted place where people can showcase their valuable things and social works they have done.
+
+      Proposed Solution
+          We propose a responsive web platform that connects public, companies, charities and social workers, enabling them to promote products, secure rare editions of those products by getting quick updates and                  contribute to social works and showcase them.
+
+          2.1 	Creating a platform to well-known and upcoming future brands to launch 	their special products and services. (limited editions, collaborations. etc) 
+
+          2.2	  Create an opportunity for the public to stay updated with their famous 	brands new products in a one place and collect them, showcase them in 	their profiles. (as badges, items, vaults...)
+
+          2.3 	Create a platform for charities, social work communities, NGOs to showcase their past and ongoing projects by maintaining separate profiles with their identities and get the attention of people.
+
+          2.4  	Create an opportunity for people and big companies to directly and indirectly donate (percentage of buying) to charities and update them in their profiles.
+
 
 
 ## Solution Architecture
