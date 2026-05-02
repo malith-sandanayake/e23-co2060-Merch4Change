@@ -28,7 +28,7 @@ import Team from "./pages/About/Team";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Marketplace from "./pages/Marketplace/Marketplace";
 import DonationsPage from "./pages/Donations/DonationsPage";
-import UnderConstruction from "./components/UnderConstruction";
+import UnderConstruction from "./components/UnderConstruction/UnderConstruction";
 import { Analytics } from "@vercel/analytics/react"; //vercel analytics
 
 function App() {

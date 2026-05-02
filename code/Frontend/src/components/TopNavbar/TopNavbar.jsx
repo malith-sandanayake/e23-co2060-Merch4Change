@@ -34,22 +34,25 @@ function TopNavbar({
   }, []);
 
   const handleTabClick = (tab) => {
-    if (typeof onTabChange === "function") {
-      onTabChange(tab);
-      return;
-    }
-
+    // Handle special routes first (before onTabChange)
     if (tab === "feed") {
       navigate("/home");
+      if (typeof onTabChange === "function") onTabChange(tab);
       return;
     }
 
     if (tab === "discover" || tab === "trends") {
       navigate("/under-construction");
+      if (typeof onTabChange === "function") onTabChange(tab);
       return;
     }
 
-    navigate(`/home?tab=${tab}`);
+    // For marketplace, call onTabChange if available, otherwise navigate
+    if (typeof onTabChange === "function") {
+      onTabChange(tab);
+    } else {
+      navigate(`/home?tab=${tab}`);
+    }
   };
 
   const handleLogout = async () => {
