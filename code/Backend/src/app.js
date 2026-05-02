@@ -17,6 +17,7 @@ import imageRoutes from "./routes/image.routes.js";
 import brandRoutes from "./routes/brand.routes.js";
 import homeBannerRoutes from "./routes/homeBanner.routes.js";
 import donationRoutes from "./routes/donation.routes.js";
+import dashboardDonationsRoutes from "./routes/donations.js";
 import { logInfo, sanitizeUrlForLog } from "./utils/logger.js";
 
 const app = express();
@@ -62,6 +63,7 @@ app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/brands", brandRoutes);
 app.use("/api/v1/home-banners", homeBannerRoutes);
 app.use("/api/v1/donations", donationRoutes);
+app.use("/api/donations", dashboardDonationsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

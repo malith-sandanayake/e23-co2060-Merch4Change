@@ -27,6 +27,7 @@ import Mission from "./pages/About/Mission";
 import Team from "./pages/About/Team";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Marketplace from "./pages/Marketplace/Marketplace";
+import DonationsPage from "./pages/Donations/DonationsPage";
 import { Analytics } from "@vercel/analytics/react"; //vercel analytics
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
         <Route path="/profile/me" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/profile/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
+        <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
 
         {/* Dynamic Route: Perfect for Social Media Profiles */}
         <Route path="/profile/:username" element={<UserProfile />} />
