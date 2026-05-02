@@ -7,28 +7,62 @@ import { useNavigate } from 'react-router-dom';
 
 function ProfileHeader({ profileData }) {
   const navigate = useNavigate();
+  const verified = profileData?.isVerified;
+
   return (
     <div className="lum-profile-header">
       <div className="lum-cover-image"></div>
 
       <div className="lum-profile-info-row">
         <div className="lum-avatar-container">
-          <img src={userImage} alt={profileData?.userName} className="lum-main-avatar" />
+          <img
+            src={userImage}
+            alt={profileData?.userName}
+            className="lum-main-avatar"
+          />
         </div>
 
         <div className="lum-profile-actions">
-          <button className="lum-edit-btn" onClick={() => navigate('/settings?section=profile')}>Edit Profile</button>
-          <button className="lum-dash-btn"><BarChart2 size={16} /> View Dashboard</button>
+          <button
+            className="lum-edit-btn"
+            onClick={() => navigate('/settings?section=profile')}
+          >
+            Edit Profile
+          </button>
+          <button className="lum-dash-btn">
+            <BarChart2 size={16} /> View Dashboard
+          </button>
         </div>
       </div>
 
       <div className="lum-profile-details">
         <h1>
-          {profileData?.firstName?.charAt(0).toUpperCase() + profileData?.firstName?.slice(1)} {" "}
-          {profileData?.lastName?.charAt(0).toUpperCase() + profileData?.lastName?.slice(1)}
-          <img src={verifiedIcon} alt="Verified" className="verified-badge-img" />
+          {profileData?.firstName
+            ? profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)
+            : ""}{" "}
+          {profileData?.lastName
+            ? profileData.lastName.charAt(0).toUpperCase() + profileData.lastName.slice(1)
+            : ""}
+
+          {verified && (
+            <img
+              src={verifiedIcon}
+              alt="Verified"
+              className="verified-badge-img"
+            />
+          )}
         </h1>
-        <p>@{profileData.userName} &bull; Digital Visionary & Curator</p>
+
+        <p>@{profileData?.userName}</p>
+        <p>{profileData?.profileBio}</p>
+
+        {profileData?.userLink && (
+          <p>
+            <a href={profileData.userLink} target="_blank" rel="noreferrer">
+              {profileData.userLink}
+            </a>
+          </p>
+        )}
       </div>
     </div>
   );

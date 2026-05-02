@@ -57,7 +57,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-  
     profileImage: {
       data: Buffer,
       contentType: String,
@@ -82,6 +81,18 @@ const userSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    profileBio: {
+      type: String,
+      default: "",
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    userLink: {
+      type: String,
+      default: "",
+    }
   },
   {
     timestamps: true,
