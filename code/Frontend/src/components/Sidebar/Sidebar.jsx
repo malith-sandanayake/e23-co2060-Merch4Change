@@ -8,7 +8,7 @@ import {
   Layers,
   BarChart2,
   Settings,
-  Plus, 
+  Plus,
   X,
   Heart,
 } from "lucide-react";
@@ -76,12 +76,13 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         >
           <BarChart2 size={20} /> <span>Analytics</span>
         </div>
-        <div
-          className={selectedOption === 5 ? "lum-nav-item active" : "lum-nav-item"}
+        <NavLink
+          to="/donations"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(5)}
         >
-          <Heart size={20} /> <span>Donation</span>
-        </div>
+          <Heart size={20} /> <span>Donations</span>
+        </NavLink>
         <NavLink
           to="/settings"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "axios": "^1.15.2",
     "axois": "^0.0.1-security",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.577.0",

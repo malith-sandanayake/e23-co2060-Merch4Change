@@ -57,11 +57,42 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-  
     profileImage: {
       data: Buffer,
       contentType: String,
     },
+    followersCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    followingCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    postsCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    salesCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    profileBio: {
+      type: String,
+      default: "",
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    userLink: {
+      type: String,
+      default: "",
+    }
   },
   {
     timestamps: true,

@@ -1,0 +1,23 @@
+/* Override Home.css constraints for the full-width donations layout */
+.donations-main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  max-width: 100% !important;
+  margin-left: 220px;
+  padding: 0;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #FAF7F2;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-collapsed .donations-main {
+  margin-left: 0;
+}
+
+@media (max-width: 992px) {
+  .donations-main {
+    margin-left: 0;
+  }
+}
