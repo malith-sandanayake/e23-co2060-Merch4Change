@@ -51,16 +51,17 @@ A HTML template integrated with the given GitHub repository templates, based on 
 
           1.1   Still there is no exact place for people to stay updated with their celebrities and favourable brand for their newly launch products, merchandises and projects.
 
-          1.2 	Lack of trusted place for filter out legit charities and bring all the non-profitable social services around the world to a place where people can hang out and who are capable and interested on                           social services could do donations.
+          1.2   Lack of trusted place for filter out legit charities and bring all the non-profitable social services around the world to a place where people can hang out and who are capable and interested on social services could do donations.
 
           1.3   Not having a trusted place where people can showcase their valuable things and social works they have done.
 
       Proposed Solution
-          We propose a responsive web platform that connects public, companies, charities and social workers, enabling them to promote products, secure rare editions of those products by getting quick updates and                  contribute to social works and showcase them.
+      
+          We propose a responsive web platform that connects public, companies, charities and social workers, enabling them to promote products, secure rare editions of those products by getting quick updates and contribute to social works and showcase them.
 
           2.1 	Creating a platform to well-known and upcoming future brands to launch 	their special products and services. (limited editions, collaborations. etc) 
 
-          2.2	  Create an opportunity for the public to stay updated with their famous 	brands new products in a one place and collect them, showcase them in 	their profiles. (as badges, items, vaults...)
+          2.2	Create an opportunity for the public to stay updated with their famous brands new products in a one place and collect them, showcase them in their profiles. (as badges, items, vaults...)
 
           2.3 	Create a platform for charities, social work communities, NGOs to showcase their past and ongoing projects by maintaining separate profiles with their identities and get the attention of people.
 
@@ -71,10 +72,15 @@ A HTML template integrated with the given GitHub repository templates, based on 
 ## Solution Architecture
 
 High level diagram + description
+![High level diagram](./images/High_level_diagram.png)
+Figure 1.1 High level diagram
 
 ## Software Designs
 
 Detailed designs with many sub-sections
+![ER diagram](./images/ER_diagram.png)
+Figure 1.2 ER diagram
+
 
 ## Testing
 
