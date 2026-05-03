@@ -1,0 +1,53 @@
+.promo-banner {
+  background: linear-gradient(135deg, #7b2cbf 0%, #1c3d9a 100%);
+  border-radius: 20px;
+  padding: 30px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-content {
+  position: relative;
+  z-index: 2;
+  max-width: 60%;
+}
+
+.promo-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.promo-banner h2 {
+  margin: 15px 0 10px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.promo-banner p {
+  margin: 0 0 20px;
+  font-size: 14px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.promo-btn {
+  background: white;
+  color: #4a24e1;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.promo-btn:hover {
+  transform: scale(1.05);
+}
