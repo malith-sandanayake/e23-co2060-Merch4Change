@@ -241,24 +241,44 @@ const OrgProfile = () => {
         </div>
 
         {/* Stats Row */}
-        <div className="stats-row bg-card shadow-sm">
+        <div className="stats-row bg-card shadow-sm glass-effect">
           <div className="stat-box">
-            <span className="stat-value">
-              {followersCount.toLocaleString()}
-            </span>
-            <span className="stat-label">Followers</span>
+            <div className="stat-icon-wrapper bg-blue-tint">
+              <Users size={20} className="text-primary" />
+            </div>
+            <div>
+              <span className="stat-value">
+                {followersCount.toLocaleString()}
+              </span>
+              <span className="stat-label">Followers</span>
+            </div>
           </div>
           <div className="stat-box">
-            <span className="stat-value">{orgData.followingCount || 0}</span>
-            <span className="stat-label">Following</span>
+            <div className="stat-icon-wrapper bg-green-tint">
+              <Users size={20} className="text-secondary" />
+            </div>
+            <div>
+              <span className="stat-value">{orgData.followingCount || 0}</span>
+              <span className="stat-label">Following</span>
+            </div>
           </div>
           <div className="stat-box">
-            <span className="stat-value">{projects.length}</span>
-            <span className="stat-label">Active Projects</span>
+            <div className="stat-icon-wrapper bg-yellow-tint">
+              <Star size={20} className="text-accent" />
+            </div>
+            <div>
+              <span className="stat-value">{projects.length}</span>
+              <span className="stat-label">Active Projects</span>
+            </div>
           </div>
           <div className="stat-box">
-            <span className="stat-value">LKR {(projects.reduce((acc, p) => acc + p.collectedAmount, 0) * 100).toLocaleString()}</span>
-            <span className="stat-label">Total Impact</span>
+            <div className="stat-icon-wrapper bg-red-tint">
+              <Heart size={20} style={{ color: "#ef4444" }} />
+            </div>
+            <div>
+              <span className="stat-value">LKR {(projects.reduce((acc, p) => acc + p.collectedAmount, 0) * 100).toLocaleString()}</span>
+              <span className="stat-label">Impact</span>
+            </div>
           </div>
         </div>
 
@@ -273,29 +293,37 @@ const OrgProfile = () => {
           <div className="projects-grid">
             {projects.length > 0 ? (
               projects.map((project) => (
-                <div key={project.id} className="project-card">
-                  <div className="project-info">
+                <div key={project.id} className="project-card premium-card">
+                  <div className="project-image">
+                    <img src={`https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80`} alt={project.title} />
+                    <div className="project-tag">Active</div>
+                  </div>
+                  <div className="project-body">
                     <h3>{project.title}</h3>
                     <p className="project-desc">{project.description}</p>
-                    <div className="project-progress">
-                      <div className="progress-bar">
+                    <div className="project-progress-container">
+                      <div className="progress-labels">
+                        <span className="pct-funded">{Math.round((project.collectedAmount / project.goalAmount) * 100)}% funded</span>
+                        <span className="coins-left">{(project.goalAmount - project.collectedAmount).toLocaleString()} coins to go</span>
+                      </div>
+                      <div className="progress-bar-bg">
                         <div 
-                          className="progress-fill" 
+                          className="progress-bar-fill" 
                           style={{ width: `${Math.min(100, (project.collectedAmount / project.goalAmount) * 100)}%` }}
                         ></div>
                       </div>
-                      <div className="progress-stats">
-                        <span>{Math.round((project.collectedAmount / project.goalAmount) * 100)}% Funded</span>
-                        <span>{project.collectedAmount} / {project.goalAmount} Coins</span>
+                      <div className="progress-footer">
+                        <span>{project.collectedAmount.toLocaleString()} collected</span>
+                        <span>Goal: {project.goalAmount.toLocaleString()}</span>
                       </div>
                     </div>
+                    <button 
+                      className="btn-donate-action"
+                      onClick={() => openDonationModal(project.title)}
+                    >
+                      Support Project
+                    </button>
                   </div>
-                  <button 
-                    className="btn btn-donate-sm"
-                    onClick={() => openDonationModal(project.title)}
-                  >
-                    Donate
-                  </button>
                 </div>
               ))
             ) : (
