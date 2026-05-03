@@ -301,7 +301,7 @@ NODE_ENV=development
 
 | Name | Role | Contact |
 |---|---|---|
-| R.A.J.C. Adhikari | Teach Lead | 
+| R.A.J.C. Adhikari | Tech Lead | 
 | M.N.A. Fikry| Scrum Master |
 | S.D.M.P. Sandanayake | Team Leader | e23347@eng.pdn.ac.lk |
 | S.B.N.S. Samarawickrama | backend-dev | e23343@eng.pdn.ac.lk |
