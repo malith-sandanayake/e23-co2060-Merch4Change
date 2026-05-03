@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Stories.css";
 import StoryViewer from "./StoryViewer";
 import story1 from "../../assets/welcome_stories/merch4change_story1_welcome.svg";
@@ -17,11 +18,12 @@ const STORIES = [
 
 function Stories() {
   const [activeStory, setActiveStory] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="stories-container">
-        <div className="story-item">
+        <div className="story-item" onClick={() => navigate('/under-construction')}>
           <div className="story-img-container add-story">
             <span className="add-plus">+</span>
           </div>
