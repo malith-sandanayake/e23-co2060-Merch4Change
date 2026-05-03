@@ -1,14 +1,18 @@
 import { useState } from "react";
 import "./Stories.css";
 import StoryViewer from "./StoryViewer";
-import test from "../../assets/test.jpg";
+import story1 from "../../assets/welcome_stories/merch4change_story1_welcome.svg";
+import story2 from "../../assets/welcome_stories/merch4change_story2_what_we_do.svg";
+import story3 from "../../assets/welcome_stories/merch4change_story3_every_purchase.svg";
+import story4 from "../../assets/welcome_stories/merch4change_story4_our_charities.svg";
+import story5 from "../../assets/welcome_stories/merch4change_story5_join_the_movement.svg";
 
 const STORIES = [
-  { id: 1, name: "Elena.V", image: test },
-  { id: 2, name: "Marcus_K", image: test },
-  { id: 3, name: "Zoe.Studio", image: test },
-  { id: 4, name: "Liam.Design", image: test },
-  { id: 5, name: "Sarah.Art", image: test },
+  { id: 1, name: "Welcome", image: story1 },
+  { id: 2, name: "What We Do", image: story2 },
+  { id: 3, name: "Every Purchase", image: story3 },
+  { id: 4, name: "Our Charities", image: story4 },
+  { id: 5, name: "Join The Movement", image: story5 },
 ];
 
 function Stories() {
