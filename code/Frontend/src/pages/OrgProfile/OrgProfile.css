@@ -2,10 +2,13 @@
 
 :root {
   /* Colors */
-  --color-primary: #4f46e5; /* Indigo */
+  --color-primary: #4f46e5;
+  /* Indigo */
   --color-primary-hover: #4338ca;
-  --color-secondary: #10b981; /* Green */
-  --color-accent: #f59e0b; /* Yellow */
+  --color-secondary: #10b981;
+  /* Green */
+  --color-accent: #f59e0b;
+  /* Yellow */
 
   --color-bg-main: #f9fafb;
   --color-bg-card: #ffffff;
@@ -92,12 +95,15 @@ button {
 .text-muted {
   color: var(--color-text-muted);
 }
+
 .text-primary {
   color: var(--color-primary);
 }
+
 .text-secondary {
   color: var(--color-secondary);
 }
+
 .text-accent {
   color: var(--color-accent);
 }
@@ -111,6 +117,7 @@ button {
   align-items: center;
   justify-content: center;
 }
+
 .flex-between {
   display: flex;
   align-items: center;
@@ -118,9 +125,14 @@ button {
 }
 
 .profile-wrapper {
-  max-width: 900px;
-  margin: 2rem auto;
+  max-width: 1000px;
+  margin: 1.5rem auto;
   width: 100%;
+  transition: max-width 0.3s ease;
+}
+
+.sidebar-collapsed .profile-wrapper {
+  max-width: 1100px;
 }
 
 .cover-photo {
@@ -222,7 +234,8 @@ button {
 }
 
 .btn-following:hover {
-  border-color: #ef4444; /* red tint for unfollow hint */
+  border-color: #ef4444;
+  /* red tint for unfollow hint */
   color: #ef4444;
 }
 
@@ -238,6 +251,19 @@ button {
 
 .icon-btn {
   padding: var(--spacing-sm);
+}
+
+.btn-donate {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  gap: var(--spacing-sm);
+}
+
+.btn-donate:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
 }
 
 .profile-bio {
@@ -267,10 +293,12 @@ button {
   background-color: #e0e7ff;
   color: #4338ca;
 }
+
 .tag-green {
   background-color: #d1fae5;
   color: #047857;
 }
+
 .tag-yellow {
   background-color: #fef3c7;
   color: #b45309;
@@ -306,32 +334,64 @@ button {
 .stats-row {
   display: flex;
   border-radius: var(--radius-lg);
-  padding: var(--spacing-md) 0;
+  padding: var(--spacing-lg) var(--spacing-md);
+  gap: var(--spacing-md);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .stat-box {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.stat-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
-.stat-box:last-child {
-  border-right: none;
-}
+.bg-blue-tint { background-color: #eff6ff; }
+.bg-green-tint { background-color: #f0fdf4; }
+.bg-yellow-tint { background-color: #fffbeb; }
+.bg-red-tint { background-color: #fef2f2; }
 
 .stat-value {
+  display: block;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--color-text-main);
+  line-height: 1;
 }
 
 .stat-label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--color-text-muted);
-  margin-top: 2px;
+  margin-top: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .clickable {
@@ -401,6 +461,173 @@ button {
   color: var(--color-text-main);
 }
 
+/* Projects Section */
+.projects-section {
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.view-all {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.premium-card {
+  padding: 0 !important;
+  overflow: hidden;
+  border: none !important;
+  background-color: var(--color-bg-card);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.project-image {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.premium-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+.project-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.project-body {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.project-body h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+}
+
+.project-progress-container {
+  margin-top: auto;
+  margin-bottom: var(--spacing-lg);
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.pct-funded {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.coins-left {
+  color: var(--color-text-muted);
+}
+
+.progress-bar-bg {
+  height: 8px;
+  background-color: #f3f4f6;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border-radius: var(--radius-full);
+}
+
+.progress-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.btn-donate-action {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-donate-action:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+/* Status States */
+.profile-loading, .profile-error {
+  min-height: 400px;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  text-align: center;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--color-border);
+  border-bottom-color: var(--color-primary);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Modal */
 .modal-overlay {
   position: fixed;
@@ -466,6 +693,7 @@ button {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -476,6 +704,7 @@ button {
     transform: scale(0.95);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;

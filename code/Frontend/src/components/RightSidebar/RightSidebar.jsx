@@ -130,7 +130,7 @@ function RightSidebar({ page = "home" }) {
         <a href="#">Help Center</a>
         <a href="#">Privacy & Terms</a>
         <a href="#">Advertising</a>
-        <p>© 2025 Curated Canvas</p>
+        <p>© 2026 Merch4Change</p>
       </div>
     </div>
   );
