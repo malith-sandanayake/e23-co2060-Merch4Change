@@ -25,8 +25,8 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
   return (
     <aside className="lum-sidebar-left">
       <div className="lum-logo">
-        <div className="lum-logo-icon">L</div>
-        <h2>Merch4Change</h2>
+        <div className="lp-navbar-icon">M</div>
+        <h2 className="lp-navbar-text">Merch4Change</h2>
         <button
           className="lum-close-btn"
           onClick={() => setIsSidebarCollapsed(true)}
@@ -58,7 +58,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
           <Home size={20} /> <span>Home</span>
         </NavLink>
         <NavLink
-          to="/messaging"
+          to="/under-construction"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(2)}
         >

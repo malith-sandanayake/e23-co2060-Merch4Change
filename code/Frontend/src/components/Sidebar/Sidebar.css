@@ -50,8 +50,13 @@
 
 .lum-logo h2 {
   margin: 0;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 800;
+}
+
+/* Ensure landing navbar text style fits inside sidebar */
+.lum-logo h2.lp-navbar-text {
+  font-size: 14px;
 }
 
 .lum-user-summary {

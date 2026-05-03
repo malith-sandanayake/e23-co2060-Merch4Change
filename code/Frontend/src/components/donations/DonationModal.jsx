@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { X, CreditCard, Building, Smartphone } from "lucide-react";
+import { X, Coins } from "lucide-react";
 import { createDonation } from "../../api/donationsService";
 
-function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
-  const [charity, setCharity] = useState("");
+function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialCharity, availableCoins = 0, onDonationCommitted }) {
+  const [charity, setCharity] = useState(initialCharity || "");
   const [project, setProject] = useState(initialProject || "");
   const [amount, setAmount] = useState("");
   const [customAmount, setCustomAmount] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("Card");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
-      setCharity("");
+      setCharity(initialCharity || "");
       setProject(initialProject || "");
       setAmount("");
       setCustomAmount("");
-      setPaymentMethod("Card");
       setError(null);
     }
-  }, [isOpen, initialProject]);
+  }, [isOpen, initialProject, initialCharity]);
 
   if (!isOpen) return null;
 
@@ -38,25 +36,33 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
     e.preventDefault();
     setError(null);
 
-    const finalAmount = amount ? parseInt(amount) : parseInt(customAmount);
+    const finalAmount = amount ? parseInt(amount, 10) : parseInt(customAmount, 10);
 
-    if (!charity) {
-      setError({ field: "charity", message: "Please select a charity." });
-      return;
-    }
     if (!project) {
       setError({ field: "project", message: "Please enter a project or cause." });
       return;
     }
-    if (!finalAmount || finalAmount < 100) {
-      setError({ field: "amount", message: "Amount must be at least 100." });
+    if (!finalAmount || finalAmount < 1) {
+      setError({ field: "amount", message: "Amount must be at least 1 coin." });
+      return;
+    }
+    if (finalAmount > availableCoins) {
+      setError({ field: "amount", message: "You do not have enough coins for this donation." });
+      return;
+    }
+    if (availableCoins < 1) {
+      setError({ field: "amount", message: "You have 0 coins. Earn coins from purchases before donating." });
       return;
     }
 
     try {
       setLoading(true);
-      await createDonation({ charity, project, amount: finalAmount });
-      onSuccess(charity);
+      const response = await createDonation({ charity, project, amount: finalAmount });
+      const remainingCoins = response?.data?.data?.coinBalance;
+      if (typeof onDonationCommitted === "function") {
+        onDonationCommitted(finalAmount, remainingCoins);
+      }
+      onSuccess(project || charity || "the project");
     } catch (err) {
       const errMsg = err.response?.data?.details?.[0]?.message || err.response?.data?.message || "Failed to process donation.";
       setError({ field: "global", message: errMsg });
@@ -102,8 +108,27 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
         </button>
 
         <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "28px", color: "#1A1A1A", marginBottom: "24px" }}>
-          Make a Donation
+          Donate Your Coins
         </h2>
+
+        <div
+          style={{
+            background: "#F8FAFC",
+            border: "1px solid #E2DAD0",
+            borderRadius: "12px",
+            padding: "10px 14px",
+            marginBottom: "18px",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "14px",
+            color: "#1A1A1A",
+          }}
+        >
+          <Coins size={16} color="#D4820A" />
+          Available coins: <strong>{Number(availableCoins).toLocaleString()}</strong>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Charity Selector */}
@@ -118,15 +143,12 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
               onFocus={focusStyle}
               onBlur={blurStyle}
             >
-              <option value="" disabled>Select charity...</option>
+              <option value="">Select charity (optional)...</option>
               <option value="Green Canopy Initiative">Green Canopy Initiative</option>
               <option value="Future Scholars Fund">Future Scholars Fund</option>
               <option value="Mobile Medics Network">Mobile Medics Network</option>
               <option value="Clean Water Wells">Clean Water Wells</option>
             </select>
-            {error?.field === "charity" && (
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "#C0392B", marginTop: "4px" }}>{error.message}</p>
-            )}
           </div>
 
           {/* Project Input */}
@@ -151,7 +173,7 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
           {/* Amount Selection */}
           <div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-              {[500, 1000, 2500, 5000].map((val) => (
+              {[25, 50, 100, 250].map((val) => (
                 <button
                   key={val}
                   type="button"
@@ -169,23 +191,24 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
                     transition: "all 0.2s",
                   }}
                 >
-                  LKR {val.toLocaleString()}
+                  {val} coins
                 </button>
               ))}
             </div>
 
             <label style={{ display: "block", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "#6B6560", marginBottom: "8px" }}>
-              Or enter custom amount
+              Or enter custom coin amount
             </label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: "#6B6560", fontFamily: "'DM Sans', sans-serif" }}>
-                LKR
+                🪙
               </span>
               <input
                 type="number"
                 value={customAmount}
                 onChange={handleCustomAmountChange}
-                placeholder="0.00"
+                placeholder="0"
+                min="1"
                 style={{ ...inputStyle, paddingLeft: "48px" }}
                 onFocus={focusStyle}
                 onBlur={blurStyle}
@@ -195,50 +218,6 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "#C0392B", marginTop: "4px" }}>{error.message}</p>
             )}
           </div>
-
-          {/* Payment Method */}
-          <div>
-            <label style={{ display: "block", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "#6B6560", marginBottom: "8px" }}>
-              Payment Method
-            </label>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { id: "Card", icon: <CreditCard size={20} /> },
-                { id: "Bank", icon: <Building size={20} /> },
-                { id: "Wallet", icon: <Smartphone size={20} /> },
-              ].map((method) => (
-                <div
-                  key={method.id}
-                  onClick={() => setPaymentMethod(method.id)}
-                  className="flex flex-col items-center justify-center cursor-pointer transition-all"
-                  style={{
-                    backgroundColor: paymentMethod === method.id ? "#FEF3DC" : "#FFFFFF",
-                    border: paymentMethod === method.id ? "2px solid #D4820A" : "1.5px solid #E2DAD0",
-                    borderRadius: "12px",
-                    padding: "16px",
-                  }}
-                >
-                  <div style={{ color: paymentMethod === method.id ? "#D4820A" : "#6B6560", marginBottom: "8px" }}>
-                    {method.icon}
-                  </div>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "#1A1A1A", textAlign: "center" }}>
-                    {method.id}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Card Details (Mock) */}
-          {paymentMethod === "Card" && (
-            <div className="space-y-3">
-              <input type="text" placeholder="Card number" style={inputStyle} onFocus={focusStyle} onBlur={blurStyle} />
-              <div className="flex gap-3">
-                <input type="text" placeholder="MM/YY" style={{ ...inputStyle, flex: 1 }} onFocus={focusStyle} onBlur={blurStyle} />
-                <input type="text" placeholder="CVV" style={{ ...inputStyle, flex: 1 }} onFocus={focusStyle} onBlur={blurStyle} />
-              </div>
-            </div>
-          )}
 
           {error?.field === "global" && (
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "#C0392B", textAlign: "center" }}>
@@ -265,10 +244,10 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject }) {
               onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = "#be7509")}
               onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = "#D4820A")}
             >
-              {loading ? "Processing..." : `Donate LKR ${(amount || customAmount || 0).toLocaleString()} ${charity ? `to ${charity}` : ""}`}
+              {loading ? "Processing..." : `Donate ${(amount || customAmount || 0).toLocaleString()} Coins`}
             </button>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", color: "#6B6560", textAlign: "center", marginTop: "12px" }}>
-              🔒 Secure payment · No platform fees · 100% goes to the cause
+              Coins are deducted from your earned balance and transferred directly to this project.
             </p>
           </div>
         </form>

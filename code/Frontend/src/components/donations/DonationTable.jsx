@@ -124,7 +124,7 @@ function DonationTable({
                   <td style={{ padding: "14px 24px" }}>{formatDate(donation.createdAt)}</td>
                   <td style={{ padding: "14px 24px" }}>{donation.charity}</td>
                   <td style={{ padding: "14px 24px" }}>{donation.project}</td>
-                  <td style={{ padding: "14px 24px" }}>LKR {donation.amount.toLocaleString()}</td>
+                  <td style={{ padding: "14px 24px" }}>{donation.amount.toLocaleString()} coins</td>
                   <td style={{ padding: "14px 24px" }}>
                     <span
                       style={{

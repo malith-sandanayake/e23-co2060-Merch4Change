@@ -138,6 +138,13 @@ export default function DonationsPage() {
 
   const openModal = (charity = "", project = "") => { setPrefilledCharity(charity); setPrefilledProject(project); setModalOpen(true); };
   const handleSuccess = (name) => { setModalOpen(false); setSuccessMsg(`✓ Donation successful! Thank you for supporting ${name}.`); setTimeout(() => setSuccessMsg(null), 5000); };
+  const handleDonationCommitted = (spentCoins, remainingCoins) => {
+    setProfileData((prev) => {
+      const current = Number(prev?.coinBalance ?? 0);
+      const nextBalance = typeof remainingCoins === "number" ? remainingCoins : Math.max(0, current - spentCoins);
+      return { ...prev, coinBalance: nextBalance };
+    });
+  };
 
   const filtered = CHARITIES.filter(c => c.name.toLowerCase().includes(query.toLowerCase()) || c.desc.toLowerCase().includes(query.toLowerCase()));
 
@@ -276,7 +283,15 @@ export default function DonationsPage() {
         </main>
       </div>
 
-      <DonationModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onSuccess={handleSuccess} initialProject={prefilledProject} />
+      <DonationModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSuccess={handleSuccess}
+        initialProject={prefilledProject}
+        initialCharity={prefilledCharity}
+        availableCoins={Number(profileData?.coinBalance ?? 0)}
+        onDonationCommitted={handleDonationCommitted}
+      />
     </div>
   );
 }
