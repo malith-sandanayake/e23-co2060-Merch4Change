@@ -60,10 +60,19 @@ export default function SearchDropdown({ query, results, open, onClose }) {
   }, [onClose]);
 
   const handleSelect = ({ category, item }) => {
-    if (category === "users") navigate(`/admin/users/${item.id}`);
-    else if (category === "charities") navigate(`/charities/${item.id}`);
-    else if (category === "projects") navigate(`/projects/${item.id}`);
-    else if (category === "products") navigate(`/products/${item.id}`);
+    if (category === "users") {
+      if (item.userName) navigate(`/profile/${item.userName}`);
+      else navigate("/profile/me");
+    }
+    else if (category === "charities") {
+      if (item.userName) navigate(`/organization/${item.userName}`);
+      else navigate("/under-construction");
+    }
+    else if (category === "projects") {
+      if (item.charityUserName) navigate(`/organization/${item.charityUserName}/projects`);
+      else navigate("/under-construction");
+    }
+    else if (category === "products") navigate("/marketplace");
     else if (category === "pages") navigate(item.path);
     onClose();
   };
