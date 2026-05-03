@@ -1,0 +1,92 @@
+.sv-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sv-card {
+  width: 380px;
+  height: 640px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background: #1a1a1a;
+}
+
+.sv-progress {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.sv-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #ffffff;
+  border-radius: 2px;
+  animation: svDrain 5s linear forwards;
+}
+
+@keyframes svDrain {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.sv-close {
+  position: absolute;
+  top: 24px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: #ffffff;
+  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+}
+
+.sv-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.sv-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+.sv-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 24px 24px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  z-index: 10;
+}

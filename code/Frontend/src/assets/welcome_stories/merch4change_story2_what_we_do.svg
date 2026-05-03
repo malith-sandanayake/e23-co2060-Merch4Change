@@ -1,0 +1,49 @@
+<svg width="100%" viewBox="0 0 420.72 646.95" role="img" style="background: rgb(74, 36, 225); border-radius: 12px;" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Merch4Change Story 2 — What We Do</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Three geometric shapes with mission typography on deep violet background</desc>
+  <defs>
+    
+  </defs>
+
+  <!-- Header -->
+  <text x="190" y="52" font-family="Arial, sans-serif" font-weight="bold" font-size="38" fill="#FAF7F2" text-anchor="middle" letter-spacing="10" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:38px;font-weight:700;text-anchor:middle;dominant-baseline:central">WHAT WE DO</text>
+
+  <!-- Thin rule under header -->
+  <line x1="110" y1="76" x2="270" y2="76" stroke="#FAF7F2" stroke-width="1" opacity=".3" style="fill:rgb(0, 0, 0);stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.3;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Geometric shapes column -->
+  <g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <!-- Triangle at 22% = y≈141 -->
+    <polygon points="190,115 245,200 135,200" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-dasharray:800px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Amber dot at apex -->
+    <circle cx="190" cy="115" r="7" fill="#D4820A" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+      <animate attributeName="r" values="0;9;7" dur=".4s" begin=".3s" fill="freeze" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    </circle>
+
+    <!-- Hairline between tri and circle -->
+    <line x1="190" y1="205" x2="190" y2="240" stroke="#FAF7F2" stroke-width="1" opacity=".4" style="fill:rgb(0, 0, 0);stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+    <!-- Circle at 50% = y≈320 -->
+    <circle cx="190" cy="310" r="72" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-dasharray:700px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Amber dot at rightmost -->
+    <circle cx="262" cy="310" r="7" fill="#D4820A" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+      <animate attributeName="r" values="0;9;7" dur=".4s" begin=".6s" fill="freeze" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    </circle>
+
+    <!-- Hairline between circle and square -->
+    <line x1="190" y1="385" x2="190" y2="416" stroke="#FAF7F2" stroke-width="1" opacity=".4" style="fill:rgb(0, 0, 0);stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+    <!-- Square at 78% = y≈499 -->
+    <rect x="134" y="420" width="112" height="112" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-dasharray:800px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Amber dot at bottom-right corner -->
+    <circle cx="246" cy="532" r="7" fill="#D4820A" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+      <animate attributeName="r" values="0;9;7" dur=".4s" begin=".9s" fill="freeze" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    </circle>
+  </g>
+
+  <!-- Bottom text block -->
+  <text x="190" y="568" font-family="Georgia, serif" font-size="30" fill="#FAF7F2" text-anchor="middle" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:30px;font-weight:400;text-anchor:middle;dominant-baseline:central">Merchandise that</text>
+  <text x="190" y="600" font-family="Georgia, serif" font-weight="bold" font-style="italic" font-size="30" fill="#D4820A" text-anchor="middle" dominant-baseline="central" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:30px;font-weight:700;font-style:italic;text-anchor:middle;dominant-baseline:central">funds real causes</text>
+  <text x="190" y="628" font-family="Arial, sans-serif" font-weight="300" font-size="16" fill="#FAF7F2" opacity=".6" text-anchor="middle" letter-spacing="2" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:16px;font-weight:300;text-anchor:middle;dominant-baseline:central">Every purchase tracked. Every impact measured.</text>
+
+</svg>

@@ -1,0 +1,60 @@
+<svg width="100%" viewBox="0 0 960 780" role="img" style="border-radius: 12px; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Merch4Change Story 5 — Join the Movement</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Diagonal split canvas, purple and teal zones, star in amber circle, manifesto typography</desc>
+  <defs>
+    
+    <clipPath id="upperZone">
+      <polygon points="0,0 380,0 380,0 266,640 0,640"/>
+    </clipPath>
+    <clipPath id="lowerZone">
+      <polygon points="380,0 380,640 0,640 114,0"/>
+    </clipPath>
+  <mask id="imagine-text-gaps-jvk7cn" maskUnits="userSpaceOnUse"><rect x="0" y="0" width="960" height="780" fill="white"/><rect x="-0.63722825050354" y="73.13043212890625" width="381.27447509765625" height="85.7391357421875" fill="black" rx="2"/><rect x="-42.00271987915039" y="137.30435180664062" width="467.05816650390625" height="81.39130401611328" fill="black" rx="2"/><rect x="38.622283935546875" y="415.7391357421875" width="302.97479248046875" height="40.521766662597656" fill="black" rx="2"/><rect x="-12.77717399597168" y="453.7391357421875" width="405.5543518066406" height="40.5217399597168" fill="black" rx="2"/><rect x="79.84510803222656" y="530.6956787109375" width="220.30978393554688" height="26.60869598388672" fill="black" rx="2"/><rect x="65.59918975830078" y="566.434814453125" width="248.8016357421875" height="23.130435943603516" fill="black" rx="2"/></mask></defs>
+
+  <!-- Hard diagonal split background -->
+  <!-- Upper-left: deep violet purple -->
+  <rect width="380" height="640" fill="#4A24E1" style="fill:rgb(74, 36, 225);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- Lower-right: deep teal -->
+  <polygon points="380,0 380,640 0,640 114,0" fill="#0D6B5E" style="fill:rgb(13, 107, 94);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Background architectural arcs -->
+  <circle cx="500" cy="320" r="450" fill="none" stroke="#FAF7F2" stroke-width="1.5" opacity=".08" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.08;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="-38" cy="384" r="250" fill="none" stroke="#FAF7F2" stroke-width="1.5" opacity=".08" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.08;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Amber circle centered at boundary -->
+  <circle cx="190" cy="310" r="92" fill="#D4820A" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <animate attributeName="opacity" values="0;1" dur=".4s" begin=".4s" fill="freeze" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  </circle>
+
+  <!-- Pulsing ring around amber circle -->
+  <circle cx="190" cy="310" r="95" fill="none" stroke="#4A24E1" stroke-width="2" opacity=".6" style="fill:none;stroke:rgb(74, 36, 225);color:rgb(255, 255, 255);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.974278;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="190" cy="310" r="115" fill="none" stroke="#FAF7F2" stroke-width="1.5" opacity=".4" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="190" cy="310" r="135" fill="none" stroke="#FAF7F2" stroke-width="1" opacity=".15" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.15;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- White star inside amber circle -->
+  <g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="190,246 202,284 242,284 210,308 222,346 190,322 158,346 170,308 138,284 178,284" fill="#FAF7F2" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  </g>
+
+  <!-- Upper purple zone text -->
+  <text x="190" y="116" font-family="Arial,sans-serif" font-weight="900" font-size="58" fill="#FAF7F2" text-anchor="middle" letter-spacing="8" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:58px;font-weight:900;text-anchor:middle;dominant-baseline:central">JOIN THE</text>
+
+  <text x="190" y="178" font-family="Georgia,serif" font-weight="bold" font-style="italic" font-size="68" fill="#D4820A" text-anchor="middle" dominant-baseline="central" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:68px;font-weight:700;font-style:italic;text-anchor:middle;dominant-baseline:central">MOVEMENT</text>
+
+  <!-- Thin rule -->
+  <line x1="70" y1="216" x2="310" y2="216" stroke="#FAF7F2" stroke-width="1" opacity=".35" mask="url(#imagine-text-gaps-jvk7cn)" style="fill:rgb(0, 0, 0);stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.35;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Lower teal zone text -->
+  <text x="190" y="436" font-family="Georgia,serif" font-size="32" fill="#FAF7F2" text-anchor="middle" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:32px;font-weight:400;text-anchor:middle;dominant-baseline:central">Be part of something</text>
+
+  <text x="190" y="474" font-family="Georgia,serif" font-weight="bold" font-style="italic" font-size="32" fill="#FAF7F2" text-anchor="middle" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:32px;font-weight:700;font-style:italic;text-anchor:middle;dominant-baseline:central">bigger than a purchase.</text>
+
+  <!-- Amber underline rule -->
+  <line x1="110" y1="512" x2="270" y2="512" stroke="#D4820A" stroke-width="2" opacity=".9" style="fill:rgb(0, 0, 0);stroke:rgb(212, 130, 10);color:rgb(255, 255, 255);stroke-width:2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.9;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Domain URL -->
+  <text x="190" y="544" font-family="Arial,sans-serif" font-weight="300" font-size="20" fill="#FAF7F2" opacity=".55" text-anchor="middle" letter-spacing="4" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:20px;font-weight:300;text-anchor:middle;dominant-baseline:central">merch4change.lk</text>
+
+  <text x="190" y="578" font-family="Arial,sans-serif" font-weight="bold" font-size="17" fill="#FAF7F2" opacity=".8" text-anchor="middle" letter-spacing="3" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:17px;font-weight:700;text-anchor:middle;dominant-baseline:central">SHOP. GIVE. CHANGE.</text>
+
+</svg>

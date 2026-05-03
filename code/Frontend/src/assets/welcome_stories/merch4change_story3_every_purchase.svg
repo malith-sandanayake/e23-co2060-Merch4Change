@@ -1,0 +1,46 @@
+<svg width="100%" viewBox="0 0 435.72 640" role="img" style="background: rgb(74, 36, 225); border-radius: 12px;" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Merch4Change Story 3 — Every Purchase Helps</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Bold amber circle with upward arrow cutout, surrounded by decorative dots and promise typography</desc>
+  <defs>
+    
+    <mask id="arrowMask">
+      <rect width="380" height="640" fill="white"/>
+      <!-- arrow shaft -->
+      <rect x="181" y="245" width="18" height="90" fill="black"/>
+      <!-- arrowhead -->
+      <polygon points="190,200 150,260 230,260" fill="black"/>
+    </mask>
+  </defs>
+
+  <!-- EVERY PURCHASE heading -->
+  <text x="190" y="56" font-family="Arial,sans-serif" font-weight="bold" font-size="42" fill="#FAF7F2" text-anchor="middle" letter-spacing="6" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:42px;font-weight:700;text-anchor:middle;dominant-baseline:central">EVERY PURCHASE</text>
+
+  <!-- HELPS hero word -->
+  <text x="190" y="108" font-family="Georgia,serif" font-weight="bold" font-style="italic" font-size="72" fill="#D4820A" text-anchor="middle" dominant-baseline="central" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:72px;font-weight:700;font-style:italic;text-anchor:middle;dominant-baseline:central">HELPS</text>
+
+  <!-- Outer subtle rings -->
+  <circle cx="190" cy="305" r="220" fill="none" stroke="#FAF7F2" stroke-width="1" opacity=".08" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.08;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="190" cy="305" r="195" fill="none" stroke="#FAF7F2" stroke-width="1" opacity=".12" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.12;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- 8 small dots in ring, spinning slowly -->
+  <g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <circle cx="190" cy="165" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="287" cy="207" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="330" cy="305" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="287" cy="403" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="190" cy="445" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="93" cy="403" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="50" cy="305" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="93" cy="207" r="8" fill="none" stroke="#FAF7F2" stroke-width="1.5" style="fill:none;stroke:rgb(250, 247, 242);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  </g>
+
+  <!-- Amber circle with arrow cutout -->
+  <g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <circle cx="190" cy="305" r="130" fill="#D4820A" mask="url(#arrowMask)" style="fill:rgb(212, 130, 10);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  </g>
+
+  <!-- Bottom text -->
+  <text x="190" y="488" font-family="Arial,sans-serif" font-weight="300" font-size="22" fill="#FAF7F2" opacity=".75" text-anchor="middle" letter-spacing="1" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:22px;font-weight:300;text-anchor:middle;dominant-baseline:central">All proceeds go directly</text>
+  <text x="190" y="514" font-family="Arial,sans-serif" font-weight="300" font-size="22" fill="#FAF7F2" opacity=".75" text-anchor="middle" letter-spacing="1" dominant-baseline="central" style="fill:rgb(250, 247, 242);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:22px;font-weight:300;text-anchor:middle;dominant-baseline:central">to the cause you choose.</text>
+
+</svg>
