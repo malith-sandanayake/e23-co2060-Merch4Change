@@ -60,7 +60,7 @@ function App() {
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/profile/me" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
         <Route path="/profile/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
-        <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
+        <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
         <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
 

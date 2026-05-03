@@ -5,6 +5,7 @@ import "./Marketplace.css";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import MarketplaceContent from "../../components/Marketplace/Marketplace";
+import GuestBlock from "../../components/Marketplace/components/GuestBlock";
 
 function MarketplacePage() {
   const navigate = useNavigate();
@@ -14,10 +15,14 @@ function MarketplacePage() {
     userName: "guest",
   });
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
 
     const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
     fetch(`${apiUrl}/api/v1/profile/me`, {
@@ -29,8 +34,9 @@ function MarketplacePage() {
           setProfileData(data.data.user);
         }
       })
-      .catch(() => { });
-  }, []);
+      .catch(() => { })
+      .finally(() => setIsLoading(false));
+  }, [token]);
 
   const handleTabChange = useCallback(
     (tab) => {
@@ -62,7 +68,16 @@ function MarketplacePage() {
         />
 
         <main className="lum-main-content home-main-content">
-          <MarketplaceContent />
+          {isLoading ? (
+             <div className="mk-loading-wrap">
+               <div className="mk-spinner" />
+               <p>Verifying access...</p>
+             </div>
+          ) : !token ? (
+            <GuestBlock />
+          ) : (
+            <MarketplaceContent />
+          )}
         </main>
       </div>
     </div>
