@@ -19,7 +19,7 @@ const userDonationSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
-      min: 100,
+      min: 1,
     },
     status: {
       type: String,
