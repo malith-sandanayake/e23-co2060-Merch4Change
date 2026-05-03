@@ -58,7 +58,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
           <Home size={20} /> <span>Home</span>
         </NavLink>
         <NavLink
-          to="/messaging"
+          to="/under-construction"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(2)}
         >
