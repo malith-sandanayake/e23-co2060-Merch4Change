@@ -1,4 +1,6 @@
 import UserDonation from "../models/UserDonation.js";
+import User from "../models/User.js";
+import CoinTransaction from "../models/CoinTransaction.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { successResponse } from "../utils/apiResponse.js";
@@ -67,9 +69,9 @@ export const getDonationStats = asyncHandler(async (req, res) => {
 export const createDonation = asyncHandler(async (req, res) => {
   const { charity, project, amount } = req.body;
 
-  if (typeof charity !== "string" || !charity.trim()) {
-    throw new AppError("Charity is required and must be a string.", 400, "VALIDATION_ERROR", [
-      { section: "body", message: "charity is required" },
+  if (charity !== undefined && (typeof charity !== "string" || !charity.trim())) {
+    throw new AppError("Charity must be a valid string when provided.", 400, "VALIDATION_ERROR", [
+      { section: "body", message: "charity must be a valid string" },
     ]);
   }
 
@@ -79,19 +81,53 @@ export const createDonation = asyncHandler(async (req, res) => {
     ]);
   }
 
-  if (typeof amount !== "number" || amount < 100) {
-    throw new AppError("Amount is required and must be at least 100.", 400, "VALIDATION_ERROR", [
-      { section: "body", message: "amount must be at least 100" },
+  const coinAmount = Number.parseInt(amount, 10);
+  if (!Number.isInteger(coinAmount) || coinAmount < 1) {
+    throw new AppError("Amount is required and must be at least 1 coin.", 400, "VALIDATION_ERROR", [
+      { section: "body", message: "amount must be at least 1 coin" },
     ]);
   }
 
+  const updatedUser = await User.findOneAndUpdate(
+    {
+      _id: req.user._id,
+      coinBalance: { $gte: coinAmount },
+    },
+    {
+      $inc: { coinBalance: -coinAmount },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).select("coinBalance");
+
+  if (!updatedUser) {
+    throw new AppError("Insufficient coin balance.", 400, "INSUFFICIENT_COINS", [
+      { section: "body", message: "not enough coins" },
+    ]);
+  }
+
+  const resolvedCharity = typeof charity === "string" && charity.trim() ? charity.trim() : "Project Fund";
+
   const donation = await UserDonation.create({
     user: req.user._id,
-    charity,
+    charity: resolvedCharity,
     project,
-    amount,
-    status: "processing", // default is processing per schema
+    amount: coinAmount,
+    status: "completed",
   });
 
-  return successResponse(res, 201, "Donation successful.", donation);
+  await CoinTransaction.create({
+    userId: req.user._id,
+    type: "donate",
+    amount: coinAmount,
+    refType: "donation",
+    refId: donation._id,
+  });
+
+  return successResponse(res, 201, "Donation successful.", {
+    donation,
+    coinBalance: updatedUser.coinBalance,
+  });
 });

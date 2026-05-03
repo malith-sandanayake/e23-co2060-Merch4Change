@@ -118,7 +118,7 @@ function TopNavbar({
         >
           Trends
         </span>
-        <div className="lum-icon-btn"><Bell size={20} /></div>
+        <div className="lum-icon-btn" onClick={() => navigate("/under-construction")}><Bell size={20} /></div>
         <CoinBalance />
         <div className="lum-profile-menu" ref={popupRef}>
           <button
