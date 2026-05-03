@@ -18,20 +18,19 @@ export const searchAll = asyncHandler(async (req, res) => {
   const isAdmin = !!(req.user && req.user.role === "admin");
 
   // run queries in parallel
-  const userPromise = (async () => {
-    if (!isAdmin) return [];
-    return User.find({
-      $or: [{ userName: regex }, { email: regex }],
-    })
-      .limit(4)
-      .select("firstName lastName userName email role");
-  })();
+  const userFilters = [{ userName: regex }];
+  if (isAdmin) userFilters.push({ email: regex });
+  const userPromise = User.find({
+    $or: userFilters,
+  })
+    .limit(4)
+    .select("firstName lastName userName email role");
 
   const charitiesPromise = Charity.find({
     $or: [{ publicName: regex }, { contactEmail: regex }],
   })
     .limit(4)
-    .select("publicName contactEmail website");
+    .select("publicName contactEmail website ownerUserId");
 
   const projectsPromise = Project.find({
     $or: [{ title: regex }, { description: regex }],
@@ -63,12 +62,43 @@ export const searchAll = asyncHandler(async (req, res) => {
     agg.forEach((a) => { charityTotals[String(a._id)] = a.total; });
   }
 
-  // populate project charity name
+  // populate charity and owner usernames for profile routing
   const charityMap = {};
+  const charityOwnerMap = {};
+  const charityOwnerUserIds = [];
+  (charities || []).forEach((c) => {
+    charityMap[String(c._id)] = c.publicName;
+    if (c.ownerUserId) charityOwnerUserIds.push(c.ownerUserId);
+  });
+
+  if (charityOwnerUserIds.length) {
+    const ownerUsers = await User.find({ _id: { $in: charityOwnerUserIds } }).select("userName");
+    const ownerById = {};
+    ownerUsers.forEach((u) => {
+      ownerById[String(u._id)] = u.userName;
+    });
+    (charities || []).forEach((c) => {
+      charityOwnerMap[String(c._id)] = ownerById[String(c.ownerUserId)] || "";
+    });
+  }
+
+  // populate project charity name
   if (projects && projects.length) {
     const charityIdsForProjects = projects.map((p) => p.charityId).filter(Boolean);
-    const charityDocs = await Charity.find({ _id: { $in: charityIdsForProjects } }).select("publicName");
+    const charityDocs = await Charity.find({ _id: { $in: charityIdsForProjects } }).select("publicName ownerUserId");
     charityDocs.forEach((c) => { charityMap[String(c._id)] = c.publicName; });
+
+    const missingOwnerUserIds = charityDocs.map((c) => c.ownerUserId).filter(Boolean);
+    if (missingOwnerUserIds.length) {
+      const ownerUsers = await User.find({ _id: { $in: missingOwnerUserIds } }).select("userName");
+      const ownerById = {};
+      ownerUsers.forEach((u) => {
+        ownerById[String(u._id)] = u.userName;
+      });
+      charityDocs.forEach((c) => {
+        charityOwnerMap[String(c._id)] = ownerById[String(c.ownerUserId)] || charityOwnerMap[String(c._id)] || "";
+      });
+    }
   }
 
   // populate product vendor (brand) names
@@ -81,31 +111,33 @@ export const searchAll = asyncHandler(async (req, res) => {
 
   // shape results
   const shapedUsers = (users || []).map((u) => ({
-    id: u._id,
+    id: String(u._id),
     userName: u.userName,
-    email: u.email,
+    email: isAdmin ? u.email : "",
     role: u.role,
     firstName: u.firstName,
     lastName: u.lastName,
   }));
 
   const shapedCharities = (charities || []).map((c) => ({
-    id: c._id,
+    id: String(c._id),
     name: c.publicName,
+    userName: charityOwnerMap[String(c._id)] || "",
     contactEmail: c.contactEmail,
     website: c.website,
     totalRaised: charityTotals[String(c._id)] || 0,
   }));
 
   const shapedProjects = (projects || []).map((p) => ({
-    id: p._id,
+    id: String(p._id),
     name: p.title,
     charityName: charityMap[String(p.charityId)] || "",
+    charityUserName: charityOwnerMap[String(p.charityId)] || "",
     progress: p.goalAmount ? Math.round((p.collectedAmount / p.goalAmount) * 100) : 0,
   }));
 
   const shapedProducts = (products || []).map((p) => ({
-    id: p._id,
+    id: String(p._id),
     name: p.name,
     price: p.price,
     vendor: brandMap[String(p.brandId)] || "",
