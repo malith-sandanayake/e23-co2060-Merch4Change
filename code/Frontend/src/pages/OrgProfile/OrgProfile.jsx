@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 import {
   MapContainer,
   TileLayer,
@@ -7,7 +8,7 @@ import {
   Popup,
   Marker,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css"; //loading leaflet deafult styling into the project
+import "leaflet/dist/leaflet.css";
 import {
   MapPin,
   Users,
@@ -16,9 +17,14 @@ import {
   MessageCircle,
   ExternalLink,
   X,
+  Plus,
+  Coins,
 } from "lucide-react";
 import "./OrgProfile.css";
 import L from "leaflet";
+import DonationModal from "../../components/donations/DonationModal";
+import TopNavbar from "../../components/TopNavbar/TopNavbar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 const hqIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -32,14 +38,92 @@ const hqIcon = new L.Icon({
 });
 
 const OrgProfile = () => {
+  const { username } = useParams();
+  const [orgData, setOrgData] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
-  const [followersCount, setFollowersCount] = useState(12450);
+  const [followersCount, setFollowersCount] = useState(0);
+  const [donationModalOpen, setDonationModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState("");
+  const [profileData, setProfileData] = useState({}); // For current user's coins
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+        const res = await axios.get(`${apiUrl}/api/v1/orgs/profile/${username}`);
+        if (res.data?.success) {
+          const { user, charity, projects } = res.data.data;
+          setOrgData({ ...user, ...charity });
+          setProjects(projects);
+          setFollowersCount(user.followersCount);
+        }
+      } catch (err) {
+        console.error("Error fetching org profile:", err);
+        setError("Failed to load organization profile.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const fetchMyProfile = async () => {
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      if (!token) return;
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+        const res = await axios.get(`${apiUrl}/api/v1/profile/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.data?.success) setProfileData(res.data.data.user);
+      } catch (err) {
+        console.error("Error fetching my profile:", err);
+      }
+    };
+
+    fetchData();
+    fetchMyProfile();
+  }, [username]);
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
     setFollowersCount((prev) => (isFollowing ? prev - 1 : prev + 1));
   };
+
+  const openDonationModal = (projectName = "") => {
+    setSelectedProject(projectName);
+    setDonationModalOpen(true);
+  };
+
+  const handleDonationCommitted = (spentCoins, remainingCoins) => {
+    setProfileData((prev) => ({
+      ...prev,
+      coinBalance: remainingCoins,
+    }));
+  };
+
+  if (isLoading) {
+    return (
+      <div className="profile-loading flex-center">
+        <div className="loader"></div>
+        <p>Loading profile...</p>
+      </div>
+    );
+  }
+
+  if (error || !orgData) {
+    return (
+      <div className="profile-error flex-center">
+        <h2>Oops!</h2>
+        <p>{error || "Organization not found."}</p>
+        <Link to="/home" className="btn btn-primary">Go Home</Link>
+      </div>
+    );
+  }
 
   // Mock locations for the map (Yellow and Green contribution zones)
   const contributionLocations = [
@@ -70,27 +154,39 @@ const OrgProfile = () => {
   ];
 
   return (
-    <div className="profile-wrapper">
-      {/* Cover Photo */}
-      <div className="cover-photo">
-        <div className="cover-overlay"></div>
-      </div>
+    <div className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
+      <TopNavbar 
+        profileData={profileData} 
+        isSidebarCollapsed={isSidebarCollapsed} 
+        setIsSidebarCollapsed={setIsSidebarCollapsed} 
+      />
+      <div className="lum-layout">
+        <Sidebar 
+          profileData={profileData} 
+          setIsSidebarCollapsed={setIsSidebarCollapsed} 
+        />
+        <main className="lum-main-content">
+          <div className="profile-wrapper">
+            {/* Cover Photo */}
+            <div className="cover-photo">
+              <div className="cover-overlay"></div>
+            </div>
 
       <div className="profile-content">
         {/* Header Section */}
         <div className="profile-header bg-card shadow-sm">
           <div className="profile-picture">
             <img
-              src="https://ui-avatars.com/api/?name=Global+Hope&background=4F46E5&color=fff&size=150"
-              alt="Global Hope Charity"
+              src={orgData.logoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(orgData.publicName)}&background=4F46E5&color=fff&size=150`}
+              alt={orgData.publicName}
             />
           </div>
 
           <div className="profile-info">
             <div className="flex-between title-row">
               <div>
-                <h1 className="profile-name">Global Hope Foundation</h1>
-                <p className="profile-handle text-muted">@globalhope</p>
+                <h1 className="profile-name">{orgData.publicName}</h1>
+                <p className="profile-handle text-muted">@{orgData.userName}</p>
               </div>
               <div className="header-actions">
                 <button
@@ -99,6 +195,13 @@ const OrgProfile = () => {
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </button>
+                <button 
+                  className="btn btn-donate"
+                  onClick={() => openDonationModal()}
+                >
+                  <Heart size={18} fill="currentColor" />
+                  Donate
+                </button>
                 <button className="btn btn-secondary icon-btn">
                   <MessageCircle size={20} />
                 </button>
@@ -106,34 +209,32 @@ const OrgProfile = () => {
             </div>
 
             <div className="profile-bio">
-              <p>
-                <strong>Mission:</strong> To provide sustainable clean water and
-                quality education to underprivileged communities worldwide.
-              </p>
-              <p>
-                <strong>Vision:</strong> A world where every child has access to
-                the resources needed to thrive and build a better future.
-              </p>
+              <p>{orgData.description || "No description available."}</p>
             </div>
 
             <div className="tags-container">
-              <span className="tag tag-blue">Clean Water Initiative</span>
-              <span className="tag tag-green">Education</span>
-              <span className="tag tag-yellow">Community Development</span>
+              {orgData.verificationStatus === "verified" && (
+                <span className="tag tag-green">Verified Charity</span>
+              )}
+              {orgData.website && (
+                <a href={orgData.website} target="_blank" rel="noopener noreferrer" className="tag tag-blue flex-center gap-xs">
+                  <ExternalLink size={12} /> Website
+                </a>
+              )}
             </div>
 
             {/* Location & Ratings */}
-            <div className="  meta-info">
+            <div className="meta-info">
               <button
                 className="location-btn"
                 onClick={() => setIsMapOpen(true)}
               >
                 <MapPin size={16} />
-                <span>Global HQ: Geneva, Switzerland (View Impact Map)</span>
+                <span>Impact Map (View Areas of Work)</span>
               </button>
               <div className="rating">
                 <Star size={16} className="text-accent" fill="#F59E0B" />
-                <span>4.9 (2k+ Reviews)</span>
+                <span>4.9 (Trust Rating)</span>
               </div>
             </div>
           </div>
@@ -148,21 +249,61 @@ const OrgProfile = () => {
             <span className="stat-label">Followers</span>
           </div>
           <div className="stat-box">
-            <span className="stat-value">342</span>
+            <span className="stat-value">{orgData.followingCount || 0}</span>
             <span className="stat-label">Following</span>
           </div>
-          <Link to="/projects" className="stat-box clickable">
-            <span className="stat-value">84</span>
-            <span className="stat-label flex-center gap-xs">
-              Total Projects <ExternalLink size={14} />
-            </span>
-          </Link>
-          <Link to="/communities" className="stat-box clickable text-primary">
-            <span className="stat-value">12</span>
-            <span className="stat-label flex-center gap-xs">
-              Communities <ExternalLink size={14} />
-            </span>
-          </Link>
+          <div className="stat-box">
+            <span className="stat-value">{projects.length}</span>
+            <span className="stat-label">Active Projects</span>
+          </div>
+          <div className="stat-box">
+            <span className="stat-value">LKR {(projects.reduce((acc, p) => acc + p.collectedAmount, 0) * 100).toLocaleString()}</span>
+            <span className="stat-label">Total Impact</span>
+          </div>
+        </div>
+
+        {/* Projects Section */}
+        <div className="projects-section bg-card shadow-sm">
+          <div className="section-header">
+            <h2>Active Projects</h2>
+            <Link to={`/organization/${username}/projects`} className="view-all">
+              View All <ExternalLink size={14} />
+            </Link>
+          </div>
+          <div className="projects-grid">
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <div key={project.id} className="project-card">
+                  <div className="project-info">
+                    <h3>{project.title}</h3>
+                    <p className="project-desc">{project.description}</p>
+                    <div className="project-progress">
+                      <div className="progress-bar">
+                        <div 
+                          className="progress-fill" 
+                          style={{ width: `${Math.min(100, (project.collectedAmount / project.goalAmount) * 100)}%` }}
+                        ></div>
+                      </div>
+                      <div className="progress-stats">
+                        <span>{Math.round((project.collectedAmount / project.goalAmount) * 100)}% Funded</span>
+                        <span>{project.collectedAmount} / {project.goalAmount} Coins</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button 
+                    className="btn btn-donate-sm"
+                    onClick={() => openDonationModal(project.title)}
+                  >
+                    Donate
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="no-projects flex-center">
+                <p className="text-muted">No active projects at the moment.</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Posts Placeholder */}
@@ -235,7 +376,24 @@ const OrgProfile = () => {
           </div>
         </div>
       )}
-    </div>
+            </div>
+          </main>
+        </div>
+
+        <DonationModal
+          isOpen={donationModalOpen}
+          onClose={() => setDonationModalOpen(false)}
+          onSuccess={(name) => {
+            setDonationModalOpen(false);
+            // Optional: Show success toast or update projects list
+            alert(`Thank you for donating to ${name}!`);
+          }}
+          initialProject={selectedProject}
+          initialCharity={orgData.publicName}
+          availableCoins={profileData.coinBalance || 0}
+          onDonationCommitted={handleDonationCommitted}
+        />
+      </div>
   );
 };
 

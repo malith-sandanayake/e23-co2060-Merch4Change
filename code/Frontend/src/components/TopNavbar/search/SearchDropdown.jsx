@@ -77,7 +77,7 @@ export default function SearchDropdown({ query, results, open, onClose }) {
     onClose();
   };
 
-  const anyResults = results && (results.users?.length || results.charities?.length || results.projects?.length || results.products?.length) ;
+  const anyResults = results && (results.users?.length || results.charities?.length || results.projects?.length || results.products?.length);
 
   if (!open) return null;
 
