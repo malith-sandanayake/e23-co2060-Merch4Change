@@ -7,7 +7,19 @@ interface NotificationDropDownProps {
 function NotificationDropDown({ notifications }: NotificationDropDownProps): JSX.Element {
     return (
         <div className="notify-section">
-            {notifications.length > 0 ? (
+            <div className="notify-header">
+                <h1>Notifications</h1>
+            </div>
+            <div className="notify-filter">
+                <div className="filters">
+                    <button>All</button>
+                    <button>New products</button>
+                    <button>Bets</button>
+                </div>
+            </div>
+
+            <div className="notify-list">
+                {notifications.length > 0 ? (
                 notifications.map((notification) => (
                     <div key={notification.id} >
                         {!notification.isRead? <span>[New]</span>: null}
@@ -18,6 +30,7 @@ function NotificationDropDown({ notifications }: NotificationDropDownProps): JSX
             ) : (
                 <p>No notifications yet.</p>
             )}
+            </div>
         </div >
     );
 };

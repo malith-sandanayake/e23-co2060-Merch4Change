@@ -29,9 +29,14 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Marketplace from "./pages/Marketplace/Marketplace";
 import DonationsPage from "./pages/Donations/DonationsPage";
 import UnderConstruction from "./components/UnderConstruction/UnderConstruction";
+// this is for mock test while building - Notification Drop Down
+import NotificationDropDown from "./components/Notifications/NotificationDropDown";
 import { Analytics } from "@vercel/analytics/react"; //vercel analytics
 
 function App() {
+
+  // delete this - notification drop down 
+  const notifications = [{id:"1",type:"Purchase",message:"Your order has been confirmed.",isRead:false,createdAt:"2026-05-12 10:30 AM"},{id:"2",type:"Message",message:"John sent you a new message.",isRead:true,createdAt:"2026-05-12 09:15 AM"},{id:"3",type:"Donation",message:"Thank you for donating $20.",isRead:false,createdAt:"2026-05-11 08:00 PM"},{id:"4",type:"Friend Request",message:"Anna sent you a friend request.",isRead:true,createdAt:"2026-05-11 06:45 PM"},{id:"5",type:"System",message:"System maintenance scheduled tonight.",isRead:false,createdAt:"2026-05-11 05:00 PM"},{id:"6",type:"Marketplace",message:"A seller replied to your inquiry.",isRead:true,createdAt:"2026-05-10 03:20 PM"},{id:"7",type:"Community",message:"You joined the Web Developers community.",isRead:false,createdAt:"2026-05-10 11:10 AM"},{id:"8",type:"Security",message:"New login detected from Chrome browser.",isRead:true,createdAt:"2026-05-09 09:00 PM"},{id:"9",type:"Project",message:"Your project submission was approved.",isRead:false,createdAt:"2026-05-09 01:25 PM"},{id:"10",type:"Reminder",message:"Don't forget tomorrow's meeting.",isRead:true,createdAt:"2026-05-08 07:30 PM"}];
   return (
     <Router>
       <Routes>
@@ -80,6 +85,7 @@ function App() {
         {/* Fallback: Redirect any unknown URL to landing */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <NotificationDropDown notifications= {notifications}/>
       <Analytics />
     </Router>
   );
