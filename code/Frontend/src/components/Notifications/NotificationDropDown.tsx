@@ -39,26 +39,26 @@ function NotificationDropDown({ notifications, onMarkAsRead }: NotificationDropD
             <div className="border-b  border-gray-100 pb-3">
                 <h3 className="text-base font-bold text-gray-900">Notifications</h3>
             </div>
-            <div className="notify-filter">
-                <div className="filters">
-                    <button onClick={() => handleFilter("all")} className={activeFilter === "all" ? activeBtn : inactiveBtn}>All</button>
-                    <button onClick={() => handleFilter("new_products")} className={activeFilter === "new_products" ? activeBtn : inactiveBtn}>New products</button>
-                    <button onClick={() => handleFilter("bets")} className={activeFilter === "bets" ? activeBtn : inactiveBtn}>Bets</button>
-                </div>
+            
+            <div className="flex gap-2 py-3">
+                <button onClick={() => handleFilter("all")} className={activeFilter === "all" ? activeBtn : inactiveBtn}>All</button>
+                <button onClick={() => handleFilter("new_products")} className={activeFilter === "new_products" ? activeBtn : inactiveBtn}>New products</button>
+                <button onClick={() => handleFilter("bets")} className={activeFilter === "bets" ? activeBtn : inactiveBtn}>Bets</button>
             </div>
+            
 
-            <div className="notify-list">
+            <div className="flex flex-col gap-1">
                 {filtered.length > 0 ? (
                 filtered.map((notification) => (
-                    <div className="notify"
+                    <div className="p-3 rounded-lg cursor-pointer hover:bg-gray-50"
                         key={notification.id}
                         onClick={() => !notification.isRead && onMarkAsRead?.(notification.id)}    
                     >
-                        <div className="notify-core">
+                        <div className="flex items-center gap-2">
                             {!notification.isRead? <span>[New]</span>: null}
-                            <p>{notification.message}</p>
+                            <p className="text-sm text-gray-800 m-0">{notification.message}</p>
                         </div>
-                        <p>{formatDate(notification.createdAt)}</p>
+                        <p className="text-xs text-gray-400 mt-1 m-0">{formatDate(notification.createdAt)}</p>
                     </div>
                 ))
             ) : (
