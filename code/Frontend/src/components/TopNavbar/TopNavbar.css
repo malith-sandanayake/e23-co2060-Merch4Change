@@ -148,6 +148,19 @@
   color: #6B6560;
   transition: all 0.18s;
   flex-shrink: 0;
+  position: relative;
+}
+.lum-notification-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 1200;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.lum-notification-dropdown::-webkit-scrollbar {
+  display: none;
 }
 
 .lum-icon-btn:hover {

@@ -55,14 +55,14 @@ function NotificationDropDown({ notifications, onMarkAsRead }: NotificationDropD
                         onClick={() => !notification.isRead && onMarkAsRead?.(notification.id)}    
                     >
                         <div className="flex items-center gap-2">
-                            {!notification.isRead? <span>[New]</span>: null}
+                            {!notification.isRead? <span className="bg-purple-600 text-white text-xs font-semibold px-2 py-0.5 rounded-full">New</span>: null}
                             <p className="text-sm text-gray-800 m-0">{notification.message}</p>
                         </div>
                         <p className="text-xs text-gray-400 mt-1 m-0">{formatDate(notification.createdAt)}</p>
                     </div>
                 ))
             ) : (
-                <p>No {activeFilter !== "all" ? activeFilter.replace("_", " ") : ""} notifications yet.</p>
+                <p className="text-sm text-gray-400 text-center py-6">No {activeFilter !== "all" ? activeFilter.replace("_", " ") : ""} notifications yet.</p>
             )}
             </div>
         </div >
