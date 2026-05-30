@@ -32,7 +32,7 @@ function TopNavbar({
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setShowLogoutPopup(false);
       }
-      if (notificationRef.current && !notificationRef.current.contains(event.target)){
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
     };
@@ -92,6 +92,10 @@ function TopNavbar({
     setShowNotifications(!showNotifications);
   }
 
+  // unnseen notification count 
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
+
   return (
     <nav className={`lum-topbar ${themeClass}`}>
       <div className="lum-topbar-left">
@@ -132,10 +136,14 @@ function TopNavbar({
         >
           Trends
         </span>
-        <div className="lum-icon-btn" onClick={() => handleNotificationDropDown()} ref={notificationRef}><Bell size={20} />
+        <div className="lum-icon-btn" onClick={() => handleNotificationDropDown()} ref={notificationRef}>
+          <Bell size={20} />
+          {unreadCount > 0 && (
+            <span className="lum-notif-badge">{unreadCount}</span>
+          )}
           {showNotifications ?
             <div className="lum-notification-dropdown"
-            onClick={(e) => e.stopPropagation()}>
+              onClick={(e) => e.stopPropagation()}>
               <NotificationDropDown notifications={notifications} />
             </div>
             : null}
