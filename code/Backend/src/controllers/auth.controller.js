@@ -17,7 +17,6 @@ const normalizeAccountType = (accountType) => {
   }
 
   const normalized = accountType.toLowerCase().trim();
-
   if (["user"].includes(normalized)) {
     return "individual";
   }

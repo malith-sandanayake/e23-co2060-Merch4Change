@@ -1,0 +1,240 @@
+.create-post-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.create-post-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.create-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.create-post-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #888888;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.close-btn:hover:not(:disabled) {
+  background-color: #f8f9fb;
+  color: #333333;
+}
+
+.close-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.create-post-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-post-textarea {
+  width: 100%;
+  border: none;
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  resize: none;
+  background-color: transparent;
+  color: #333333;
+  outline: none;
+  font-family: inherit;
+}
+
+.create-post-textarea::placeholder {
+  color: #aaaaaa;
+}
+
+.create-post-image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.preview-item {
+  position: relative;
+  width: calc(33.333% - 0.35rem);
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+}
+
+.preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.remove-image-btn:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.remove-image-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.create-post-error {
+  margin: 0 1.5rem 1rem;
+  padding: 0.75rem 1rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.create-post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eaeaea;
+  background-color: #f4f5f8;
+}
+
+.create-post-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.add-image-btn {
+  background: none;
+  border: none;
+  color: #4a24e1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.add-image-btn:hover:not(:disabled) {
+  background-color: rgba(74, 36, 225, 0.1);
+}
+
+.add-image-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-count-text {
+  font-size: 0.85rem;
+  color: #888888;
+}
+
+.submit-post-btn {
+  background-color: #4a24e1;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  box-shadow: 0 5px 15px rgba(74, 36, 225, 0.3);
+}
+
+.submit-post-btn:hover:not(:disabled) {
+  background-color: #3a1cbf;
+  transform: translateY(-1px);
+}
+
+.submit-post-btn:disabled {
+  background-color: #e0e0e0;
+  color: #888888;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

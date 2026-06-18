@@ -14,12 +14,25 @@ const postSchema = new mongoose.Schema(
       trim: true,
       maxlength: 20000,
     },
-    likesCount: {
-      type: Number,
-      required: true,
-      min: 0,
-      default: 0,
-    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    images: [{ type: String }
+    ],
+    comments: [
+      {
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        text: { type: String, required: true, trim: true },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   {
     timestamps: { createdAt: true, updatedAt: false },
@@ -43,3 +56,5 @@ postSchema.post("findOneAndDelete", async function (doc) {
 
 const Post = mongoose.model("Post", postSchema);
 export default Post;
+
+// updated for post creation 

@@ -20,6 +20,7 @@ import homeBannerRoutes from "./routes/homeBanner.routes.js";
 import donationRoutes from "./routes/donation.routes.js";
 import dashboardDonationsRoutes from "./routes/donations.js";
 import orgRoutes from "./routes/org.routes.js";
+import postRoutes from "./routes/post.routes.js"
 import { logInfo, sanitizeUrlForLog } from "./utils/logger.js";
 
 const app = express();
@@ -63,6 +64,7 @@ app.use("/api/v1/profile", profileRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/v1/images", imageRoutes);
 app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/brands", brandRoutes);
 app.use("/api/v1/home-banners", homeBannerRoutes);
 app.use("/api/v1/donations", donationRoutes);
