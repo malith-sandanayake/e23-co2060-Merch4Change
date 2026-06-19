@@ -2,6 +2,7 @@ import React, { memo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import user from "../../assets/user.svg";
 import "./Sidebar.css";
+import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import {
   Home,
   MessageSquare,
@@ -15,6 +16,7 @@ import {
 
 function Sidebar({ profileData, setIsSidebarCollapsed }) {
   const [selectedOption, setSelectedOption] = useState(0);
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -58,7 +60,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
           <Home size={20} /> <span>Home</span>
         </NavLink>
         <NavLink
-          to="/under-construction"
+          to="/messaging"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(2)}
         >
@@ -100,10 +102,19 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
 
       <button 
         className="lum-create-btn"
-        onClick={() => navigate("/under-construction")}
+        onClick={() => setIsCreatePostOpen(true)}
       >
         <Plus size={20} /> <span>Create Post</span>
       </button>
+
+      <CreatePostModal 
+        isOpen={isCreatePostOpen} 
+        onClose={() => setIsCreatePostOpen(false)} 
+        onSuccess={(newPost) => {
+          // If we had a global store we'd add it to feed here
+          // For now, it will appear on refresh
+        }}
+      />
 
       <div className="lum-pro-banner">
         <p className="pro-title">PRO PLAN</p>
