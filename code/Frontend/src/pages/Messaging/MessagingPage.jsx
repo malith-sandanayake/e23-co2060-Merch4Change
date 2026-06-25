@@ -44,7 +44,20 @@ function MessagingPage() {
     const response = await getMessagingContacts();
     const nextContacts = response.data?.contacts || [];
 
-    setContacts(nextContacts);
+    setContacts((currentContacts) => {
+      if (currentContacts.length === nextContacts.length) {
+        const hasChanges = currentContacts.some((c, idx) => 
+          c.id !== nextContacts[idx].id || 
+          c.preview !== nextContacts[idx].preview || 
+          c.unread !== nextContacts[idx].unread || 
+          c.time !== nextContacts[idx].time
+        );
+        if (!hasChanges) {
+          return currentContacts;
+        }
+      }
+      return nextContacts;
+    });
 
     setActiveContactId((currentId) => {
       if (preserveSelection && currentId && nextContacts.some((contact) => contact.id === currentId)) {
@@ -132,7 +145,16 @@ function MessagingPage() {
           return;
         }
 
-        setMessages(response.data?.messages || []);
+        const newMessages = response.data?.messages || [];
+        setMessages((currentMessages) => {
+          if (currentMessages.length === newMessages.length) {
+            const hasChanges = currentMessages.some((msg, idx) => msg.id !== newMessages[idx].id || msg.text !== newMessages[idx].text);
+            if (!hasChanges) {
+              return currentMessages;
+            }
+          }
+          return newMessages;
+        });
       } catch {
         if (showSpinner && !cancelled) {
           setError("Unable to load conversation.");
@@ -148,11 +170,20 @@ function MessagingPage() {
     fetchThread(true);
     markConversationRead(activeContact.conversationId).catch(() => {});
 
-    // Silent background updates every 3 seconds
+    // Optimized background updates:
+    // - Check visibility (don't poll in background tabs)
+    // - Increase polling interval to 5 seconds
+    // - Decouple contacts loading (only run every 3rd tick = 15 seconds)
+    let ticks = 0;
     const interval = setInterval(() => {
+      if (document.hidden) return;
       fetchThread(false);
-      loadContacts(true).catch(() => {});
-    }, 3000);
+
+      ticks++;
+      if (ticks % 3 === 0) {
+        loadContacts(true).catch(() => {});
+      }
+    }, 5000);
 
     return () => {
       cancelled = true;
@@ -281,7 +312,7 @@ function MessagingPage() {
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
               />
-              <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+              <div className="mc-container">
                 {error && <div className="up-loading" style={{ minHeight: 0 }}><p>{error}</p></div>}
                 {isThreadLoading ? (
                   <div className="up-loading" style={{ flex: 1 }}>
