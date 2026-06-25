@@ -26,6 +26,9 @@ function ProfileHeader({
   onChangeProfilePhoto = () => {},
   onChangeCoverPhoto = () => {},
   isOwnProfile = true,
+  isFollowing = false,
+  onFollowClick = () => {},
+  onMessageClick = () => {},
 }) {
   const fullName = `${capitalize(profileData?.firstName)} ${capitalize(profileData?.lastName)}`.trim() || 'Anonymous';
   const coverStyle = profileData?.coverImageUrl
@@ -73,6 +76,24 @@ function ProfileHeader({
             <button className="ph-btn-primary">
               <BarChart2 size={14} />
               Dashboard
+            </button>
+          )}
+          {!isOwnProfile && (
+            <button
+              className={isFollowing ? "ph-btn-secondary" : "ph-btn-primary"}
+              onClick={onFollowClick}
+              type="button"
+            >
+              {isFollowing ? "Following" : "Follow"}
+            </button>
+          )}
+          {!isOwnProfile && (
+            <button
+              className="ph-btn-secondary"
+              onClick={onMessageClick}
+              type="button"
+            >
+              Message Now
             </button>
           )}
         </div>

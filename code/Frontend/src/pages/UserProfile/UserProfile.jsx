@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./UserProfile.css";
 import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -24,8 +24,10 @@ const buildEditForm = (source = {}) => ({
 
 function UserProfile() {
   const { username } = useParams();
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [loadError, setLoadError] = useState(false);
   const [activeTab, setActiveTab] = useState("POSTS");
@@ -126,6 +128,7 @@ function UserProfile() {
         if (data?.success && data?.data?.user) {
           setProfileData(data.data.user);
           setEditForm(buildEditForm(data.data.user));
+          setIsFollowing(!!data.data.isFollowing);
         } else {
           setLoadError(true);
         }
@@ -139,6 +142,34 @@ function UserProfile() {
   }, [loadPosts, token]);
 
   const isOwnProfile = !username || username === "me" || (currentUser && username === currentUser.userName);
+
+  const handleFollowClick = async () => {
+    if (!token || !profileData) return;
+    try {
+      const endpoint = isFollowing ? "unfollow" : "follow";
+      const response = await fetch(`${apiUrl}/api/v1/profile/${profileData.userName}/${endpoint}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setIsFollowing(data.data.isFollowing);
+        setProfileData((prev) => ({
+          ...prev,
+          followersCount: prev.followersCount + (isFollowing ? -1 : 1),
+        }));
+      }
+    } catch (err) {
+      console.error("Failed to toggle follow status:", err);
+    }
+  };
+
+  const handleMessageClick = () => {
+    if (!profileData?._id) return;
+    navigate(`/messaging?userId=${profileData._id}`);
+  };
 
 
   const handleEditClick = () => {
@@ -341,6 +372,9 @@ function UserProfile() {
             onChangeProfilePhoto={openProfilePhotoPicker}
             onChangeCoverPhoto={openCoverPhotoPicker}
             isOwnProfile={isOwnProfile}
+            isFollowing={isFollowing}
+            onFollowClick={handleFollowClick}
+            onMessageClick={handleMessageClick}
           />
 
           {isOwnProfile && isEditing && (

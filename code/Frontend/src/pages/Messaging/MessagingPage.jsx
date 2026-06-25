@@ -75,7 +75,28 @@ function MessagingPage() {
           }
         }
 
-        await loadContacts(false);
+        const nextContacts = await loadContacts(false);
+
+        const searchParams = new URLSearchParams(window.location.search);
+        const queryUserId = searchParams.get("userId");
+        if (queryUserId) {
+          const existing = nextContacts.find((c) => c.id === queryUserId);
+          if (existing) {
+            setActiveContactId(existing.id);
+          } else {
+            try {
+              const res = await createMessagingConversation(queryUserId);
+              if (res.success && res.data?.contact) {
+                const updatedContacts = await loadContacts(true);
+                const contact = updatedContacts.find((c) => c.id === queryUserId) || res.data.contact;
+                upsertContact(contact);
+                setActiveContactId(queryUserId);
+              }
+            } catch (err) {
+              console.error("Failed to auto-create conversation:", err);
+            }
+          }
+        }
       } catch {
         setError("Unable to load messaging data.");
       } finally {
@@ -84,7 +105,7 @@ function MessagingPage() {
     };
 
     fetchInitialData();
-  }, [loadContacts]);
+  }, [loadContacts, upsertContact]);
 
   useEffect(() => {
     if (!activeContact) {
