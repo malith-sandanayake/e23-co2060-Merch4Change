@@ -25,6 +25,7 @@ function ProfileHeader({
   onEditClick = () => {},
   onChangeProfilePhoto = () => {},
   onChangeCoverPhoto = () => {},
+  isOwnProfile = true,
 }) {
   const fullName = `${capitalize(profileData?.firstName)} ${capitalize(profileData?.lastName)}`.trim() || 'Anonymous';
   const coverStyle = profileData?.coverImageUrl
@@ -62,14 +63,18 @@ function ProfileHeader({
         </div>
 
         <div className="ph-actions">
-          <button className="ph-btn-secondary" onClick={onEditClick} title="Edit your profile" type="button">
-            <Pencil size={14} />
-            {isEditing ? 'Editing profile' : 'Edit Profile'}
-          </button>
-          <button className="ph-btn-primary">
-            <BarChart2 size={14} />
-            Dashboard
-          </button>
+          {isOwnProfile && (
+            <button className="ph-btn-secondary" onClick={onEditClick} title="Edit your profile" type="button">
+              <Pencil size={14} />
+              {isEditing ? 'Editing profile' : 'Edit Profile'}
+            </button>
+          )}
+          {isOwnProfile && (
+            <button className="ph-btn-primary">
+              <BarChart2 size={14} />
+              Dashboard
+            </button>
+          )}
         </div>
       </div>
 

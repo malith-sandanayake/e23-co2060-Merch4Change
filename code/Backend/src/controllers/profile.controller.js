@@ -50,3 +50,16 @@ export const updateMe = asyncHandler(async (req, res) => {
     user: req.user,
   });
 });
+
+export const getProfileByUsername = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  const user = await User.findOne({ userName: username });
+  if (!user) {
+    throw new AppError("User not found.", 404, "USER_NOT_FOUND");
+  }
+
+  return successResponse(res, 200, "User profile fetched successfully.", {
+    user,
+  });
+});

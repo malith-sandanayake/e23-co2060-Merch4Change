@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./UserProfile.css";
 import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -22,6 +23,8 @@ const buildEditForm = (source = {}) => ({
 });
 
 function UserProfile() {
+  const { username } = useParams();
+  const [currentUser, setCurrentUser] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [loadError, setLoadError] = useState(false);
@@ -62,7 +65,9 @@ function UserProfile() {
     if (!token) return;
     setIsPostsLoading(true);
     try {
-      const response = await fetch(`${apiUrl}/api/v1/posts/me`, {
+      const isOwn = !username || username === "me" || (currentUser && username === currentUser.userName);
+      const endpoint = isOwn ? "/api/v1/posts/me" : `/api/v1/posts/user/${username}`;
+      const response = await fetch(`${apiUrl}${endpoint}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) {
@@ -76,14 +81,41 @@ function UserProfile() {
     } finally {
       setIsPostsLoading(false);
     }
-  }, [apiUrl, token]);
+  }, [apiUrl, token, username, currentUser?.userName]);
 
+  // 1. Fetch current user first to determine ownership
   useEffect(() => {
     if (!token) {
       setLoadError(true);
       return;
     }
     fetch(`${apiUrl}/api/v1/profile/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch current user");
+        return res.json();
+      })
+      .then((data) => {
+        if (data?.success && data?.data?.user) {
+          setCurrentUser(data.data.user);
+        }
+      })
+      .catch(() => {});
+  }, [apiUrl, token]);
+
+  // 2. Fetch viewed profile data based on route username parameter
+  useEffect(() => {
+    if (!token) {
+      setLoadError(true);
+      return;
+    }
+
+    const isFetchingMe = !username || username === "me" || (currentUser && username === currentUser.userName);
+    const endpoint = isFetchingMe ? "/api/v1/profile/me" : `/api/v1/profile/${username}`;
+
+    setProfileData(null);
+    fetch(`${apiUrl}${endpoint}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -99,12 +131,15 @@ function UserProfile() {
         }
       })
       .catch(() => setLoadError(true));
-  }, [apiUrl, token]);
+  }, [apiUrl, token, username, currentUser?.userName]);
 
   useEffect(() => {
     if (!token) return;
     loadPosts();
   }, [loadPosts, token]);
+
+  const isOwnProfile = !username || username === "me" || (currentUser && username === currentUser.userName);
+
 
   const handleEditClick = () => {
     setEditForm(buildEditForm(profileData || {}));
@@ -305,9 +340,11 @@ function UserProfile() {
             onEditClick={handleEditClick}
             onChangeProfilePhoto={openProfilePhotoPicker}
             onChangeCoverPhoto={openCoverPhotoPicker}
+            isOwnProfile={isOwnProfile}
           />
 
-          {isEditing && (
+          {isOwnProfile && isEditing && (
+
             <section className="up-edit-panel">
               <input
                 ref={profilePhotoInputRef}
@@ -390,7 +427,8 @@ function UserProfile() {
           <ProfileStats profileData={profileData} />
           <ProfileHighlights />
           <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} />
+          <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
+
         </main>
 
         <RightSidebar page="profile" />

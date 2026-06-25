@@ -12,7 +12,7 @@ function formatCreatedAt(value) {
   });
 }
 
-function PostGrid({ posts = [], isLoading = false, onDeletePost = () => {} }) {
+function PostGrid({ posts = [], isLoading = false, onDeletePost = () => {}, isOwnProfile = true }) {
   if (isLoading) {
     return (
       <div className="lum-post-grid lum-post-grid--empty">
@@ -40,14 +40,16 @@ function PostGrid({ posts = [], isLoading = false, onDeletePost = () => {} }) {
       {posts.map((post) => (
         <div className="lum-post-card" key={post.id || post._id || post.title}>
           <div className={`post-img ${post.imageClassName || ''}`.trim()} style={post.imageUrl ? { backgroundImage: `url(${post.imageUrl})` } : undefined}>
-            <button
-              type="button"
-              className="lum-post-remove-btn"
-              onClick={() => onDeletePost(post)}
-              aria-label={`Remove post ${post.title}`}
-            >
-              Remove
-            </button>
+            {isOwnProfile && (
+              <button
+                type="button"
+                className="lum-post-remove-btn"
+                onClick={() => onDeletePost(post)}
+                aria-label={`Remove post ${post.title}`}
+              >
+                Remove
+              </button>
+            )}
           </div>
           <div className="post-info">
             <h4>{post.title}</h4>
