@@ -1,7 +1,29 @@
 import React from 'react';
 import './PostGrid.css';
 
-function PostGrid({ posts = [] }) {
+function formatCreatedAt(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function PostGrid({ posts = [], isLoading = false }) {
+  if (isLoading) {
+    return (
+      <div className="lum-post-grid lum-post-grid--empty">
+        <div className="lum-post-empty">
+          <h3>Loading posts...</h3>
+          <p>Fetching the latest posts for this profile.</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!posts.length) {
     return (
       <div className="lum-post-grid lum-post-grid--empty">
@@ -24,7 +46,7 @@ function PostGrid({ posts = [] }) {
             <div className="post-footer">
               {post.likesCount != null && <span>❤ {post.likesCount}</span>}
               {post.commentsCount != null && <span>💬 {post.commentsCount}</span>}
-              {post.createdAt && <span className="post-time">{post.createdAt}</span>}
+              {post.createdAt && <span className="post-time">{formatCreatedAt(post.createdAt)}</span>}
             </div>
           </div>
         </div>

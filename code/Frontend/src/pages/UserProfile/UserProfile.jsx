@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./UserProfile.css";
 import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -31,6 +31,8 @@ function UserProfile() {
   const [savingProfile, setSavingProfile] = useState(false);
   const [uploadingProfilePhoto, setUploadingProfilePhoto] = useState(false);
   const [uploadingCoverPhoto, setUploadingCoverPhoto] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [isPostsLoading, setIsPostsLoading] = useState(false);
   const profilePhotoInputRef = useRef(null);
   const coverPhotoInputRef = useRef(null);
 
@@ -56,6 +58,26 @@ function UserProfile() {
     throw new Error("Failed to load profile data");
   };
 
+  const loadPosts = useCallback(async () => {
+    if (!token) return;
+    setIsPostsLoading(true);
+    try {
+      const response = await fetch(`${apiUrl}/api/v1/posts/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile posts");
+      }
+
+      const data = await response.json();
+      setPosts(Array.isArray(data?.posts) ? data.posts : []);
+    } catch {
+      setPosts([]);
+    } finally {
+      setIsPostsLoading(false);
+    }
+  }, [apiUrl, token]);
+
   useEffect(() => {
     if (!token) {
       setLoadError(true);
@@ -78,6 +100,11 @@ function UserProfile() {
       })
       .catch(() => setLoadError(true));
   }, [apiUrl, token]);
+
+  useEffect(() => {
+    if (!token) return;
+    loadPosts();
+  }, [loadPosts, token]);
 
   const handleEditClick = () => {
     setEditForm(buildEditForm(profileData || {}));
@@ -192,6 +219,7 @@ function UserProfile() {
         setProfileData(data.data.user);
         setEditForm(buildEditForm(data.data.user));
         setIsEditing(false);
+        loadPosts();
       }
     } catch (error) {
       // eslint-disable-next-line no-alert
@@ -239,6 +267,7 @@ function UserProfile() {
         <Sidebar
           profileData={profileData}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
+          onPostCreated={loadPosts}
         />
 
         <main className="lum-main-content" style={{ padding: 0 }}>
@@ -333,7 +362,7 @@ function UserProfile() {
           <ProfileStats profileData={profileData} />
           <ProfileHighlights />
           <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          <PostGrid />
+          <PostGrid posts={posts} isLoading={isPostsLoading} />
         </main>
 
         <RightSidebar page="profile" />

@@ -35,3 +35,34 @@ export const getFeedPosts = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const getMyPosts = async (req, res) => {
+  try {
+    const posts = await Post.find({ userId: req.user._id })
+      .populate("userId", "firstName lastName userName profileImage profileImageUrl")
+      .sort({ createdAt: -1 });
+
+    const normalizedPosts = posts.map((post) => ({
+      id: post._id,
+      title: post.content?.slice(0, 48) || "Untitled post",
+      description: post.content,
+      imageUrl: post.images?.[0] || "",
+      likesCount: post.likes?.length || 0,
+      commentsCount: post.comments?.length || 0,
+      createdAt: post.createdAt,
+      author: post.userId
+        ? {
+            id: post.userId._id,
+            firstName: post.userId.firstName,
+            lastName: post.userId.lastName,
+            userName: post.userId.userName,
+            profileImageUrl: post.userId.profileImageUrl,
+          }
+        : null,
+    }));
+
+    res.status(200).json({ success: true, posts: normalizedPosts });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
