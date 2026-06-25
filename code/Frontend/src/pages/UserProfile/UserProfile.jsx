@@ -229,6 +229,34 @@ function UserProfile() {
     }
   };
 
+  const handleDeletePost = async (post) => {
+    if (!post?.id && !post?._id) return;
+
+    const confirmed = window.confirm("Remove this post?");
+    if (!confirmed) return;
+
+    try {
+      const postId = post.id || post._id;
+      const response = await fetch(`${apiUrl}/api/v1/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.message || "Failed to delete post");
+      }
+
+      setPosts((currentPosts) => currentPosts.filter((item) => (item.id || item._id) !== postId));
+      await refreshProfile();
+    } catch (error) {
+      // eslint-disable-next-line no-alert
+      alert(error.message || "Unable to delete post");
+    }
+  };
+
   const openProfilePhotoPicker = () => {
     if (profilePhotoInputRef.current) {
       profilePhotoInputRef.current.click();
@@ -362,7 +390,7 @@ function UserProfile() {
           <ProfileStats profileData={profileData} />
           <ProfileHighlights />
           <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          <PostGrid posts={posts} isLoading={isPostsLoading} />
+          <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} />
         </main>
 
         <RightSidebar page="profile" />

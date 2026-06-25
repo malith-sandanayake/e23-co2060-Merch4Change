@@ -303,6 +303,25 @@
   font-size: 22px;
 }
 
+.lum-post-remove-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(17, 17, 17, 0.78);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
+.lum-post-card .post-img {
+  position: relative;
+}
+
 @media (max-width: 900px) {
   .up-edit-grid {
     grid-template-columns: 1fr;

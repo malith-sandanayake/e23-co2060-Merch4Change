@@ -66,3 +66,23 @@ export const getMyPosts = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+      return res.status(404).json({ success: false, message: "Post not found" });
+    }
+
+    if (String(post.userId) !== String(req.user._id)) {
+      return res.status(403).json({ success: false, message: "Forbidden" });
+    }
+
+    await Post.findOneAndDelete({ _id: req.params.postId, userId: req.user._id });
+
+    return res.status(200).json({ success: true, message: "Post deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
