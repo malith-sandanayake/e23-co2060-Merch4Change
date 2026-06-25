@@ -41,7 +41,11 @@ app.use(
     credentials: true,
   }),
 );
+
+// decode the raw bytes from the req.body to json type 
 app.use(express.json({ limit: "1mb" }));
+
+// decode the raw bytes from the req.body to x-www-form-urlencoded - the format HTML form submit by default
 app.use(express.urlencoded({ extended: true }));
 app.use(
   morgan(env.nodeEnv === "production" ? "combined" : httpLogFormat, {
