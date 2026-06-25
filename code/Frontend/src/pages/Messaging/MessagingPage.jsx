@@ -120,9 +120,11 @@ function MessagingPage() {
 
     let cancelled = false;
 
-    const loadThread = async () => {
-      setIsThreadLoading(true);
-      setError("");
+    const fetchThread = async (showSpinner = false) => {
+      if (showSpinner) {
+        setIsThreadLoading(true);
+        setError("");
+      }
 
       try {
         const response = await getConversationThread(activeContact.conversationId);
@@ -131,24 +133,32 @@ function MessagingPage() {
         }
 
         setMessages(response.data?.messages || []);
-        markConversationRead(activeContact.conversationId).catch(() => {});
       } catch {
-        if (!cancelled) {
+        if (showSpinner && !cancelled) {
           setError("Unable to load conversation.");
         }
       } finally {
-        if (!cancelled) {
+        if (showSpinner && !cancelled) {
           setIsThreadLoading(false);
         }
       }
     };
 
-    loadThread();
+    // Initial load with spinner
+    fetchThread(true);
+    markConversationRead(activeContact.conversationId).catch(() => {});
+
+    // Silent background updates every 3 seconds
+    const interval = setInterval(() => {
+      fetchThread(false);
+      loadContacts(true).catch(() => {});
+    }, 3000);
 
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
-  }, [activeContact]);
+  }, [activeContact, loadContacts]);
 
   const handleTabChange = useCallback(
     (tab) => {

@@ -354,12 +354,12 @@ function UserProfile() {
       <TopNavbar
         isSidebarCollapsed={isSidebarCollapsed}
         setIsSidebarCollapsed={setIsSidebarCollapsed}
-        profileData={profileData}
+        profileData={currentUser || profileData}
       />
 
       <div className="lum-layout">
         <Sidebar
-          profileData={profileData}
+          profileData={currentUser || profileData}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
           onPostCreated={loadPosts}
         />
