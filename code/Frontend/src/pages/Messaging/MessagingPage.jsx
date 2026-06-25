@@ -136,12 +136,21 @@ function MessagingPage() {
         return;
       }
 
+      if (tab === "discover" || tab === "trends") {
+        navigate("/home?tab=discover");
+        return;
+      }
+
       if (tab === "feed") {
         navigate("/home?tab=feed");
       }
     },
     [navigate],
   );
+
+  const handleDiscoverClick = useCallback(() => {
+    navigate("/home?tab=discover");
+  }, [navigate]);
 
   const handleSelectConversation = useCallback((id) => {
     setActiveContactId(id);
@@ -217,6 +226,20 @@ function MessagingPage() {
           ) : error && contacts.length === 0 ? (
             <div className="up-loading">
               <p>{error}</p>
+            </div>
+          ) : contacts.length === 0 ? (
+            <div className="messaging-page-container messaging-empty-state-shell">
+              <div className="messaging-empty-state">
+                <div className="messaging-empty-kicker">Messages</div>
+                <h2>Find people to start messaging</h2>
+                <p>
+                  Once you have a conversation, it will appear here. Use Discover to find people and brands to
+                  connect with.
+                </p>
+                <button type="button" className="messaging-empty-button" onClick={handleDiscoverClick}>
+                  Go to Discover
+                </button>
+              </div>
             </div>
           ) : (
             <div className="messaging-page-container">

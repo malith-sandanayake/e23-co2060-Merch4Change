@@ -149,11 +149,6 @@ const buildUnreadCountMap = async (conversationIds, currentUserId) => {
 };
 
 const buildContactList = async (currentUser) => {
-  const otherUsers = await User.find({
-    _id: { $ne: currentUser._id },
-    isActive: true,
-  }).select("firstName lastName userName accountType isActive");
-
   const conversations = await Conversation.find({ participants: currentUser._id })
     .sort({ lastMessageAt: -1, updatedAt: -1 })
     .populate("participants", "firstName lastName userName accountType isActive");
@@ -174,33 +169,24 @@ const buildContactList = async (currentUser) => {
     }
   });
 
-  return otherUsers.map((otherUser) => {
-    const conversation = conversationByOtherUserId.get(String(otherUser._id));
+  return conversations
+    .map((conversation) => {
+      const otherUser = conversation.participants.find(
+        (participant) => String(participant._id) !== String(currentUser._id),
+      );
 
-    if (!conversation) {
-      const displayName = getDisplayName(otherUser);
+      if (!otherUser) {
+        return null;
+      }
 
-      return {
-        id: String(otherUser._id),
-        name: displayName,
-        initials: getInitials(displayName),
-        type: getContactType(otherUser),
-        online: Boolean(otherUser.isActive),
-        time: "",
-        unread: 0,
-        preview: "Start a conversation",
-        color: getColorForUser(otherUser._id),
-        conversationId: null,
-      };
-    }
-
-    return buildConversationSummary(
-      conversation,
-      currentUser._id,
-      otherUser,
-      unreadCountMap[String(conversation._id)] || 0,
-    );
-  });
+      return buildConversationSummary(
+        conversation,
+        currentUser._id,
+        otherUser,
+        unreadCountMap[String(conversation._id)] || 0,
+      );
+    })
+    .filter(Boolean);
 };
 
 export const getContacts = asyncHandler(async (req, res) => {
