@@ -19,7 +19,7 @@ const sendOtpEmail = async (toEmail, otp) => {
         html: `
       <h2>Email Verification</h2>
       <p>Your OTP code is: <strong>${otp}</strong></p>
-      <p>This code expires in ${process.env.OTP_EXPIRY_MINUTES} minutes.</p>
+      <p>This code expires in ${process.env.OTP_EXPIRE_MIN} minutes.</p>
     `,
     })
 } 
