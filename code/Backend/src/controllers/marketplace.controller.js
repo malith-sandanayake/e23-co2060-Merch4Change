@@ -3,6 +3,8 @@ import CoinTransaction from "../models/CoinTransaction.js";
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 import User from "../models/User.js";
+import Notification from "../models/Notification.js";
+import mongoose from "mongoose";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { successResponse } from "../utils/apiResponse.js";
@@ -152,6 +154,35 @@ export const checkout = asyncHandler(async (req, res) => {
     });
   }
 
+  // Create Notifications
+  if (mongoose.Types.ObjectId.isValid(req.user._id)) {
+    await Notification.create({
+      userId: req.user._id,
+      type: "order",
+      message: `Your order for $${totalAmount.toFixed(2)} has been successfully placed! Order ID: #${order._id.toString().substring(18)}`,
+      isRead: false,
+    });
+  }
+
+  const buyerName = req.user.firstName && req.user.lastName
+    ? `${req.user.firstName} ${req.user.lastName}`.trim()
+    : (req.user.firstName || req.user.userName || "A customer");
+
+  for (const requestedItem of requestedItems) {
+    const product = await Product.findById(requestedItem.productId);
+    if (product) {
+      const brand = await Brand.findById(product.brandId);
+      if (brand && brand.ownerUserId && mongoose.Types.ObjectId.isValid(brand.ownerUserId)) {
+        await Notification.create({
+          userId: brand.ownerUserId,
+          type: "order",
+          message: `You have received a new order for "${product.name}" (Qty: ${requestedItem.quantity}) from ${buyerName}!`,
+          isRead: false,
+        });
+      }
+    }
+  }
+
   return successResponse(res, 201, "Checkout completed successfully.", {
     order,
     items: order.items,
@@ -180,5 +211,83 @@ export const getMyOrder = asyncHandler(async (req, res) => {
   return successResponse(res, 200, "Order fetched successfully.", {
     order,
     items: order.items,
+  });
+});
+
+export const updateOrderStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const { orderId } = req.params;
+
+  if (!status) {
+    throw new AppError("Status is required.", 400, "VALIDATION_ERROR");
+  }
+
+  const validStatuses = ["pending", "paid", "shipped", "completed", "cancelled", "refunded"];
+  if (!validStatuses.includes(status)) {
+    throw new AppError(`Invalid status. Allowed values: ${validStatuses.join(", ")}`, 400, "VALIDATION_ERROR");
+  }
+
+  const order = await Order.findById(orderId).populate("userId", "firstName lastName userName email");
+  if (!order) {
+    throw new AppError("Order not found.", 404, "ORDER_NOT_FOUND");
+  }
+
+  let isSeller = false;
+  for (const item of order.items) {
+    const product = await Product.findById(item.productId);
+    if (product) {
+      const brand = await Brand.findById(product.brandId);
+      if (brand && String(brand.ownerUserId) === String(req.user._id)) {
+        isSeller = true;
+        break;
+      }
+    }
+  }
+
+  const isBuyer = String(order.userId._id || order.userId) === String(req.user._id);
+
+  if (!isBuyer && !isSeller) {
+    throw new AppError("You do not have permission to update this order.", 403, "FORBIDDEN");
+  }
+
+  const oldStatus = order.status;
+  order.status = status;
+  await order.save();
+
+  if (status === "completed" && oldStatus !== "completed") {
+    // Notify buyer
+    const buyerId = order.userId._id || order.userId;
+    if (mongoose.Types.ObjectId.isValid(buyerId)) {
+      await Notification.create({
+        userId: buyerId,
+        type: "order",
+        message: `Your order #${order._id.toString().substring(18)} has been marked as completed!`,
+        isRead: false,
+      });
+    }
+
+    // Notify seller(s)
+    const buyerName = order.userId.firstName && order.userId.lastName
+      ? `${order.userId.firstName} ${order.userId.lastName}`.trim()
+      : (order.userId.firstName || order.userId.userName || "Customer");
+
+    for (const item of order.items) {
+      const product = await Product.findById(item.productId);
+      if (product) {
+        const brand = await Brand.findById(product.brandId);
+        if (brand && brand.ownerUserId && mongoose.Types.ObjectId.isValid(brand.ownerUserId)) {
+          await Notification.create({
+            userId: brand.ownerUserId,
+            type: "order",
+            message: `Order #${order._id.toString().substring(18)} for "${product.name}" with ${buyerName} has been successfully completed.`,
+            isRead: false,
+          });
+        }
+      }
+    }
+  }
+
+  return successResponse(res, 200, "Order status updated successfully.", {
+    order,
   });
 });

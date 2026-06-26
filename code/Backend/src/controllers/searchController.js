@@ -14,12 +14,28 @@ export const searchAll = asyncHandler(async (req, res) => {
   const q = String(req.query.q || "").trim();
   if (q.length < 2) throw new AppError("Query must be at least 2 characters.", 400, "VALIDATION_ERROR");
 
-  const regex = new RegExp(escapeRegex(q), "i");
+  const cleanedQuery = q.startsWith("@") ? q.substring(1) : q;
+  const cleanedRegex = new RegExp(escapeRegex(cleanedQuery), "i");
+  const regex = new RegExp(escapeRegex(q), "i"); // keep original regex for non-user queries
   const isAdmin = !!(req.user && req.user.role === "admin");
 
   // run queries in parallel
-  const userFilters = [{ userName: regex }];
-  if (isAdmin) userFilters.push({ email: regex });
+  const userFilters = [
+    { userName: cleanedRegex },
+    { firstName: cleanedRegex },
+    { lastName: cleanedRegex },
+    {
+      $expr: {
+        $regexMatch: {
+          input: { $concat: ["$firstName", " ", "$lastName"] },
+          regex: escapeRegex(cleanedQuery),
+          options: "i",
+        },
+      },
+    },
+  ];
+  if (isAdmin) userFilters.push({ email: cleanedRegex });
+
   const userPromise = User.find({
     $or: userFilters,
   })

@@ -2,6 +2,7 @@ import React, { memo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import user from "../../assets/user.svg";
 import "./Sidebar.css";
+import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import {
   Home,
   MessageSquare,
@@ -13,8 +14,9 @@ import {
   Heart,
 } from "lucide-react";
 
-function Sidebar({ profileData, setIsSidebarCollapsed }) {
+function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const [selectedOption, setSelectedOption] = useState(0);
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -57,13 +59,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         >
           <Home size={20} /> <span>Home</span>
         </NavLink>
-        <NavLink
-          to="/under-construction"
-          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
-          onClick={() => handleSelectOption(2)}
-        >
-          <MessageSquare size={20} /> <span>Messages</span>
-        </NavLink>
+
         <div
           className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
           onClick={() => {
@@ -100,10 +96,20 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
 
       <button 
         className="lum-create-btn"
-        onClick={() => navigate("/under-construction")}
+        onClick={() => setIsCreatePostOpen(true)}
       >
         <Plus size={20} /> <span>Create Post</span>
       </button>
+
+      <CreatePostModal 
+        isOpen={isCreatePostOpen} 
+        onClose={() => setIsCreatePostOpen(false)} 
+        onSuccess={(newPost) => {
+          if (typeof onPostCreated === "function") {
+            onPostCreated(newPost);
+          }
+        }}
+      />
 
       <div className="lum-pro-banner">
         <p className="pro-title">PRO PLAN</p>

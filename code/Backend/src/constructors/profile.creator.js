@@ -1,10 +1,12 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 import env from "../config/env.js";
 import Brand from "../models/Brand.js";
 import OrganizationProfile from "../models/OrganizationProfile.js";
 import User from "../models/User.js";
+import Notification from "../models/Notification.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -40,6 +42,14 @@ export const createUserProfile = asyncHandler(async (req, res) => {
       accountType: "individual",
     });
 
+  if (mongoose.Types.ObjectId.isValid(createdUser._id)) {
+    await Notification.create({
+      userId: createdUser._id,
+      type: "system",
+      message: "Welcome to Merch4Change! Explore projects, donate, and exchange merchandise with our community.",
+      isRead: false,
+    });
+  }
 
   const token = createToken(createdUser._id);
 
@@ -93,6 +103,15 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
     ownerUserId: createdUser._id,
     brandName: orgName.trim(),
   });
+
+  if (mongoose.Types.ObjectId.isValid(createdUser._id)) {
+    await Notification.create({
+      userId: createdUser._id,
+      type: "system",
+      message: "Welcome to Merch4Change! Start posting products and campaigns for your brand.",
+      isRead: false,
+    });
+  }
 
   const token = createToken(createdUser._id);
 
