@@ -135,7 +135,7 @@
 
 .up-edit-grid {
   display: grid;
-  grid-template-columns: 1.05fr 1.25fr;
+  grid-template-columns: 1fr;
   gap: 18px;
 }
 

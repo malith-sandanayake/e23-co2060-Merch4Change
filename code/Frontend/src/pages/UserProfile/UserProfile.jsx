@@ -396,33 +396,6 @@ function UserProfile() {
               />
 
               <div className="up-edit-grid">
-                <div className="up-edit-card up-edit-photos">
-                  <div className="up-edit-card-title">Photos</div>
-                  <div className="up-edit-cover-preview" style={profileData?.coverImageUrl ? { backgroundImage: `url(${profileData.coverImageUrl})` } : undefined}>
-                    <button
-                      type="button"
-                      className="up-edit-photo-btn"
-                      onClick={openCoverPhotoPicker}
-                      disabled={uploadingCoverPhoto}
-                    >
-                      {uploadingCoverPhoto ? "Uploading cover..." : "Change cover photo"}
-                    </button>
-                  </div>
-                  <div className="up-edit-avatar-row">
-                    <div className="up-edit-avatar-preview">
-                      <img src={profileData?.profileImageUrl || userImage} alt="Profile" />
-                    </div>
-                    <button
-                      type="button"
-                      className="up-edit-photo-btn up-edit-photo-btn--secondary"
-                      onClick={openProfilePhotoPicker}
-                      disabled={uploadingProfilePhoto}
-                    >
-                      {uploadingProfilePhoto ? "Uploading photo..." : "Change profile photo"}
-                    </button>
-                  </div>
-                </div>
-
                 <div className="up-edit-card up-edit-fields">
                   <div className="up-edit-card-title">Profile details</div>
                   <label className="up-edit-field">
