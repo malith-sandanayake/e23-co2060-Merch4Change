@@ -117,21 +117,9 @@ function OrgSignupPage({ onNavigate }) {
         setErrorMsg(data.message || "Signup failed");
         return;
       }
-      localStorage.setItem("token", data.data.token);
-      setSuccessMsg("Organization account created successfully!");
-      // Reset form
-      setFormData({
-        orgName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        phone: "",
-        address: "",
-        website: "",
-        accountType: "organization",
-      });
+      setSuccessMsg("Verification code sent to your email!");
       setTimeout(() => {
-        navigate("/home");
+        navigate("/verify-otp", { state: { email: formData.email } });
       }, 1500);
     } catch {
       setErrorMsg("Network error. Please try again.");

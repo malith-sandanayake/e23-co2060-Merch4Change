@@ -14,6 +14,7 @@ import MarketplacePage from "./pages/Marketplace/Marketplace";
 import SignUpPage from "./pages/SignUp/SignUpPage";
 import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
 import UserSignupPage from "./pages/SignUp/UserSignupPage";
+import VerifyOtpPage from "./pages/VerifyOtp/VerifyOtpPage";
 import Settings from "./pages/Settings/Settings";
 import OrgProfile from "./pages/OrgProfile/OrgProfile";
 import OrgCommunities from "./pages/OrgCommunities/OrgCommunities";
@@ -56,6 +57,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
         <Route path="/signup/usersignup" element={<UserSignupPage />} />
+        <Route path="/verify-otp" element={<VerifyOtpPage />} />
 
         {/* Private/App Routes */}
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />

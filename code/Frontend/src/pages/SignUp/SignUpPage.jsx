@@ -115,16 +115,8 @@ export default function SignUpPage() {
         return;
       }
 
-      if (data?.data?.token) {
-        localStorage.setItem('token', data.data.token);
-      }
-
-      if (redirectToHome) {
-        navigate('/home');
-        return;
-      }
-
-      setCurrentStep(5);
+      // Route to verify-otp instead of home or next step
+      navigate('/verify-otp', { state: { email: formData.email } });
     } catch {
       setErrorMsg('Network error. Please try again.');
     } finally {

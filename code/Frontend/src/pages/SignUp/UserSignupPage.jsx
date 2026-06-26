@@ -213,21 +213,9 @@ function UserSignupPage() {
         return;
       }
 
-      if (data?.data?.token) {
-        localStorage.setItem("token", data.data.token);
-      }
-
-      setSuccessMsg("User account created successfully!");
-      setFormData({
-        firstName: "",
-        lastName: "",
-        userName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
+      setSuccessMsg("Verification code sent to your email!");
       setTimeout(() => {
-        navigate("/home");
+        navigate("/verify-otp", { state: { email: formData.email.trim() } });
       }, 1500);
     } catch {
       setErrorMsg("Network error. Please try again.");
