@@ -3,6 +3,8 @@ import asyncHandler from "../utils/asyncHandler.js";
 import CoinTransaction from "../models/CoinTransaction.js";
 import User from "../models/User.js";
 import Follow from "../models/Follow.js";
+import Notification from "../models/Notification.js";
+import mongoose from "mongoose";
 import AppError from "../utils/appError.js";
 
 export const me = asyncHandler(async (req, res) => {
@@ -102,6 +104,18 @@ export const followUser = asyncHandler(async (req, res) => {
     followerId: req.user._id,
     followingId: userToFollow._id,
   });
+
+  if (mongoose.Types.ObjectId.isValid(userToFollow._id)) {
+    const followerName = req.user.firstName && req.user.lastName
+      ? `${req.user.firstName} ${req.user.lastName}`.trim()
+      : (req.user.firstName || req.user.userName || "Someone");
+    await Notification.create({
+      userId: userToFollow._id,
+      type: "follow",
+      message: `${followerName} started following you.`,
+      isRead: false,
+    });
+  }
 
   return successResponse(res, 200, "Successfully followed user.", { isFollowing: true });
 });

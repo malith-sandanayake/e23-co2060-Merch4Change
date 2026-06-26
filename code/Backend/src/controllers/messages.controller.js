@@ -1,6 +1,8 @@
 import Conversation from "../models/Conversation.js";
 import Message from "../models/Message.js";
 import User from "../models/User.js";
+import Notification from "../models/Notification.js";
+import mongoose from "mongoose";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { successResponse } from "../utils/apiResponse.js";
@@ -313,6 +315,17 @@ export const sendMessage = asyncHandler(async (req, res) => {
   conversation.lastMessageAt = message.createdAt;
   conversation.lastSenderUserId = req.user._id;
   await conversation.save();
+
+  if (mongoose.Types.ObjectId.isValid(recipientUser._id)) {
+    const senderName = getDisplayName(req.user);
+    const messagePreview = body.length > 60 ? `${body.substring(0, 57)}...` : body;
+    await Notification.create({
+      userId: recipientUser._id,
+      type: "message",
+      message: `${senderName} sent you a new message: "${messagePreview}"`,
+      isRead: false,
+    });
+  }
 
   return successResponse(res, 201, "Message sent successfully.", {
     conversation: {
