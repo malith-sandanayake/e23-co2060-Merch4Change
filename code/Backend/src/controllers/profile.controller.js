@@ -2,6 +2,9 @@ import { successResponse } from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import CoinTransaction from "../models/CoinTransaction.js";
 import User from "../models/User.js";
+import Follow from "../models/Follow.js";
+import Notification from "../models/Notification.js";
+import mongoose from "mongoose";
 import AppError from "../utils/appError.js";
 
 export const me = asyncHandler(async (req, res) => {
@@ -50,3 +53,85 @@ export const updateMe = asyncHandler(async (req, res) => {
     user: req.user,
   });
 });
+
+export const getProfileByUsername = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  const user = await User.findOne({ userName: username });
+  if (!user) {
+    throw new AppError("User not found.", 404, "USER_NOT_FOUND");
+  }
+
+  // Check if current user is following this user
+  let isFollowing = false;
+  if (req.user) {
+    const followRecord = await Follow.findOne({
+      followerId: req.user._id,
+      followingId: user._id,
+    });
+    isFollowing = !!followRecord;
+  }
+
+  return successResponse(res, 200, "User profile fetched successfully.", {
+    user,
+    isFollowing,
+  });
+});
+
+export const followUser = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  const userToFollow = await User.findOne({ userName: username });
+  if (!userToFollow) {
+    throw new AppError("User not found.", 404, "USER_NOT_FOUND");
+  }
+
+  if (String(userToFollow._id) === String(req.user._id)) {
+    throw new AppError("You cannot follow yourself.", 400, "SELF_FOLLOW_FORBIDDEN");
+  }
+
+  // Find or create follow record
+  const existingFollow = await Follow.findOne({
+    followerId: req.user._id,
+    followingId: userToFollow._id,
+  });
+
+  if (existingFollow) {
+    return successResponse(res, 200, "Already following this user.", { isFollowing: true });
+  }
+
+  await Follow.create({
+    followerId: req.user._id,
+    followingId: userToFollow._id,
+  });
+
+  if (mongoose.Types.ObjectId.isValid(userToFollow._id)) {
+    const followerName = req.user.firstName && req.user.lastName
+      ? `${req.user.firstName} ${req.user.lastName}`.trim()
+      : (req.user.firstName || req.user.userName || "Someone");
+    await Notification.create({
+      userId: userToFollow._id,
+      type: "follow",
+      message: `${followerName} started following you.`,
+      isRead: false,
+    });
+  }
+
+  return successResponse(res, 200, "Successfully followed user.", { isFollowing: true });
+});
+
+export const unfollowUser = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+
+  const userToUnfollow = await User.findOne({ userName: username });
+  if (!userToUnfollow) {
+    throw new AppError("User not found.", 404, "USER_NOT_FOUND");
+  }
+
+  await Follow.findOneAndDelete({
+    followerId: req.user._id,
+    followingId: userToUnfollow._id,
+  });
+
+  return successResponse(res, 200, "Successfully unfollowed user.", { isFollowing: false });
+});

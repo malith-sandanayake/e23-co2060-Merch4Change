@@ -14,7 +14,7 @@ import {
   Heart,
 } from "lucide-react";
 
-function Sidebar({ profileData, setIsSidebarCollapsed }) {
+function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const [selectedOption, setSelectedOption] = useState(0);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
@@ -59,13 +59,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         >
           <Home size={20} /> <span>Home</span>
         </NavLink>
-        <NavLink
-          to="/messaging"
-          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
-          onClick={() => handleSelectOption(2)}
-        >
-          <MessageSquare size={20} /> <span>Messages</span>
-        </NavLink>
+
         <div
           className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
           onClick={() => {
@@ -111,8 +105,9 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         isOpen={isCreatePostOpen} 
         onClose={() => setIsCreatePostOpen(false)} 
         onSuccess={(newPost) => {
-          // If we had a global store we'd add it to feed here
-          // For now, it will appear on refresh
+          if (typeof onPostCreated === "function") {
+            onPostCreated(newPost);
+          }
         }}
       />
 

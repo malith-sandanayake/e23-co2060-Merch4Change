@@ -11,6 +11,7 @@ import {
   listMyOrders,
   listProducts,
   updateProduct,
+  updateOrderStatus,
 } from "../controllers/marketplace.controller.js";
 import {
   validateCheckoutBody,
@@ -33,5 +34,6 @@ router.delete("/products/:productId", protect, deleteProduct);
 router.post("/checkout", protect, validateRequest({ body: validateCheckoutBody }), checkout);
 router.get("/orders", protect, listMyOrders);
 router.get("/orders/:orderId", protect, getMyOrder);
+router.patch("/orders/:orderId/status", protect, updateOrderStatus);
 
 export default router;

@@ -10,6 +10,8 @@ import "./CoinTransaction.js";
 import "./Donation.js";
 import "./Follow.js";
 import "./Like.js";
+import "./Conversation.js";
+import "./Message.js";
 import "./Notification.js";
 import "./Order.js";
 import "./OrderItem.js";
