@@ -59,13 +59,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <Home size={20} /> <span>Home</span>
         </NavLink>
-        <NavLink
-          to="/messaging"
-          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
-          onClick={() => handleSelectOption(2)}
-        >
-          <MessageSquare size={20} /> <span>Messages</span>
-        </NavLink>
+
         <div
           className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
           onClick={() => {

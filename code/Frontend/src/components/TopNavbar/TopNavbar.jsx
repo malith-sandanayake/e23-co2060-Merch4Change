@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import SearchBar from "./search/SearchBar";
 import CoinBalance from "./CoinBalance";
 import NotificationDropDown from "../Notifications/NotificationDropDown";
-import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Menu, Search, MessageSquare } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import test from "../../assets/test.jpg";
 import "./TopNavbar.css";
@@ -136,6 +136,13 @@ function TopNavbar({
         >
           Trends
         </span>
+        <div
+          className={`lum-icon-btn ${location.pathname === "/messaging" ? "active" : ""}`}
+          onClick={() => navigate("/messaging")}
+          title="Messages"
+        >
+          <MessageSquare size={20} />
+        </div>
         <div className="lum-icon-btn" onClick={() => handleNotificationDropDown()} ref={notificationRef}>
           <Bell size={20} />
           {unreadCount > 0 && (
