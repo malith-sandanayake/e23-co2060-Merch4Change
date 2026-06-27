@@ -1,11 +1,15 @@
-// Backend/src/utils/uploadToCloudinary.js
+import streamifier from "streamifier";
 import cloudinary from "../config/cloudinary.js";
 
-export const uploadBufferToCloudinary = (buffer, folder = "products") =>
-  new Promise((resolve, reject) => {
+export const uploadBufferToCloudinary = (buffer, folder = "posts") => {
+  return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder, resource_type: "image" },
-      (err, result) => (err ? reject(err) : resolve(result))
+      { folder },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
     );
-    stream.end(buffer);
+    streamifier.createReadStream(buffer).pipe(stream);
   });
+};

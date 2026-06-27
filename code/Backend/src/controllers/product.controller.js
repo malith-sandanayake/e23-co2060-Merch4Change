@@ -14,7 +14,7 @@ export const createProduct = async (req, res) => {
           uploadBufferToCloudinary(file.buffer, "merch4change/products")
         )
       );
-      images = uploads; // [{url, public_id}, ...]
+      images = uploads.map((upload) => upload.secure_url); // Extract secure_url
     }
 
     const product = await Product.create({
