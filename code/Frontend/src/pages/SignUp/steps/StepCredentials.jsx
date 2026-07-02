@@ -18,7 +18,7 @@ const buildLocalSuggestions = (userName) => {
     .slice(0, 3);
 };
 
-function StepCredentials({ formData, onChange, onNext, onBack }) {
+function StepCredentials({ formData, onChange, onNext, onBack, isSubmitting = false, errorMsg = '' }) {
   const [showPassword, setShowPassword] = useState(false);
   const [usernameState, setUsernameState] = useState({
     status: "idle",
@@ -128,6 +128,7 @@ function StepCredentials({ formData, onChange, onNext, onBack }) {
   const strength = getPasswordStrength(formData.password);
 
   const isNextDisabled = 
+    isSubmitting ||
     !formData.email || 
     !formData.userName || 
     !formData.password || 
@@ -141,6 +142,12 @@ function StepCredentials({ formData, onChange, onNext, onBack }) {
       <div className="eyebrow">Step 2 of 4</div>
       <h1 className="form-title">Set your credentials</h1>
       <p className="form-subtitle">Keep your account secure.</p>
+
+      {errorMsg && (
+        <div className="credentials-error-alert">
+          <span>⚠️</span> {errorMsg}
+        </div>
+      )}
 
       <div className="field">
         <label>Email address</label>
@@ -226,7 +233,11 @@ function StepCredentials({ formData, onChange, onNext, onBack }) {
       </div>
 
       <button className="btn-primary" onClick={onNext} disabled={isNextDisabled}>
-        Continue
+        {isSubmitting ? (
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+            <span className="credentials-spinner" /> Sending OTP...
+          </span>
+        ) : 'Continue'}
       </button>
       <button className="btn-back" onClick={onBack}>
         Back

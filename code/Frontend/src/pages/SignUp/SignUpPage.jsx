@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUpPage.css';
 import StepAccountType from './steps/StepAccountType';
-import StepBasicInfo    from './steps/StepBasicInfo';
-import StepCredentials  from './steps/StepCredentials';
-import StepProfile      from './steps/StepProfile';
-import StepDone         from './steps/StepDone';
+import StepBasicInfo from './steps/StepBasicInfo';
+import StepCredentials from './steps/StepCredentials';
+import StepProfile from './steps/StepProfile';
+import StepDone from './steps/StepDone';
 
 const TOTAL_STEPS = 4;
 
 const LEFT_HEADLINES = {
-  1: { main: 'What brings you', em: 'here?'         },
-  2: { main: 'Tell us a little', em: 'about you.'   },
-  3: { main: 'Keep your account', em: 'secure.'     },
-  4: { main: 'Make it', em: 'yours.'                },
-  5: { main: "You're all", em: 'set.'               },
+  1: { main: 'What brings you', em: 'here?' },
+  2: { main: 'Tell us a little', em: 'about you.' },
+  3: { main: 'Keep your account', em: 'secure.' },
+  4: { main: 'Make it', em: 'yours.' },
+  5: { main: "You're all", em: 'set.' },
 };
 
 const TESTIMONIALS = [
@@ -57,6 +57,56 @@ export default function SignUpPage() {
     photo: null, bio: '', website: '', social: '',
   });
 
+  // Called right after StepCredentials — registers the user and sends OTP
+  const handleRegisterAndSendOtp = async () => {
+    setErrorMsg('');
+    setIsSubmitting(true);
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const isOrg = formData.accountType === 'org';
+
+      const body = isOrg
+        ? {
+          orgName: formData.orgName,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+          website: formData.website,
+          accountType: 'organization',
+        }
+        : {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+          userName: formData.userName,
+          email: formData.email,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+          accountType: 'user',
+        };
+
+      const response = await fetch(`${apiUrl}/api/v1/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setErrorMsg(data.message || 'Signup failed. Please try again.');
+        return;
+      }
+
+      // Registration successful — navigate to OTP verification
+      navigate('/verify-otp', { state: { email: formData.email } });
+    } catch {
+      setErrorMsg('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [fade, setFade] = useState('fade-in');
 
@@ -75,72 +125,22 @@ export default function SignUpPage() {
   const onChange = (field, value) =>
     setFormData(prev => ({ ...prev, [field]: value }));
 
-  const handleSubmit = async ({ redirectToHome = false } = {}) => {
-    setErrorMsg('');
-    setIsSubmitting(true);
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const isOrg  = formData.accountType === 'org';
-
-      const body = isOrg
-        ? {
-            orgName:         formData.orgName,
-            email:           formData.email,
-            password:        formData.password,
-            confirmPassword: formData.confirmPassword,
-            website:         formData.website,
-            accountType:     'organization',
-          }
-        : {
-            firstName:       formData.firstName,
-            lastName:        formData.lastName,
-            fullName:        `${formData.firstName} ${formData.lastName}`.trim(),
-            userName:        formData.userName,
-            email:           formData.email,
-            password:        formData.password,
-            confirmPassword: formData.confirmPassword,
-            accountType:     'user',
-          };
-
-      const response = await fetch(`${apiUrl}/api/v1/auth/register`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(body),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        setErrorMsg(data.message || 'Signup failed. Please try again.');
-        return;
-      }
-
-      // Route to verify-otp instead of home or next step
-      navigate('/verify-otp', { state: { email: formData.email } });
-    } catch {
-      setErrorMsg('Network error. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const onNext = () => {
-    if (currentStep === 4) {
-      handleSubmit();
+    if (currentStep === 3) {
+      // After credentials step: register & send OTP immediately
+      handleRegisterAndSendOtp();
     } else {
       setCurrentStep(s => Math.min(s + 1, 5));
     }
   };
-
-  const onSkipProfile = () => handleSubmit({ redirectToHome: true });
 
   const onBack = () => setCurrentStep(s => Math.max(s - 1, 1));
 
   const headline = LEFT_HEADLINES[currentStep] || LEFT_HEADLINES[1];
   const leftMain = currentStep === 2 && formData.accountType === 'org'
     ? 'Tell us about your' : headline.main;
-  const leftEm   = currentStep === 2 && formData.accountType === 'org'
-    ? 'organisation.'      : headline.em;
+  const leftEm = currentStep === 2 && formData.accountType === 'org'
+    ? 'organisation.' : headline.em;
 
   const stepProps = { formData, onChange, onNext, onBack };
 
@@ -149,7 +149,7 @@ export default function SignUpPage() {
       <div className="signup-left">
         <div className="signup-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <div className="signup-brand-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" /></svg>
           </div>
           <span className="signup-brand-name">Merch4Change</span>
         </div>
@@ -199,16 +199,13 @@ export default function SignUpPage() {
 
         {currentStep === 1 && <StepAccountType {...stepProps} />}
         {currentStep === 2 && <StepBasicInfo   {...stepProps} />}
-        {currentStep === 3 && <StepCredentials {...stepProps} />}
-        {currentStep === 4 && (
-          <StepProfile
+        {currentStep === 3 && (
+          <StepCredentials
             {...stepProps}
-            onSkip={onSkipProfile}
             isSubmitting={isSubmitting}
             errorMsg={errorMsg}
           />
         )}
-        {currentStep === 5 && <StepDone />}
       </div>
     </div>
   );

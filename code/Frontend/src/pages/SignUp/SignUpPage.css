@@ -585,3 +585,30 @@
   text-align: right;
   margin-top: 4px;
 }
+
+/* Credentials step: error alert shown when register API fails */
+.credentials-error-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff0f0;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  font-size: 13px;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  animation: slideUpFade 0.3s ease;
+}
+
+/* Inline spinner inside the Continue button while OTP is being sent */
+.credentials-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}

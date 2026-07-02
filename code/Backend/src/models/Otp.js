@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const otpExpire = process.env.OTP_EXPIRE_MIN;
+const otpExpire = process.env.OTP_EXPIRE_MIN || 5;
 
 const otpSchema = new mongoose.Schema({
   email: {
@@ -15,7 +15,9 @@ const otpSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     expires: 60 * otpExpire,
-  }, // auto-delete after 5 min
+  }, // auto-delete after OTP_EXPIRE_MIN minutes
 });
+
+const Otp = mongoose.model("Otp", otpSchema);
 
 export default Otp;
