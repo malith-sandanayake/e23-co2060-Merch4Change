@@ -39,10 +39,12 @@ const httpLogFormat = (tokens, req, res) => {
 };
 
 app.use(helmet());
+
+// include CORS: Cross Over Resource Sharing
 app.use(
   cors({
     origin: env.frontendUrl,
-    credentials: true,
+    credentials: true,          // Allow cookies to flow cross-origin
   }),
 );
 

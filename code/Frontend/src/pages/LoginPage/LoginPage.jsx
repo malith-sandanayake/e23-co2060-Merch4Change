@@ -43,15 +43,17 @@ function LoginPage() {
         return;
       }
 
-      if (data?.data?.token) {
+      if (data?.data?.accessToken) {
         if (rememberMe) {
-          localStorage.setItem("token", data.data.token);
+          localStorage.setItem("token", data.data.accessToken);
         } else {
-          sessionStorage.setItem("token", data.data.token);
+          sessionStorage.setItem("token", data.data.accessToken);
         }
+        navigate("/home");
+      } else {
+        setErrorMsg("Login failed — no access token received.");
       }
 
-      navigate("/home");
     } catch {
       setErrorMsg("Network error. Please try again.");
     } finally {
