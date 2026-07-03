@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 8,
-      select: false,
+      select: false,  // default do not return pw in quering 
     },
     accountType: {
       type: String,

@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import env from "./config/env.js";
 import errorHandler from "./middlewares/errorHandler.js";
@@ -47,6 +48,8 @@ app.use(
 
 // decode the raw bytes from the req.body to json type 
 app.use(express.json({ limit: "1mb" }));
+
+app.use(cookieParser());
 
 // decode the raw bytes from the req.body to x-www-form-urlencoded - the format HTML form submit by default
 app.use(express.urlencoded({ extended: true }));
