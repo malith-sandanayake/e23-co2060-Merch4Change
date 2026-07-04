@@ -33,60 +33,63 @@ import UnderConstruction from "./components/UnderConstruction/UnderConstruction"
 // this is for mock test while building - Notification Drop Down
 import NotificationDropDown from "./components/Notifications/NotificationDropDown";
 import { Analytics } from "@vercel/analytics/react"; //vercel analytics
+import { AuthProvider } from "./context/Context";
 
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        {/*path gives the address on the address bar, element is the component that will be rendered when the path is accessed */}
-        {/* The landing page is the default route */}
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/help" element={<HelpAndSupport />} />
-          <Route path="/help/contact" element={<Contact />} />
-          <Route path="/about/story" element={<OurStory />} />
-          <Route path="/about/mission" element={<Mission />} />
-          <Route path="/about/team" element={<Team />} />
-        </Route>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          {/*path gives the address on the address bar, element is the component that will be rendered when the path is accessed */}
+          {/* The landing page is the default route */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/help" element={<HelpAndSupport />} />
+            <Route path="/help/contact" element={<Contact />} />
+            <Route path="/about/story" element={<OurStory />} />
+            <Route path="/about/mission" element={<Mission />} />
+            <Route path="/about/team" element={<Team />} />
+          </Route>
 
-        {/* Auth Routes (No Navbar) */}
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
-        <Route path="/signup/usersignup" element={<UserSignupPage />} />
-        <Route path="/verify-otp" element={<VerifyOtpPage />} />
+          {/* Auth Routes (No Navbar) */}
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/signup/orgsignup" element={<OrgSignupPage />} />
+          <Route path="/signup/usersignup" element={<UserSignupPage />} />
+          <Route path="/verify-otp" element={<VerifyOtpPage />} />
 
-        {/* Private/App Routes */}
-        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/messaging" element={<ProtectedRoute><MessagingPage /></ProtectedRoute>} />
-        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-        <Route path="/profile/me" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
-        <Route path="/profile/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
-        <Route path="/marketplace" element={<Marketplace />} />
-        <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
-        <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
+          {/* Private/App Routes */}
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/messaging" element={<ProtectedRoute><MessagingPage /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          <Route path="/profile/me" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+          <Route path="/profile/:username" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+          <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
+          <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
 
-        {/* Dynamic Route: Perfect for Social Media Profiles */}
-        <Route path="/profile/:username" element={<UserProfile />} />
-        {/* Dynamic Route: Perfect for Charity Profiles */}
-        <Route path="/organization/:username" element={<OrgProfile />} />
-        <Route
-          path="/organization/:username/projects"
-          element={<OrgProjects />}
-        />
-        <Route
-          path="/organization/:username/communities"
-          element={<OrgCommunities />}
-        />
+          {/* Dynamic Route: Perfect for Social Media Profiles */}
+          <Route path="/profile/:username" element={<UserProfile />} />
+          {/* Dynamic Route: Perfect for Charity Profiles */}
+          <Route path="/organization/:username" element={<OrgProfile />} />
+          <Route
+            path="/organization/:username/projects"
+            element={<OrgProjects />}
+          />
+          <Route
+            path="/organization/:username/communities"
+            element={<OrgCommunities />}
+          />
 
-        {/* Fallback: Redirect any unknown URL to landing */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-      <Analytics />
-    </Router>
+          {/* Fallback: Redirect any unknown URL to landing */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+        <Analytics />
+      </Router>
+    </AuthProvider>
   );
 }
 export default App;

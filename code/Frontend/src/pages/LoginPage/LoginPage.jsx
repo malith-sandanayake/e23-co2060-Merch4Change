@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/Context"
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -13,6 +14,8 @@ function LoginPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ function LoginPage() {
       const response = await fetch(`${apiBase}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",     // browser accept set-cookies 
         body: JSON.stringify({
           email: formData.email.trim(),
           password: formData.password,
@@ -44,17 +48,13 @@ function LoginPage() {
       }
 
       if (data?.data?.accessToken) {
-        if (rememberMe) {
-          localStorage.setItem("token", data.data.accessToken);
-        } else {
-          sessionStorage.setItem("token", data.data.accessToken);
-        }
+        login(data.data.accessToken, data.data.user);
         navigate("/home");
       } else {
         setErrorMsg("Login failed — no access token received.");
       }
 
-    } catch {
+    } catch (error) {
       setErrorMsg("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -98,7 +98,7 @@ function LoginPage() {
             </div>
           </div>
           <div className="login-dots">
-             {Array.from({ length: 25 }).map((_, i) => (
+            {Array.from({ length: 25 }).map((_, i) => (
               <div key={i} className="login-dot" />
             ))}
           </div>
