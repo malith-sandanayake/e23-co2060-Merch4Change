@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
                 if (data?.data?.accessToken) {
                     setAccessToken(data.data.accessToken);
-                    // Note: user info isn't returned by /refresh yet — see explanation below
+                    setUser(data.data.user);
                 }
             } catch {
                 setAccessToken(null);
