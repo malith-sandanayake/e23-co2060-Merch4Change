@@ -21,6 +21,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
+  // login call updates
+  const login = (newAccessToken: string, newUser: User) => {
+    setAccessToken(newAccessToken);
+    setUser(newUser);
+  };
+
+  // logout calls updates
+  const logout = () => {
+    setAccessToken(null);
+    setUser(null);
+  };
+
   const value: AuthContextValue = {
     accessToken,
     user,
