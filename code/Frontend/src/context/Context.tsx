@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 
 interface User {
     id: string;
@@ -14,12 +14,14 @@ interface AuthContextValue {
     logout: () => void;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // accessToken saves in the react memory
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState<Boolean>(true);
 
     // login call updates
     const login = (newAccessToken: string, newUser: User) => {
@@ -32,6 +34,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setAccessToken(null);
         setUser(null);
     };
+
+    useEffect(() => {
+    const attemptSilentRefresh = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
+          method: "POST",
+          credentials: "include",       // attach the refreshToken cookie 
+        });
+
+        // browser's fetch API
+        // response.ok = true; {200-299}
+        // response.ok = false; { 300, 400, 500 }
+        if (!response.ok) {
+          setLoading(false);
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data?.data?.accessToken) {
+          setAccessToken(data.data.accessToken);
+          // Note: user info isn't returned by /refresh yet — see explanation below
+        }
+      } catch {
+        // No valid session, or backend unreachable — treat as logged out
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    attemptSilentRefresh();
+  }, []);
 
     const value: AuthContextValue = {
         accessToken,
