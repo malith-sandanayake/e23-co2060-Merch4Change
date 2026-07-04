@@ -7,12 +7,14 @@ import User from "../models/User.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { createUserProfile, createOrganizationProfile } from "../constructors/profile.creator.js";
+import {
+  createUserProfile,
+  createOrganizationProfile,
+} from "../constructors/profile.creator.js";
 
 const SUPPORTED_ACCOUNT_TYPES = ["individual", "organization"];
 const USERNAME_FORMAT = /^[a-zA-Z0-9._-]{2,30}$/;
 // naming must be 2-30 characters only contains: letters, numbers, dots, hyphens, underscores
-
 
 // 1. normalization: fix the frontend data inconsistency with the backend
 const normalizeAccountType = (accountType) => {
@@ -28,7 +30,7 @@ const normalizeAccountType = (accountType) => {
     return "individual";
   }
 
-  // get the accountType -> lowercase -> trim -> result 
+  // get the accountType -> lowercase -> trim -> result
   // result == 'individual'?
   if (["individual"].includes(normalized)) {
     return "individual";
@@ -55,7 +57,7 @@ const toLoginType = (accountType) => {
   return null;
 };
 
-// 3. create tokens 
+// 3. create tokens
 // AccessToken: use for authenticate via endpoints
 const createAccessToken = (userId) => {
   return jwt.sign({ userId }, env.jwtSecret, {
@@ -70,8 +72,10 @@ const createRefreshToken = (userId) => {
   });
 };
 
-const normalizeUserName = (userName) => String(userName ?? "").trim().toLowerCase();  // if username is 'null' or 'undefined' use ''
-
+const normalizeUserName = (userName) =>
+  String(userName ?? "")
+    .trim()
+    .toLowerCase(); // if username is 'null' or 'undefined' use ''
 
 // 4. checking username availability, suggestions
 const buildUsernameSuggestions = (userName) => {
@@ -89,10 +93,14 @@ const buildUsernameSuggestions = (userName) => {
     `${base}_me`,
   ];
 
-
   // filter out the candidate suggestions and return
   return [...new Set(candidates)]
-    .map((candidate) => candidate.replace(/[^a-z0-9._-]/gi, "").replace(/^[._-]+|[._-]+$/g, "").slice(0, 30))
+    .map((candidate) =>
+      candidate
+        .replace(/[^a-z0-9._-]/gi, "")
+        .replace(/^[._-]+|[._-]+$/g, "")
+        .slice(0, 30),
+    )
     .filter((candidate) => USERNAME_FORMAT.test(candidate)); // .test returns 'true' or 'false', so invalid ones do not return
 };
 
@@ -103,7 +111,7 @@ const getAvailableUsernameSuggestions = async (userName) => {
     return [];
   }
 
-  // check whether usenam is already taken: if not return 
+  // check whether usenam is already taken: if not return
   const checks = await Promise.all(
     candidates.map(async (candidate) => {
       const existingUser = await User.findOne({ userName: candidate });
@@ -116,10 +124,9 @@ const getAvailableUsernameSuggestions = async (userName) => {
   // return max 3 name suggestions
 };
 
+// exports
 
-// exports 
-
-// 1. register export 
+// 1. register export
 export const register = asyncHandler(async (req, res) => {
   const requestBody = req.body;
 
@@ -138,7 +145,6 @@ export const register = asyncHandler(async (req, res) => {
       "VALIDATION_ERROR",
     );
   }
-  
 
   // user and org profile creations: call constructors/profile.creator.js
   if (normalizedAccountType === "individual") {
@@ -149,8 +155,7 @@ export const register = asyncHandler(async (req, res) => {
   }
 });
 
-
-// 2. export username usability 
+// 2. export username usability
 export const checkUsernameAvailability = asyncHandler(async (req, res) => {
   const requestedUserName = req.query.userName;
   const normalizedUserName = normalizeUserName(requestedUserName);
@@ -166,7 +171,9 @@ export const checkUsernameAvailability = asyncHandler(async (req, res) => {
   // username is available if format is correct and no other user used it before
   const available = Boolean(formatValid && !existingUser);
   // if not username available give suggestions list
-  const suggestions = available ? [] : await getAvailableUsernameSuggestions(normalizedUserName);
+  const suggestions = available
+    ? []
+    : await getAvailableUsernameSuggestions(normalizedUserName);
 
   return successResponse(res, 200, "Username availability checked.", {
     userName: normalizedUserName,
@@ -176,7 +183,6 @@ export const checkUsernameAvailability = asyncHandler(async (req, res) => {
   });
 });
 
-
 // 3. export logins
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -184,19 +190,25 @@ export const login = asyncHandler(async (req, res) => {
   const normalizedEmail = String(email).toLowerCase().trim();
 
   // { user } object from the database
-  const user = await User.findOne({ email: normalizedEmail }).select("+password"); // default pw not retern by query, here specially asking for the password
+  const user = await User.findOne({ email: normalizedEmail }).select(
+    "+password",
+  ); // default pw not retern by query, here specially asking for the password
 
   if (!user) {
     throw new AppError("Invalid credentials.", 401, "INVALID_CREDENTIALS");
   }
 
   if (!user.isActive) {
-    throw new AppError("This account has been deactivated or suspended.", 403, "ACCOUNT_INACTIVE");
+    throw new AppError(
+      "This account has been deactivated or suspended.",
+      403,
+      "ACCOUNT_INACTIVE",
+    );
   }
 
   const accountType = user.accountType;
 
-  // checking the password 
+  // checking the password
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
@@ -207,17 +219,21 @@ export const login = asyncHandler(async (req, res) => {
   const loginType = toLoginType(accountType);
 
   if (!loginType) {
-    throw new AppError("Invalid account type for user.", 403, "INVALID_ACCOUNT_TYPE");
+    throw new AppError(
+      "Invalid account type for user.",
+      403,
+      "INVALID_ACCOUNT_TYPE",
+    );
   }
 
   const accessToken = createAccessToken(user._id);
   const refreshToken = createRefreshToken(user._id);
 
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,                       // not save in local storage, js cant access by getElement()
+    httpOnly: true, // not save in local storage, js cant access by getElement()
     secure: env.nodeEnv === "production", // cookie only send through HTTPS, not over HTTP
     sameSite: env.nodeEnv === "production" ? "none" : "lax",
-    maxAge: ms(env.jwtRefreshExpiresIn) // calculated in milliseconds
+    maxAge: ms(env.jwtRefreshExpiresIn), // calculated in milliseconds
   });
 
   return successResponse(res, 200, "Login successful.", {
@@ -244,24 +260,40 @@ export const refresh = asyncHandler(async (req, res) => {
   try {
     decoded = jwt.verify(incomingRefreshToken, env.jwtRefreshSecret);
   } catch (error) {
-    throw new AppError("Invalid or expired refresh token.", 401, "INVALID_REFRESH_TOKEN");
+    throw new AppError(
+      "Invalid or expired refresh token.",
+      401,
+      "INVALID_REFRESH_TOKEN",
+    );
   }
 
   // find the user by decoding the user token
   const user = await User.findById(decoded.userId);
 
   if (!user || !user.isActive) {
-    throw new AppError("User not found or inactive.", 401, "INVALID_REFRESH_TOKEN");
+    throw new AppError(
+      "User not found or inactive.",
+      401,
+      "INVALID_REFRESH_TOKEN",
+    );
   }
 
   const newAccessToken = createAccessToken(user._id);
+  const loginType = toLoginType(user.accountType);
 
   return successResponse(res, 200, "Token refreshed.", {
     accessToken: newAccessToken,
+    loginType,
+    user: {
+      id: user._id,
+      userName: user.userName,
+      email: user.email,
+      accountType: user.accountType,
+    },
   });
 });
 
-// 5. export logout 
+// 5. export logout
 export const logout = asyncHandler(async (req, res) => {
   return successResponse(res, 200, "Logout successful.");
 });

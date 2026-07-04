@@ -36,36 +36,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-    const attemptSilentRefresh = async () => {
-      try {
-        const response = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
-          method: "POST",
-          credentials: "include",       // attach the refreshToken cookie 
-        });
+        const attemptSilentRefresh = async () => {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
+                    method: "POST",
+                    credentials: "include",       // attach the refreshToken cookie 
+                });
 
-        // browser's fetch API
-        // response.ok = true; {200-299}
-        // response.ok = false; { 300, 400, 500 }
-        if (!response.ok) {
-          setLoading(false);
-          return;
-        }
+                // browser's fetch API
+                // response.ok = true; {200-299}
+                // response.ok = false; { 300, 400, 500 }
+                if (!response.ok) {
+                    setLoading(false);
+                    return;
+                }
 
-        const data = await response.json();
+                const data = await response.json();
 
-        if (data?.data?.accessToken) {
-          setAccessToken(data.data.accessToken);
-          // Note: user info isn't returned by /refresh yet — see explanation below
-        }
-      } catch {
-        // No valid session, or backend unreachable — treat as logged out
-      } finally {
-        setLoading(false);
-      }
-    };
+                if (data?.data?.accessToken) {
+                    setAccessToken(data.data.accessToken);
+                    // Note: user info isn't returned by /refresh yet — see explanation below
+                }
+            } catch {
+                setAccessToken(null);
+                setUser(null);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    attemptSilentRefresh();
-  }, []);
+        attemptSilentRefresh();
+    }, []);
 
     const value: AuthContextValue = {
         accessToken,
