@@ -98,7 +98,7 @@ function LoginPage() {
             </div>
           </div>
           <div className="login-dots">
-            {Array.from({ length: 25 }).map((_, i) => (
+             {Array.from({ length: 25 }).map((_, i) => (
               <div key={i} className="login-dot" />
             ))}
           </div>
