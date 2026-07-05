@@ -101,6 +101,10 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", function assignDefaultRole(next) {
+  if (this.isNew && ["admin", "charity"].includes(this.role)) {
+    return next();
+  }
+
   if (this.isNew && this.accountType === "organization") {
     this.role = "brand";
   } else if (this.isModified("accountType")) {
