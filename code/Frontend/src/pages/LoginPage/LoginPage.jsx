@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { saveAuth, refreshStoredUser } from "../../utils/authStorage";
+import { getMyCharity } from "../../services/charityApi";
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -44,10 +46,25 @@ function LoginPage() {
       }
 
       if (data?.data?.token) {
-        if (rememberMe) {
-          localStorage.setItem("token", data.data.token);
-        } else {
-          sessionStorage.setItem("token", data.data.token);
+        saveAuth({
+          token: data.data.token,
+          user: data.data.user,
+          rememberMe,
+        });
+        await refreshStoredUser();
+      }
+
+      const user = data?.data?.user;
+      if (user?.accountType === "organization" && user?.role !== "charity") {
+        try {
+          const charityRes = await getMyCharity();
+          const status = charityRes?.data?.charity?.verificationStatus;
+          if (status === "unsubmitted" || status === "rejected") {
+            navigate("/charity/verify");
+            return;
+          }
+        } catch {
+          // continue to home
         }
       }
 
