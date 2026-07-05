@@ -28,11 +28,22 @@ const GROUPS = [
   },
 ];
 
-function SettingsSidebar({ activeSection, onSelect }) {
+function SettingsSidebar({ activeSection, onSelect, showOrganization }) {
+  const groups = GROUPS.map((group) => {
+    if (group.label !== "Account" || !showOrganization) return group;
+    return {
+      ...group,
+      items: [
+        ...group.items,
+        { id: "organization", icon: <Shield size={16} />, label: "Organization verification" },
+      ],
+    };
+  });
+
   return (
     <aside className="ss-nav">
       <div className="ss-nav__header">Settings</div>
-      {GROUPS.map((group) => (
+      {groups.map((group) => (
         <div key={group.label} className="ss-nav__group">
           <span className="ss-nav__group-label">{group.label}</span>
           {group.items.map((item) => (
