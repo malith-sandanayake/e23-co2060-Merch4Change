@@ -3,8 +3,13 @@ import jwt from "jsonwebtoken";
 
 import env from "../config/env.js";
 import Brand from "../models/Brand.js";
+import Charity from "../models/Charity.js";
 import OrganizationProfile from "../models/OrganizationProfile.js";
 import User from "../models/User.js";
+
+const CHARITY_ORG_TYPES = new Set(["NGO", "Charity"]);
+
+const isCharityIntent = (orgType) => CHARITY_ORG_TYPES.has(String(orgType ?? "").trim());
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -52,12 +57,25 @@ export const createUserProfile = asyncHandler(async (req, res) => {
       userName: createdUser.userName,
       email: createdUser.email,
       accountType: createdUser.accountType,
-    }
+      role: createdUser.role,
+      isVerified: createdUser.isVerified,
+    },
   });
 });
 
 export const createOrganizationProfile = asyncHandler(async (req, res) => {
-  const { orgName, email, password, phone, address, website } = req.body;
+  const {
+    orgName,
+    email,
+    password,
+    phone,
+    address,
+    website,
+    orgType,
+    country,
+    registrationNumber,
+  } = req.body;
+  const charityIntent = isCharityIntent(orgType);
   const normalizedEmail = String(email).toLowerCase().trim();
 
   const existingUser = await User.findOne({ email: normalizedEmail });
@@ -89,10 +107,23 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
     website,
   });
 
-  await Brand.create({
-    ownerUserId: createdUser._id,
-    brandName: orgName.trim(),
-  });
+  if (charityIntent) {
+    await Charity.create({
+      ownerUserId: createdUser._id,
+      publicName: orgName.trim(),
+      country: String(country ?? "").trim(),
+      address: String(address ?? "").trim(),
+      website: String(website ?? "").trim(),
+      contactEmail: normalizedEmail,
+      registrationNumber: String(registrationNumber ?? "").trim(),
+      verificationStatus: "unsubmitted",
+    });
+  } else {
+    await Brand.create({
+      ownerUserId: createdUser._id,
+      brandName: orgName.trim(),
+    });
+  }
 
   const token = createToken(createdUser._id);
 
@@ -105,6 +136,8 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
       userName: createdUser.userName,
       email: createdUser.email,
       accountType: createdUser.accountType,
+      role: createdUser.role,
+      isVerified: createdUser.isVerified,
     },
     profile: {
       id: createdProfile._id,
@@ -114,5 +147,6 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
       website: createdProfile.website,
       createdAt: createdProfile.createdAt,
     },
+    charityIntent,
   });
 });
