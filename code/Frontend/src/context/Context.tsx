@@ -11,6 +11,7 @@ interface AuthContextValue {
     accessToken: string | null;
     user: User | null;
     login: (accessToken: string, user: User) => void;
+    loading: boolean;
     logout: () => void;
 }
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // accessToken saves in the react memory
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState<Boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
     // login call updates
     const login = (newAccessToken: string, newUser: User) => {
@@ -72,6 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         accessToken,
         user,
         login,
+        loading,
         logout,
     };
 
