@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { saveAuth, refreshStoredUser } from "../../utils/authStorage";
 
 import "./UserSignupPage.css";
 
@@ -214,7 +215,11 @@ function UserSignupPage() {
       }
 
       if (data?.data?.token) {
-        localStorage.setItem("token", data.data.token);
+        saveAuth({
+          token: data.data.token,
+          user: data.data.user,
+        });
+        await refreshStoredUser();
       }
 
       setSuccessMsg("User account created successfully!");

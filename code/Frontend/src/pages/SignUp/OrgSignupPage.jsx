@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { saveAuth, refreshStoredUser } from "../../utils/authStorage";
 import "./OrgSignupPage.css";
+
+const CHARITY_ORG_TYPES = new Set(["NGO", "Charity"]);
 
 function OrgSignupPage({ onNavigate }) {
   const navigate = useNavigate();
@@ -14,6 +17,9 @@ function OrgSignupPage({ onNavigate }) {
     phone: "",
     address: "",
     website: "",
+    orgType: "",
+    country: "",
+    registrationNumber: "",
     accountType: "organization",
   });
 
@@ -109,6 +115,9 @@ function OrgSignupPage({ onNavigate }) {
           phone: formData.phone,
           address: formData.address,
           website: formData.website,
+          orgType: formData.orgType,
+          country: formData.country,
+          registrationNumber: formData.registrationNumber,
           accountType: "organization",
         }),
       });
@@ -117,8 +126,13 @@ function OrgSignupPage({ onNavigate }) {
         setErrorMsg(data.message || "Signup failed");
         return;
       }
-      localStorage.setItem("token", data.data.token);
+      saveAuth({
+        token: data.data.token,
+        user: data.data.user,
+      });
+      await refreshStoredUser();
       setSuccessMsg("Organization account created successfully!");
+      const redirectPath = data?.data?.charityIntent ? "/charity/verify" : "/home";
       // Reset form
       setFormData({
         orgName: "",
@@ -128,10 +142,13 @@ function OrgSignupPage({ onNavigate }) {
         phone: "",
         address: "",
         website: "",
+        orgType: "",
+        country: "",
+        registrationNumber: "",
         accountType: "organization",
       });
       setTimeout(() => {
-        navigate("/home");
+        navigate(redirectPath);
       }, 1500);
     } catch {
       setErrorMsg("Network error. Please try again.");
@@ -299,6 +316,52 @@ function OrgSignupPage({ onNavigate }) {
                 </div>
               )}
             </div>
+
+            <div className="org-form-group">
+              <label>Organisation type</label>
+              <select
+                name="orgType"
+                value={formData.orgType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a type</option>
+                <option value="NGO">NGO</option>
+                <option value="Charity">Charity</option>
+                <option value="Social Enterprise">Social Enterprise</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div className="org-form-group">
+              <label>Country</label>
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+              >
+                <option value="">Select a country</option>
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            {CHARITY_ORG_TYPES.has(formData.orgType) && (
+              <div className="org-form-group full-width">
+                <label>Registration number</label>
+                <input
+                  type="text"
+                  name="registrationNumber"
+                  value={formData.registrationNumber}
+                  onChange={handleChange}
+                  placeholder="Official charity / NGO registration number"
+                />
+              </div>
+            )}
 
             <div className="org-form-group">
               <label>Password</label>
