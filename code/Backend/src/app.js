@@ -22,8 +22,11 @@ import donationRoutes from "./routes/donation.routes.js";
 import dashboardDonationsRoutes from "./routes/donations.js";
 import orgRoutes from "./routes/org.routes.js";
 import postRoutes from "./routes/post.routes.js";
-import notificationRoutes from "./routes/notification.routes.js";
 import { logInfo, sanitizeUrlForLog } from "./utils/logger.js";
+import charityRoutes from "./routes/charity.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+
 
 const app = express();
 
@@ -77,6 +80,8 @@ app.use("/api/v1/messages", messagesRoutes);
 app.use("/api/v1/donations", donationRoutes);
 app.use("/api/v1/orgs", orgRoutes);
 app.use("/api/donations", dashboardDonationsRoutes);
+app.use("/api/v1/charities", charityRoutes);
+app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 
 app.use(notFound);

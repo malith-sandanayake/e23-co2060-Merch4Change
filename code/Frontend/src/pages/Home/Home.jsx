@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { refreshStoredUser } from "../../utils/authStorage";
 import "./Home.css";
 import Feed from "../../components/Feed/Feed";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
@@ -34,6 +35,7 @@ function Home() {
       .then((data) => {
         if (data.success && data.data?.user) {
           setProfileData(data.data.user);
+          refreshStoredUser();
         }
       })
       .catch(() => {});

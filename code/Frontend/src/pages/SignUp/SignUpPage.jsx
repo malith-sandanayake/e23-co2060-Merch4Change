@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { saveAuth, refreshStoredUser } from '../../utils/authStorage';
 import './SignUpPage.css';
 import StepAccountType from './steps/StepAccountType';
 import StepBasicInfo    from './steps/StepBasicInfo';
@@ -49,10 +50,11 @@ export default function SignUpPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [charityIntent, setCharityIntent] = useState(false);
   const [formData, setFormData] = useState({
     accountType: '',
-    firstName: '', lastName: '', dob: '', country: '',
-    orgName: '', regNumber: '', orgType: '',
+    firstName: '', lastName: '', dateOfBirth: '', country: '',
+    orgName: '', registrationNumber: '', orgType: '',
     email: '', userName: '', password: '', confirmPassword: '',
     photo: null, bio: '', website: '', social: '',
   });
@@ -89,6 +91,9 @@ export default function SignUpPage() {
             password:        formData.password,
             confirmPassword: formData.confirmPassword,
             website:         formData.website,
+            orgType:         formData.orgType,
+            country:         formData.country,
+            registrationNumber: formData.registrationNumber,
             accountType:     'organization',
           }
         : {
@@ -116,7 +121,11 @@ export default function SignUpPage() {
       }
 
       if (data?.data?.token) {
-        localStorage.setItem('token', data.data.token);
+        saveAuth({
+          token: data.data.token,
+          user: data.data.user,
+        });
+        await refreshStoredUser();
       }
 
       // Post-process profile bio, website, and photo if they were configured in step 4
@@ -161,10 +170,11 @@ export default function SignUpPage() {
       }
 
       if (redirectToHome) {
-        navigate('/home');
+        navigate(data?.data?.charityIntent ? '/charity/verify' : '/home');
         return;
       }
 
+      setCharityIntent(Boolean(data?.data?.charityIntent));
       setCurrentStep(5);
     } catch {
       setErrorMsg('Network error. Please try again.');
@@ -257,7 +267,7 @@ export default function SignUpPage() {
             errorMsg={errorMsg}
           />
         )}
-        {currentStep === 5 && <StepDone />}
+        {currentStep === 5 && <StepDone charityIntent={charityIntent} />}
       </div>
     </div>
   );
