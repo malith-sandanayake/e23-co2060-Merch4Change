@@ -128,6 +128,47 @@ export default function SignUpPage() {
         await refreshStoredUser();
       }
 
+      // Post-process profile bio, website, and photo if they were configured in step 4
+      if (currentStep === 4) {
+        const token = data.data.token;
+        const userId = data?.data?.user?.id;
+
+        if (formData.bio || formData.website) {
+          try {
+            await fetch(`${apiUrl}/api/v1/profile/me`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                profileBio: formData.bio || "",
+                userLink: formData.website || "",
+              }),
+            });
+          } catch (err) {
+            console.error("Failed to save profile bio/website:", err);
+          }
+        }
+
+        const imageToUpload = formData.profilePhoto || formData.photo;
+        if (imageToUpload && userId) {
+          const imageFormData = new FormData();
+          imageFormData.append("image", imageToUpload);
+          try {
+            await fetch(`${apiUrl}/api/v1/images/user/${userId}`, {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: imageFormData,
+            });
+          } catch (err) {
+            console.error("Failed to upload profile photo:", err);
+          }
+        }
+      }
+
       if (redirectToHome) {
         navigate(data?.data?.charityIntent ? '/charity/verify' : '/home');
         return;

@@ -61,6 +61,14 @@ const userSchema = new mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
+    profileImageUrl: {
+      type: String,
+      default: "",
+    },
+    coverImageUrl: {
+      type: String,
+      default: "",
+    },
     followersCount: {
       type: Number,
       default: 0,
