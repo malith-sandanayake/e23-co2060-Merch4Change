@@ -1,46 +1,72 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { X, Coins, Sparkles } from "lucide-react";
-import { createDonation } from "../../api/donationsService";
+import { createVerifiedDonation } from "../../api/donationsService";
+import { listVerifiedCharities } from "../../services/charityApi";
 import "./DonationModal.css";
 
-function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialCharity, availableCoins = 0, onDonationCommitted }) {
-  const [charity, setCharity] = useState(initialCharity || "");
+function DonationModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  initialCharityId = "",
+  initialCharityName = "",
+  initialProject = "",
+  availableCoins = 0,
+  onDonationCommitted,
+}) {
+  const [charities, setCharities] = useState([]);
+  const [charityId, setCharityId] = useState(initialCharityId || "");
   const [project, setProject] = useState(initialProject || "");
   const [amount, setAmount] = useState("");
   const [customAmount, setCustomAmount] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingCharities, setLoadingCharities] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setCharity(initialCharity || "");
-      setProject(initialProject || "");
-      setAmount("");
-      setCustomAmount("");
-      setError(null);
-    }
-  }, [isOpen, initialProject, initialCharity]);
+    if (!isOpen) return;
+
+    setCharityId(initialCharityId || "");
+    setProject(initialProject || "");
+    setAmount("");
+    setCustomAmount("");
+    setError(null);
+    setLoadingCharities(true);
+
+    listVerifiedCharities()
+      .then((response) => {
+        const items = response?.data?.items || [];
+        setCharities(items);
+
+        if (!initialCharityId && initialCharityName) {
+          const match = items.find((item) => item.publicName === initialCharityName);
+          if (match?._id) setCharityId(match._id);
+        }
+      })
+      .finally(() => setLoadingCharities(false));
+  }, [isOpen, initialCharityId, initialCharityName, initialProject]);
 
   if (!isOpen) return null;
 
   const handleAmountClick = (val) => {
-    setAmount(val);
+    setAmount(String(val));
     setCustomAmount("");
   };
 
-  const handleCustomAmountChange = (e) => {
-    setCustomAmount(e.target.value);
+  const handleCustomAmountChange = (event) => {
+    setCustomAmount(event.target.value);
     setAmount("");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setError(null);
 
     const finalAmount = amount ? parseInt(amount, 10) : parseInt(customAmount, 10);
 
-    if (!project) {
-      setError({ field: "project", message: "Please enter a project or cause." });
+    if (!charityId) {
+      setError({ field: "charity", message: "Please select a verified charity." });
       return;
     }
     if (!finalAmount || finalAmount < 1) {
@@ -54,14 +80,20 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialChar
 
     try {
       setLoading(true);
-      const response = await createDonation({ charity, project, amount: finalAmount });
+      const response = await createVerifiedDonation({ charityId, coinAmount: finalAmount });
+      const selectedCharity = charities.find((item) => item._id === charityId);
       const remainingCoins = response?.data?.data?.coinBalance;
+
       if (typeof onDonationCommitted === "function") {
         onDonationCommitted(finalAmount, remainingCoins);
       }
-      onSuccess(project || charity || "the project");
+
+      onSuccess(project || selectedCharity?.publicName || "the charity");
     } catch (err) {
-      const errMsg = err.response?.data?.details?.[0]?.message || err.response?.data?.message || "Failed to process donation.";
+      const errMsg =
+        err.response?.data?.message ||
+        err.message ||
+        "Failed to process donation.";
       setError({ field: "global", message: errMsg });
     } finally {
       setLoading(false);
@@ -70,8 +102,8 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialChar
 
   return (
     <div className="donation-modal-overlay" onClick={onClose}>
-      <div className="donation-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="modal-close-btn">
+      <div className="donation-modal-content" onClick={(event) => event.stopPropagation()}>
+        <button onClick={onClose} className="modal-close-btn" type="button">
           <X size={24} />
         </button>
 
@@ -94,30 +126,37 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialChar
           )}
 
           <div className="form-group">
-            <label className="form-label">Recipient Charity</label>
+            <label className="form-label">Verified charity *</label>
             <select
               className="form-select"
-              value={charity}
-              onChange={(e) => setCharity(e.target.value)}
+              value={charityId}
+              onChange={(event) => setCharityId(event.target.value)}
+              disabled={loadingCharities}
             >
-              <option value="">General Support (Randomized)</option>
-              <option value="Green Canopy Initiative">Green Canopy Initiative</option>
-              <option value="Future Scholars Fund">Future Scholars Fund</option>
-              <option value="Mobile Medics Network">Mobile Medics Network</option>
-              <option value="Clean Water Wells">Clean Water Wells</option>
+              <option value="">
+                {loadingCharities ? "Loading charities..." : "Select a verified charity"}
+              </option>
+              {charities.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.publicName}
+                </option>
+              ))}
             </select>
+            {error?.field === "charity" && <p className="error-msg">{error.message}</p>}
+            {!loadingCharities && charities.length === 0 && (
+              <p className="error-msg">No verified charities are available yet.</p>
+            )}
           </div>
 
           <div className="form-group">
-            <label className="form-label">Specific Project</label>
+            <label className="form-label">Project note (optional)</label>
             <input
               type="text"
               className="form-input"
               value={project}
-              onChange={(e) => setProject(e.target.value)}
+              onChange={(event) => setProject(event.target.value)}
               placeholder="e.g. Clean Water for Village X"
             />
-            {error?.field === "project" && <p className="error-msg">{error.message}</p>}
           </div>
 
           <div className="form-group">
@@ -127,7 +166,7 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialChar
                 <button
                   key={val}
                   type="button"
-                  className={`preset-btn ${amount === val ? 'active' : ''}`}
+                  className={`preset-btn ${amount === String(val) ? "active" : ""}`}
                   onClick={() => handleAmountClick(val)}
                 >
                   {val}
@@ -149,23 +188,12 @@ function DonationModal({ isOpen, onClose, onSuccess, initialProject, initialChar
             {error?.field === "amount" && <p className="error-msg">{error.message}</p>}
           </div>
 
-          <button
-            type="submit"
-            className="submit-btn"
-            disabled={loading}
-          >
+          <button type="submit" className="submit-btn" disabled={loading || charities.length === 0}>
             {loading ? "Processing..." : `Send ${(amount || customAmount || 0).toLocaleString()} Coins`}
           </button>
-          
-          <p style={{ 
-            fontSize: '0.75rem', 
-            color: '#6b7280', 
-            textAlign: 'center', 
-            marginTop: '1.25rem',
-            lineHeight: '1.4'
-          }}>
-            100% of your donated coins go directly to the cause. <br />
-            No platform fees, ever.
+
+          <p className="donation-modal-footnote">
+            100% of your donated coins go directly to verified charities.
           </p>
         </form>
       </div>

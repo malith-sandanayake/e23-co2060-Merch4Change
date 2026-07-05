@@ -4,41 +4,51 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import DonationModal from "../../components/donations/DonationModal";
 import "../Home/Home.css";
 import "./Donations.css";
-import { getDonationStats } from "../../api/donationsService";
-import { Search, ArrowRight, ShieldCheck, Heart, Leaf, BookOpen, Stethoscope, Droplets, Wifi, ChevronRight } from "lucide-react";
+import { listVerifiedCharities, listDonationProjects } from "../../services/charityApi";
+import { Search, ArrowRight, ShieldCheck, Heart, Leaf, BookOpen, Stethoscope, Droplets, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
-const CHARITIES = [
-  {
-    id: 1, tag: "Nature", TagIcon: Leaf, tagColor: "#166534", tagBg: "#DCFCE7",
-    name: "Green Canopy Initiative",
-    desc: "Restoring native forests across Sri Lanka's central highlands while empowering local farming communities.",
-    raised: 4900000, goal: 12000000, percent: 75,
-    gradient: "linear-gradient(135deg, #064e3b 0%, #059669 100%)",
-    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&q=80",
-  },
-  {
-    id: 2, tag: "Education", TagIcon: BookOpen, tagColor: "#92400e", tagBg: "#FEF3C7",
-    name: "Future Scholars Fund",
-    desc: "Scholarships and vocational training for underprivileged youth across every province in Sri Lanka.",
-    raised: 12000000, goal: 30000000, percent: 40,
-    gradient: "linear-gradient(135deg, #78350f 0%, #d97706 100%)",
-    img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80",
-  },
-  {
-    id: 3, tag: "Health", TagIcon: Stethoscope, tagColor: "#0c4a6e", tagBg: "#E0F2FE",
-    name: "Mobile Medics Network",
-    desc: "Deploying mobile clinics with full diagnostic capability to villages without any healthcare access.",
-    raised: 890000, goal: 1000000, percent: 92,
-    gradient: "linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%)",
-    img: "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=800&q=80",
-  },
-];
+const CATEGORY_META = {
+  health: { tag: "Health", TagIcon: Stethoscope, tagColor: "#0c4a6e", tagBg: "#E0F2FE" },
+  education: { tag: "Education", TagIcon: BookOpen, tagColor: "#92400e", tagBg: "#FEF3C7" },
+  environment: { tag: "Nature", TagIcon: Leaf, tagColor: "#166534", tagBg: "#DCFCE7" },
+  humanitarian: { tag: "Humanitarian", TagIcon: Heart, tagColor: "#7f1d1d", tagBg: "#FEE2E2" },
+  animal: { tag: "Animal", TagIcon: Heart, tagColor: "#5b21b6", tagBg: "#EDE9FE" },
+  other: { tag: "Charity", TagIcon: ShieldCheck, tagColor: "#374151", tagBg: "#F3F4F6" },
+};
 
-const PROJECTS = [
-  { id: 1, Icon: Droplets, name: "Clean Water Wells (District 4)", desc: "Solar-powered wells providing potable water to 300+ rural families.", raised: 4100000, goal: 4500000, img: "https://images.unsplash.com/photo-1541848756149-e3843fcbbde0?w=400&q=80" },
-  { id: 2, Icon: Wifi, name: "Empowerment Hubs", desc: "Community digital literacy centers with internet connectivity and skills training.", raised: 2200000, goal: 5000000, img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=400&q=80" },
-];
+const mapCharityCard = (charity) => {
+  const meta = CATEGORY_META[charity.category] || CATEGORY_META.other;
+  return {
+    id: charity._id,
+    charityId: charity._id,
+    username: charity.ownerUserId?.userName,
+    tag: meta.tag,
+    TagIcon: meta.TagIcon,
+    tagColor: meta.tagColor,
+    tagBg: meta.tagBg,
+    name: charity.publicName,
+    desc: charity.description || "Verified charity on Merch4Change.",
+    raised: 0,
+    goal: 1,
+    percent: 0,
+    gradient: "linear-gradient(135deg, #064e3b 0%, #059669 100%)",
+    img: charity.logoUrl || "https://images.unsplash.com/photo-1469571480202-8bcc9fd2f3a7?w=800&q=80",
+  };
+};
+
+const mapProjectCard = (project) => ({
+  id: project.id,
+  charityId: project.charityId,
+  charityName: project.charityName,
+  Icon: Droplets,
+  name: project.title,
+  desc: project.description,
+  raised: project.collectedAmount * 100,
+  goal: project.goalAmount * 100,
+  img: "https://images.unsplash.com/photo-1541848756149-e3843fcbbde0?w=400&q=80",
+});
 
 const pct = (r, g) => Math.round((r / g) * 100);
 const lkrM = (n) => n >= 1000000 ? `LKR ${(n / 1000000).toFixed(1)}M` : `LKR ${n.toLocaleString()}`;
@@ -71,14 +81,17 @@ function CharityCard({ c, onSelect }) {
       </div>
       {/* Footer */}
       <div style={{ padding: "16px 20px", borderTop: "1px solid #F0EBE1", display: "flex", gap: "10px" }}>
-        <button onClick={() => onSelect(c.name)}
+        <button onClick={() => onSelect(c)}
           style={{ flex: 1, background: "#0D6B5E", color: "#fff", fontFamily: "'DM Sans',sans-serif", fontSize: "13px", fontWeight: 500, padding: "11px 16px", borderRadius: "10px", border: "none", cursor: "pointer", transition: "background 0.2s" }}
           onMouseEnter={e => e.target.style.background = "#085048"} onMouseLeave={e => e.target.style.background = "#0D6B5E"}>
           Select cause
         </button>
-        <button style={{ width: "40px", height: "40px", background: "#F0EBE1", border: "none", borderRadius: "10px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#6B6560", flexShrink: 0 }}>
-          <Heart size={16} />
-        </button>
+        {c.username && (
+          <Link to={`/organization/${c.username}`}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "40px", height: "40px", background: "#F0EBE1", borderRadius: "10px", color: "#6B6560" }}>
+            <ChevronRight size={16} />
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -103,7 +116,7 @@ function ProjectCard({ p, onDonate }) {
             <span style={{ color: "#D4820A", fontWeight: 600 }}>{progress}%</span>
           </div>
         </div>
-        <button onClick={() => onDonate(p.name)}
+        <button onClick={() => onDonate({ charityId: p.charityId, name: p.charityName }, p)}
           style={{ marginTop: "12px", background: "transparent", border: "1.5px solid #0D6B5E", color: "#0D6B5E", fontFamily: "'DM Sans',sans-serif", fontSize: "13px", fontWeight: 500, padding: "8px 16px", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px", width: "fit-content" }}
           onMouseEnter={e => { e.currentTarget.style.background = "#0D6B5E"; e.currentTarget.style.color = "#fff"; }}
           onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#0D6B5E"; }}>
@@ -117,11 +130,16 @@ function ProjectCard({ p, onDonate }) {
 export default function DonationsPage() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [profileData, setProfileData] = useState({});
+  const [charities, setCharities] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [stats, setStats] = useState({ totalDonated: 0, charityCount: 0 });
   const [query, setQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [prefilledCharity, setPrefilledCharity] = useState("");
+  const [prefilledCharityId, setPrefilledCharityId] = useState("");
+  const [prefilledCharityName, setPrefilledCharityName] = useState("");
   const [prefilledProject, setPrefilledProject] = useState("");
   const [successMsg, setSuccessMsg] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -133,10 +151,38 @@ export default function DonationsPage() {
         if (res.data?.success) setProfileData(res.data.data.user);
       } catch {}
     };
+
+    const fetchDonationData = async () => {
+      try {
+        const [charityRes, projectRes] = await Promise.all([
+          listVerifiedCharities(),
+          listDonationProjects(),
+        ]);
+        const charityItems = (charityRes?.data?.items || []).map(mapCharityCard);
+        const projectItems = (projectRes?.data?.projects || []).map(mapProjectCard);
+        setCharities(charityItems);
+        setProjects(projectItems);
+        setStats({ totalDonated: 0, charityCount: charityItems.length });
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchProfile();
+    fetchDonationData();
   }, []);
 
-  const openModal = (charity = "", project = "") => { setPrefilledCharity(charity); setPrefilledProject(project); setModalOpen(true); };
+  const openModal = (charity = null, project = "") => {
+    if (charity && typeof charity === "object") {
+      setPrefilledCharityId(charity.charityId || charity.id || "");
+      setPrefilledCharityName(charity.name || "");
+    } else {
+      setPrefilledCharityId("");
+      setPrefilledCharityName(typeof charity === "string" ? charity : "");
+    }
+    setPrefilledProject(typeof project === "object" ? project.name : project || "");
+    setModalOpen(true);
+  };
   const handleSuccess = (name) => { setModalOpen(false); setSuccessMsg(`✓ Donation successful! Thank you for supporting ${name}.`); setTimeout(() => setSuccessMsg(null), 5000); };
   const handleDonationCommitted = (spentCoins, remainingCoins) => {
     setProfileData((prev) => {
@@ -146,7 +192,10 @@ export default function DonationsPage() {
     });
   };
 
-  const filtered = CHARITIES.filter(c => c.name.toLowerCase().includes(query.toLowerCase()) || c.desc.toLowerCase().includes(query.toLowerCase()));
+  const filtered = charities.filter((c) =>
+    c.name.toLowerCase().includes(query.toLowerCase()) ||
+    c.desc.toLowerCase().includes(query.toLowerCase()),
+  );
 
   return (
     <div className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
@@ -174,7 +223,7 @@ export default function DonationsPage() {
 
               {/* Stats row */}
               <div style={{ display: "flex", justifyContent: "center", gap: "0", marginBottom: "48px" }}>
-                {[{ v: "LKR 12M+", l: "Total donated" }, { v: "4.2K", l: "Active donors" }, { v: "84", l: "Charities" }].map((s, i) => (
+                {[{ v: `${stats.charityCount}`, l: "Verified charities" }, { v: `${projects.length}`, l: "Active projects" }, { v: "0 fee", l: "Platform fees" }].map((s, i) => (
                   <div key={s.l} style={{ textAlign: "center", padding: "0 32px", borderRight: i < 2 ? "1px solid rgba(255,255,255,0.15)" : "none" }}>
                     <div style={{ fontFamily: "'DM Serif Display',serif", fontSize: "28px", color: "#FDE68A", fontWeight: 400 }}>{s.v}</div>
                     <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.6)", marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>{s.l}</div>
@@ -222,8 +271,10 @@ export default function DonationsPage() {
                 </button>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))", gap: "24px" }}>
-                {filtered.map(c => <CharityCard key={c.id} c={c} onSelect={name => openModal(name)} />)}
-                {!filtered.length && <p style={{ gridColumn: "1/-1", fontFamily: "'DM Sans',sans-serif", color: "#6B6560", fontSize: "14px" }}>No results found.</p>}
+                {loading ? (
+                  <p style={{ gridColumn: "1/-1", fontFamily: "'DM Sans',sans-serif", color: "#6B6560", fontSize: "14px" }}>Loading verified charities...</p>
+                ) : filtered.map(c => <CharityCard key={c.id} c={c} onSelect={openModal} />)}
+                {!loading && !filtered.length && <p style={{ gridColumn: "1/-1", fontFamily: "'DM Sans',sans-serif", color: "#6B6560", fontSize: "14px" }}>No verified charities found.</p>}
               </div>
             </div>
 
@@ -235,7 +286,10 @@ export default function DonationsPage() {
                 <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "14px", color: "#6B6560", margin: 0 }}>Specific infrastructure initiatives requiring immediate support.</p>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(400px,1fr))", gap: "20px" }}>
-                {PROJECTS.map(p => <ProjectCard key={p.id} p={p} onDonate={name => openModal("", name)} />)}
+                {loading ? (
+                  <p style={{ gridColumn: "1/-1", fontFamily: "'DM Sans',sans-serif", color: "#6B6560", fontSize: "14px" }}>Loading projects...</p>
+                ) : projects.map(p => <ProjectCard key={p.id} p={p} onDonate={openModal} />)}
+                {!loading && !projects.length && <p style={{ gridColumn: "1/-1", fontFamily: "'DM Sans',sans-serif", color: "#6B6560", fontSize: "14px" }}>No active projects from verified charities yet.</p>}
               </div>
             </div>
 
@@ -288,7 +342,8 @@ export default function DonationsPage() {
         onClose={() => setModalOpen(false)}
         onSuccess={handleSuccess}
         initialProject={prefilledProject}
-        initialCharity={prefilledCharity}
+        initialCharityId={prefilledCharityId}
+        initialCharityName={prefilledCharityName}
         availableCoins={Number(profileData?.coinBalance ?? 0)}
         onDonationCommitted={handleDonationCommitted}
       />
