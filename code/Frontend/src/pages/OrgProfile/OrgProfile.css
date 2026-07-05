@@ -304,6 +304,43 @@ button {
   color: #b45309;
 }
 
+.tag-red {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.tag-gray {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.org-verify-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #f8f7fc;
+  border: 1px solid #ebe6f8;
+}
+
+.org-verify-banner p {
+  margin: 6px 0 0;
+  color: #6b6280;
+}
+
+.org-verify-banner--rejected {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.org-verify-banner--pending {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
 .meta-info {
   display: flex;
   align-items: center;

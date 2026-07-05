@@ -1,0 +1,68 @@
+.org-verify-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #ebe6f8;
+}
+
+.org-verify-card {
+  margin-top: 16px;
+  border: 1px solid #ebe6f8;
+  border-radius: 14px;
+  padding: 20px;
+  background: #fff;
+}
+
+.org-verify-card__header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.org-verify-card__header h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.org-verify-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.org-verify-badge--unsubmitted { background: #f3f4f6; color: #4b5563; }
+.org-verify-badge--pending { background: #fef3c7; color: #92400e; }
+.org-verify-badge--verified { background: #d1fae5; color: #065f46; }
+.org-verify-badge--rejected { background: #fee2e2; color: #991b1b; }
+
+.org-verify-rejection {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #991b1b;
+  margin: 12px 0;
+}
+
+.org-verify-meta {
+  color: #6b6280;
+  font-size: 0.9rem;
+}
+
+.org-verify-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: #4a24e1;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.org-verify-link:hover {
+  text-decoration: underline;
+}

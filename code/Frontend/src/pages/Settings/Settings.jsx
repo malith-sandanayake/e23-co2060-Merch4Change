@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import ProfileSection from "./sections/ProfileSection";
+import OrganizationVerificationSection from "./sections/OrganizationVerificationSection";
 import {
   SecuritySection,
   PrivacySection,
@@ -21,6 +22,7 @@ const SECTIONS = {
   appearance: AppearanceSection,
   language: LanguageSection,
   help: HelpSection,
+  organization: OrganizationVerificationSection,
 };
 
 function Settings() {
@@ -61,7 +63,11 @@ function Settings() {
     <div className="settings-page">
       <Sidebar profileData={profileData} />
       <div className="settings-body">
-        <SettingsSidebar activeSection={activeSection} onSelect={handleSelect} />
+        <SettingsSidebar
+          activeSection={activeSection}
+          onSelect={handleSelect}
+          showOrganization={profileData.accountType === "organization"}
+        />
         <main className="settings-content">
           <ActiveSection profileData={profileData} onUpdate={setProfileData} />
         </main>

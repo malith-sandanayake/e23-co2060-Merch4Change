@@ -170,6 +170,8 @@ export const login = asyncHandler(async (req, res) => {
       userName: user.userName,
       email: user.email,
       accountType: user.accountType,
+      role: user.role,
+      isVerified: user.isVerified,
     },
   });
 });

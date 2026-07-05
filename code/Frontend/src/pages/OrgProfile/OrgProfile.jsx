@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   MapContainer,
@@ -39,6 +39,7 @@ const hqIcon = new L.Icon({
 
 const OrgProfile = () => {
   const { username } = useParams();
+  const navigate = useNavigate();
   const [orgData, setOrgData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -153,6 +154,10 @@ const OrgProfile = () => {
     }, // Yellow
   ];
 
+  const isVerified = orgData.verificationStatus === "verified";
+  const isOwner = profileData?.userName === orgData.userName;
+  const verificationStatus = orgData.verificationStatus || "unsubmitted";
+
   return (
     <div className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
       <TopNavbar 
@@ -167,6 +172,23 @@ const OrgProfile = () => {
         />
         <main className="lum-main-content">
           <div className="profile-wrapper">
+            {isOwner && verificationStatus !== "verified" && (
+              <div className={`org-verify-banner org-verify-banner--${verificationStatus}`}>
+                <div>
+                  <strong>
+                    {verificationStatus === "pending" && "Your verification is under review."}
+                    {verificationStatus === "rejected" && "Your verification was rejected."}
+                    {verificationStatus === "unsubmitted" && "Complete verification to receive donations."}
+                  </strong>
+                  {verificationStatus === "rejected" && orgData.rejectionReason && (
+                    <p>{orgData.rejectionReason}</p>
+                  )}
+                </div>
+                <button type="button" className="btn btn-primary" onClick={() => navigate("/charity/verify")}>
+                  {verificationStatus === "rejected" ? "Resubmit" : "Verify now"}
+                </button>
+              </div>
+            )}
             {/* Cover Photo */}
             <div className="cover-photo">
               <div className="cover-overlay"></div>
@@ -195,9 +217,11 @@ const OrgProfile = () => {
                 >
                   {isFollowing ? "Following" : "Follow"}
                 </button>
-                <button 
+                <button
                   className="btn btn-donate"
                   onClick={() => openDonationModal()}
+                  disabled={!isVerified}
+                  title={!isVerified ? "This organization is not verified yet" : "Donate coins"}
                 >
                   <Heart size={18} fill="currentColor" />
                   Donate
@@ -213,8 +237,17 @@ const OrgProfile = () => {
             </div>
 
             <div className="tags-container">
-              {orgData.verificationStatus === "verified" && (
+              {verificationStatus === "verified" && (
                 <span className="tag tag-green">Verified Charity</span>
+              )}
+              {verificationStatus === "pending" && (
+                <span className="tag tag-yellow">Verification Pending</span>
+              )}
+              {verificationStatus === "rejected" && (
+                <span className="tag tag-red">Verification Rejected</span>
+              )}
+              {verificationStatus === "unsubmitted" && (
+                <span className="tag tag-gray">Not Verified</span>
               )}
               {orgData.website && (
                 <a href={orgData.website} target="_blank" rel="noopener noreferrer" className="tag tag-blue flex-center gap-xs">
@@ -413,11 +446,11 @@ const OrgProfile = () => {
           onClose={() => setDonationModalOpen(false)}
           onSuccess={(name) => {
             setDonationModalOpen(false);
-            // Optional: Show success toast or update projects list
             alert(`Thank you for donating to ${name}!`);
           }}
           initialProject={selectedProject}
-          initialCharity={orgData.publicName}
+          initialCharityId={isVerified ? orgData.id : ""}
+          initialCharityName={orgData.publicName}
           availableCoins={profileData.coinBalance || 0}
           onDonationCommitted={handleDonationCommitted}
         />

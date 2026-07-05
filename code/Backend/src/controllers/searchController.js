@@ -44,6 +44,7 @@ export const searchAll = asyncHandler(async (req, res) => {
 
   const charitiesPromise = Charity.find({
     $or: [{ publicName: regex }, { contactEmail: regex }],
+    ...(isAdmin ? {} : { verificationStatus: "verified" }),
   })
     .limit(4)
     .select("publicName contactEmail website ownerUserId");

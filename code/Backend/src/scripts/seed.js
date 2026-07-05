@@ -94,7 +94,21 @@ async function seed() {
     // 2. Hash standard password
     const standardPassword = await bcrypt.hash("Password123!", 10);
 
-    // 3. Seed Individual Users
+    // 3. Seed Admin User
+    console.log("Seeding admin user...");
+    await User.create({
+      firstName: "Platform",
+      lastName: "Admin",
+      userName: "platformadmin",
+      email: "admin@merch4change.test",
+      password: standardPassword,
+      accountType: "individual",
+      role: "admin",
+      isVerified: true,
+    });
+    console.log("✅ Seeded admin user (admin@merch4change.test).");
+
+    // 4. Seed Individual Users
     console.log("Seeding individual users...");
     const individuals = await User.insertMany([
       {
@@ -127,7 +141,7 @@ async function seed() {
     ]);
     console.log(`✅ Seeded ${individuals.length} individual users.`);
 
-    // 4. Seed Organizations (Users + Profiles + Brands)
+    // 5. Seed Organizations (Users + Profiles + Brands)
     console.log("Seeding organizations...");
     const orgDataList = [
       { orgName: "Green Future Org", email: "contact@greenfuture.org", isCharity: true },
@@ -177,7 +191,7 @@ async function seed() {
     }
     console.log(`✅ Seeded ${createdBrands.length} organizations.`);
 
-    // 5. Seed Products (assigned to EcoWear Brand)
+    // 6. Seed Products (assigned to EcoWear Brand)
     console.log("Seeding products...");
     const targetBrand = createdBrands.find(b => b.brandName === "EcoWear Brand") || createdBrands[0];
     
@@ -189,7 +203,7 @@ async function seed() {
     const createdProducts = await Product.insertMany(productsToInsert);
     console.log(`✅ Seeded ${createdProducts.length} luxury products linked to ${targetBrand.brandName}.`);
 
-    // 6. Seed Projects (assigned to Charities)
+    // 7. Seed Projects (assigned to Charities)
     console.log("Seeding projects...");
     const projectsToInsert = [];
     for (const charity of createdCharities) {

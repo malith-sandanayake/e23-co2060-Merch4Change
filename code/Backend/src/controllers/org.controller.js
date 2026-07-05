@@ -44,6 +44,9 @@ export const getOrgProfileByUsername = asyncHandler(async (req, res) => {
       website: charity.website,
       contactEmail: charity.contactEmail,
       verificationStatus: charity.verificationStatus,
+      rejectionReason: charity.rejectionReason,
+      registrationNumber: charity.registrationNumber,
+      category: charity.category,
     },
     projects: projects.map((p) => ({
       id: p._id,

@@ -1,0 +1,145 @@
+.charity-admin-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 8px 4px 32px;
+}
+
+.charity-admin-page h1 {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+  color: #1a1330;
+}
+
+.charity-admin-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.charity-admin-toolbar select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd6f3;
+  background: #fff;
+}
+
+.charity-queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.charity-queue-item {
+  border: 1px solid #ebe6f8;
+  border-radius: 12px;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.charity-queue-item:hover {
+  box-shadow: 0 8px 24px rgba(74, 36, 225, 0.08);
+}
+
+.charity-queue-item a {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.charity-queue-name {
+  font-weight: 600;
+  color: #1a1330;
+}
+
+.charity-queue-meta {
+  font-size: 0.85rem;
+  color: #6b6280;
+}
+
+.charity-review-card {
+  background: #fff;
+  border: 1px solid #ebe6f8;
+  border-radius: 14px;
+  padding: 22px;
+}
+
+.charity-review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+  margin: 18px 0;
+}
+
+.charity-review-grid p {
+  margin: 0;
+  color: #3d3558;
+}
+
+.charity-review-docs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.charity-review-docs a {
+  color: #4a24e1;
+}
+
+.charity-review-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.charity-review-actions input {
+  flex: 1;
+  min-width: 220px;
+  padding: 11px 12px;
+  border: 1px solid #ddd6f3;
+  border-radius: 10px;
+}
+
+.charity-approve-btn,
+.charity-reject-btn,
+.charity-back-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.charity-approve-btn {
+  background: #059669;
+  color: #fff;
+}
+
+.charity-reject-btn {
+  background: #dc2626;
+  color: #fff;
+}
+
+.charity-back-btn {
+  background: #f3f0ff;
+  color: #4a24e1;
+}
+
+.charity-empty-state {
+  color: #6b6280;
+  padding: 24px 0;
+}
+
+.charity-form-message.error {
+  color: #b91c1c;
+  margin-top: 12px;
+}
