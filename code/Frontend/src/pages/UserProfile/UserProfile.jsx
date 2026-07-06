@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import apiClient from "../../api/apiClient";
+import { useAuth } from "../../context/Context";
 import "./UserProfile.css";
 import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -25,7 +27,8 @@ const buildEditForm = (source = {}) => ({
 function UserProfile() {
   const { username } = useParams();
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(null);
+  const { accessToken: token, user: currentUser } = useAuth();
+  
   const [profileData, setProfileData] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -43,18 +46,11 @@ function UserProfile() {
 
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
-
   const refreshProfile = async () => {
     if (!token) return null;
-    const response = await fetch(`${apiUrl}/api/v1/profile/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) {
-      throw new Error("Failed to refresh profile");
-    }
-    const data = await response.json();
+    const response = await apiClient.get("/api/v1/profile/me");
+    const data = response.data;
+    
     if (data?.success && data?.data?.user) {
       setProfileData(data.data.user);
       setEditForm(buildEditForm(data.data.user));
@@ -69,42 +65,15 @@ function UserProfile() {
     try {
       const isOwn = !username || username === "me" || (currentUser && username === currentUser.userName);
       const endpoint = isOwn ? "/api/v1/posts/me" : `/api/v1/posts/user/${username}`;
-      const response = await fetch(`${apiUrl}${endpoint}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch profile posts");
-      }
-
-      const data = await response.json();
+      const response = await apiClient.get(endpoint);
+      const data = response.data;
       setPosts(Array.isArray(data?.posts) ? data.posts : []);
     } catch {
       setPosts([]);
     } finally {
       setIsPostsLoading(false);
     }
-  }, [apiUrl, token, username, currentUser?.userName]);
-
-  // 1. Fetch current user first to determine ownership
-  useEffect(() => {
-    if (!token) {
-      setLoadError(true);
-      return;
-    }
-    fetch(`${apiUrl}/api/v1/profile/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch current user");
-        return res.json();
-      })
-      .then((data) => {
-        if (data?.success && data?.data?.user) {
-          setCurrentUser(data.data.user);
-        }
-      })
-      .catch(() => {});
-  }, [apiUrl, token]);
+  }, [token, username, currentUser?.userName]);
 
   // 2. Fetch viewed profile data based on route username parameter
   useEffect(() => {
@@ -117,14 +86,9 @@ function UserProfile() {
     const endpoint = isFetchingMe ? "/api/v1/profile/me" : `/api/v1/profile/${username}`;
 
     setProfileData(null);
-    fetch(`${apiUrl}${endpoint}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    apiClient.get(endpoint)
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch profile");
-        return res.json();
-      })
-      .then((data) => {
+        const data = res.data;
         if (data?.success && data?.data?.user) {
           setProfileData(data.data.user);
           setEditForm(buildEditForm(data.data.user));
@@ -134,7 +98,7 @@ function UserProfile() {
         }
       })
       .catch(() => setLoadError(true));
-  }, [apiUrl, token, username, currentUser?.userName]);
+  }, [token, username, currentUser?.userName]);
 
   useEffect(() => {
     if (!token) return;
@@ -147,14 +111,9 @@ function UserProfile() {
     if (!token || !profileData) return;
     try {
       const endpoint = isFollowing ? "unfollow" : "follow";
-      const response = await fetch(`${apiUrl}/api/v1/profile/${profileData.userName}/${endpoint}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok && data.success) {
+      const response = await apiClient.post(`/api/v1/profile/${profileData.userName}/${endpoint}`);
+      const data = response.data;
+      if (data.success) {
         setIsFollowing(data.data.isFollowing);
         setProfileData((prev) => ({
           ...prev,
@@ -199,16 +158,9 @@ function UserProfile() {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await fetch(`${apiUrl}${endpoint}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
+      const response = await apiClient.post(endpoint, formData);
+      const data = response.data;
+      if (!data.success) {
         throw new Error(data?.message || "Failed to upload image");
       }
 
@@ -260,24 +212,17 @@ function UserProfile() {
       const firstName = parts.shift() || "";
       const lastName = parts.join(" ") || "";
 
-      const response = await fetch(`${apiUrl}/api/v1/profile/me`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          userName: editForm.userName,
-          email: editForm.email,
-          profileBio: editForm.profileBio,
-          userLink: editForm.userLink,
-        }),
+      const response = await apiClient.put("/api/v1/profile/me", {
+        firstName,
+        lastName,
+        userName: editForm.userName,
+        email: editForm.email,
+        profileBio: editForm.profileBio,
+        userLink: editForm.userLink,
       });
 
-      const data = await response.json();
-      if (!response.ok) {
+      const data = response.data;
+      if (!data.success) {
         throw new Error(data?.message || "Failed to update profile");
       }
 
@@ -303,15 +248,10 @@ function UserProfile() {
 
     try {
       const postId = post.id || post._id;
-      const response = await fetch(`${apiUrl}/api/v1/posts/${postId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await apiClient.delete(`/api/v1/posts/${postId}`);
 
-      const data = await response.json();
-      if (!response.ok) {
+      const data = response.data;
+      if (!data.success) {
         throw new Error(data?.message || "Failed to delete post");
       }
 
