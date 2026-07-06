@@ -297,5 +297,12 @@ export const refresh = asyncHandler(async (req, res) => {
 
 // 5. export logout
 export const logout = asyncHandler(async (req, res) => {
+  // Clear the refresh token cookie (must match the options used when setting it)
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: env.nodeEnv === "production",
+    sameSite: env.nodeEnv === "production" ? "none" : "lax",
+  });
+
   return successResponse(res, 200, "Logout successful.");
 });

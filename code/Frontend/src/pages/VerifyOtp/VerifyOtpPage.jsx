@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/Context";
 import "./VerifyOtpPage.css";
 
 function VerifyOtpPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -74,6 +76,7 @@ function VerifyOtpPage() {
       const response = await fetch(`${apiBaseUrl}/api/v1/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",     // accept the refreshToken Set-Cookie
         body: JSON.stringify({ email, otpCode: otpValue }),
       });
 
@@ -84,8 +87,9 @@ function VerifyOtpPage() {
         return;
       }
 
-      if (data?.data?.token) {
-        localStorage.setItem("token", data.data.token);
+      // Store access token in AuthContext (React memory), NOT localStorage
+      if (data?.data?.accessToken) {
+        login(data.data.accessToken, data.data.user);
       }
 
       setSuccessMsg("Verification successful!");

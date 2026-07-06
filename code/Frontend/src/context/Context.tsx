@@ -1,10 +1,12 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
+import { setAccessToken as syncTokenToApiClient, setLogoutCallback } from "../api/apiClient";
 
 interface User {
     id: string;
     userName: string;
     email: string;
     accountType: string;
+    role?: string;
 }
 
 interface AuthContextValue {
@@ -27,14 +29,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // login call updates
     const login = (newAccessToken: string, newUser: User) => {
         setAccessToken(newAccessToken);
+        syncTokenToApiClient(newAccessToken); // keep apiClient in sync
         setUser(newUser);
     };
 
     // logout calls updates
-    const logout = () => {
+    const logout = useCallback(() => {
         setAccessToken(null);
+        syncTokenToApiClient(null); // clear apiClient token
         setUser(null);
-    };
+    }, []);
+
+    // Sync token to apiClient whenever it changes
+    useEffect(() => {
+        syncTokenToApiClient(accessToken);
+    }, [accessToken]);
+
+    // Register logout callback so apiClient can trigger logout on refresh failure
+    useEffect(() => {
+        setLogoutCallback(logout);
+    }, [logout]);
 
     useEffect(() => {
         const attemptSilentRefresh = async () => {
@@ -56,10 +70,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
                 if (data?.data?.accessToken) {
                     setAccessToken(data.data.accessToken);
+                    syncTokenToApiClient(data.data.accessToken); // sync on silent refresh too
                     setUser(data.data.user);
                 }
             } catch {
                 setAccessToken(null);
+                syncTokenToApiClient(null);
                 setUser(null);
             } finally {
                 setLoading(false);

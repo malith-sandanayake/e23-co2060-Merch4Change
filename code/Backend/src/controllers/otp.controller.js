@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import ms from "ms";
 
 import env from "../config/env.js";
 import User from "../models/User.js";
@@ -7,10 +8,16 @@ import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-// Helper utilities mirrored for token generation
-const createToken = (userId) => {
+// Helper utilities — must match auth.controller.js token generation
+const createAccessToken = (userId) => {
   return jwt.sign({ userId }, env.jwtSecret, {
     expiresIn: env.jwtExpiresIn,
+  });
+};
+
+const createRefreshToken = (userId) => {
+  return jwt.sign({ userId }, env.jwtRefreshSecret, {
+    expiresIn: env.jwtRefreshExpiresIn,
   });
 };
 
@@ -96,12 +103,21 @@ export const verifyRegisterOtp = asyncHandler(async (req, res) => {
   // 4. Clean up by deleting the pending record
   await PendingUser.deleteOne({ _id: pendingUser._id });
 
-  // 5. Generate JWT token to log them in instantly
-  const token = createToken(newUser._id);
+  // 5. Generate dual tokens to log them in instantly (same as login flow)
+  const accessToken = createAccessToken(newUser._id);
+  const refreshToken = createRefreshToken(newUser._id);
   const loginType = toLoginType(newUser.accountType);
 
+  // Set refresh token as httpOnly cookie (mirrors auth.controller.js login)
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: env.nodeEnv === "production",
+    sameSite: env.nodeEnv === "production" ? "none" : "lax",
+    maxAge: ms(env.jwtRefreshExpiresIn),
+  });
+
   return successResponse(res, 201, "Email verified and account created successfully!", {
-    token,
+    accessToken,
     loginType,
     user: {
       id: newUser._id,

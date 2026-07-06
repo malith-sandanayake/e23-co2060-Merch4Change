@@ -399,3 +399,26 @@ function UserSignupPage() {
 
             <button
               type="submit"
+              className="user-submit-btn"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Creating..." : "Create Account"}
+            </button>
+
+            <p className="user-login-prompt">
+              Already have an account?{" "}
+              <span
+                className="user-login-link"
+                onClick={() => navigate("/login")}
+              >
+                Sign in here
+              </span>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default UserSignupPage;
