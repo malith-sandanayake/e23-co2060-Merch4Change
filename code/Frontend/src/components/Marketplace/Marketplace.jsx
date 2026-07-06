@@ -17,17 +17,20 @@ function coinsFor(price) {
 
 const FILTERS = ["All", "In Stock", "Limited", "Trending"];
 
+import apiClient from "../../api/apiClient";
+import { useAuth } from "../../context/Context";
+
 export default function Marketplace() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [checkingOut, setCheckingOut] = useState(null);
   const [toast, setToast] = useState(null);
   const [filter, setFilter] = useState("All");
+  const { accessToken: token } = useAuth();
 
   useEffect(() => {
-    fetch(`${API}/api/v1/marketplace/products`)
-      .then((r) => r.json())
-      .then((data) => setProducts(data.data?.products ?? []))
+    apiClient.get("/api/v1/marketplace/products")
+      .then((res) => setProducts(res.data?.data?.products ?? []))
       .catch(() => showToast("error", "Could not load products."))
       .finally(() => setLoading(false));
   }, []);
@@ -38,21 +41,13 @@ export default function Marketplace() {
   }
 
   async function handleBuy(product) {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
     if (!token) { showToast("error", "Please log in to purchase."); return; }
     if (product.stock === 0) return;
 
     setCheckingOut(product._id);
     try {
-      const res = await fetch(`${API}/api/v1/marketplace/checkout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ items: [{ productId: product._id, quantity: 1 }] }),
-      });
-      const data = await res.json();
+      const res = await apiClient.post("/api/v1/marketplace/checkout", { items: [{ productId: product._id, quantity: 1 }] });
+      const data = res.data;
       if (data.success) {
         const coins = data.data?.coinsEarned ?? data.data?.order?.coinsEarned ?? coinsFor(product.price);
         showToast("success", `✅ Purchased! You earned ${coins} coins.`);

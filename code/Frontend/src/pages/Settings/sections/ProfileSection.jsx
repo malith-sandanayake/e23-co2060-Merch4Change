@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SettingsSection.css";
 import { useRef } from "react";
+import apiClient from "../../../api/apiClient";
 
 function ProfileSection({ profileData = {}, onUpdate = () => {} }) {
   const [userName, setUserName] = useState(profileData.userName || "");
@@ -23,28 +24,15 @@ function ProfileSection({ profileData = {}, onUpdate = () => {} }) {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (!token) throw new Error("Not authenticated");
-
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
       const parts = fullName.trim().split(" ");
       const firstName = parts.shift() || "";
       const lastName = parts.join(" ") || "";
 
       const body = { firstName, lastName, userName, profileBio: bio, userLink: website, email };
 
-      const res = await fetch(`${apiUrl}/api/v1/profile/me`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "Failed to update profile");
+      const res = await apiClient.put("/api/v1/profile/me", body);
+      const data = res.data;
+      if (!data?.success) throw new Error(data?.message || "Failed to update profile");
 
       if (data?.success && data.data?.user) {
         onUpdate(data.data.user);
@@ -74,32 +62,20 @@ function ProfileSection({ profileData = {}, onUpdate = () => {} }) {
     if (!file) return;
     setUploading(true);
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (!token) throw new Error("Not authenticated");
-
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
       const userId = profileData?._id || profileData?.id;
       if (!userId) throw new Error("Missing user id");
 
       const form = new FormData();
       form.append("image", file);
 
-      const res = await fetch(`${apiUrl}/api/v1/images/user/${userId}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: form,
-      });
+      const res = await apiClient.post(`/api/v1/images/user/${userId}`, form);
+      const data = res.data;
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || "Failed to upload image");
+      if (!data?.success) throw new Error(data?.message || "Failed to upload image");
 
       // Refresh profile from server to pick up new image URL
-      const profileRes = await fetch(`${apiUrl}/api/v1/profile/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const profileJson = await profileRes.json();
+      const profileRes = await apiClient.get("/api/v1/profile/me");
+      const profileJson = profileRes.data;
       if (profileJson?.success && profileJson.data?.user) {
         onUpdate(profileJson.data.user);
         // ensure local inputs reflect any normalized values
