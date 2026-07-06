@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { refreshStoredUser } from "../../utils/authStorage";
+import apiClient from "../../api/apiClient";
 import "./Home.css";
 import Feed from "../../components/Feed/Feed";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
@@ -24,18 +24,10 @@ function Home() {
   const effectiveSidebarCollapsed = isSidebarCollapsed;
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (!token) return;
-
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-    fetch(`${apiUrl}/api/v1/profile/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.data?.user) {
-          setProfileData(data.data.user);
-          refreshStoredUser();
+    apiClient.get("/api/v1/profile/me")
+      .then((res) => {
+        if (res.data?.success && res.data.data?.user) {
+          setProfileData(res.data.data.user);
         }
       })
       .catch(() => {});
