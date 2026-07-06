@@ -5,6 +5,7 @@ import { connectDatabase } from "./config/db.js";
 import env from "./config/env.js";
 import { logError, logInfo } from "./utils/logger.js";
 
+// connect the database
 const startServer = async () => {
   try {
     await connectDatabase();
@@ -18,10 +19,12 @@ const startServer = async () => {
   }
 };
 
+
 process.on("unhandledRejection", (reason) => {
   logError("Unhandled promise rejection.", reason);
 });
 
+// undefined error handling block error raise handle - { no try(), catch() sections }
 process.on("uncaughtException", (error) => {
   logError("Uncaught exception.", error);
   process.exit(1);

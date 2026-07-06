@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import env from "./config/env.js";
 import errorHandler from "./middlewares/errorHandler.js";
@@ -40,15 +41,19 @@ const httpLogFormat = (tokens, req, res) => {
 };
 
 app.use(helmet());
+
+// include CORS: Cross Over Resource Sharing
 app.use(
   cors({
     origin: env.frontendUrl,
-    credentials: true,
+    credentials: true,          // Allow cookies to flow cross-origin
   }),
 );
 
 // decode the raw bytes from the req.body to json type 
 app.use(express.json({ limit: "1mb" }));
+
+app.use(cookieParser());
 
 // decode the raw bytes from the req.body to x-www-form-urlencoded - the format HTML form submit by default
 app.use(express.urlencoded({ extended: true }));

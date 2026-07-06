@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveAuth, refreshStoredUser } from "../../utils/authStorage";
 
 import "./UserSignupPage.css";
 
@@ -146,7 +145,7 @@ function UserSignupPage() {
     if (!/[a-z]/.test(password)) errors.push("one lowercase letter");
     if (!/[0-9]/.test(password)) errors.push("one number");
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push("one special character");
-    
+
     if (errors.length > 0) {
       return "Password must contain " + errors.join(", ") + ".";
     }
@@ -214,15 +213,7 @@ function UserSignupPage() {
         return;
       }
 
-      if (data?.data?.token) {
-        saveAuth({
-          token: data.data.token,
-          user: data.data.user,
-        });
-        await refreshStoredUser();
-      }
-
-      setSuccessMsg("User account created successfully!");
+      setSuccessMsg("Verification code sent to your email!");
       setFormData({
         firstName: "",
         lastName: "",
@@ -232,7 +223,7 @@ function UserSignupPage() {
         confirmPassword: "",
       });
       setTimeout(() => {
-        navigate("/home");
+        navigate("/verify-otp", { state: { email: formData.email.trim() } });
       }, 1500);
     } catch {
       setErrorMsg("Network error. Please try again.");
@@ -295,7 +286,6 @@ function UserSignupPage() {
           )}
 
           <form onSubmit={handleSubmit} className="user-form">
-            {/* First & Last name */}
             <div className="user-form-group">
               <label>First Name</label>
               <input
@@ -320,7 +310,6 @@ function UserSignupPage() {
               />
             </div>
 
-            {/* Username – full width */}
             <div className="user-form-group full-width">
               <label>Username</label>
               <div className="user-input-shell">
@@ -372,7 +361,6 @@ function UserSignupPage() {
               )}
             </div>
 
-            {/* Email – full width */}
             <div className="user-form-group full-width">
               <label>Email Address</label>
               <input
@@ -385,7 +373,6 @@ function UserSignupPage() {
               />
             </div>
 
-            {/* Password */}
             <div className="user-form-group">
               <label>Password</label>
               <input
@@ -398,7 +385,6 @@ function UserSignupPage() {
               />
             </div>
 
-            {/* Confirm Password */}
             <div className="user-form-group">
               <label>Confirm Password</label>
               <input
@@ -413,26 +399,3 @@ function UserSignupPage() {
 
             <button
               type="submit"
-              className="user-submit-btn"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Creating..." : "Create Account"}
-            </button>
-
-            <p className="user-login-prompt">
-              Already have an account?{" "}
-              <span
-                className="user-login-link"
-                onClick={() => navigate("/login")}
-              >
-                Sign in here
-              </span>
-            </p>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default UserSignupPage;
