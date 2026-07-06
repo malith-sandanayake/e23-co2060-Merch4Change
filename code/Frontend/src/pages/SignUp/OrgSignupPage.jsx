@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveAuth, refreshStoredUser } from "../../utils/authStorage";
 import "./OrgSignupPage.css";
 
 const CHARITY_ORG_TYPES = new Set(["NGO", "Charity"]);
@@ -71,7 +70,7 @@ function OrgSignupPage({ onNavigate }) {
     if (!/[a-z]/.test(password)) errors.push("one lowercase letter");
     if (!/[0-9]/.test(password)) errors.push("one number");
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push("one special character");
-    
+
     if (errors.length > 0) {
       return "Password must contain " + errors.join(", ") + ".";
     }
@@ -126,29 +125,9 @@ function OrgSignupPage({ onNavigate }) {
         setErrorMsg(data.message || "Signup failed");
         return;
       }
-      saveAuth({
-        token: data.data.token,
-        user: data.data.user,
-      });
-      await refreshStoredUser();
-      setSuccessMsg("Organization account created successfully!");
-      const redirectPath = data?.data?.charityIntent ? "/charity/verify" : "/home";
-      // Reset form
-      setFormData({
-        orgName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        phone: "",
-        address: "",
-        website: "",
-        orgType: "",
-        country: "",
-        registrationNumber: "",
-        accountType: "organization",
-      });
+      setSuccessMsg("Verification code sent to your email!");
       setTimeout(() => {
-        navigate(redirectPath);
+        navigate("/verify-otp", { state: { email: formData.email } });
       }, 1500);
     } catch {
       setErrorMsg("Network error. Please try again.");

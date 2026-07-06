@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
-import ProfileSection from "./sections/ProfileSection";
-import OrganizationVerificationSection from "./sections/OrganizationVerificationSection";
 import {
+  ProfileSection,
   SecuritySection,
   PrivacySection,
+  OrganizationVerificationSection,
   NotificationsSection,
   AppearanceSection,
   LanguageSection,
   HelpSection,
 } from "./sections/Sections";
+import apiClient from "../../api/apiClient";
 import "./Settings.css";
 
 const SECTIONS = {
@@ -36,15 +37,10 @@ function Settings() {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    if (!token) return;
-
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-    fetch(`${apiUrl}/api/v1/profile/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
+  useEffect(() => {
+    apiClient.get("/api/v1/profile/me")
+      .then((res) => {
+        const data = res.data;
         if (data.success && data.data?.user) {
           setProfileData(data.data.user);
         }

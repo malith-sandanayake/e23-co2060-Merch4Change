@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import AppLayout from "../../components/AppLayout/AppLayout";
 import { getMyCharity, submitCharityVerification, uploadProofDocument } from "../../services/charityApi";
-import { refreshStoredUser } from "../../utils/authStorage";
 import "./VerificationForm.css";
 
 const empty = {
@@ -105,7 +104,6 @@ export default function VerificationForm() {
       setStatus("pending");
       setMsg("Submitted successfully. An admin will review your application.");
       setMsgType("success");
-      await refreshStoredUser();
       return;
     }
 

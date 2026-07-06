@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import user from "../../assets/user.svg";
 import "./Sidebar.css";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
-import { getStoredUser } from "../../utils/authStorage";
+import { useAuth } from "../../context/Context";
 import {
   Home,
   MessageSquare,
@@ -22,7 +22,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const storedUser = getStoredUser();
+  const { user: storedUser } = useAuth();
   const userRole = profileData?.role || storedUser?.role;
   const userAccountType = profileData?.accountType || storedUser?.accountType;
   const isAdmin = userRole === "admin";

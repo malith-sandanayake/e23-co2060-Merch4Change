@@ -127,6 +127,8 @@ function ProjectCard({ p, onDonate }) {
   );
 }
 
+import apiClient from "../../api/apiClient";
+
 export default function DonationsPage() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [profileData, setProfileData] = useState({});
@@ -143,11 +145,8 @@ export default function DonationsPage() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (!token) return;
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-        const res = await axios.get(`${apiUrl}/api/v1/profile/me`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await apiClient.get("/api/v1/profile/me");
         if (res.data?.success) setProfileData(res.data.data.user);
       } catch {}
     };

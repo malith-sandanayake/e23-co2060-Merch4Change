@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient from "../../api/apiClient";
 import {
   MapContainer,
   TileLayer,
@@ -73,13 +73,8 @@ const OrgProfile = () => {
     };
 
     const fetchMyProfile = async () => {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      if (!token) return;
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-        const res = await axios.get(`${apiUrl}/api/v1/profile/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await apiClient.get("/api/v1/profile/me");
         if (res.data?.success) setProfileData(res.data.data.user);
       } catch (err) {
         console.error("Error fetching my profile:", err);

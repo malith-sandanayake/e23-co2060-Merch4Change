@@ -1,0 +1,240 @@
+.verify-otp-outer {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: linear-gradient(135deg, #f5f7fb 0%, #eef5ef 48%, #f8fafc 100%);
+  color: #12331f;
+}
+
+.verify-otp-hero,
+.verify-otp-form-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.verify-otp-hero {
+  padding: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top left, rgba(67, 160, 71, 0.18), transparent 35%),
+    linear-gradient(155deg, #173826 0%, #245337 52%, #1f4631 100%);
+  color: #f4faf5;
+}
+
+.verify-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.verify-blob-1 {
+  width: 400px;
+  height: 400px;
+  background: #2e7d32;
+  top: -100px;
+  left: -100px;
+}
+
+.verify-blob-2 {
+  width: 350px;
+  height: 350px;
+  background: #66bb6a;
+  bottom: -50px;
+  right: -50px;
+}
+
+.verify-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+}
+
+.verify-hero-logo {
+  font-size: 3rem;
+  margin-bottom: 24px;
+}
+
+.verify-hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.verify-hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+
+.verify-otp-form-panel {
+  padding: 56px 48px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verify-otp-form-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 20px 60px rgba(13, 41, 22, 0.12);
+  border: 1px solid rgba(17, 75, 42, 0.08);
+}
+
+.verify-brand-mark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2e7d32, #6abf69);
+  color: #fff;
+  font-size: 1.4rem;
+  margin-bottom: 24px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.verify-otp-form-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #1a3a26;
+}
+
+.verify-form-subtitle {
+  font-size: 1.05rem;
+  color: #4a6353;
+  margin-bottom: 32px;
+}
+
+.otp-inputs-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.otp-input {
+  width: 56px;
+  height: 64px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid #d5e2d8;
+  border-radius: 12px;
+  background: #fbfdfb;
+  color: #12331f;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.otp-input:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+  background: #fff;
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background: #2e7d32;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 24px;
+}
+
+.verify-btn:hover {
+  background: #276b2b;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+}
+
+.verify-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.verify-footer {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #4a6353;
+}
+
+.resend-link {
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.resend-link:hover {
+  color: #1b5e20;
+}
+
+.form-alert {
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.error-alert {
+  background: #fdf3f2;
+  color: #c0392b;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.success-alert {
+  background: #f3fdf6;
+  color: #27ae60;
+  border: 1px solid rgba(39, 174, 96, 0.2);
+}
+
+@media (max-width: 900px) {
+  .verify-otp-outer {
+    grid-template-columns: 1fr;
+  }
+  .verify-otp-hero {
+    display: none;
+  }
+  .verify-otp-form-panel {
+    padding: 32px 24px;
+  }
+  .otp-input {
+    width: 48px;
+    height: 56px;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .otp-input {
+    width: 40px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+  .otp-inputs-container {
+    gap: 8px;
+  }
+}

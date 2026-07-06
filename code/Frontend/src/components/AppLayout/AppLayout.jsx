@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TopNavbar from "../TopNavbar/TopNavbar";
 import Sidebar from "../Sidebar/Sidebar";
-import { refreshStoredUser } from "../../utils/authStorage";
+import { useAuth } from "../../context/Context";
 import "../../pages/Home/Home.css";
 
 const defaultProfile = {
@@ -11,16 +11,15 @@ const defaultProfile = {
 };
 
 export default function AppLayout({ children }) {
+  const { user } = useAuth();
   const [profileData, setProfileData] = useState(defaultProfile);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
-    refreshStoredUser().then((user) => {
-      if (user) {
-        setProfileData(user);
-      }
-    });
-  }, []);
+    if (user) {
+      setProfileData(user);
+    }
+  }, [user]);
 
   return (
     <div className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}>

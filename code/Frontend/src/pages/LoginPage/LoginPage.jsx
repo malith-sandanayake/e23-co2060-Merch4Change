@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { saveAuth, refreshStoredUser } from "../../utils/authStorage";
+import { useAuth } from "../../context/Context";
 import { getMyCharity } from "../../services/charityApi";
 import "./LoginPage.css";
 
@@ -15,6 +15,8 @@ function LoginPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ function LoginPage() {
       const response = await fetch(`${apiBase}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",     // browser accept set-cookies 
         body: JSON.stringify({
           email: formData.email.trim(),
           password: formData.password,
@@ -45,31 +48,29 @@ function LoginPage() {
         return;
       }
 
-      if (data?.data?.token) {
-        saveAuth({
-          token: data.data.token,
-          user: data.data.user,
-          rememberMe,
-        });
-        await refreshStoredUser();
-      }
+      if (data?.data?.accessToken) {
+        login(data.data.accessToken, data.data.user);
 
-      const user = data?.data?.user;
-      if (user?.accountType === "organization" && user?.role !== "charity") {
-        try {
-          const charityRes = await getMyCharity();
-          const status = charityRes?.data?.charity?.verificationStatus;
-          if (status === "unsubmitted" || status === "rejected") {
-            navigate("/charity/verify");
-            return;
+        const user = data.data.user;
+        if (user?.accountType === "organization" && user?.role !== "charity") {
+          try {
+            const charityRes = await getMyCharity();
+            const status = charityRes?.data?.charity?.verificationStatus;
+            if (status === "unsubmitted" || status === "rejected") {
+              navigate("/charity/verify");
+              return;
+            }
+          } catch {
+            console.error("Failed to check charity verification status:", error);
           }
-        } catch {
-          // continue to home
         }
+
+        navigate("/home");
+      } else {
+        setErrorMsg("Login failed — no access token received.");
       }
 
-      navigate("/home");
-    } catch {
+    } catch (error) {
       setErrorMsg("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShieldCheck, AlertCircle } from "lucide-react";
 import { getMyCharity } from "../../../services/charityApi";
-import { getStoredUser } from "../../../utils/authStorage";
+import { useAuth } from "../../../context/Context";
 import "./OrganizationVerificationSection.css";
 
 const STATUS_COPY = {
@@ -35,7 +35,7 @@ const STATUS_COPY = {
 function OrganizationVerificationSection() {
   const [charity, setCharity] = useState(null);
   const [loading, setLoading] = useState(true);
-  const storedUser = getStoredUser();
+  const { user: storedUser } = useAuth();
 
   useEffect(() => {
     getMyCharity()

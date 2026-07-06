@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ConversationList from "./components/ConversationList";
-import ChatWindow from "./components/ChatWindow";
+import ChatWindow from "../../components/Messaging/ChatWindow/ChatWindow";
+import apiClient from "../../api/apiClient";
+import { useAuth } from "../../context/Context";
 import {
   createMessagingConversation,
   getConversationThread,
@@ -76,13 +78,9 @@ function MessagingPage() {
       setError("");
 
       try {
-        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         if (token) {
-          const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-          const profileResponse = await fetch(`${apiUrl}/api/v1/profile/me`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const profilePayload = await profileResponse.json();
+          const profileResponse = await apiClient.get(`/api/v1/profile/me`);
+          const profilePayload = profileResponse.data;
           if (profilePayload.success && profilePayload.data?.user) {
             setProfileData(profilePayload.data.user);
           }

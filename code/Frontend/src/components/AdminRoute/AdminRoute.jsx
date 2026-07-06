@@ -1,13 +1,13 @@
 import { Navigate } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import { getUserRole } from "../../utils/authStorage";
+import { useAuth } from "../../context/Context";
 
 function AdminRoute({ children }) {
-  const role = getUserRole();
+  const { user } = useAuth();
 
   return (
     <ProtectedRoute>
-      {role === "admin" ? children : <Navigate to="/home" replace />}
+      {user?.role === "admin" ? children : <Navigate to="/home" replace />}
     </ProtectedRoute>
   );
 }
