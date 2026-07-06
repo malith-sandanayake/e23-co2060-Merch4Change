@@ -18,13 +18,15 @@ import searchRoutes from "./routes/search.js";
 import imageRoutes from "./routes/image.routes.js";
 import brandRoutes from "./routes/brand.routes.js";
 import homeBannerRoutes from "./routes/homeBanner.routes.js";
+import messagesRoutes from "./routes/messages.routes.js";
 import donationRoutes from "./routes/donation.routes.js";
 import dashboardDonationsRoutes from "./routes/donations.js";
 import orgRoutes from "./routes/org.routes.js";
-import postRoutes from "./routes/post.routes.js"
+import postRoutes from "./routes/post.routes.js";
 import { logInfo, sanitizeUrlForLog } from "./utils/logger.js";
 import charityRoutes from "./routes/charity.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 
 
 const app = express();
@@ -79,11 +81,13 @@ app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/brands", brandRoutes);
 app.use("/api/v1/home-banners", homeBannerRoutes);
+app.use("/api/v1/messages", messagesRoutes);
 app.use("/api/v1/donations", donationRoutes);
 app.use("/api/v1/orgs", orgRoutes);
 app.use("/api/donations", dashboardDonationsRoutes);
 app.use("/api/v1/charities", charityRoutes);
 app.use("/api/v1/admin", adminRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

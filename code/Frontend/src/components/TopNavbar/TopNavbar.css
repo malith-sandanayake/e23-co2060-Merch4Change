@@ -181,7 +181,8 @@
   pointer-events: none;
 }
 
-.lum-icon-btn:hover {
+.lum-icon-btn:hover,
+.lum-icon-btn.active {
   background: var(--nav-accent-bg);
   border-color: var(--nav-accent);
   color: var(--nav-accent);

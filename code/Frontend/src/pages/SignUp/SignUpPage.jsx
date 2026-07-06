@@ -5,7 +5,6 @@ import StepAccountType from './steps/StepAccountType';
 import StepBasicInfo from './steps/StepBasicInfo';
 import StepCredentials from './steps/StepCredentials';
 import StepProfile from './steps/StepProfile';
-import StepDone from './steps/StepDone';
 
 const TOTAL_STEPS = 4;
 
@@ -51,8 +50,8 @@ export default function SignUpPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [formData, setFormData] = useState({
     accountType: '',
-    firstName: '', lastName: '', dob: '', country: '',
-    orgName: '', regNumber: '', orgType: '',
+    firstName: '', lastName: '', dateOfBirth: '', country: '',
+    orgName: '', registrationNumber: '', orgType: '',
     email: '', userName: '', password: '', confirmPassword: '',
     photo: null, bio: '', website: '', social: '',
   });
@@ -67,13 +66,16 @@ export default function SignUpPage() {
 
       const body = isOrg
         ? {
-          orgName: formData.orgName,
-          email: formData.email,
-          password: formData.password,
-          confirmPassword: formData.confirmPassword,
-          website: formData.website,
-          accountType: 'organization',
-        }
+            orgName: formData.orgName,
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+            website: formData.website,
+            orgType: formData.orgType,
+            country: formData.country,
+            registrationNumber: formData.registrationNumber,
+            accountType: 'organization',
+          }
         : {
           firstName: formData.firstName,
           lastName: formData.lastName,

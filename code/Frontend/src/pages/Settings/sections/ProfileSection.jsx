@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SettingsSection.css";
+import { useRef } from "react";
 
 function ProfileSection({ profileData = {}, onUpdate = () => {} }) {
   const [userName, setUserName] = useState(profileData.userName || "");
@@ -8,6 +9,8 @@ function ProfileSection({ profileData = {}, onUpdate = () => {} }) {
   const [website, setWebsite] = useState(profileData.userLink || "");
   const [email, setEmail] = useState(profileData.email || "");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     setUserName(profileData.userName || "");
@@ -62,17 +65,74 @@ function ProfileSection({ profileData = {}, onUpdate = () => {} }) {
     }
   };
 
+  const handlePhotoClick = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
+  };
+
+  const handlePhotoChange = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      if (!token) throw new Error("Not authenticated");
+
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const userId = profileData?._id || profileData?.id;
+      if (!userId) throw new Error("Missing user id");
+
+      const form = new FormData();
+      form.append("image", file);
+
+      const res = await fetch(`${apiUrl}/api/v1/images/user/${userId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: form,
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || "Failed to upload image");
+
+      // Refresh profile from server to pick up new image URL
+      const profileRes = await fetch(`${apiUrl}/api/v1/profile/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const profileJson = await profileRes.json();
+      if (profileJson?.success && profileJson.data?.user) {
+        onUpdate(profileJson.data.user);
+        // ensure local inputs reflect any normalized values
+        setUserName(profileJson.data.user.userName || userName);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-alert
+      alert(err.message || "Unable to upload photo");
+    } finally {
+      setUploading(false);
+      // reset file input
+      if (fileInputRef.current) fileInputRef.current.value = null;
+    }
+  };
+
   return (
     <div className="s-section">
       <h2 className="s-section__title">Edit profile</h2>
       <p className="s-section__desc">Update your personal information and how it appears to others.</p>
       <div className="s-avatar-row">
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handlePhotoChange}
+        />
         <div className="s-avatar">{(userName?.[0] || "U").toUpperCase()}</div>
         <div className="s-avatar-info">
           <span className="s-avatar-name">{userName || "unknown"}</span>
           <span className="s-avatar-sub">Premium User</span>
         </div>
-        <button className="s-btn s-btn--ghost">Change photo</button>
+        <button className="s-btn s-btn--ghost" onClick={handlePhotoClick} disabled={uploading}>{uploading ? "Uploading..." : "Change photo"}</button>
       </div>
       <div className="s-row">
         <label className="s-label">Username</label>

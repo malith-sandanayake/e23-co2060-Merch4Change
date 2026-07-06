@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OrgSignupPage.css";
 
+const CHARITY_ORG_TYPES = new Set(["NGO", "Charity"]);
+
 function OrgSignupPage({ onNavigate }) {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,6 +16,9 @@ function OrgSignupPage({ onNavigate }) {
     phone: "",
     address: "",
     website: "",
+    orgType: "",
+    country: "",
+    registrationNumber: "",
     accountType: "organization",
   });
 
@@ -65,7 +70,7 @@ function OrgSignupPage({ onNavigate }) {
     if (!/[a-z]/.test(password)) errors.push("one lowercase letter");
     if (!/[0-9]/.test(password)) errors.push("one number");
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push("one special character");
-    
+
     if (errors.length > 0) {
       return "Password must contain " + errors.join(", ") + ".";
     }
@@ -109,6 +114,9 @@ function OrgSignupPage({ onNavigate }) {
           phone: formData.phone,
           address: formData.address,
           website: formData.website,
+          orgType: formData.orgType,
+          country: formData.country,
+          registrationNumber: formData.registrationNumber,
           accountType: "organization",
         }),
       });
@@ -287,6 +295,52 @@ function OrgSignupPage({ onNavigate }) {
                 </div>
               )}
             </div>
+
+            <div className="org-form-group">
+              <label>Organisation type</label>
+              <select
+                name="orgType"
+                value={formData.orgType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a type</option>
+                <option value="NGO">NGO</option>
+                <option value="Charity">Charity</option>
+                <option value="Social Enterprise">Social Enterprise</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div className="org-form-group">
+              <label>Country</label>
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+              >
+                <option value="">Select a country</option>
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="LK">Sri Lanka</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            {CHARITY_ORG_TYPES.has(formData.orgType) && (
+              <div className="org-form-group full-width">
+                <label>Registration number</label>
+                <input
+                  type="text"
+                  name="registrationNumber"
+                  value={formData.registrationNumber}
+                  onChange={handleChange}
+                  placeholder="Official charity / NGO registration number"
+                />
+              </div>
+            )}
 
             <div className="org-form-group">
               <label>Password</label>

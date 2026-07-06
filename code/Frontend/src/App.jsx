@@ -27,6 +27,7 @@ import OurStory from "./pages/About/OurStory";
 import Mission from "./pages/About/Mission";
 import Team from "./pages/About/Team";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute/AdminRoute";
 import Marketplace from "./pages/Marketplace/Marketplace";
 import DonationsPage from "./pages/Donations/DonationsPage";
 import UnderConstruction from "./components/UnderConstruction/UnderConstruction";
@@ -34,6 +35,10 @@ import UnderConstruction from "./components/UnderConstruction/UnderConstruction"
 import NotificationDropDown from "./components/Notifications/NotificationDropDown";
 import { Analytics } from "@vercel/analytics/react"; //vercel analytics
 import { AuthProvider } from "./context/Context";
+import VerificationForm from "./pages/Charity/VerificationForm";
+import CharityQueue from "./pages/Admin/CharityVerification/CharityQueue";
+import CharityReview from "./pages/Admin/CharityVerification/CharityReview";
+
 
 function App() {
 
@@ -61,6 +66,7 @@ function App() {
           <Route path="/signup/usersignup" element={<UserSignupPage />} />
           <Route path="/verify-otp" element={<VerifyOtpPage />} />
 
+
           {/* Private/App Routes */}
           <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/messaging" element={<ProtectedRoute><MessagingPage /></ProtectedRoute>} />
@@ -70,6 +76,10 @@ function App() {
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
           <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
+          <Route path="/charity/verify" element={<ProtectedRoute><VerificationForm /></ProtectedRoute>} />
+          <Route path="/admin/charities" element={<AdminRoute><CharityQueue /></AdminRoute>} />
+          <Route path="/admin/charities/:id" element={<AdminRoute><CharityReview /></AdminRoute>} />
+
 
           {/* Dynamic Route: Perfect for Social Media Profiles */}
           <Route path="/profile/:username" element={<UserProfile />} />

@@ -2,8 +2,7 @@ import React from 'react';
 import './ProfileHeader.css';
 import userImage from '../../../assets/user.svg';
 import verifiedIcon from '../../../assets/verified_icon.png';
-import { BarChart2, Link2, MapPin, CalendarDays, Pencil } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { BarChart2, Link2, MapPin, CalendarDays, Pencil, ImagePlus } from 'lucide-react';
 
 function capitalize(str) {
   if (!str) return '';
@@ -20,39 +19,83 @@ function ensureHttp(url) {
   return /^https?:\/\//i.test(url) ? url : `https://${url}`;
 }
 
-function ProfileHeader({ profileData }) {
-  const navigate = useNavigate();
+function ProfileHeader({
+  profileData,
+  isEditing = false,
+  onEditClick = () => {},
+  onChangeProfilePhoto = () => {},
+  onChangeCoverPhoto = () => {},
+  isOwnProfile = true,
+  isFollowing = false,
+  onFollowClick = () => {},
+  onMessageClick = () => {},
+}) {
   const fullName = `${capitalize(profileData?.firstName)} ${capitalize(profileData?.lastName)}`.trim() || 'Anonymous';
+  const coverStyle = profileData?.coverImageUrl
+    ? { backgroundImage: `linear-gradient(135deg, rgba(26, 10, 92, 0.35) 0%, rgba(74, 36, 225, 0.35) 55%, rgba(123, 82, 244, 0.35) 100%), url(${profileData.coverImageUrl})` }
+    : undefined;
 
   return (
     <div className="ph-wrapper">
       {/* Cover */}
-      <div className="ph-cover" />
+      <div className={`ph-cover ${isEditing ? 'ph-cover--editable' : ''}`} style={coverStyle}>
+        {isEditing && (
+          <div className="ph-cover-actions">
+            <button className="ph-cover-btn" onClick={onChangeCoverPhoto} type="button">
+              <ImagePlus size={14} />
+              Change cover photo
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Avatar + Actions row */}
       <div className="ph-row">
         <div className="ph-avatar-ring">
           <img
-            src={userImage}
+            src={profileData?.profileImageUrl || userImage}
             alt={profileData?.userName || 'avatar'}
             className="ph-avatar"
           />
           <span className="ph-online-dot" title="Online" />
+          {isEditing && (
+            <button className="ph-avatar-action" onClick={onChangeProfilePhoto} type="button">
+              <ImagePlus size={13} />
+            </button>
+          )}
         </div>
 
         <div className="ph-actions">
-          <button
-            className="ph-btn-secondary"
-            onClick={() => navigate('/settings?section=profile')}
-            title="Edit your profile"
-          >
-            <Pencil size={14} />
-            Edit Profile
-          </button>
-          <button className="ph-btn-primary">
-            <BarChart2 size={14} />
-            Dashboard
-          </button>
+          {isOwnProfile && (
+            <button className="ph-btn-secondary" onClick={onEditClick} title="Edit your profile" type="button">
+              <Pencil size={14} />
+              {isEditing ? 'Editing profile' : 'Edit Profile'}
+            </button>
+          )}
+          {isOwnProfile && (
+            <button className="ph-btn-primary">
+              <BarChart2 size={14} />
+              Dashboard
+            </button>
+          )}
+          {!isOwnProfile && (
+            <button
+              className={isFollowing ? "ph-btn-secondary" : "ph-btn-primary"}
+              onClick={onFollowClick}
+              type="button"
+            >
+              {isFollowing ? "Following" : "Follow"}
+            </button>
+          )}
+          {!isOwnProfile && (
+            <button
+              className="ph-btn-secondary"
+              onClick={onMessageClick}
+              type="button"
+            >
+              Message Now
+            </button>
+          )}
         </div>
       </div>
 

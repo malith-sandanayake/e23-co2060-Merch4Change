@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import user from "../../assets/user.svg";
 import "./Sidebar.css";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
+import { getStoredUser } from "../../utils/authStorage";
 import {
   Home,
   MessageSquare,
@@ -12,13 +13,21 @@ import {
   Plus,
   X,
   Heart,
+  ShieldCheck,
+  ClipboardList,
 } from "lucide-react";
 
-function Sidebar({ profileData, setIsSidebarCollapsed }) {
+function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const [selectedOption, setSelectedOption] = useState(0);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const storedUser = getStoredUser();
+  const userRole = profileData?.role || storedUser?.role;
+  const userAccountType = profileData?.accountType || storedUser?.accountType;
+  const isAdmin = userRole === "admin";
+  const showVerifyLink =
+    userAccountType === "organization" && userRole !== "charity";
 
   const handleSelectOption = (value) => {
     setSelectedOption(value);
@@ -91,6 +100,24 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         >
           <Heart size={20} /> <span>Donations</span>
         </NavLink>
+        {showVerifyLink && (
+          <NavLink
+            to="/charity/verify"
+            className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+            onClick={() => handleSelectOption(7)}
+          >
+            <ShieldCheck size={20} /> <span>Verify Organization</span>
+          </NavLink>
+        )}
+        {isAdmin && (
+          <NavLink
+            to="/admin/charities"
+            className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+            onClick={() => handleSelectOption(8)}
+          >
+            <ClipboardList size={20} /> <span>Charity Verification</span>
+          </NavLink>
+        )}
         <NavLink
           to="/settings"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
@@ -111,8 +138,9 @@ function Sidebar({ profileData, setIsSidebarCollapsed }) {
         isOpen={isCreatePostOpen} 
         onClose={() => setIsCreatePostOpen(false)} 
         onSuccess={(newPost) => {
-          // If we had a global store we'd add it to feed here
-          // For now, it will appear on refresh
+          if (typeof onPostCreated === "function") {
+            onPostCreated(newPost);
+          }
         }}
       />
 

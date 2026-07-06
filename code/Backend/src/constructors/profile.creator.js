@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
-import OrganizationProfile from "../models/OrganizationProfile.js";
-import User from "../models/User.js";
 import PendingUser from "../models/PendingUser.js";
+import User from "../models/User.js";
+import OrganizationProfile from "../models/OrganizationProfile.js";
 import { successResponse } from "../utils/apiResponse.js";
 import AppError from "../utils/appError.js";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -62,7 +62,17 @@ export const createUserProfile = asyncHandler(async (req, res) => {
 });
 
 export const createOrganizationProfile = asyncHandler(async (req, res) => {
-  const { orgName, email, password, phone, address, website } = req.body;
+  const {
+    orgName,
+    email,
+    password,
+    phone,
+    address,
+    website,
+    orgType,
+    country,
+    registrationNumber,
+  } = req.body;
   const normalizedEmail = String(email).toLowerCase().trim();
   const userName = orgName.trim().toLowerCase().replace(/\s+/g, "");
 
@@ -99,7 +109,10 @@ export const createOrganizationProfile = asyncHandler(async (req, res) => {
         orgName,
         phone,
         address,
-        website
+        website,
+        orgType,
+        country,
+        registrationNumber
       }
     });
   } catch (dbError) {

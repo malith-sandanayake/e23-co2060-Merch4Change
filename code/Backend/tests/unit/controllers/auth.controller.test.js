@@ -125,6 +125,7 @@ test("login returns INVALID_CREDENTIALS when password mismatch", async () => {
       _id: "u1",
       password: "hash",
       accountType: "individual",
+      isActive: true,
     }),
   });
   bcrypt.compare = async () => false;
@@ -161,6 +162,7 @@ test("login rejects unsupported account type", async () => {
       _id: "u1",
       password: "hash",
       accountType: "admin",
+      isActive: true,
     }),
   });
   bcrypt.compare = async () => true;
@@ -200,6 +202,7 @@ test("login returns token payload when credentials are valid", async () => {
       email: "jane@example.com",
       password: "hash",
       accountType: "organization",
+      isActive: true,
     }),
   });
   bcrypt.compare = async () => true;

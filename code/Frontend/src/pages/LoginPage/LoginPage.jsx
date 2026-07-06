@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../context/Context"
+import { useAuth } from "../../context/Context";
+import { getMyCharity } from "../../services/charityApi";
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -49,6 +50,21 @@ function LoginPage() {
 
       if (data?.data?.accessToken) {
         login(data.data.accessToken, data.data.user);
+
+        const user = data.data.user;
+        if (user?.accountType === "organization" && user?.role !== "charity") {
+          try {
+            const charityRes = await getMyCharity();
+            const status = charityRes?.data?.charity?.verificationStatus;
+            if (status === "unsubmitted" || status === "rejected") {
+              navigate("/charity/verify");
+              return;
+            }
+          } catch {
+            console.error("Failed to check charity verification status:", error);
+          }
+        }
+
         navigate("/home");
       } else {
         setErrorMsg("Login failed — no access token received.");
