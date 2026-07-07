@@ -60,8 +60,8 @@ function LoginPage() {
               navigate("/charity/verify");
               return;
             }
-          } catch {
-            console.error("Failed to check charity verification status:", error);
+          } catch (err) {
+            console.error("Failed to check charity verification status:", err);
           }
         }
 
@@ -70,7 +70,8 @@ function LoginPage() {
         setErrorMsg("Login failed — no access token received.");
       }
 
-    } catch (error) {
+    } catch (err) {
+      console.error("Login Error:", err);
       setErrorMsg("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);

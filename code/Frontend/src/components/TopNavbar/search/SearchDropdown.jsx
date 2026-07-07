@@ -59,7 +59,7 @@ export default function SearchDropdown({ query, results, open, onClose }) {
     return () => document.removeEventListener("mousedown", onDoc);
   }, [onClose]);
 
-  const handleSelect = ({ category, item }) => {
+  function handleSelect({ category, item }) {
     if (category === "users") {
       if (item.userName) navigate(`/profile/${item.userName}`);
       else navigate("/profile/me");

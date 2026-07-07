@@ -7,7 +7,6 @@ import "./Donations.css";
 import { listVerifiedCharities, listDonationProjects } from "../../services/charityApi";
 import { Search, ArrowRight, ShieldCheck, Heart, Leaf, BookOpen, Stethoscope, Droplets, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const CATEGORY_META = {
   health: { tag: "Health", TagIcon: Stethoscope, tagColor: "#0c4a6e", tagBg: "#E0F2FE" },
@@ -148,7 +147,9 @@ export default function DonationsPage() {
       try {
         const res = await apiClient.get("/api/v1/profile/me");
         if (res.data?.success) setProfileData(res.data.data.user);
-      } catch {}
+      } catch (err) {
+        console.error("Error fetching profile in DonationsPage:", err);
+      }
     };
 
     const fetchDonationData = async () => {

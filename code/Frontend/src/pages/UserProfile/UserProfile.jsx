@@ -7,7 +7,6 @@ import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
-import userImage from "../../assets/user.svg";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 import ProfileStats from "./ProfileStats/ProfileStats";
 import ProfileHighlights from "./ProfileHighlights/ProfileHighlights";
@@ -37,14 +36,10 @@ function UserProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState(buildEditForm());
   const [savingProfile, setSavingProfile] = useState(false);
-  const [uploadingProfilePhoto, setUploadingProfilePhoto] = useState(false);
-  const [uploadingCoverPhoto, setUploadingCoverPhoto] = useState(false);
   const [posts, setPosts] = useState([]);
   const [isPostsLoading, setIsPostsLoading] = useState(false);
   const profilePhotoInputRef = useRef(null);
   const coverPhotoInputRef = useRef(null);
-
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const refreshProfile = async () => {
     if (!token) return null;

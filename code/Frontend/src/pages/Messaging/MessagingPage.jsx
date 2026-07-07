@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ConversationList from "./components/ConversationList";
-import ChatWindow from "../../components/Messaging/ChatWindow/ChatWindow";
+import ChatWindow from "./components/ChatWindow";
 import apiClient from "../../api/apiClient";
 import { useAuth } from "../../context/Context";
 import {
@@ -17,6 +17,7 @@ import "./MessagingPage.css";
 
 function MessagingPage() {
   const navigate = useNavigate();
+  const { accessToken: token } = useAuth();
   const [contacts, setContacts] = useState([]);
   const [messages, setMessages] = useState([]);
   const [activeContactId, setActiveContactId] = useState(null);
