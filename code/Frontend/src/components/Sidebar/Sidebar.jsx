@@ -1,6 +1,5 @@
 import React, { memo, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import user from "../../assets/user.svg";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import { useAuth } from "../../context/Context";
@@ -21,7 +20,6 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const [selectedOption, setSelectedOption] = useState(0);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
   const { user: storedUser } = useAuth();
   const userRole = profileData?.role || storedUser?.role;
   const userAccountType = profileData?.accountType || storedUser?.accountType;
@@ -44,20 +42,6 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <X size={20} />
         </button>
-      </div>
-
-      <div
-        className={`lum-user-summary ${location.pathname === "/profile/me" ? "lum-user-summary2" : ""}`}
-        onClick={() => {
-          handleSelectOption(0);
-          navigate("/profile/me");
-        }}
-      >
-        <img src={user} alt="Alex Rivers" />
-        <div>
-          <h4>@{profileData?.userName || "unknown"}</h4>
-          <p>Premium User</p>
-        </div>
       </div>
 
       <div className="lum-sidebar-nav">
@@ -144,11 +128,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         }}
       />
 
-      <div className="lum-pro-banner">
-        <p className="pro-title">PRO PLAN</p>
-        <p className="pro-desc">Unlock deeper analytics & exclusive minting tools.</p>
-        <button className="pro-btn">Upgrade Now</button>
-      </div>
+      
     </aside>
   );
 }

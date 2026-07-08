@@ -1,4 +1,7 @@
 import React from 'react';
+import { Search } from 'lucide-react';
+import { useSearch } from '../../hooks/useSearch';
+import SearchDropdown from '../TopNavbar/search/SearchDropdown';
 import './RightSidebar.css';
 import test from '../../assets/test.jpg';
 
@@ -7,6 +10,27 @@ const SUGGESTED_USERS = [
   { name: 'Luna_Aesthetics', subtitle: 'New on Curated' },
   { name: 'StreetVibe_NYC', subtitle: 'Trending Creator' },
 ];
+
+function RightSidebarSearch() {
+  const { query, setQuery, results, loading, open, setOpen } = useSearch();
+  const containerRef = React.useRef(null);
+
+  return (
+    <div className="rs-search-container" style={{ position: 'relative' }} ref={containerRef}>
+      <Search className="rs-search-icon" size={18} />
+      <input 
+        type="text" 
+        className="rs-search-input" 
+        placeholder="Search profiles, drops..." 
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => { if (results) setOpen(true); }}
+      />
+      {loading && <div style={{ marginLeft: 8, fontSize: '12px' }}>⏳</div>}
+      <SearchDropdown query={query} results={results} open={open} onClose={() => setOpen(false)} />
+    </div>
+  );
+}
 
 function SuggestedSection({ showViewAll = false }) {
   return (
@@ -35,6 +59,7 @@ function RightSidebar({ page = "home" }) {
   if (page === "profile") {
     return (
       <aside className="right-sidebar right-sidebar-profile">
+        <RightSidebarSearch />
         <SuggestedSection showViewAll />
 
         <div className="rs-card">
@@ -88,6 +113,7 @@ function RightSidebar({ page = "home" }) {
 
   return (
     <div className="right-sidebar">
+      <RightSidebarSearch />
       <SuggestedSection />
 
       <div className="rs-card">
