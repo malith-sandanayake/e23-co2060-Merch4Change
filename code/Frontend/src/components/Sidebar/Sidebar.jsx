@@ -6,6 +6,9 @@ import { useAuth } from "../../context/Context";
 import {
   Home,
   MessageSquare,
+  Search,
+  Bell,
+  Store,
   Layers,
   BarChart2,
   Settings,
@@ -52,12 +55,36 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <Home size={20} /> <span>Home</span>
         </NavLink>
+        <div
+          className={selectedOption === 'search' ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => {
+            handleSelectOption('search');
+            // Assuming clicking search in left sidebar focuses or navigates to search
+            navigate("/search");
+          }}
+        >
+          <Search size={20} /> <span>Search</span>
+        </div>
         <NavLink
           to="/messaging"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(2)}
         >
           <MessageSquare size={20} /> <span>Messages</span>
+        </NavLink>
+        <NavLink
+          to="/notifications"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption('notifications')}
+        >
+          <Bell size={20} /> <span>Notifications</span>
+        </NavLink>
+        <NavLink
+          to="/marketplace"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption('marketplace')}
+        >
+          <Store size={20} /> <span>Marketplace</span>
         </NavLink>
         <div
           className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
