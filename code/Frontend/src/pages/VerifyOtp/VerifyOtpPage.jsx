@@ -9,8 +9,10 @@ function VerifyOtpPage() {
   const { login } = useAuth();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [resendTimer, setResendTimer] = useState(0);
   const inputRefs = useRef([]);
 
   const email = location.state?.email;
@@ -20,6 +22,16 @@ function VerifyOtpPage() {
       navigate("/signup");
     }
   }, [email, navigate]);
+
+  useEffect(() => {
+    let interval;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -100,6 +112,47 @@ function VerifyOtpPage() {
       setErrorMsg("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (resendTimer > 0 || isResending) return;
+    
+    setErrorMsg("");
+    setSuccessMsg("");
+    setIsResending(true);
+    
+    try {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const response = await fetch(`${apiBaseUrl}/api/v1/auth/resend-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok || !data.success) {
+        if (response.status === 429 && data.remainingSeconds) {
+          setResendTimer(data.remainingSeconds);
+          setErrorMsg(data.message);
+        } else {
+          setErrorMsg(data.message || "Failed to resend verification code.");
+        }
+        return;
+      }
+      
+      setSuccessMsg("Verification code resent successfully!");
+      if (data.data?.nextCooldownSeconds) {
+        setResendTimer(data.data.nextCooldownSeconds);
+      } else {
+        setResendTimer(60);
+      }
+    } catch (err) {
+      setErrorMsg("Network error. Please try again.");
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -184,7 +237,17 @@ function VerifyOtpPage() {
           </form>
 
           <div className="verify-otp-footer">
-            <p>Didn't receive a code? <button type="button" className="verify-otp-link">Resend</button></p>
+            <p>Didn't receive a code?{" "}
+              {resendTimer > 0 ? (
+                <span style={{ fontWeight: 500, color: "#4a24e1" }}>
+                  Resend in {Math.floor(resendTimer / 60)}:{(resendTimer % 60).toString().padStart(2, '0')}
+                </span>
+              ) : (
+                <button type="button" className="verify-otp-link" onClick={handleResend} disabled={isResending}>
+                  {isResending ? "Sending..." : "Resend"}
+                </button>
+              )}
+            </p>
           </div>
         </div>
       </div>
