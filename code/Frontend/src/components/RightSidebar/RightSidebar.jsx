@@ -4,12 +4,11 @@ import { useSearch } from '../../hooks/useSearch';
 import SearchDropdown from '../TopNavbar/search/SearchDropdown';
 import './RightSidebar.css';
 import test from '../../assets/test.jpg';
+import defaultUserPic from '../../assets/user.svg';
 
-const SUGGESTED_USERS = [
-  { name: 'David.K.Styles', subtitle: 'Followed by Elena.V' },
-  { name: 'Luna_Aesthetics', subtitle: 'New on Curated' },
-  { name: 'StreetVibe_NYC', subtitle: 'Trending Creator' },
-];
+import { useNavigate } from 'react-router-dom';
+import { getSuggestedUsers, followUser } from '../../api/profileService';
+import toast from 'react-hot-toast';
 
 function RightSidebarSearch() {
   const { query, setQuery, results, loading, open, setOpen } = useSearch();
@@ -33,6 +32,50 @@ function RightSidebarSearch() {
 }
 
 function SuggestedSection({ showViewAll = false }) {
+  const [suggestedUsers, setSuggestedUsers] = React.useState([]);
+  const [followingMap, setFollowingMap] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const fetchSuggested = async () => {
+      try {
+        const response = await getSuggestedUsers();
+        if (response?.data?.suggestedUsers) {
+          setSuggestedUsers(response.data.suggestedUsers);
+        }
+      } catch (error) {
+        console.error("Failed to fetch suggested users:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSuggested();
+  }, []);
+
+  const handleFollow = async (e, user) => {
+    e.stopPropagation(); // prevent navigation to profile
+    if (followingMap[user._id]) return; // already following in UI
+
+    // Optimistic UI update
+    setFollowingMap(prev => ({ ...prev, [user._id]: true }));
+    try {
+      await followUser(user.userName);
+      toast.success(`Followed ${user.firstName || user.userName}`);
+    } catch (error) {
+      toast.error("Failed to follow user");
+      // Revert optimistic update
+      setFollowingMap(prev => ({ ...prev, [user._id]: false }));
+    }
+  };
+
+  const handleNavigate = (username) => {
+    navigate(`/profile/${username}`);
+  };
+
+  if (loading) return null;
+  if (suggestedUsers.length === 0) return null;
+
   return (
     <div className="rs-card">
       <div className="rs-header">
@@ -40,14 +83,25 @@ function SuggestedSection({ showViewAll = false }) {
         {showViewAll ? <span className="rs-more">View All</span> : <span className="rs-more"></span>}
       </div>
       <div className="rs-users">
-        {SUGGESTED_USERS.map((userData) => (
-          <div className="rs-user" key={userData.name}>
-            <img src={test} alt="user" />
+        {suggestedUsers.map((user) => (
+          <div 
+            className="rs-user" 
+            key={user._id} 
+            onClick={() => handleNavigate(user.userName)}
+            style={{ cursor: 'pointer' }}
+          >
+            <img src={user.profileImageUrl || defaultUserPic} alt={user.userName} />
             <div className="rs-user-info">
-              <h4>{userData.name}</h4>
-              <p>{userData.subtitle}</p>
+              <h4>{user.firstName ? `${user.firstName} ${user.lastName}` : user.userName}</h4>
+              <p>@{user.userName}</p>
             </div>
-            <button className="rs-follow-btn">Follow</button>
+            <button 
+              className="rs-follow-btn" 
+              onClick={(e) => handleFollow(e, user)}
+              style={followingMap[user._id] ? { background: '#f0f2f5', color: '#1a1a1a', border: '1px solid #ccc' } : {}}
+            >
+              {followingMap[user._id] ? 'Following' : 'Follow'}
+            </button>
           </div>
         ))}
       </div>
