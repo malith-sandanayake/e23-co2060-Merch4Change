@@ -38,6 +38,7 @@ import { AuthProvider } from "./context/Context";
 import VerificationForm from "./pages/Charity/VerificationForm";
 import CharityQueue from "./pages/Admin/CharityVerification/CharityQueue";
 import CharityReview from "./pages/Admin/CharityVerification/CharityReview";
+import NotificationPage from "./pages/Notification/Notification";
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
           <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
+          <Route path="/notification" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
           <Route path="/charity/verify" element={<ProtectedRoute><VerificationForm /></ProtectedRoute>} />
           <Route path="/admin/charities" element={<AdminRoute><CharityQueue /></AdminRoute>} />
           <Route path="/admin/charities/:id" element={<AdminRoute><CharityReview /></AdminRoute>} />

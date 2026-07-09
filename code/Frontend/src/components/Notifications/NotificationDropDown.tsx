@@ -6,9 +6,10 @@ type FilterType = "all" | "new_products" | "bets";
 interface NotificationDropDownProps {
     notifications: Notification[];
     onMarkAsRead?: (id: string) => void;
+    containerClassName?: string;
 }
 
-function NotificationDropDown({ notifications, onMarkAsRead }: NotificationDropDownProps): JSX.Element {
+function NotificationDropDown({ notifications, onMarkAsRead, containerClassName }: NotificationDropDownProps): JSX.Element {
     const [activeFilter, setActiveFilter] = useState<FilterType>("all");
     
     const handleFilter = (value: FilterType) => {
@@ -22,20 +23,24 @@ function NotificationDropDown({ notifications, onMarkAsRead }: NotificationDropD
         return true 
     });
 
-    const formatDate = (dateStr: string) => 
-        new Date(dateStr).toLocaleDateString(undefined, {
+    const formatDate = (dateStr: string) => {
+        if (!dateStr) return "";
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return "";
+        return d.toLocaleDateString(undefined, {
             month: "short",
             day: "numeric",
             hour: "2-digit",
             minute: "2-digit",
-        })
+        });
+    }
 
     // button styling 
     const activeBtn = "bg-purple-100 text-purple-700 font-medium rounded-full px-3 py-1 text-sm border-none cursor-pointer";
     const inactiveBtn = "bg-gray-100 text-gray-500 rounded-full px-3 py-1 text-sm border-none cursor-pointer";
 
     return (
-        <div className="bg-white rounded-xl shadow-lg w-80 p-4">
+        <div className={containerClassName || "bg-white rounded-xl shadow-lg w-80 p-4"}>
             <div className="border-b  border-gray-100 pb-3">
                 <h3 className="text-base font-bold text-gray-900">Notifications</h3>
             </div>

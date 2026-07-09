@@ -65,9 +65,9 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
           <div className="lum-nav-icon"><MessageSquare size={20} /></div> <span className="lum-nav-text">Messages</span>
         </NavLink>
         <NavLink
-          to="/notifications"
+          to="/notification"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
-          onClick={() => handleSelectOption('notifications')}
+          onClick={() => handleSelectOption('notification')}
         >
           <div className="lum-nav-icon"><Bell size={20} /></div> <span className="lum-nav-text">Notifications</span>
         </NavLink>
