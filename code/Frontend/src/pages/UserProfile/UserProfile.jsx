@@ -36,6 +36,8 @@ function UserProfile() {
   const [savingProfile, setSavingProfile] = useState(false);
   const [posts, setPosts] = useState([]);
   const [isPostsLoading, setIsPostsLoading] = useState(false);
+  const [uploadingProfilePhoto, setUploadingProfilePhoto] = useState(false);
+  const [uploadingCoverPhoto, setUploadingCoverPhoto] = useState(false);
   const profilePhotoInputRef = useRef(null);
   const coverPhotoInputRef = useRef(null);
 
@@ -284,12 +286,6 @@ function UserProfile() {
     <div
       className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}
     >
-      <TopNavbar
-        isSidebarCollapsed={isSidebarCollapsed}
-        setIsSidebarCollapsed={setIsSidebarCollapsed}
-        profileData={currentUser || profileData}
-      />
-
       <div className="lum-layout">
         <Sidebar
           profileData={currentUser || profileData}
