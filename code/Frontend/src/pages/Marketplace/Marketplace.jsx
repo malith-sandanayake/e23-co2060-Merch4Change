@@ -11,7 +11,7 @@ import { useAuth } from "../../context/Context";
 
 function MarketplacePage() {
   const navigate = useNavigate();
-  const { accessToken: token } = useAuth();
+  const { accessToken: token, loading: authLoading } = useAuth();
   const [profileData, setProfileData] = useState({
     firstName: "Guest",
     lastName: "User",
@@ -19,9 +19,10 @@ function MarketplacePage() {
   });
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading) return;
+    
     if (!token) {
       setIsLoading(false);
       return;
@@ -36,7 +37,7 @@ function MarketplacePage() {
       })
       .catch(() => { })
       .finally(() => setIsLoading(false));
-  }, [token]);
+  }, [token, authLoading]);
 
   const handleTabChange = useCallback(
     (tab) => {

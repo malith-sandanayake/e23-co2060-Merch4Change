@@ -6,7 +6,7 @@ import "../../pages/Home/Home.css";
 
 const defaultProfile = {
   firstName: "Guest",
-  lastName: "User",
+  lastName: "User", 
   userName: "guest",
 };
 

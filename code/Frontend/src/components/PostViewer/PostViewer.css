@@ -1,0 +1,282 @@
+.pv-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 40px;
+}
+
+.pv-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.pv-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pv-modal {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100vh - 80px);
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.pv-left-pane {
+  flex: 1.5;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.pv-image-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pv-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.pv-no-image {
+  color: #666;
+  font-size: 18px;
+}
+
+.pv-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.pv-arrow:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.pv-arrow-left {
+  left: 20px;
+}
+
+.pv-arrow-right {
+  right: 20px;
+}
+
+.pv-image-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.pv-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.2s;
+}
+
+.pv-indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.pv-right-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  max-width: 400px;
+  min-width: 320px;
+  border-left: 1px solid #eee;
+}
+
+.pv-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.pv-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pv-author-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pv-author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pv-author-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #111;
+}
+
+.pv-author-username {
+  font-size: 13px;
+  color: #666;
+}
+
+.pv-content {
+  padding: 20px;
+}
+
+.pv-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.pv-comments-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-top: 1px solid #eee;
+}
+
+.pv-comments-title {
+  padding: 15px 20px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  background: #fdfdfd;
+}
+
+.pv-comments-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pv-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pv-comment-author {
+  font-weight: 600;
+  font-size: 13px;
+  color: #111;
+}
+
+.pv-comment-text {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.pv-no-comments {
+  color: #888;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pv-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.pv-actions {
+  display: flex;
+  gap: 20px;
+}
+
+.pv-action-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #111;
+  transition: color 0.2s;
+}
+
+.pv-action-btn:hover {
+  color: #4a24e1;
+}
+
+.pv-action-btn span {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .pv-modal {
+    flex-direction: column;
+    height: auto;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+  
+  .pv-left-pane {
+    height: 400px;
+    flex: none;
+  }
+
+  .pv-right-pane {
+    max-width: none;
+    border-left: none;
+  }
+  
+  .pv-comments-section {
+    min-height: 200px;
+  }
+}

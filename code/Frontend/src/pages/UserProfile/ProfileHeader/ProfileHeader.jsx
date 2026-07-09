@@ -2,7 +2,7 @@ import React from 'react';
 import './ProfileHeader.css';
 import userImage from '../../../assets/user.svg';
 import verifiedIcon from '../../../assets/verified_icon.png';
-import { BarChart2, Link2, MapPin, CalendarDays, Pencil, ImagePlus } from 'lucide-react';
+import { BarChart2, Link2, MapPin, CalendarDays, Pencil, ImagePlus, MessageSquare } from 'lucide-react';
 
 function capitalize(str) {
   if (!str) return '';
@@ -67,9 +67,14 @@ function ProfileHeader({
 
         <div className="ph-actions">
           {isOwnProfile && (
-            <button className="ph-btn-secondary" onClick={onEditClick} title="Edit your profile" type="button">
-              <Pencil size={14} />
-              {isEditing ? 'Editing profile' : 'Edit Profile'}
+            <button 
+              className="ph-btn-secondary" 
+              onClick={onEditClick} 
+              title={isEditing ? 'Editing profile' : 'Edit Profile'} 
+              type="button"
+              style={{ padding: '8px 12px' }}
+            >
+              <Pencil size={16} />
             </button>
           )}
           {isOwnProfile && (
@@ -92,8 +97,10 @@ function ProfileHeader({
               className="ph-btn-secondary"
               onClick={onMessageClick}
               type="button"
+              title="Message"
+              style={{ padding: '8px 12px' }}
             >
-              Message Now
+              <MessageSquare size={16} />
             </button>
           )}
         </div>
@@ -144,6 +151,24 @@ function ProfileHeader({
               <Link2 size={13} />
               {formatLink(profileData.userLink)}
             </a>
+          )}
+        </div>
+        
+        {/* Stats inline */}
+        <div className="ph-stats-inline">
+          <div className="ph-stat-item">
+            <strong>{profileData?.postsCount || 0}</strong> <span>posts</span>
+          </div>
+          <div className="ph-stat-item">
+            <strong>{profileData?.followersCount || 0}</strong> <span>followers</span>
+          </div>
+          <div className="ph-stat-item">
+            <strong>{profileData?.followingCount || 0}</strong> <span>following</span>
+          </div>
+          {profileData?.accountType === 'organization' && (
+            <div className="ph-stat-item">
+              <strong>{profileData?.projectsCount || 0}</strong> <span>projects</span>
+            </div>
           )}
         </div>
       </div>

@@ -16,7 +16,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  margin-left: 220px;
+  margin-left: 70px;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: none;
 }

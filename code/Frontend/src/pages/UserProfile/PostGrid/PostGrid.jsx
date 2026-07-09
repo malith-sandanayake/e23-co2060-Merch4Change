@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PostGrid.css';
+import PostViewer from '../../../components/PostViewer/PostViewer';
 
 function formatCreatedAt(value) {
   if (!value) return "";
@@ -13,6 +14,8 @@ function formatCreatedAt(value) {
 }
 
 function PostGrid({ posts = [], isLoading = false, onDeletePost = () => {}, isOwnProfile = true }) {
+  const [activePost, setActivePost] = useState(null);
+
   if (isLoading) {
     return (
       <div className="lum-post-grid lum-post-grid--empty">
@@ -38,13 +41,21 @@ function PostGrid({ posts = [], isLoading = false, onDeletePost = () => {}, isOw
   return (
     <div className="lum-post-grid">
       {posts.map((post) => (
-        <div className="lum-post-card" key={post.id || post._id || post.title}>
+        <div 
+          className="lum-post-card" 
+          key={post.id || post._id || post.title}
+          onClick={() => setActivePost(post)}
+          style={{ cursor: 'pointer' }}
+        >
           <div className={`post-img ${post.imageClassName || ''}`.trim()} style={post.imageUrl ? { backgroundImage: `url(${post.imageUrl})` } : undefined}>
             {isOwnProfile && (
               <button
                 type="button"
                 className="lum-post-remove-btn"
-                onClick={() => onDeletePost(post)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDeletePost(post);
+                }}
                 aria-label={`Remove post ${post.title}`}
               >
                 Remove
@@ -62,6 +73,10 @@ function PostGrid({ posts = [], isLoading = false, onDeletePost = () => {}, isOw
           </div>
         </div>
       ))}
+
+      {activePost && (
+        <PostViewer post={activePost} onClose={() => setActivePost(null)} />
+      )}
     </div>
   );
 }

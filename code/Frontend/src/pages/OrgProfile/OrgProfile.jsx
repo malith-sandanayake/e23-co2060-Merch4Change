@@ -56,8 +56,7 @@ const OrgProfile = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-        const res = await axios.get(`${apiUrl}/api/v1/orgs/profile/${username}`);
+        const res = await apiClient.get(`/api/v1/orgs/profile/${username}`);
         if (res.data?.success) {
           const { user, charity, projects } = res.data.data;
           setOrgData({ ...user, ...charity });

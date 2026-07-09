@@ -3,15 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import SettingsSidebar from "./components/SettingsSidebar";
 import {
-  ProfileSection,
   SecuritySection,
   PrivacySection,
-  OrganizationVerificationSection,
   NotificationsSection,
   AppearanceSection,
   LanguageSection,
   HelpSection,
 } from "./sections/Sections";
+import OrganizationVerificationSection from "./sections/OrganizationVerificationSection";
+import ProfileSection from "./sections/ProfileSection";
 import apiClient from "../../api/apiClient";
 import "./Settings.css";
 
@@ -36,7 +36,7 @@ function Settings() {
     userName: "guest",
   });
 
-  useEffect(() => {
+  
   useEffect(() => {
     apiClient.get("/api/v1/profile/me")
       .then((res) => {
@@ -70,6 +70,7 @@ function Settings() {
       </div>
     </div>
   );
-}
+};
+
 
 export default Settings;
