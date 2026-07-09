@@ -134,4 +134,24 @@ export const unfollowUser = asyncHandler(async (req, res) => {
   });
 
   return successResponse(res, 200, "Successfully unfollowed user.", { isFollowing: false });
+});
+
+export const getSuggestedUsers = asyncHandler(async (req, res) => {
+  // Find users the current user is already following
+  const followingRecords = await Follow.find({ followerId: req.user._id }).select("followingId");
+  const followingIds = followingRecords.map(record => record.followingId);
+
+  // Add the current user to the exclusion list
+  followingIds.push(req.user._id);
+
+  // Fetch up to 5 random users not in the exclusion list
+  const suggestedUsers = await User.aggregate([
+    { $match: { _id: { $nin: followingIds } } },
+    { $sample: { size: 5 } },
+    { $project: { password: 0, email: 0, resetPasswordToken: 0, resetPasswordExpires: 0, accountType: 0 } }
+  ]);
+
+  return successResponse(res, 200, "Suggested users fetched successfully.", {
+    suggestedUsers
+  });
 });

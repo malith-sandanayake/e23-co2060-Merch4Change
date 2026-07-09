@@ -246,6 +246,32 @@
   text-decoration: underline;
 }
 
+/* ── Inline Stats ────────────────────────────── */
+.ph-stats-inline {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.ph-stat-item {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.ph-stat-item strong {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: #111;
+}
+
+.ph-stat-item span {
+  font-size: 14px;
+  color: #666;
+}
+
 /* ── Responsive ──────────────────────────────── */
 @media (max-width: 640px) {
   .ph-row {

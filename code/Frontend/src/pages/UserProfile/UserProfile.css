@@ -21,9 +21,9 @@
 /* Main Content */
 .lum-main-content {
   flex: 1;
-  margin-left: 220px;
+  margin-left: 70px;
   padding: 0 30px;
-  max-width: 850px;
+  max-width: 100%;
   min-width: 0;
   /* Prevents flex overflow */
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -42,6 +42,16 @@
     margin-left: 0;
     padding: 0 20px;
   }
+}
+
+.up-constrained-section {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.up-full-width-section {
+  width: 100%;
+  margin-top: 20px;
 }
 
 /* ── Loading / Error state ───────────────────────── */

@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import apiClient from "../../api/apiClient";
 import "./Home.css";
 import Feed from "../../components/Feed/Feed";
-import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
 
@@ -50,14 +49,6 @@ function Home() {
 
   return (
     <div className={`luminous-app ${effectiveSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
-      <TopNavbar
-        isSidebarCollapsed={effectiveSidebarCollapsed}
-        setIsSidebarCollapsed={setIsSidebarCollapsed}
-        profileData={profileData}
-        activeTab={activeTab}
-        onTabChange={handleTabChange}
-      />
-
       <div className="lum-layout">
         <Sidebar
           profileData={profileData}

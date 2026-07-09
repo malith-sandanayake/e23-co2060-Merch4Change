@@ -246,6 +246,8 @@ export const login = asyncHandler(async (req, res) => {
       accountType: user.accountType,
       role: user.role,
       isVerified: user.isVerified,
+      createdAt: user.createdAt,
+      profileImageUrl: user.profileImageUrl,
     },
   });
 });
@@ -291,6 +293,8 @@ export const refresh = asyncHandler(async (req, res) => {
       userName: user.userName,
       email: user.email,
       accountType: user.accountType,
+      createdAt: user.createdAt,
+      profileImageUrl: user.profileImageUrl,
     },
   });
 });

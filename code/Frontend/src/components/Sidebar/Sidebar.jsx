@@ -1,17 +1,18 @@
 import React, { memo, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import user from "../../assets/user.svg";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import { useAuth } from "../../context/Context";
 import {
   Home,
   MessageSquare,
+  Search,
+  Bell,
+  Store,
   Layers,
   BarChart2,
   Settings,
   Plus,
-  X,
   Heart,
   ShieldCheck,
   ClipboardList,
@@ -21,7 +22,6 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const [selectedOption, setSelectedOption] = useState(0);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
   const { user: storedUser } = useAuth();
   const userRole = profileData?.role || storedUser?.role;
   const userAccountType = profileData?.accountType || storedUser?.accountType;
@@ -38,26 +38,6 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
       <div className="lum-logo">
         <div className="lp-navbar-icon">M</div>
         <h2 className="lp-navbar-text">Merch4Change</h2>
-        <button
-          className="lum-close-btn"
-          onClick={() => setIsSidebarCollapsed(true)}
-        >
-          <X size={20} />
-        </button>
-      </div>
-
-      <div
-        className={`lum-user-summary ${location.pathname === "/profile/me" ? "lum-user-summary2" : ""}`}
-        onClick={() => {
-          handleSelectOption(0);
-          navigate("/profile/me");
-        }}
-      >
-        <img src={user} alt="Alex Rivers" />
-        <div>
-          <h4>@{profileData?.userName || "unknown"}</h4>
-          <p>Premium User</p>
-        </div>
       </div>
 
       <div className="lum-sidebar-nav">
@@ -66,14 +46,37 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(1)}
         >
-          <Home size={20} /> <span>Home</span>
+          <div className="lum-nav-icon"><Home size={20} /></div> <span className="lum-nav-text">Home</span>
         </NavLink>
+        <div
+          className={selectedOption === 'search' ? "lum-nav-item active" : "lum-nav-item"}
+          onClick={() => {
+            handleSelectOption('search');
+            navigate("/search");
+          }}
+        >
+          <div className="lum-nav-icon"><Search size={20} /></div> <span className="lum-nav-text">Search</span>
+        </div>
         <NavLink
           to="/messaging"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(2)}
         >
-          <MessageSquare size={20} /> <span>Messages</span>
+          <div className="lum-nav-icon"><MessageSquare size={20} /></div> <span className="lum-nav-text">Messages</span>
+        </NavLink>
+        <NavLink
+          to="/notifications"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption('notifications')}
+        >
+          <div className="lum-nav-icon"><Bell size={20} /></div> <span className="lum-nav-text">Notifications</span>
+        </NavLink>
+        <NavLink
+          to="/marketplace"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption('marketplace')}
+        >
+          <div className="lum-nav-icon"><Store size={20} /></div> <span className="lum-nav-text">Marketplace</span>
         </NavLink>
         <div
           className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
@@ -82,7 +85,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
             navigate("/under-construction");
           }}
         >
-          <Layers size={20} /> <span>Collections</span>
+          <div className="lum-nav-icon"><Layers size={20} /></div> <span className="lum-nav-text">Collections</span>
         </div>
         <div
           className={selectedOption === 4 ? "lum-nav-item active" : "lum-nav-item"}
@@ -91,14 +94,14 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
             navigate("/under-construction");
           }}
         >
-          <BarChart2 size={20} /> <span>Analytics</span>
+          <div className="lum-nav-icon"><BarChart2 size={20} /></div> <span className="lum-nav-text">Analytics</span>
         </div>
         <NavLink
           to="/donations"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(5)}
         >
-          <Heart size={20} /> <span>Donations</span>
+          <div className="lum-nav-icon"><Heart size={20} /></div> <span className="lum-nav-text">Donations</span>
         </NavLink>
         {showVerifyLink && (
           <NavLink
@@ -106,7 +109,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
             className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
             onClick={() => handleSelectOption(7)}
           >
-            <ShieldCheck size={20} /> <span>Verify Organization</span>
+            <div className="lum-nav-icon"><ShieldCheck size={20} /></div> <span className="lum-nav-text">Verify Organization</span>
           </NavLink>
         )}
         {isAdmin && (
@@ -115,7 +118,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
             className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
             onClick={() => handleSelectOption(8)}
           >
-            <ClipboardList size={20} /> <span>Charity Verification</span>
+            <div className="lum-nav-icon"><ClipboardList size={20} /></div> <span className="lum-nav-text">Charity Verification</span>
           </NavLink>
         )}
         <NavLink
@@ -123,16 +126,29 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption(6)}
         >
-          <Settings size={20} /> <span>Settings</span>
+          <div className="lum-nav-icon"><Settings size={20} /></div> <span className="lum-nav-text">Settings</span>
         </NavLink>
+        
+        <div 
+          className="lum-nav-item"
+          onClick={() => setIsCreatePostOpen(true)}
+        >
+          <div className="lum-nav-icon"><Plus size={20} /></div> <span className="lum-nav-text">Create Post</span>
+        </div>
       </div>
 
-      <button 
-        className="lum-create-btn"
-        onClick={() => setIsCreatePostOpen(true)}
-      >
-        <Plus size={20} /> <span>Create Post</span>
-      </button>
+      <div className="lum-sidebar-footer">
+        <NavLink to="/profile/me" className="lum-sidebar-profile-link">
+          <div className="lum-nav-icon">
+            <img 
+              src={profileData?.profileImageUrl || storedUser?.profileImageUrl || "/src/assets/user.svg"} 
+              alt="Profile" 
+              className="lum-sidebar-profile-img"
+            />
+          </div>
+          <span className="lum-nav-text">{profileData?.userName || storedUser?.userName}</span>
+        </NavLink>
+      </div>
 
       <CreatePostModal 
         isOpen={isCreatePostOpen} 
@@ -144,11 +160,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         }}
       />
 
-      <div className="lum-pro-banner">
-        <p className="pro-title">PRO PLAN</p>
-        <p className="pro-desc">Unlock deeper analytics & exclusive minting tools.</p>
-        <button className="pro-btn">Upgrade Now</button>
-      </div>
+      
     </aside>
   );
 }

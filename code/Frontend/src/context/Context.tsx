@@ -7,6 +7,8 @@ interface User {
     email: string;
     accountType: string;
     role?: string;
+    createdAt?: string;
+    profileImageUrl?: string;
 }
 
 interface AuthContextValue {
