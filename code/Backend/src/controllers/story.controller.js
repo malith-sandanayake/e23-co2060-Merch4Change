@@ -3,6 +3,7 @@ import AppError from "../utils/appError.js";
 import { successResponse } from "../utils/apiResponse.js";
 import { uploadBufferToCloudinary } from "../utils/uploadToCloudinary.js";
 import Story from "../models/Story.js";
+import Follow from "../models/Follow.js";
 
 // @desc    Upload a new story
 // @route   POST /api/v1/stories
@@ -32,10 +33,14 @@ export const uploadStory = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/stories
 // @access  Private
 export const getStories = asyncHandler(async (req, res) => {
-  // TTL index already removes stories older than 24h. 
-  // We just fetch all stories and populate user details.
-  // In a real app, you might want to only fetch stories from friends/following.
-  const stories = await Story.find({})
+  // Find all users the current user follows
+  const follows = await Follow.find({ followerId: req.user._id });
+  const followingUserIds = follows.map((f) => f.followingId);
+
+  // Include the user's own stories as well
+  const targetUserIds = [...followingUserIds, req.user._id];
+
+  const stories = await Story.find({ userId: { $in: targetUserIds } })
     .populate("userId", "firstName lastName profileImageUrl accountType")
     .sort({ createdAt: -1 });
 

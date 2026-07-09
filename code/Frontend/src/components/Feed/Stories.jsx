@@ -96,7 +96,11 @@ function Stories() {
     }
   };
 
-  const allStories = [...dynamicStories, ...STATIC_STORIES];
+  const isNewUser = user?.createdAt 
+    ? (Date.now() - new Date(user.createdAt).getTime()) <= 24 * 60 * 60 * 1000 
+    : false;
+  
+  const allStories = isNewUser ? [...dynamicStories, ...STATIC_STORIES] : [...dynamicStories];
   
   // Sort stories: unseen first, seen last
   const sortedStories = [...allStories].sort((a, b) => {
