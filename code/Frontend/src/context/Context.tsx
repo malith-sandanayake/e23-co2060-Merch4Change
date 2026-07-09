@@ -8,6 +8,7 @@ interface User {
     accountType: string;
     role?: string;
     createdAt?: string;
+    profileImageUrl?: string;
 }
 
 interface AuthContextValue {

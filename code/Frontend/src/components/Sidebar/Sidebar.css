@@ -98,6 +98,16 @@
   display: none;
 }
 
+.lum-sidebar-footer img{
+  border: 1px solid hsla(0, 2%, 77%, 0.957);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: -4px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
 .lum-sidebar-left:hover .lum-nav-text {
   display: block;
 }

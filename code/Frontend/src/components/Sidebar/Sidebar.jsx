@@ -141,12 +141,12 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         <NavLink to="/profile/me" className="lum-sidebar-profile-link">
           <div className="lum-nav-icon">
             <img 
-              src={profileData?.profileImageUrl || "/src/assets/user.svg"} 
+              src={profileData?.profileImageUrl || storedUser?.profileImageUrl || "/src/assets/user.svg"} 
               alt="Profile" 
               className="lum-sidebar-profile-img"
             />
           </div>
-          <span className="lum-nav-text">Profile</span>
+          <span className="lum-nav-text">{profileData?.userName || storedUser?.userName}</span>
         </NavLink>
       </div>
 
