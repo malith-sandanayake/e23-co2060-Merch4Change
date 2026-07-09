@@ -1,0 +1,167 @@
+.stc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.stc-modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.stc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.stc-modal-header h3 {
+  margin: 0;
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: #111;
+}
+
+.stc-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.stc-close-btn:hover {
+  color: #111;
+}
+
+.stc-modal-body {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.stc-loading, .stc-empty {
+  text-align: center;
+  color: #666;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.stc-collections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stc-collection-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+
+.stc-col-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stc-col-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f0edfe;
+  background-size: cover;
+  background-position: center;
+}
+
+.stc-col-info span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111;
+}
+
+.stc-save-btn {
+  background: #4a24e1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stc-save-btn.saved {
+  background: #f0edfe;
+  color: #4a24e1;
+  cursor: default;
+}
+
+.stc-create-section {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.stc-create-section h4 {
+  margin: 0 0 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+.stc-create-form {
+  display: flex;
+  gap: 10px;
+}
+
+.stc-create-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+}
+
+.stc-create-form input:focus {
+  border-color: #4a24e1;
+}
+
+.stc-create-form button {
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stc-create-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

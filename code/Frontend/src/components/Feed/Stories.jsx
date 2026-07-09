@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/Context";
 import "./Stories.css";
 import StoryViewer from "./StoryViewer";
 import story1 from "../../assets/welcome_stories/merch4change_story1_welcome.svg";
@@ -19,6 +20,7 @@ const STATIC_STORIES = [
 ];
 
 function Stories() {
+  const { user } = useAuth();
   const [activeStory, setActiveStory] = useState(null);
   const [dynamicStories, setDynamicStories] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -38,6 +40,7 @@ function Stories() {
           name: story.userId ? `${story.userId.firstName} ${story.userId.lastName}` : "User",
           image: story.image,
           userImage: story.userId?.profileImageUrl,
+          isOwnStory: user && (story.userId?._id === user._id || story.userId?._id === user.id),
           isStatic: false,
         }));
         setDynamicStories(formattedStories);

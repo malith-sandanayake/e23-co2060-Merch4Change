@@ -7,7 +7,6 @@ import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
-import ProfileStats from "./ProfileStats/ProfileStats";
 import ProfileHighlights from "./ProfileHighlights/ProfileHighlights";
 import ProfileTabs from "./ProfileTabs/ProfileTabs";
 import PostGrid from "./PostGrid/PostGrid";
@@ -365,8 +364,7 @@ function UserProfile() {
             </section>
           )}
 
-          <ProfileStats profileData={profileData} />
-          <ProfileHighlights />
+          <ProfileHighlights profileData={profileData} />
           <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
           <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
 
