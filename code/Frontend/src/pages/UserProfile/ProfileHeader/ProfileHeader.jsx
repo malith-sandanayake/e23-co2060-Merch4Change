@@ -67,9 +67,14 @@ function ProfileHeader({
 
         <div className="ph-actions">
           {isOwnProfile && (
-            <button className="ph-btn-secondary" onClick={onEditClick} title="Edit your profile" type="button">
-              <Pencil size={14} />
-              {isEditing ? 'Editing profile' : 'Edit Profile'}
+            <button 
+              className="ph-btn-secondary" 
+              onClick={onEditClick} 
+              title={isEditing ? 'Editing profile' : 'Edit Profile'} 
+              type="button"
+              style={{ padding: '8px 12px' }}
+            >
+              <Pencil size={16} />
             </button>
           )}
           {isOwnProfile && (

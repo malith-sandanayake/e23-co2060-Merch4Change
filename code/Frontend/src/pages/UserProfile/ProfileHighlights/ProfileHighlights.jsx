@@ -56,12 +56,6 @@ function ProfileHighlights({ profileData }) {
           onClose={() => setActiveCollection(null)} 
         />
       )}
-
-      <div className="lum-badges">
-        <span className="lum-badge purple-badge">🌟 TOP SELLER</span>
-        <span className="lum-badge blue-badge">🚀 EARLY ADOPTER</span>
-        <span className="lum-badge green-badge">🛡 VERIFIED CURATOR</span>
-      </div>
     </>
   );
 }

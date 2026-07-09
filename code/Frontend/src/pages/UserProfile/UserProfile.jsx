@@ -294,76 +294,79 @@ function UserProfile() {
         />
 
         <main className="lum-main-content" style={{ padding: 0 }}>
-          <ProfileHeader
-            profileData={profileData}
-            isEditing={isEditing}
-            onEditClick={handleEditClick}
-            onChangeProfilePhoto={openProfilePhotoPicker}
-            onChangeCoverPhoto={openCoverPhotoPicker}
-            isOwnProfile={isOwnProfile}
-            isFollowing={isFollowing}
-            onFollowClick={handleFollowClick}
-            onMessageClick={handleMessageClick}
-          />
+          <div className="up-constrained-section">
+            <ProfileHeader
+              profileData={profileData}
+              isEditing={isEditing}
+              onEditClick={handleEditClick}
+              onChangeProfilePhoto={openProfilePhotoPicker}
+              onChangeCoverPhoto={openCoverPhotoPicker}
+              isOwnProfile={isOwnProfile}
+              isFollowing={isFollowing}
+              onFollowClick={handleFollowClick}
+              onMessageClick={handleMessageClick}
+            />
 
-          {isOwnProfile && isEditing && (
+            {isOwnProfile && isEditing && (
+              <section className="up-edit-panel">
+                <input
+                  ref={profilePhotoInputRef}
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleProfilePhotoChange}
+                />
+                <input
+                  ref={coverPhotoInputRef}
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={handleCoverPhotoChange}
+                />
 
-            <section className="up-edit-panel">
-              <input
-                ref={profilePhotoInputRef}
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleProfilePhotoChange}
-              />
-              <input
-                ref={coverPhotoInputRef}
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleCoverPhotoChange}
-              />
-
-              <div className="up-edit-grid">
-                <div className="up-edit-card up-edit-fields">
-                  <div className="up-edit-card-title">Profile details</div>
-                  <label className="up-edit-field">
-                    <span>Username</span>
-                    <input value={editForm.userName} onChange={handleFieldChange("userName")} />
-                  </label>
-                  <label className="up-edit-field">
-                    <span>Full name</span>
-                    <input value={editForm.fullName} onChange={handleFieldChange("fullName")} />
-                  </label>
-                  <label className="up-edit-field">
-                    <span>Bio</span>
-                    <textarea rows="4" value={editForm.profileBio} onChange={handleFieldChange("profileBio")} />
-                  </label>
-                  <label className="up-edit-field">
-                    <span>Website</span>
-                    <input value={editForm.userLink} onChange={handleFieldChange("userLink")} />
-                  </label>
-                  <label className="up-edit-field">
-                    <span>Email</span>
-                    <input type="email" value={editForm.email} onChange={handleFieldChange("email")} />
-                  </label>
-                  <div className="up-edit-actions">
-                    <button className="up-edit-btn up-edit-btn--ghost" type="button" onClick={handleCancelEdit} disabled={savingProfile}>
-                      Cancel
-                    </button>
-                    <button className="up-edit-btn up-edit-btn--primary" type="button" onClick={handleSaveProfile} disabled={savingProfile}>
-                      {savingProfile ? "Saving..." : "Save changes"}
-                    </button>
+                <div className="up-edit-grid">
+                  <div className="up-edit-card up-edit-fields">
+                    <div className="up-edit-card-title">Profile details</div>
+                    <label className="up-edit-field">
+                      <span>Username</span>
+                      <input value={editForm.userName} onChange={handleFieldChange("userName")} />
+                    </label>
+                    <label className="up-edit-field">
+                      <span>Full name</span>
+                      <input value={editForm.fullName} onChange={handleFieldChange("fullName")} />
+                    </label>
+                    <label className="up-edit-field">
+                      <span>Bio</span>
+                      <textarea rows="4" value={editForm.profileBio} onChange={handleFieldChange("profileBio")} />
+                    </label>
+                    <label className="up-edit-field">
+                      <span>Website</span>
+                      <input value={editForm.userLink} onChange={handleFieldChange("userLink")} />
+                    </label>
+                    <label className="up-edit-field">
+                      <span>Email</span>
+                      <input type="email" value={editForm.email} onChange={handleFieldChange("email")} />
+                    </label>
+                    <div className="up-edit-actions">
+                      <button className="up-edit-btn up-edit-btn--ghost" type="button" onClick={handleCancelEdit} disabled={savingProfile}>
+                        Cancel
+                      </button>
+                      <button className="up-edit-btn up-edit-btn--primary" type="button" onClick={handleSaveProfile} disabled={savingProfile}>
+                        {savingProfile ? "Saving..." : "Save changes"}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
-          )}
+              </section>
+            )}
 
-          <ProfileHighlights profileData={profileData} />
-          <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
-          <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
-
+            <ProfileHighlights profileData={profileData} />
+            <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          </div>
+          
+          <div className="up-full-width-section">
+            <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
+          </div>
         </main>
       </div>
     </div>

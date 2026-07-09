@@ -48,8 +48,10 @@ export const getMyPosts = async (req, res) => {
       title: post.content?.slice(0, 48) || "Untitled post",
       description: post.content,
       imageUrl: post.images?.[0] || "",
+      images: post.images || [],
       likesCount: post.likes?.length || 0,
       commentsCount: post.comments?.length || 0,
+      comments: post.comments || [],
       createdAt: post.createdAt,
       author: post.userId
         ? {
@@ -104,8 +106,10 @@ export const getUserPosts = async (req, res) => {
       title: post.content?.slice(0, 48) || "Untitled post",
       description: post.content,
       imageUrl: post.images?.[0] || "",
+      images: post.images || [],
       likesCount: post.likes?.length || 0,
       commentsCount: post.comments?.length || 0,
+      comments: post.comments || [],
       createdAt: post.createdAt,
       author: post.userId
         ? {
