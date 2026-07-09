@@ -5,8 +5,9 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
+    "build": "echo 'No build step required for plain JavaScript Express'",
     "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "check": "node --check src/server.js",
     "test": "node --test tests/unit/**/*.test.js",
     "test:watch": "node --test --watch tests/unit/**/*.test.js",
@@ -21,7 +22,6 @@
     "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^16.6.1",
     "express": "^4.22.1",
     "express-rate-limit": "^8.3.2",
