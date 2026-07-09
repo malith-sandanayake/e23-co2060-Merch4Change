@@ -33,6 +33,10 @@ import notificationRoutes from "./routes/notification.routes.js";
 
 const app = express();
 
+// Trust Railway's reverse proxy so req.ip / X-Forwarded-For
+// are handled correctly (required for express-rate-limit)
+app.set("trust proxy", 1);
+
 const httpLogFormat = (tokens, req, res) => {
   const method = tokens.method(req, res);
   const url = sanitizeUrlForLog(tokens.url(req, res));
