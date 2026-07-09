@@ -128,13 +128,26 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <div className="lum-nav-icon"><Settings size={20} /></div> <span className="lum-nav-text">Settings</span>
         </NavLink>
+        
+        <div 
+          className="lum-nav-item"
+          onClick={() => setIsCreatePostOpen(true)}
+        >
+          <div className="lum-nav-icon"><Plus size={20} /></div> <span className="lum-nav-text">Create Post</span>
+        </div>
       </div>
 
-      <div 
-        className="lum-nav-item"
-        onClick={() => setIsCreatePostOpen(true)}
-      >
-        <div className="lum-nav-icon"><Plus size={20} /></div> <span className="lum-nav-text">Create Post</span>
+      <div className="lum-sidebar-footer">
+        <NavLink to="/profile/me" className="lum-sidebar-profile-link">
+          <div className="lum-nav-icon">
+            <img 
+              src={profileData?.profileImageUrl || "/src/assets/user.svg"} 
+              alt="Profile" 
+              className="lum-sidebar-profile-img"
+            />
+          </div>
+          <span className="lum-nav-text">Profile</span>
+        </NavLink>
       </div>
 
       <CreatePostModal 
