@@ -223,6 +223,32 @@
   margin-bottom: 18px;
 }
 
+.login-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-password-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.login-password-toggle:hover {
+  color: #4a24e1;
+  background: rgba(74, 36, 225, 0.05);
+}
+
 .login-field label {
   display: block;
   font-size: 12.5px;
@@ -244,6 +270,10 @@
   outline: none;
   transition: border-color 0.15s, background 0.15s;
   appearance: none;
+}
+
+.login-password-wrapper input {
+  padding-right: 44px; /* Make room for the eye icon */
 }
 
 .login-field input:focus {

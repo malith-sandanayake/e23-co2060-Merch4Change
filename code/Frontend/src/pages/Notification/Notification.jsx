@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AppLayout from "../../components/AppLayout/AppLayout";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import NotificationDropDown from "../../components/Notifications/NotificationDropDown";
 import { fetchNotifications, markNotificationRead } from "../../services/notificationService";
 
@@ -31,14 +31,21 @@ export default function NotificationPage() {
   };
 
   return (
-    <AppLayout>
-      <div className="p-6 flex justify-center h-full min-h-screen">
-        <NotificationDropDown 
-          notifications={notifications} 
-          onMarkAsRead={handleMarkAsRead}
-          containerClassName="bg-white rounded-xl shadow-sm border border-gray-100 w-full max-w-3xl p-6 h-fit mt-4"
+    <div className={`luminous-app`}>
+      <div className="lum-layout">
+        <Sidebar 
+          setIsSidebarCollapsed={() => {}} 
         />
+        <main className="lum-main-content">
+          <div className="p-6 flex justify-center w-full min-h-screen">
+            <NotificationDropDown 
+              notifications={notifications} 
+              onMarkAsRead={handleMarkAsRead}
+              containerClassName="bg-white rounded-xl shadow-sm border border-gray-100 w-full max-w-3xl p-6 h-fit mt-4"
+            />
+          </div>
+        </main>
       </div>
-    </AppLayout>
+    </div>
   );
 }

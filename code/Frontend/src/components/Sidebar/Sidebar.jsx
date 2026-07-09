@@ -1,8 +1,9 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import CreatePostModal from "../CreatePostModal/CreatePostModal";
 import { useAuth } from "../../context/Context";
+import { fetchNotifications } from "../../services/notificationService";
 import {
   Home,
   MessageSquare,
@@ -32,6 +33,31 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const handleSelectOption = (value) => {
     setSelectedOption(value);
   };
+
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    if (!storedUser) return; // Wait until auth is resolved
+
+    fetchNotifications()
+      .then((response) => {
+        if (!active) return;
+        const rawNotifications = Array.isArray(response?.data?.notifications) ? response.data.notifications : (Array.isArray(response) ? response : []);
+        const items = rawNotifications.filter(item => item != null).map((item) => ({
+          ...item,
+          id: item._id || item.id,
+        }));
+        setNotifications(items);
+      })
+      .catch(() => {});
+
+    return () => {
+      active = false;
+    };
+  }, [storedUser]);
+
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <aside className="lum-sidebar-left">
@@ -69,7 +95,13 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
           onClick={() => handleSelectOption('notification')}
         >
-          <div className="lum-nav-icon"><Bell size={20} /></div> <span className="lum-nav-text">Notifications</span>
+          <div className="lum-nav-icon" style={{ position: 'relative' }}>
+            <Bell size={20} />
+            {unreadCount > 0 && (
+              <span className="lum-notif-badge">{unreadCount}</span>
+            )}
+          </div> 
+          <span className="lum-nav-text">Notifications</span>
         </NavLink>
         <NavLink
           to="/marketplace"
