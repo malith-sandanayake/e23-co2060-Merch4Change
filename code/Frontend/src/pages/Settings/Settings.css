@@ -3,7 +3,7 @@
   height: 100vh;
   overflow: hidden;
   background: #fafafa;
-  padding-left: 220px;
+  padding-left: 70px;
   transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
