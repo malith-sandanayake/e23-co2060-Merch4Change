@@ -3,8 +3,8 @@ import { Search } from 'lucide-react';
 import { useSearch } from '../../hooks/useSearch';
 import SearchDropdown from '../TopNavbar/search/SearchDropdown';
 import './RightSidebar.css';
-import test from '../../assets/test.jpg';
 import defaultUserPic from '../../assets/user.svg';
+import test from '../../assets/test.jpg';
 
 import { useNavigate } from 'react-router-dom';
 import { getSuggestedUsers, followUser } from '../../api/profileService';

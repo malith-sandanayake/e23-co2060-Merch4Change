@@ -6,7 +6,7 @@ import { Bell, Menu, Search, MessageSquare } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/Context";
 import { fetchNotifications, markNotificationRead } from "../../services/notificationService";
-import test from "../../assets/test.jpg";
+import userSvg from "../../assets/user.svg";
 import "./TopNavbar.css";
 
 function TopNavbar({
@@ -182,7 +182,7 @@ function TopNavbar({
             className="lum-profile-btn"
             onClick={() => setShowLogoutPopup((prev) => !prev)}
           >
-            <img src={test} alt="profile" />
+            <img src={profileData?.profileImageUrl || userSvg} alt="Profile" />
             <span>
               {profileData?.firstName
                 ? profileData.firstName.charAt(0).toUpperCase() + profileData.firstName.slice(1)

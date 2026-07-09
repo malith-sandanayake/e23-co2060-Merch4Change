@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Post.css";
 
-import test from "../../assets/test.jpg";
+import defaultUserPic from "../../assets/user.svg";
 import heart from "../../assets/post_icons/heart.svg";
 import redheart from "../../assets/post_icons/red-heart.svg";
 import comments from "../../assets/post_icons/comments.svg";
@@ -14,7 +14,7 @@ function Post() {
     <div className="post-card">
       <div className="post-header">
         <div className="post-user-info">
-          <img src={test} alt="user" className="post-avatar" />
+          <img src={defaultUserPic} alt="user" className="post-avatar" />
           <div className="post-meta">
             <h4>Zoe.Studio</h4>
             <span>2 hours ago • Milan, Italy</span>

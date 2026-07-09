@@ -6,7 +6,6 @@ import "./UserProfile.css";
 import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
-import RightSidebar from "../../components/RightSidebar/RightSidebar";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 import ProfileStats from "./ProfileStats/ProfileStats";
 import ProfileHighlights from "./ProfileHighlights/ProfileHighlights";
@@ -372,8 +371,6 @@ function UserProfile() {
           <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
 
         </main>
-
-        <RightSidebar page="profile" />
       </div>
     </div>
   );
