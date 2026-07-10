@@ -39,6 +39,7 @@ import VerificationForm from "./pages/Charity/VerificationForm";
 import CharityQueue from "./pages/Admin/CharityVerification/CharityQueue";
 import CharityReview from "./pages/Admin/CharityVerification/CharityReview";
 import NotificationPage from "./pages/Notification/Notification";
+import SearchPage from "./pages/Search/SearchPage";
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
           <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
           <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
           <Route path="/notification" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
+          <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
           <Route path="/charity/verify" element={<ProtectedRoute><VerificationForm /></ProtectedRoute>} />
           <Route path="/admin/charities" element={<AdminRoute><CharityQueue /></AdminRoute>} />
           <Route path="/admin/charities/:id" element={<AdminRoute><CharityReview /></AdminRoute>} />

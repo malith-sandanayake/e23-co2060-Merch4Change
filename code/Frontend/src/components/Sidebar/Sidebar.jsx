@@ -27,8 +27,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
   const userRole = profileData?.role || storedUser?.role;
   const userAccountType = profileData?.accountType || storedUser?.accountType;
   const isAdmin = userRole === "admin";
-  const showVerifyLink =
-    userAccountType === "organization" && userRole !== "charity";
+  const showAddProjectLink = userAccountType === "organization";
 
   const handleSelectOption = (value) => {
     setSelectedOption(value);
@@ -74,15 +73,13 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <div className="lum-nav-icon"><Home size={20} /></div> <span className="lum-nav-text">Home</span>
         </NavLink>
-        <div
-          className={selectedOption === 'search' ? "lum-nav-item active" : "lum-nav-item"}
-          onClick={() => {
-            handleSelectOption('search');
-            navigate("/search");
-          }}
+        <NavLink
+          to="/search"
+          className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+          onClick={() => handleSelectOption('search')}
         >
           <div className="lum-nav-icon"><Search size={20} /></div> <span className="lum-nav-text">Search</span>
-        </div>
+        </NavLink>
         <NavLink
           to="/messaging"
           className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
@@ -110,15 +107,17 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <div className="lum-nav-icon"><Store size={20} /></div> <span className="lum-nav-text">Marketplace</span>
         </NavLink>
-        <div
-          className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
-          onClick={() => {
-            handleSelectOption(3);
-            navigate("/under-construction");
-          }}
-        >
-          <div className="lum-nav-icon"><Layers size={20} /></div> <span className="lum-nav-text">Collections</span>
-        </div>
+        {userAccountType !== "organization" && (
+          <div
+            className={selectedOption === 3 ? "lum-nav-item active" : "lum-nav-item"}
+            onClick={() => {
+              handleSelectOption(3);
+              navigate("/under-construction");
+            }}
+          >
+            <div className="lum-nav-icon"><Layers size={20} /></div> <span className="lum-nav-text">Collections</span>
+          </div>
+        )}
         <div
           className={selectedOption === 4 ? "lum-nav-item active" : "lum-nav-item"}
           onClick={() => {
@@ -135,15 +134,6 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         >
           <div className="lum-nav-icon"><Heart size={20} /></div> <span className="lum-nav-text">Donations</span>
         </NavLink>
-        {showVerifyLink && (
-          <NavLink
-            to="/charity/verify"
-            className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
-            onClick={() => handleSelectOption(7)}
-          >
-            <div className="lum-nav-icon"><ShieldCheck size={20} /></div> <span className="lum-nav-text">Verify Organization</span>
-          </NavLink>
-        )}
         {isAdmin && (
           <NavLink
             to="/admin/charities"
@@ -161,6 +151,15 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
           <div className="lum-nav-icon"><Settings size={20} /></div> <span className="lum-nav-text">Settings</span>
         </NavLink>
         
+        {showAddProjectLink && (
+          <NavLink
+            to={`/organization/${storedUser?.userName || profileData?.userName}/projects`}
+            className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
+            onClick={() => handleSelectOption('add-project')}
+          >
+            <div className="lum-nav-icon"><Plus size={20} /></div> <span className="lum-nav-text">Add Project</span>
+          </NavLink>
+        )}
         <div 
           className="lum-nav-item"
           onClick={() => setIsCreatePostOpen(true)}

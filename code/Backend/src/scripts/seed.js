@@ -112,10 +112,10 @@ async function seed() {
     console.log("Seeding individual users...");
     const individuals = await User.insertMany([
       {
-        firstName: "Sasha",
-        lastName: "Kim",
-        userName: "sashakim",
-        email: "sasha@example.com",
+        firstName: "Test",
+        lastName: "User",
+        userName: "testuser",
+        email: "user@test.com",
         password: standardPassword,
         accountType: "individual",
         role: "user",
@@ -128,15 +128,6 @@ async function seed() {
         password: standardPassword,
         accountType: "individual",
         role: "user",
-      },
-      {
-        firstName: "Priya",
-        lastName: "Nair",
-        userName: "priyanair",
-        email: "priya@example.com",
-        password: standardPassword,
-        accountType: "individual",
-        role: "user",
       }
     ]);
     console.log(`✅ Seeded ${individuals.length} individual users.`);
@@ -144,9 +135,9 @@ async function seed() {
     // 5. Seed Organizations (Users + Profiles + Brands)
     console.log("Seeding organizations...");
     const orgDataList = [
-      { orgName: "Green Future Org", email: "contact@greenfuture.org", isCharity: true },
+      { orgName: "Verified Charity Org", email: "verified@org.com", isCharity: true, verificationStatus: "verified" },
+      { orgName: "Unverified Charity Org", email: "unverified@org.com", isCharity: true, verificationStatus: "unsubmitted" },
       { orgName: "EcoWear Brand", email: "hello@ecowear.com", isCharity: false },
-      { orgName: "OceanSave Org", email: "support@oceansave.org", isCharity: true }
     ];
 
     const createdBrands = [];
@@ -178,7 +169,7 @@ async function seed() {
         const charity = await Charity.create({
           ownerUserId: orgUser._id,
           publicName: org.orgName,
-          verificationStatus: "verified",
+          verificationStatus: org.verificationStatus || "verified",
         });
         createdCharities.push(charity);
       } else {

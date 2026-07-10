@@ -19,6 +19,7 @@ import {
   X,
   Plus,
   Coins,
+  BadgeCheck,
 } from "lucide-react";
 import "./OrgProfile.css";
 import L from "leaflet";
@@ -201,7 +202,10 @@ const OrgProfile = () => {
           <div className="profile-info">
             <div className="flex-between title-row">
               <div>
-                <h1 className="profile-name">{orgData.publicName}</h1>
+                <h1 className="profile-name">
+                  {orgData.publicName}
+                  {isVerified && <BadgeCheck className="verified-badge" size={24} color="#4A24E1" style={{ marginLeft: "8px", verticalAlign: "middle" }} />}
+                </h1>
                 <p className="profile-handle text-muted">@{orgData.userName}</p>
               </div>
               <div className="header-actions">

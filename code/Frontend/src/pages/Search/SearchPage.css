@@ -1,0 +1,117 @@
+.search-page-container {
+  padding: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.search-page-header {
+  margin-bottom: 32px;
+}
+
+.search-page-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.search-page-input-wrapper:focus-within {
+  box-shadow: 0 8px 30px rgba(74, 36, 225, 0.1);
+  transform: translateY(-2px);
+}
+
+.search-page-icon {
+  position: absolute;
+  left: 20px;
+}
+
+.search-page-input {
+  width: 100%;
+  padding: 20px 20px 20px 56px;
+  font-size: 18px;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  outline: none;
+  color: #1a1a1a;
+}
+
+.search-page-input::placeholder {
+  color: #a0a0a0;
+}
+
+.search-page-spinner {
+  position: absolute;
+  right: 20px;
+  animation: spin 1s linear infinite;
+}
+
+.search-page-results-wrapper {
+  margin-top: 32px;
+  min-height: 400px;
+}
+
+.search-page-section {
+  margin-bottom: 32px;
+}
+
+.search-page-section-header {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+}
+
+.search-page-result-card {
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.search-page-result-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  border-color: #e4e4e4;
+}
+
+/* Ensure the SearchResultItem inherits clean padding since it's inside a card now */
+.search-page-result-card .m4c-result-item {
+  border-bottom: none;
+  background: transparent;
+  padding: 8px;
+}
+.search-page-result-card .m4c-result-item:hover {
+  background: transparent;
+}
+
+.search-page-empty-icon {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.search-page-spinner-large {
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
