@@ -5,7 +5,6 @@ import { useAuth } from "../../context/Context";
 import "./UserProfile.css";
 import "../Home/Home.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import ProfileHeader from "./ProfileHeader/ProfileHeader";
 import ProfileHighlights from "./ProfileHighlights/ProfileHighlights";
 import ProfileTabs from "./ProfileTabs/ProfileTabs";
@@ -56,10 +55,29 @@ function UserProfile() {
   const [orgProjects, setOrgProjects] = useState([]);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
+  const [hqPos, setHqPos] = useState(null);
   const [donationModalOpen, setDonationModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState("");
   const profilePhotoInputRef = useRef(null);
   const coverPhotoInputRef = useRef(null);
+
+  useEffect(() => {
+    if (profileData?.accountType === "organization" && profileData?.country && !hqPos) {
+      fetch(`https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(profileData.country)}&format=json`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            setHqPos([parseFloat(data[0].lat), parseFloat(data[0].lon)]);
+          } else {
+            setHqPos([46.2044, 6.1432]); // Default fallback
+          }
+        })
+        .catch(err => {
+          console.error("Geocoding error:", err);
+          setHqPos([46.2044, 6.1432]);
+        });
+    }
+  }, [profileData, hqPos]);
 
   const refreshProfile = async () => {
     if (!token) return null;
@@ -320,21 +338,12 @@ function UserProfile() {
   const isOrganization = profileData?.accountType === "organization";
   const verificationStatus = profileData?.verificationStatus || "unsubmitted";
 
-  const contributionLocations = [
-    { id: 1, pos: [51.505, -0.09], color: "#10B981", name: "Water Sanitation Project" },
-    { id: 2, pos: [48.8566, 2.3522], color: "#F59E0B", name: "Education Initiative" },
-    { id: 3, pos: [40.7128, -74.006], color: "#10B981", name: "Community Well" },
-    { id: 4, pos: [34.0522, -118.2437], color: "#F59E0B", name: "School Building" },
-  ];
-
   const handleDonationCommitted = (spentCoins, remainingCoins) => {
     // If we wanted to update current user's coin balance visually here
   };
 
   return (
     <div className={`luminous-app ${isSidebarCollapsed ? "sidebar-collapsed" : ""}`}>
-      <TopNavbar profileData={currentUser || profileData} isSidebarCollapsed={isSidebarCollapsed} setIsSidebarCollapsed={setIsSidebarCollapsed} />
-      
       <div className="lum-layout">
         <Sidebar
           profileData={currentUser || profileData}
@@ -389,7 +398,7 @@ function UserProfile() {
                   View Impact Map
                 </button>
                 <div style={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
-                  <span style={{ color: 'var(--primary-color)' }}>LKR {(orgProjects.reduce((acc, p) => acc + (p.collectedAmount || 0), 0) * 100).toLocaleString()}</span>
+                  <span style={{ color: 'var(--primary-color)' }}>LKR {(orgProjects.reduce((acc, p) => acc + (p.collectedAmount || 0), 0)).toLocaleString()}</span>
                   <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginLeft: '0.5rem' }}>Total Impact</span>
                 </div>
               </div>
@@ -542,29 +551,21 @@ function UserProfile() {
             </div>
             <div className="map-container" style={{ flex: 1 }}>
               <MapContainer
-                center={[30, 0]}
-                zoom={2}
+                center={hqPos || [30, 0]}
+                zoom={hqPos ? 5 : 2}
                 style={{ height: "100%", width: "100%", borderRadius: "0 0 12px 12px" }}
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                {contributionLocations.map((loc) => (
-                  <CircleMarker
-                    key={loc.id}
-                    center={loc.pos}
-                    radius={10}
-                    pathOptions={{ color: loc.color, fillColor: loc.color, fillOpacity: 0.7 }}
-                  >
-                    <Popup>{loc.name}</Popup>
-                  </CircleMarker>
-                ))}
-                <Marker position={[46.2044, 6.1432]} icon={hqIcon}>
-                  <Popup>
-                    <strong>Global HQ</strong><br /> Geneva, Switzerland
-                  </Popup>
-                </Marker>
+                {hqPos && (
+                  <Marker position={hqPos} icon={hqIcon}>
+                    <Popup>
+                      <strong>{profileData.firstName || profileData.userName}</strong><br /> {profileData.country || "Global"}
+                    </Popup>
+                  </Marker>
+                )}
               </MapContainer>
             </div>
           </div>
