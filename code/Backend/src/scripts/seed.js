@@ -232,7 +232,8 @@ async function seed() {
     
     const productsToInsert = luxuryProductsData.map(product => ({
       ...product,
-      brandId: targetBrand._id
+      brandId: targetBrand._id,
+      ownerUserId: targetBrand.ownerUserId
     }));
 
     const createdProducts = await Product.insertMany(productsToInsert);

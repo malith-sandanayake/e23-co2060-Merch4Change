@@ -20,6 +20,7 @@ A full-stack web platform that bridges **brands**, **charities**, and **communit
 
 - [About the Project](#-about-the-project)
 - [Key Features](#-key-features)
+- [Recent Updates & Implementations](#-recent-updates--implementations)
 - [Tech Stack](#-tech-stack)
 - [System Architecture](#-system-architecture)
 - [Getting Started](#-getting-started)
@@ -57,6 +58,8 @@ The platform solves three real problems:
 - Donate coins to verified charities
 - Collect badges and climb leaderboards
 - Customizable profile with activity history
+- **(NEW)** Add your own products dynamically to your profile.
+- **(NEW)** Engage with the community by **Liking** and **Commenting** on posts.
 
 ### 🏢 For Brands & Companies
 - Dedicated company profiles
@@ -72,11 +75,22 @@ The platform solves three real problems:
 - Issue digital certificates and badges to donors
 - Field-based categorization (health, education, environment, etc.)
 - Connect with users who need assistance
+- **(NEW)** Dynamic mapping using Leaflet and Geocoding to show organization HQ.
 
 ### 🔧 For Admins
 - Verify and manage charity profiles
 - Oversee platform activity and reporting
 - Manage user levels and ranking systems
+
+---
+
+## 🆕 Recent Updates & Implementations
+
+1. **Dynamic User Products:** The `Product` schema has been updated so that individual users (`ownerUserId`) can directly own products. A beautiful modal allows users to add a product (name, description, price, and images).
+2. **Post Engagement:** The post viewer modal now supports dynamic interactions. Users can click the heart to "like" a post (with color animations) and leave comments using a built-in text input. 
+3. **Optimized Profile Page UI:** Both Organizations and Individuals share the `/profile/:username` routing structure. Premium styling such as glassmorphism, hover animations, and gradient cards are used extensively.
+4. **Dynamic Maps via OpenStreetMap API:** Replaced static map pins with live map markers pinpointing an organization's headquarters based on their registered country.
+5. **Real-time Seeding:** Our comprehensive `seed.js` script provisions fully functional admin users, standard users, organizations, luxury products, and rich charitable project campaigns dynamically to allow rapid prototyping.
 
 ---
 
@@ -89,6 +103,7 @@ The platform solves three real problems:
 | **Database** | MongoDB (Mongoose ODM) |
 | **Authentication** | JWT (JSON Web Tokens) |
 | **Payments** | Stripe |
+| **Mapping** | React-Leaflet (OpenStreetMap) |
 | **Version Control** | Git & GitHub |
 | **Deployment** | Vercel (Frontend) |
 
@@ -145,40 +160,51 @@ Make sure you have the following installed:
 
 2. **Set up the Frontend**
    ```bash
-   cd code/frontend
+   cd code/Frontend
    npm install
    ```
 
 3. **Set up the Backend**
    ```bash
-   cd code/backend
+   cd code/Backend
    npm install
    ```
 
 4. **Configure environment variables**
    
-   Create a `.env` file in the `backend/` directory (see [Environment Variables](#-environment-variables) below).
-   
-   Create a `.env` file in the `frontend/` directory:
+   Create a `.env` file in the `code/Backend/` directory:
    ```env
-   REACT_APP_API_URL=http://localhost:5000
+   PORT=5000
+   MONGO_URI=mongodb://127.0.0.1:27017/merch4change
+   JWT_SECRET=your_jwt_secret_key
+   JWT_EXPIRES_IN=7d
+   ```
+   
+   Create a `.env` file in the `code/Frontend/` directory:
+   ```env
+   VITE_API_URL=http://localhost:5000
    ```
 
-5. **Run the application**
+5. **Run the Application & Seed Data**
+
+   First, seed your database with our script to test functionalities:
+   ```bash
+   cd code/Backend
+   node src/scripts/seed.js
+   ```
 
    Start the backend:
    ```bash
-   cd code/backend
    npm run dev
    ```
 
    Start the frontend (in a new terminal):
    ```bash
-   cd code/frontend
-   npm start
+   cd code/Frontend
+   npm run dev
    ```
 
-6. **Open your browser** at `http://localhost:3000`
+6. **Open your browser** at `http://localhost:5173`
 
 ---
 
@@ -191,6 +217,7 @@ e23-co2060-Merch4Change/
 │   ├── Frontend/
 │   │   ├── public/               # Public assets
 │   │   └── src/
+│   │       ├── api/              # API Service classes (Client layer)
 │   │       ├── assets/           # Images, icons, static files
 │   │       ├── components/       # Reusable UI components
 │   │       │   ├── Message/      # Messaging interface
@@ -203,6 +230,7 @@ e23-co2060-Merch4Change/
 │   │       │   ├── SignUp/       # Multi-step authentication flow
 │   │       │   ├── UserProfile/  # Public and private user profiles
 │   │       │   └── Landing/      # Public landing page
+│   │       ├── context/          # Context API Providers
 │   │       ├── App.jsx           # Main application routing
 │   │       ├── index.css         # Global styles
 │   │       └── main.jsx          # React entry point
@@ -211,8 +239,9 @@ e23-co2060-Merch4Change/
 │       ├── controllers/          # Route handler logic
 │       ├── models/               # MongoDB Mongoose schemas
 │       ├── routes/               # Express route definitions
-│       ├── middleware/           # Auth, error handling, etc.
-│       └── server.js
+│       ├── middlewares/          # Auth, error handling, file upload etc.
+│       ├── scripts/              # Database seeding scripts
+│       └── server.js             # Main server entrypoint
 │
 ├── Documentation/                # Project docs and proposal
 └── README.md
@@ -235,18 +264,19 @@ e23-co2060-Merch4Change/
 
 ## 🔌 API Overview
 
-Base URL: `http://localhost:5000/api`
+Base URL: `http://localhost:5000/api/v1`
 
 | Method | Endpoint | Description |
 |---|---|---|
 | `POST` | `/auth/register` | Register a new user |
 | `POST` | `/auth/login` | Login and receive JWT |
-| `GET` | `/products` | List all products |
-| `POST` | `/products` | Create a product (brand only) |
+| `GET` | `/products/user/:username` | List products by user |
+| `POST` | `/products` | Create a product |
 | `GET` | `/charities` | List all verified charities |
 | `POST` | `/donations` | Donate coins to a charity |
-| `GET` | `/users/:id/profile` | Get user profile |
-| `GET` | `/users/:id/coins` | Get user coin balance |
+| `GET` | `/profile/:username` | Get user profile (Handles both individuals and organizations) |
+| `POST` | `/posts/:postId/like` | Like or unlike a post |
+| `POST` | `/posts/:postId/comment`| Comment on a post |
 
 > Full API documentation coming soon.
 
@@ -254,13 +284,17 @@ Base URL: `http://localhost:5000/api`
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in `code/backend/` with the following:
+Create a `.env` file in `code/Backend/` with the following:
 
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRES_IN=7d
+
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
 
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
@@ -274,7 +308,7 @@ NODE_ENV=development
 
 ## 🗺 Roadmap
 
-### Semester 3 (Current)
+### Semester 3
 - [x] Project proposal and system design
 - [x] Folder structure and developer guide
 - [x] Frontend scaffolding with React
@@ -282,11 +316,16 @@ NODE_ENV=development
 - [x] User authentication (JWT login/register)
 - [x] Product listing and browsing
 - [x] Basic user profiles
+- [x] Cloudinary Media Upload integration
+- [x] Seed data population
+- [x] Unified Profile Architecture
 
 ### Semester 4 (Planned)
-- [ ] Coin earning and donation system (core feature)
-- [ ] Charity verification flow (admin panel)
-- [ ] Real-time notifications (Socket.io)
+- [x] Coin earning and donation system (core feature)
+- [x] Real-time interactivity (Post likes, Comments, Maps)
+- [x] Product listing for all individual accounts
+- [x] Charity verification flow (admin panel)
+- [x] Real-time messaging notifications (Socket.io)
 - [ ] Auction system for limited-edition products
 - [ ] Badge and leaderboard system
 - [ ] Stripe payment integration
@@ -297,7 +336,7 @@ NODE_ENV=development
 
 ## 👨‍💻 Team
 
-**Team Antigravity** · DEV-0207 · University of Peradeniya, Sri Lanka
+**Team Antigravity** · Group 13 · University of Peradeniya, Sri Lanka
 
 | Name | Role | Contact |
 |---|---|---|
@@ -320,6 +359,7 @@ NODE_ENV=development
 - [React Documentation](https://react.dev/)
 - [MongoDB Atlas](https://www.mongodb.com/atlas)
 - [Stripe Docs](https://stripe.com/docs)
+- [React Leaflet Docs](https://react-leaflet.js.org/)
 
 ---
 
