@@ -324,8 +324,8 @@ NODE_ENV=development
 - [x] Coin earning and donation system (core feature)
 - [x] Real-time interactivity (Post likes, Comments, Maps)
 - [x] Product listing for all individual accounts
-- [ ] Charity verification flow (admin panel)
-- [ ] Real-time messaging notifications (Socket.io)
+- [x] Charity verification flow (admin panel)
+- [x] Real-time messaging notifications (Socket.io)
 - [ ] Auction system for limited-edition products
 - [ ] Badge and leaderboard system
 - [ ] Stripe payment integration
@@ -336,7 +336,7 @@ NODE_ENV=development
 
 ## 👨‍💻 Team
 
-**Team Antigravity** · DEV-0207 · University of Peradeniya, Sri Lanka
+**Team Antigravity** · Group 13 · University of Peradeniya, Sri Lanka
 
 | Name | Role | Contact |
 |---|---|---|
