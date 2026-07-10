@@ -1,14 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PostViewer.css';
-import { X, ChevronLeft, ChevronRight, Heart, Share2, MessageCircle } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Heart, Share2, MessageCircle, Send } from 'lucide-react';
+import { useAuth } from '../../context/Context';
+import { likePost, commentOnPost } from '../../api/postsService';
 
 function PostViewer({ post, onClose }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { user: currentUser } = useAuth();
+  
+  const [commentText, setCommentText] = useState('');
+  const [isLiking, setIsLiking] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [localComments, setLocalComments] = useState([]);
+  const [localLikes, setLocalLikes] = useState([]);
+
+  useEffect(() => {
+    if (post) {
+      setLocalComments(post.comments || []);
+      setLocalLikes(post.likes || []);
+    }
+  }, [post]);
 
   if (!post) return null;
 
+  const isLiked = localLikes.includes(currentUser?._id);
+
+
   const images = post.images && post.images.length > 0 ? post.images : (post.imageUrl ? [post.imageUrl] : []);
-  const comments = post.comments || [];
 
   const handleNextImage = () => {
     if (currentImageIndex < images.length - 1) {
@@ -22,8 +41,36 @@ function PostViewer({ post, onClose }) {
     }
   };
 
-  const handleLike = () => {
-    alert("Like button clicked! (Backend integration pending)");
+  const handleLike = async () => {
+    if (!currentUser || isLiking) return;
+    setIsLiking(true);
+    try {
+      const res = await likePost(post.id || post._id);
+      if (res.data?.success) {
+        setLocalLikes(res.data.likes);
+      }
+    } catch (err) {
+      console.error('Error liking post:', err);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!commentText.trim() || !currentUser || isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const res = await commentOnPost(post.id || post._id, commentText);
+      if (res.data?.success) {
+        setLocalComments(res.data.comments);
+        setCommentText('');
+      }
+    } catch (err) {
+      console.error('Error posting comment:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleShare = () => {
@@ -84,35 +131,55 @@ function PostViewer({ post, onClose }) {
           </div>
 
           <div className="pv-comments-section">
-            <h4 className="pv-comments-title">Comments ({comments.length})</h4>
+            <h4 className="pv-comments-title">Comments ({localComments.length})</h4>
             <div className="pv-comments-list">
-              {comments.length > 0 ? (
-                comments.map((comment, index) => (
-                  <div key={index} className="pv-comment">
-                    <span className="pv-comment-author">User {comment.author?.substring(0, 4) || 'Unknown'}</span>
-                    <span className="pv-comment-text">{comment.text}</span>
-                  </div>
-                ))
+              {localComments.length > 0 ? (
+                localComments.map((comment, index) => {
+                  const authorName = comment.author?.userName || comment.author?.firstName || 'User';
+                  const authorImg = comment.author?.profileImageUrl || '/src/assets/user.svg';
+                  return (
+                    <div key={index} className="pv-comment">
+                      <img src={authorImg} alt="author" className="pv-comment-avatar" />
+                      <div className="pv-comment-body">
+                        <span className="pv-comment-author">@{authorName}</span>
+                        <span className="pv-comment-text">{comment.text}</span>
+                      </div>
+                    </div>
+                  );
+                })
               ) : (
-                <div className="pv-no-comments">No comments yet.</div>
+                <div className="pv-no-comments">No comments yet. Be the first!</div>
               )}
             </div>
           </div>
 
           <div className="pv-footer">
             <div className="pv-actions">
-              <button className="pv-action-btn" onClick={handleLike}>
-                <Heart size={24} />
-                <span>{post.likesCount || 0}</span>
+              <button className={`pv-action-btn ${isLiked ? 'liked' : ''}`} onClick={handleLike} disabled={isLiking}>
+                <Heart size={24} fill={isLiked ? "#e91e63" : "none"} color={isLiked ? "#e91e63" : "currentColor"} />
+                <span>{localLikes.length}</span>
               </button>
               <button className="pv-action-btn">
                 <MessageCircle size={24} />
-                <span>{post.commentsCount || 0}</span>
+                <span>{localComments.length}</span>
               </button>
               <button className="pv-action-btn" onClick={handleShare}>
                 <Share2 size={24} />
               </button>
             </div>
+            <form className="pv-comment-input-form" onSubmit={handleCommentSubmit}>
+              <input 
+                type="text" 
+                placeholder="Add a comment..." 
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                disabled={isSubmitting}
+                className="pv-comment-input"
+              />
+              <button type="submit" disabled={!commentText.trim() || isSubmitting} className="pv-comment-submit-btn">
+                <Send size={20} />
+              </button>
+            </form>
           </div>
         </div>
       </div>

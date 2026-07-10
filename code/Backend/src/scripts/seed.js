@@ -135,9 +135,50 @@ async function seed() {
     // 5. Seed Organizations (Users + Profiles + Brands)
     console.log("Seeding organizations...");
     const orgDataList = [
-      { orgName: "Verified Charity Org", email: "verified@org.com", isCharity: true, verificationStatus: "verified" },
-      { orgName: "Unverified Charity Org", email: "unverified@org.com", isCharity: true, verificationStatus: "unsubmitted" },
-      { orgName: "EcoWear Brand", email: "hello@ecowear.com", isCharity: false },
+      { 
+        orgName: "Global Wildlife Fund", 
+        email: "contact@globalwildlife.org", 
+        isCharity: true, 
+        verificationStatus: "verified",
+        country: "United States",
+        description: "Dedicated to preserving natural habitats and protecting endangered species across the globe.",
+        logoUrl: "https://images.unsplash.com/photo-1549473889-14f410d83298?w=150"
+      },
+      { 
+        orgName: "Ocean Clean Initiative", 
+        email: "hello@oceanclean.org", 
+        isCharity: true, 
+        verificationStatus: "verified",
+        country: "Australia",
+        description: "Removing plastic waste from our oceans and promoting sustainable maritime ecosystems.",
+        logoUrl: "https://images.unsplash.com/photo-1520633465133-7e618991fa9b?w=150"
+      },
+      { 
+        orgName: "Hope for Education", 
+        email: "info@hopeforedu.org", 
+        isCharity: true, 
+        verificationStatus: "pending",
+        country: "Kenya",
+        description: "Building schools and providing educational resources to children in underprivileged regions.",
+        logoUrl: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=150"
+      },
+      { 
+        orgName: "Urban Reforestation", 
+        email: "trees@urbanreforest.org", 
+        isCharity: true, 
+        verificationStatus: "unsubmitted",
+        country: "Canada",
+        description: "Transforming concrete jungles into green spaces by planting trees in metropolitan areas.",
+        logoUrl: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=150"
+      },
+      { 
+        orgName: "EcoWear Sustainable", 
+        email: "hello@ecowear.com", 
+        isCharity: false,
+        country: "Sweden",
+        description: "100% sustainable clothing brand utilizing recycled materials.",
+        logoUrl: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=150"
+      },
     ];
 
     const createdBrands = [];
@@ -170,6 +211,9 @@ async function seed() {
           ownerUserId: orgUser._id,
           publicName: org.orgName,
           verificationStatus: org.verificationStatus || "verified",
+          description: org.description,
+          country: org.country,
+          logoUrl: org.logoUrl,
         });
         createdCharities.push(charity);
       } else {
@@ -197,23 +241,30 @@ async function seed() {
     // 7. Seed Projects (assigned to Charities)
     console.log("Seeding projects...");
     const projectsToInsert = [];
-    for (const charity of createdCharities) {
-      projectsToInsert.push({
-        charityId: charity._id,
-        title: `${charity.publicName} Reforestation Initiative`,
-        description: `Help ${charity.publicName} plant 10,000 trees in affected areas.`,
-        goalAmount: 5000,
-        collectedAmount: 1200,
-        status: "active",
-      });
-      projectsToInsert.push({
-        charityId: charity._id,
-        title: `${charity.publicName} Clean Water Campaign`,
-        description: `Providing clean drinking water to remote communities.`,
-        goalAmount: 10000,
-        collectedAmount: 8500,
-        status: "active",
-      });
+    
+    // Rich project ideas tied to charities
+    const projectTemplates = [
+      { prefix: "Emergency Response", goal: 25000, collect: 18450 },
+      { prefix: "Community Build", goal: 10000, collect: 2300 },
+      { prefix: "Awareness Campaign", goal: 5000, collect: 5000 },
+      { prefix: "Sustainable Infrastructure", goal: 150000, collect: 45000 },
+      { prefix: "Youth Support Program", goal: 12000, collect: 8200 },
+    ];
+
+    for (let i = 0; i < createdCharities.length; i++) {
+      const charity = createdCharities[i];
+      // Assign 3 distinct projects to each charity
+      for (let j = 0; j < 3; j++) {
+        const template = projectTemplates[(i * 3 + j) % projectTemplates.length];
+        projectsToInsert.push({
+          charityId: charity._id,
+          title: `${template.prefix}: ${charity.publicName}`,
+          description: `This is a major initiative by ${charity.publicName}. Our goal is to achieve significant positive impact through this ${template.prefix.toLowerCase()}. Every contribution helps us get closer to our goal.`,
+          goalAmount: template.goal,
+          collectedAmount: template.collect,
+          status: template.collect >= template.goal ? "completed" : "active",
+        });
+      }
     }
 
     const createdProjects = await Project.insertMany(projectsToInsert);
