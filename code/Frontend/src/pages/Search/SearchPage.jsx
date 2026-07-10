@@ -23,11 +23,11 @@ export default function SearchPage() {
       else navigate("/profile/me");
     }
     else if (category === "charities") {
-      if (item.userName) navigate(`/organization/${item.userName}`);
+      if (item.userName) navigate(`/profile/${item.userName}`);
       else navigate("/under-construction");
     }
     else if (category === "projects") {
-      if (item.charityUserName) navigate(`/organization/${item.charityUserName}/projects`);
+      if (item.charityUserName) navigate(`/profile/${item.charityUserName}/projects`);
       else navigate("/under-construction");
     }
     else if (category === "products") navigate("/marketplace");

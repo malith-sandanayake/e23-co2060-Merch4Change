@@ -86,7 +86,7 @@ function CharityCard({ c, onSelect }) {
           Select cause
         </button>
         {c.username && (
-          <Link to={`/organization/${c.username}`}
+          <Link to={`/profile/${c.username}`}
             style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "40px", height: "40px", background: "#F0EBE1", borderRadius: "10px", color: "#6B6560" }}>
             <ChevronRight size={16} />
           </Link>

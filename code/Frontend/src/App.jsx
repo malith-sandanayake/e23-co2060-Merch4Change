@@ -16,7 +16,6 @@ import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
 import UserSignupPage from "./pages/SignUp/UserSignupPage";
 import VerifyOtpPage from "./pages/VerifyOtp/VerifyOtpPage";
 import Settings from "./pages/Settings/Settings";
-import OrgProfile from "./pages/OrgProfile/OrgProfile";
 import OrgCommunities from "./pages/OrgCommunities/OrgCommunities";
 import OrgProjects from "./pages/OrgProjects/OrgProjects";
 import PublicLayout from "./components/PublicLayout/PublicLayout";
@@ -87,14 +86,12 @@ function App() {
 
           {/* Dynamic Route: Perfect for Social Media Profiles */}
           <Route path="/profile/:username" element={<UserProfile />} />
-          {/* Dynamic Route: Perfect for Charity Profiles */}
-          <Route path="/organization/:username" element={<OrgProfile />} />
           <Route
-            path="/organization/:username/projects"
+            path="/profile/:username/projects"
             element={<OrgProjects />}
           />
           <Route
-            path="/organization/:username/communities"
+            path="/profile/:username/communities"
             element={<OrgCommunities />}
           />
 

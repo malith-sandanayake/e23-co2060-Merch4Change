@@ -88,7 +88,7 @@ const OrgProjects = () => {
           <div className="org-projects-container">
       <div className="org-projects-header">
         <div className="org-projects-header-text">
-          <Link to={`/organization/${username}`} className="org-projects-back">
+          <Link to={`/profile/${username}`} className="org-projects-back">
             <ArrowLeft size={18} /> Back to Profile
           </Link>
           <h2>Projects by {profile?.firstName || username}</h2>

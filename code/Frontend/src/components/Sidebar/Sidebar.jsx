@@ -153,7 +153,7 @@ function Sidebar({ profileData, setIsSidebarCollapsed, onPostCreated }) {
         
         {showAddProjectLink && (
           <NavLink
-            to={`/organization/${storedUser?.userName || profileData?.userName}/projects`}
+            to={`/profile/${storedUser?.userName || profileData?.userName}/projects`}
             className={({ isActive }) => (isActive ? "lum-nav-item active" : "lum-nav-item")}
             onClick={() => handleSelectOption('add-project')}
           >
