@@ -14,6 +14,8 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import DonationModal from "../../components/donations/DonationModal";
 import { MapPin, X } from "lucide-react";
+import { getUserProducts } from "../../api/productsService";
+import CreateProductModal from "../../components/CreateProductModal/CreateProductModal";
 
 const hqIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -60,6 +62,10 @@ function UserProfile() {
   const [selectedProject, setSelectedProject] = useState("");
   const profilePhotoInputRef = useRef(null);
   const coverPhotoInputRef = useRef(null);
+  
+  const [products, setProducts] = useState([]);
+  const [isProductsLoading, setIsProductsLoading] = useState(false);
+  const [createProductModalOpen, setCreateProductModalOpen] = useState(false);
 
   useEffect(() => {
     if (profileData?.accountType === "organization" && profileData?.country && !hqPos) {
@@ -139,6 +145,18 @@ function UserProfile() {
               console.error("Error fetching org projects:", err);
             } finally {
               setIsProjectsLoading(false);
+            }
+          } else {
+            try {
+              setIsProductsLoading(true);
+              const prodRes = await getUserProducts(fetchedUser.userName);
+              if (prodRes.data?.success) {
+                setProducts(prodRes.data.products || []);
+              }
+            } catch (err) {
+              console.error("Error fetching user products:", err);
+            } finally {
+              setIsProductsLoading(false);
             }
           }
         } else {
@@ -471,11 +489,56 @@ function UserProfile() {
             )}
             
             {activeTab === 'PRODUCTS' && profileData?.accountType !== 'organization' && (
-              <div className="posts-placeholder flex-center" style={{ padding: '3rem', textAlign: 'center', backgroundColor: 'var(--bg-card)', borderRadius: 'var(--radius-lg)' }}>
-                <h3 style={{ marginBottom: '1rem' }}>No products yet</h3>
-                <p className="text-muted">
-                  When {profileData?.firstName || username} adds products to their shop, they'll appear here.
-                </p>
+              <div className="products-section" style={{ padding: '2rem 0' }}>
+                {isOwnProfile && (
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+                    <button 
+                      className="up-edit-btn up-edit-btn--primary" 
+                      onClick={() => setCreateProductModalOpen(true)}
+                    >
+                      + Add Product
+                    </button>
+                  </div>
+                )}
+                {isProductsLoading ? (
+                  <div className="flex-center" style={{ width: '100%', padding: '3rem' }}>
+                    <div className="loader"></div>
+                  </div>
+                ) : products.length > 0 ? (
+                  <div className="projects-grid">
+                    {products.map((product) => (
+                      <div key={product._id} className="project-card premium-card">
+                        <div className="project-image">
+                          {product.images && product.images.length > 0 ? (
+                            <img src={product.images[0]} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                          ) : (
+                            <div className="mk-card-img-placeholder" style={{height: '200px', backgroundColor: '#f0f0f0', width: '100%'}} />
+                          )}
+                        </div>
+                        <div className="project-body">
+                          <h3>{product.name}</h3>
+                          <p className="project-desc">{product.description}</p>
+                          <div style={{ marginTop: '10px', fontWeight: 'bold', color: '#4a24e1', fontSize: '1.2rem' }}>
+                            LKR {product.price?.toLocaleString()}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="posts-placeholder flex-center" style={{ padding: '3rem', textAlign: 'center', backgroundColor: 'var(--bg-card)', borderRadius: 'var(--radius-lg)' }}>
+                    <h3 style={{ marginBottom: '1rem' }}>No products yet</h3>
+                    <p className="text-muted">
+                      When {profileData?.firstName || username} adds products to their shop, they'll appear here.
+                    </p>
+                  </div>
+                )}
+                
+                <CreateProductModal 
+                  isOpen={createProductModalOpen} 
+                  onClose={() => setCreateProductModalOpen(false)}
+                  onProductCreated={(newProd) => setProducts([newProd, ...products])}
+                />
               </div>
             )}
 

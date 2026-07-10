@@ -22,9 +22,30 @@ export const createProduct = async (req, res) => {
       price,
       description,
       images,
+      ownerUserId: req.user._id,
     });
 
     res.status(201).json({ success: true, product });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getUserProducts = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const User = (await import("../models/User.js")).default;
+    
+    const user = await User.findOne({ userName: username });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const products = await Product.find({ ownerUserId: user._id })
+      .populate("ownerUserId", "firstName lastName userName profileImageUrl")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, products });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
