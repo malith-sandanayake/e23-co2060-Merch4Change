@@ -61,6 +61,52 @@ export const getOrgProfileByUsername = asyncHandler(async (req, res) => {
   return successResponse(res, 200, "Organization profile fetched successfully.", data);
 });
 
+/**
+ * Add a new project for the organization
+ */
+export const addProject = asyncHandler(async (req, res) => {
+  if (req.user.accountType !== "organization") {
+    throw new AppError("Only organization accounts can create projects.", 403, "FORBIDDEN");
+  }
+
+  const charity = await Charity.findOne({ ownerUserId: req.user._id });
+  
+  if (!charity) {
+    throw new AppError("You must complete your charity profile verification before adding projects.", 403, "CHARITY_PROFILE_REQUIRED");
+  }
+
+  if (charity.verificationStatus !== "verified") {
+    throw new AppError("Your organization must be verified by an admin to add projects.", 403, "NOT_VERIFIED");
+  }
+
+  const { title, description, goalAmount } = req.body;
+
+  if (!title || !description || !goalAmount) {
+    throw new AppError("Title, description, and goal amount are required.", 400, "VALIDATION_ERROR");
+  }
+
+  const project = await Project.create({
+    charityId: charity._id,
+    title: title.trim(),
+    description: description.trim(),
+    goalAmount: Number(goalAmount),
+    collectedAmount: 0,
+    status: "active"
+  });
+
+  const formattedProject = {
+    id: project._id,
+    title: project.title,
+    description: project.description,
+    goalAmount: project.goalAmount,
+    collectedAmount: project.collectedAmount,
+    status: project.status
+  };
+
+  return successResponse(res, 201, "Project created successfully.", { project: formattedProject });
+});
+
 export default {
   getOrgProfileByUsername,
+  addProject,
 };

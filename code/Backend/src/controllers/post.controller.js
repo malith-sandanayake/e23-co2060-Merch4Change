@@ -28,7 +28,8 @@ export const createPost = async (req, res) => {
 export const getFeedPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userId", "firstName lastName profileImage")
+      .populate("userId", "firstName lastName profileImage profileImageUrl userName")
+      .populate("comments.author", "firstName lastName userName profileImageUrl")
       .sort({ createdAt: -1 });
 
     res.status(200).json({ success: true, posts });
@@ -41,6 +42,7 @@ export const getMyPosts = async (req, res) => {
   try {
     const posts = await Post.find({ userId: req.user._id })
       .populate("userId", "firstName lastName userName profileImage profileImageUrl")
+      .populate("comments.author", "firstName lastName userName profileImageUrl")
       .sort({ createdAt: -1 });
 
     const normalizedPosts = posts.map((post) => ({
@@ -50,6 +52,7 @@ export const getMyPosts = async (req, res) => {
       imageUrl: post.images?.[0] || "",
       images: post.images || [],
       likesCount: post.likes?.length || 0,
+      likes: post.likes || [],
       commentsCount: post.comments?.length || 0,
       comments: post.comments || [],
       createdAt: post.createdAt,
@@ -99,6 +102,7 @@ export const getUserPosts = async (req, res) => {
     }
     const posts = await Post.find({ userId: user._id })
       .populate("userId", "firstName lastName userName profileImage profileImageUrl")
+      .populate("comments.author", "firstName lastName userName profileImageUrl")
       .sort({ createdAt: -1 });
 
     const normalizedPosts = posts.map((post) => ({
@@ -108,6 +112,7 @@ export const getUserPosts = async (req, res) => {
       imageUrl: post.images?.[0] || "",
       images: post.images || [],
       likesCount: post.likes?.length || 0,
+      likes: post.likes || [],
       commentsCount: post.comments?.length || 0,
       comments: post.comments || [],
       createdAt: post.createdAt,
@@ -127,4 +132,54 @@ export const getUserPosts = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+export const likePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ success: false, message: "Post not found" });
+    }
 
+    const userId = req.user._id;
+    const hasLiked = post.likes.includes(userId);
+
+    if (hasLiked) {
+      post.likes = post.likes.filter((id) => id.toString() !== userId.toString());
+    } else {
+      post.likes.push(userId);
+    }
+
+    await post.save();
+    res.status(200).json({ success: true, likes: post.likes });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const commentOnPost = async (req, res) => {
+  try {
+    const { text } = req.body;
+    if (!text || text.trim() === "") {
+      return res.status(400).json({ success: false, message: "Comment text is required" });
+    }
+
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ success: false, message: "Post not found" });
+    }
+
+    const newComment = {
+      author: req.user._id,
+      text: text.trim(),
+    };
+
+    post.comments.push(newComment);
+    await post.save();
+
+    // Populate the author so frontend has name/image immediately
+    await post.populate("comments.author", "firstName lastName userName profileImageUrl");
+
+    res.status(201).json({ success: true, comments: post.comments });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

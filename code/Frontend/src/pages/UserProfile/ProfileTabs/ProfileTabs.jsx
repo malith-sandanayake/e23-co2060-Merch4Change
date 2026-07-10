@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import './ProfileTabs.css';
 
-const TABS = ['POSTS', 'SHOP', 'TAGGED', 'SAVED'];
-
-function ProfileTabs({ activeTab = 'POSTS', onTabChange }) {
+function ProfileTabs({ activeTab = 'POSTS', onTabChange, tabs = ['POSTS', 'PRODUCTS'] }) {
   const handleClick = (tab) => {
     if (typeof onTabChange === 'function') onTabChange(tab);
   };
 
   return (
     <div className="lum-tabs">
-      {TABS.map((tab) => (
+      {tabs.map((tab) => (
         <span
           key={tab}
           className={`lum-tab ${activeTab === tab ? 'active' : ''}`}

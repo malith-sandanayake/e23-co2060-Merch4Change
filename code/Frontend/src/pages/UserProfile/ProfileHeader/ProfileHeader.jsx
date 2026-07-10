@@ -2,7 +2,7 @@ import React from 'react';
 import './ProfileHeader.css';
 import userImage from '../../../assets/user.svg';
 import verifiedIcon from '../../../assets/verified_icon.png';
-import { BarChart2, Link2, MapPin, CalendarDays, Pencil, ImagePlus, MessageSquare } from 'lucide-react';
+import { BarChart2, Link2, MapPin, CalendarDays, Pencil, ImagePlus, MessageSquare, Heart, BadgeCheck } from 'lucide-react';
 
 function capitalize(str) {
   if (!str) return '';
@@ -29,6 +29,10 @@ function ProfileHeader({
   isFollowing = false,
   onFollowClick = () => {},
   onMessageClick = () => {},
+  isOrganization = false,
+  verificationStatus = null,
+  onDonateClick = () => {},
+  badges = []
 }) {
   const fullName = `${capitalize(profileData?.firstName)} ${capitalize(profileData?.lastName)}`.trim() || 'Anonymous';
   const coverStyle = profileData?.coverImageUrl
@@ -103,6 +107,18 @@ function ProfileHeader({
               <MessageSquare size={16} />
             </button>
           )}
+          {isOrganization && !isOwnProfile && (
+            <button
+              className="ph-btn-primary"
+              onClick={onDonateClick}
+              disabled={verificationStatus !== 'verified'}
+              title={verificationStatus !== 'verified' ? "This organization is not verified yet" : "Donate coins"}
+              style={{ background: 'var(--primary-color)' }}
+            >
+              <Heart size={14} fill="currentColor" />
+              Donate
+            </button>
+          )}
         </div>
       </div>
 
@@ -111,8 +127,11 @@ function ProfileHeader({
         {/* Name + verified */}
         <div className="ph-name-row">
           <h1 className="ph-name">{fullName}</h1>
-          {profileData?.isVerified && (
+          {profileData?.isVerified && !isOrganization && (
             <img src={verifiedIcon} alt="Verified" className="ph-verified" />
+          )}
+          {isOrganization && verificationStatus === "verified" && (
+            <BadgeCheck className="ph-verified-badge" size={20} color="var(--primary-color)" style={{ marginLeft: "4px" }} />
           )}
         </div>
 
@@ -153,6 +172,17 @@ function ProfileHeader({
             </a>
           )}
         </div>
+
+        {/* Tags row (for Orgs) */}
+        {isOrganization && (
+          <div className="ph-meta-row" style={{ marginTop: '0.5rem', flexWrap: 'wrap' }}>
+            {verificationStatus === "verified" && <span className="ph-tag ph-tag-green">Verified Charity</span>}
+            {verificationStatus === "pending" && <span className="ph-tag ph-tag-yellow">Verification Pending</span>}
+            {verificationStatus === "rejected" && <span className="ph-tag ph-tag-red">Verification Rejected</span>}
+            {verificationStatus === "unsubmitted" && <span className="ph-tag ph-tag-gray">Not Verified</span>}
+            {badges.map((b, i) => <span key={i} className="ph-tag">{b}</span>)}
+          </div>
+        )}
         
         {/* Stats inline */}
         <div className="ph-stats-inline">

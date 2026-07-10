@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import AppLayout from "../../components/AppLayout/AppLayout";
 import { getMyCharity, submitCharityVerification, uploadProofDocument } from "../../services/charityApi";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import "./VerificationForm.css";
 
 const empty = {
@@ -113,170 +113,180 @@ export default function VerificationForm() {
 
   if (loading) {
     return (
-      <AppLayout>
-        <div className="charity-verify-page">Loading...</div>
-      </AppLayout>
+      <div className="luminous-app">
+        <div className="lum-layout">
+          <Sidebar setIsSidebarCollapsed={() => {}} />
+          <main className="lum-main-content">
+            <div className="charity-verify-page">Loading...</div>
+          </main>
+        </div>
+      </div>
     );
   }
 
   return (
-    <AppLayout>
-      <div className="charity-verify-page">
-        <div className="charity-verify-header">
-          <h1>Charity Verification</h1>
-          <p>Submit your organization details and proof documents for admin review.</p>
-        </div>
-
-        {status && <span className={`charity-status-badge ${status}`}>{status}</span>}
-
-        {form.rejectionReason && status === "rejected" && (
-          <div className="charity-rejection-box">
-            <strong>Rejection reason:</strong> {form.rejectionReason}
-          </div>
-        )}
-
-        {status === "pending" && (
-          <p className="charity-form-message">Your application is under review. You cannot edit it until a decision is made.</p>
-        )}
-
-        <form className="charity-verify-form" onSubmit={onSubmit}>
-          <div className="charity-form-grid">
-            <div>
-              <label htmlFor="publicName">Public name *</label>
-              <input
-                id="publicName"
-                required
-                disabled={isLocked}
-                value={form.publicName}
-                onChange={set("publicName")}
-              />
+    <div className="luminous-app">
+      <div className="lum-layout">
+        <Sidebar setIsSidebarCollapsed={() => {}} />
+        <main className="lum-main-content">
+          <div className="charity-verify-page">
+            <div className="charity-verify-header">
+              <h1>Charity Verification</h1>
+              <p>Submit your organization details and proof documents for admin review.</p>
             </div>
-            <div>
-              <label htmlFor="legalName">Legal name</label>
-              <input
-                id="legalName"
-                disabled={isLocked}
-                value={form.legalName}
-                onChange={set("legalName")}
-              />
-            </div>
-          </div>
 
-          <div className="charity-form-grid">
-            <div>
-              <label htmlFor="registrationNumber">Registration number *</label>
-              <input
-                id="registrationNumber"
-                required
-                disabled={isLocked}
-                value={form.registrationNumber}
-                onChange={set("registrationNumber")}
-              />
-            </div>
-            <div>
-              <label htmlFor="category">Category</label>
-              <select id="category" disabled={isLocked} value={form.category} onChange={set("category")}>
-                {CATEGORIES.map((category) => (
-                  <option key={category} value={category}>{category}</option>
+            {status && <span className={`charity-status-badge ${status}`}>{status}</span>}
+
+            {form.rejectionReason && status === "rejected" && (
+              <div className="charity-rejection-box">
+                <strong>Rejection reason:</strong> {form.rejectionReason}
+              </div>
+            )}
+
+            {status === "pending" && (
+              <p className="charity-form-message">Your application is under review. You cannot edit it until a decision is made.</p>
+            )}
+
+            <form className="charity-verify-form" onSubmit={onSubmit}>
+              <div className="charity-form-grid">
+                <div>
+                  <label htmlFor="publicName">Public name *</label>
+                  <input
+                    id="publicName"
+                    required
+                    disabled={isLocked}
+                    value={form.publicName}
+                    onChange={set("publicName")}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="legalName">Legal name</label>
+                  <input
+                    id="legalName"
+                    disabled={isLocked}
+                    value={form.legalName}
+                    onChange={set("legalName")}
+                  />
+                </div>
+              </div>
+
+              <div className="charity-form-grid">
+                <div>
+                  <label htmlFor="registrationNumber">Registration number *</label>
+                  <input
+                    id="registrationNumber"
+                    required
+                    disabled={isLocked}
+                    value={form.registrationNumber}
+                    onChange={set("registrationNumber")}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="category">Category</label>
+                  <select id="category" disabled={isLocked} value={form.category} onChange={set("category")}>
+                    {CATEGORIES.map((category) => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="charity-form-grid">
+                <div>
+                  <label htmlFor="country">Country</label>
+                  <input id="country" disabled={isLocked} value={form.country} onChange={set("country")} />
+                </div>
+                <div>
+                  <label htmlFor="contactEmail">Contact email</label>
+                  <input
+                    id="contactEmail"
+                    type="email"
+                    disabled={isLocked}
+                    value={form.contactEmail}
+                    onChange={set("contactEmail")}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="address">Address</label>
+                <input id="address" disabled={isLocked} value={form.address} onChange={set("address")} />
+              </div>
+
+              <div>
+                <label htmlFor="website">Website</label>
+                <input id="website" disabled={isLocked} value={form.website} onChange={set("website")} />
+              </div>
+
+              <div>
+                <label htmlFor="description">Description</label>
+                <textarea
+                  id="description"
+                  disabled={isLocked}
+                  value={form.description}
+                  onChange={set("description")}
+                />
+              </div>
+
+              <div className="charity-docs-section">
+                <h3>Proof documents *</h3>
+                <p className="charity-queue-meta">Upload files or paste document URLs for registration certificates.</p>
+                {form.proofDocuments.map((doc, index) => (
+                  <div className="charity-doc-row" key={`doc-${index}`}>
+                    <div>
+                      <label>Label</label>
+                      <input
+                        disabled={isLocked}
+                        value={doc.label}
+                        onChange={setDoc(index, "label")}
+                        placeholder="Registration Certificate"
+                      />
+                    </div>
+                    <div>
+                      <label>Document URL</label>
+                      <input
+                        disabled={isLocked}
+                        value={doc.url}
+                        onChange={setDoc(index, "url")}
+                        placeholder="https://..."
+                      />
+                      {!isLocked && (
+                        <input
+                          type="file"
+                          accept="image/*,application/pdf"
+                          onChange={(event) => handleFileUpload(index, event.target.files?.[0])}
+                          style={{ marginTop: 8 }}
+                        />
+                      )}
+                      {uploadingIndex === index && (
+                        <p className="charity-queue-meta">Uploading...</p>
+                      )}
+                    </div>
+                    {!isLocked && form.proofDocuments.length > 1 && (
+                      <button type="button" onClick={() => removeDoc(index)} aria-label="Remove document">
+                        Remove
+                      </button>
+                    )}
+                  </div>
                 ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="charity-form-grid">
-            <div>
-              <label htmlFor="country">Country</label>
-              <input id="country" disabled={isLocked} value={form.country} onChange={set("country")} />
-            </div>
-            <div>
-              <label htmlFor="contactEmail">Contact email</label>
-              <input
-                id="contactEmail"
-                type="email"
-                disabled={isLocked}
-                value={form.contactEmail}
-                onChange={set("contactEmail")}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="address">Address</label>
-            <input id="address" disabled={isLocked} value={form.address} onChange={set("address")} />
-          </div>
-
-          <div>
-            <label htmlFor="website">Website</label>
-            <input id="website" disabled={isLocked} value={form.website} onChange={set("website")} />
-          </div>
-
-          <div>
-            <label htmlFor="description">Description</label>
-            <textarea
-              id="description"
-              disabled={isLocked}
-              value={form.description}
-              onChange={set("description")}
-            />
-          </div>
-
-          <div className="charity-docs-section">
-            <h3>Proof documents *</h3>
-            <p className="charity-queue-meta">Upload files or paste document URLs for registration certificates.</p>
-            {form.proofDocuments.map((doc, index) => (
-              <div className="charity-doc-row" key={`doc-${index}`}>
-                <div>
-                  <label>Label</label>
-                  <input
-                    disabled={isLocked}
-                    value={doc.label}
-                    onChange={setDoc(index, "label")}
-                    placeholder="Registration Certificate"
-                  />
-                </div>
-                <div>
-                  <label>Document URL</label>
-                  <input
-                    disabled={isLocked}
-                    value={doc.url}
-                    onChange={setDoc(index, "url")}
-                    placeholder="https://..."
-                  />
-                  {!isLocked && (
-                    <input
-                      type="file"
-                      accept="image/*,application/pdf"
-                      onChange={(event) => handleFileUpload(index, event.target.files?.[0])}
-                      style={{ marginTop: 8 }}
-                    />
-                  )}
-                  {uploadingIndex === index && (
-                    <p className="charity-queue-meta">Uploading...</p>
-                  )}
-                </div>
-                {!isLocked && form.proofDocuments.length > 1 && (
-                  <button type="button" onClick={() => removeDoc(index)} aria-label="Remove document">
-                    Remove
+                {!isLocked && (
+                  <button type="button" className="charity-secondary-btn" onClick={addDoc}>
+                    + Add document
                   </button>
                 )}
               </div>
-            ))}
-            {!isLocked && (
-              <button type="button" className="charity-secondary-btn" onClick={addDoc}>
-                + Add document
-              </button>
-            )}
+
+              {!isLocked && (
+                <button type="submit" className="charity-submit-btn" disabled={submitting}>
+                  {submitting ? "Submitting..." : "Submit for verification"}
+                </button>
+              )}
+
+              {msg && <p className={`charity-form-message ${msgType}`}>{msg}</p>}
+            </form>
           </div>
-
-          {!isLocked && (
-            <button type="submit" className="charity-submit-btn" disabled={submitting}>
-              {submitting ? "Submitting..." : "Submit for verification"}
-            </button>
-          )}
-
-          {msg && <p className={`charity-form-message ${msgType}`}>{msg}</p>}
-        </form>
+        </main>
       </div>
-    </AppLayout>
+    </div>
   );
 }

@@ -19,3 +19,11 @@ export const createPost = (formData) => {
 export const getFeedPosts = () => {
   return apiClient.get(`${PREFIX}/`);
 };
+
+export const likePost = (postId) => {
+  return apiClient.post(`${PREFIX}/${postId}/like`);
+};
+
+export const commentOnPost = (postId, text) => {
+  return apiClient.post(`${PREFIX}/${postId}/comment`, { text });
+};

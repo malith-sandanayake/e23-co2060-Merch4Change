@@ -16,7 +16,6 @@ import OrgSignupPage from "./pages/SignUp/OrgSignupPage";
 import UserSignupPage from "./pages/SignUp/UserSignupPage";
 import VerifyOtpPage from "./pages/VerifyOtp/VerifyOtpPage";
 import Settings from "./pages/Settings/Settings";
-import OrgProfile from "./pages/OrgProfile/OrgProfile";
 import OrgCommunities from "./pages/OrgCommunities/OrgCommunities";
 import OrgProjects from "./pages/OrgProjects/OrgProjects";
 import PublicLayout from "./components/PublicLayout/PublicLayout";
@@ -39,6 +38,7 @@ import VerificationForm from "./pages/Charity/VerificationForm";
 import CharityQueue from "./pages/Admin/CharityVerification/CharityQueue";
 import CharityReview from "./pages/Admin/CharityVerification/CharityReview";
 import NotificationPage from "./pages/Notification/Notification";
+import SearchPage from "./pages/Search/SearchPage";
 
 
 function App() {
@@ -78,6 +78,7 @@ function App() {
           <Route path="/donations" element={<ProtectedRoute><DonationsPage /></ProtectedRoute>} />
           <Route path="/under-construction" element={<ProtectedRoute><UnderConstruction /></ProtectedRoute>} />
           <Route path="/notification" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
+          <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
           <Route path="/charity/verify" element={<ProtectedRoute><VerificationForm /></ProtectedRoute>} />
           <Route path="/admin/charities" element={<AdminRoute><CharityQueue /></AdminRoute>} />
           <Route path="/admin/charities/:id" element={<AdminRoute><CharityReview /></AdminRoute>} />
@@ -85,14 +86,12 @@ function App() {
 
           {/* Dynamic Route: Perfect for Social Media Profiles */}
           <Route path="/profile/:username" element={<UserProfile />} />
-          {/* Dynamic Route: Perfect for Charity Profiles */}
-          <Route path="/organization/:username" element={<OrgProfile />} />
           <Route
-            path="/organization/:username/projects"
+            path="/profile/:username/projects"
             element={<OrgProjects />}
           />
           <Route
-            path="/organization/:username/communities"
+            path="/profile/:username/communities"
             element={<OrgCommunities />}
           />
 

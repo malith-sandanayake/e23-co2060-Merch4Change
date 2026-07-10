@@ -54,7 +54,7 @@ function OrganizationVerificationSection() {
   const status = charity?.verificationStatus || "unsubmitted";
   const copy = STATUS_COPY[status] || STATUS_COPY.unsubmitted;
   const profileHref = storedUser?.userName
-    ? `/organization/${storedUser.userName}`
+    ? `/profile/${storedUser.userName}`
     : "/profile/me";
 
   return (
