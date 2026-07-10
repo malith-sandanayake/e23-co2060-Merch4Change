@@ -365,7 +365,18 @@ function UserProfile() {
           </div>
           
           <div className="up-full-width-section">
-            <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
+            {activeTab === 'POSTS' && (
+              <PostGrid posts={posts} isLoading={isPostsLoading} onDeletePost={handleDeletePost} isOwnProfile={isOwnProfile} />
+            )}
+            
+            {activeTab === 'PRODUCTS' && (
+              <div className="posts-placeholder flex-center" style={{ padding: '3rem', textAlign: 'center', backgroundColor: 'var(--bg-card)', borderRadius: 'var(--radius-lg)' }}>
+                <h3 style={{ marginBottom: '1rem' }}>No products yet</h3>
+                <p className="text-muted">
+                  When {profileData?.firstName || username} adds products to their shop, they'll appear here.
+                </p>
+              </div>
+            )}
           </div>
         </main>
       </div>

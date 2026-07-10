@@ -26,6 +26,8 @@ import L from "leaflet";
 import DonationModal from "../../components/donations/DonationModal";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import ProfileHeader from "../UserProfile/ProfileHeader/ProfileHeader";
+import ProfileTabs from "../UserProfile/ProfileTabs/ProfileTabs";
 
 const hqIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -52,6 +54,7 @@ const OrgProfile = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [profileData, setProfileData] = useState({}); // For current user's coins
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+  const [activeTab, setActiveTab] = useState("PROJECTS");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -184,139 +187,62 @@ const OrgProfile = () => {
                 </button>
               </div>
             )}
-            {/* Cover Photo */}
-            <div className="cover-photo">
-              <div className="cover-overlay"></div>
-            </div>
-
-      <div className="profile-content">
-        {/* Header Section */}
-        <div className="profile-header bg-card shadow-sm">
-          <div className="profile-picture">
-            <img
-              src={orgData.logoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(orgData.publicName)}&background=4F46E5&color=fff&size=150`}
-              alt={orgData.publicName}
+            {/* Profile Header Component */}
+            <div className="profile-content">
+            <ProfileHeader 
+              profileData={{
+                firstName: orgData.publicName,
+                lastName: "",
+                userName: orgData.userName,
+                profileBio: orgData.description,
+                userLink: orgData.website,
+                isVerified: false,
+                accountType: "organization",
+                profileImageUrl: orgData.logoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(orgData.publicName)}&background=4F46E5&color=fff&size=150`,
+                followersCount: followersCount,
+                followingCount: orgData.followingCount || 0,
+                projectsCount: projects.length,
+                postsCount: 0
+              }}
+              isOwnProfile={isOwner}
+              isFollowing={isFollowing}
+              onFollowClick={handleFollow}
+              isOrganization={true}
+              verificationStatus={verificationStatus}
+              onDonateClick={() => openDonationModal()}
+              badges={[]} // Additional badges if needed
             />
-          </div>
-
-          <div className="profile-info">
-            <div className="flex-between title-row">
-              <div>
-                <h1 className="profile-name">
-                  {orgData.publicName}
-                  {isVerified && <BadgeCheck className="verified-badge" size={24} color="#4A24E1" style={{ marginLeft: "8px", verticalAlign: "middle" }} />}
-                </h1>
-                <p className="profile-handle text-muted">@{orgData.userName}</p>
-              </div>
-              <div className="header-actions">
+            
+            {/* Action Row specific to Orgs (Map / Impact) */}
+            {!isOwner && (
+              <div style={{ display: 'flex', gap: '1rem', padding: '1rem', alignItems: 'center', backgroundColor: 'var(--bg-card)', borderRadius: 'var(--radius-lg)', marginTop: '1rem' }}>
                 <button
-                  className={`btn ${isFollowing ? "btn-following" : "btn-primary"}`}
-                  onClick={handleFollow}
+                  className="btn btn-secondary flex-center gap-xs"
+                  onClick={() => setIsMapOpen(true)}
+                  style={{ flex: 1 }}
                 >
-                  {isFollowing ? "Following" : "Follow"}
+                  <MapPin size={16} />
+                  View Impact Map
                 </button>
-                <button
-                  className="btn btn-donate"
-                  onClick={() => openDonationModal()}
-                  disabled={!isVerified}
-                  title={!isVerified ? "This organization is not verified yet" : "Donate coins"}
-                >
-                  <Heart size={18} fill="currentColor" />
-                  Donate
-                </button>
-                <button className="btn btn-secondary icon-btn">
-                  <MessageCircle size={20} />
-                </button>
+                <div style={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
+                  <span style={{ color: 'var(--primary-color)' }}>LKR {(projects.reduce((acc, p) => acc + p.collectedAmount, 0) * 100).toLocaleString()}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginLeft: '0.5rem' }}>Total Impact</span>
+                </div>
               </div>
-            </div>
+            )}
+            
+            <div style={{ marginTop: '2rem' }}></div>
 
-            <div className="profile-bio">
-              <p>{orgData.description || "No description available."}</p>
-            </div>
+        <ProfileTabs 
+          tabs={['POSTS', 'PROJECTS']} 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
 
-            <div className="tags-container">
-              {verificationStatus === "verified" && (
-                <span className="tag tag-green">Verified Charity</span>
-              )}
-              {verificationStatus === "pending" && (
-                <span className="tag tag-yellow">Verification Pending</span>
-              )}
-              {verificationStatus === "rejected" && (
-                <span className="tag tag-red">Verification Rejected</span>
-              )}
-              {verificationStatus === "unsubmitted" && (
-                <span className="tag tag-gray">Not Verified</span>
-              )}
-              {orgData.website && (
-                <a href={orgData.website} target="_blank" rel="noopener noreferrer" className="tag tag-blue flex-center gap-xs">
-                  <ExternalLink size={12} /> Website
-                </a>
-              )}
-            </div>
-
-            {/* Location & Ratings */}
-            <div className="meta-info">
-              <button
-                className="location-btn"
-                onClick={() => setIsMapOpen(true)}
-              >
-                <MapPin size={16} />
-                <span>Impact Map (View Areas of Work)</span>
-              </button>
-              <div className="rating">
-                <Star size={16} className="text-accent" fill="#F59E0B" />
-                <span>4.9 (Trust Rating)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Row */}
-        <div className="stats-row bg-card shadow-sm glass-effect">
-          <div className="stat-box">
-            <div className="stat-icon-wrapper bg-blue-tint">
-              <Users size={20} className="text-primary" />
-            </div>
-            <div>
-              <span className="stat-value">
-                {followersCount.toLocaleString()}
-              </span>
-              <span className="stat-label">Followers</span>
-            </div>
-          </div>
-          <div className="stat-box">
-            <div className="stat-icon-wrapper bg-green-tint">
-              <Users size={20} className="text-secondary" />
-            </div>
-            <div>
-              <span className="stat-value">{orgData.followingCount || 0}</span>
-              <span className="stat-label">Following</span>
-            </div>
-          </div>
-          <div className="stat-box">
-            <div className="stat-icon-wrapper bg-yellow-tint">
-              <Star size={20} className="text-accent" />
-            </div>
-            <div>
-              <span className="stat-value">{projects.length}</span>
-              <span className="stat-label">Active Projects</span>
-            </div>
-          </div>
-          <div className="stat-box">
-            <div className="stat-icon-wrapper bg-red-tint">
-              <Heart size={20} style={{ color: "#ef4444" }} />
-            </div>
-            <div>
-              <span className="stat-value">LKR {(projects.reduce((acc, p) => acc + p.collectedAmount, 0) * 100).toLocaleString()}</span>
-              <span className="stat-label">Impact</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Projects Section */}
-        <div className="projects-section bg-card shadow-sm">
-          <div className="section-header">
-            <h2>Active Projects</h2>
+        {activeTab === 'PROJECTS' && (
+          <div className="projects-section bg-card shadow-sm">
+            <div className="section-header flex-between">
+              <h2>Ongoing Projects</h2>
             <Link to={`/organization/${username}/projects`} className="view-all">
               View All <ExternalLink size={14} />
             </Link>
@@ -364,16 +290,13 @@ const OrgProfile = () => {
             )}
           </div>
         </div>
+        )}
 
-        {/* Posts Placeholder */}
-        <div className="posts-section bg-card shadow-sm">
-          <div className="posts-header">
-            <h2>Recent Updates</h2>
-            <div className="tabs">
-              <button className="tab active">Posts</button>
-              <button className="tab">Media</button>
+        {activeTab === 'POSTS' && (
+          <div className="posts-section bg-card shadow-sm">
+            <div className="posts-header">
+              <h2>Recent Updates</h2>
             </div>
-          </div>
           <div className="posts-placeholder flex-center">
             <Heart size={48} className="text-muted" strokeWidth={1} />
             <h3>No posts yet</h3>
@@ -381,7 +304,8 @@ const OrgProfile = () => {
               When Global Hope Foundation posts updates, they'll appear here.
             </p>
           </div>
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Map Modal */}
